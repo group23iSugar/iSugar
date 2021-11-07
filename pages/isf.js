@@ -305,6 +305,7 @@ const setShouldShowAll = () =>{
   
 }
 const check = () =>{
+  insert();
   if (AccType=='Paitent Account'){
     navigation.navigate('icr', {insulinSF: ISF, intervalISF: isfInterval , tBG: targetBG, sBG: startBG, moni: monitor, unit: ievelUnit, ketoneM:  ketones, bgF: bgFrom, bgT: bgTo, cen: center, uMRN: MRN, DOD: DateD, DOB: DateB,DOH: DateLH, Weight: wKG, height: hCM, latestH: LH, cName:  name, cCity: city, insulinR: insulinReg })
   }else {

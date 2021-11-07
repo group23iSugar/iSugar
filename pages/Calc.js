@@ -1,7 +1,5 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  TextInput,
-  useState,
   StyleSheet,
   Image,
   Button,
@@ -11,16 +9,25 @@ import {
   View,
   AppRegistry,
   Navigator,
+  TextInput,
   TouchableOpacity,
   ActivityIndicator,
   Switch,
 } from 'react-native';
+import ModalDropdown from 'react-native-modal-dropdown';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import RNSearchablePicker from 'react-native-searchable-picker';
 import react from 'react';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
+// var radio_props = [
+//   {label: 'No', value: 0 },
+//   {label: 'Yes', value: 1 }
+// ];
+//From DB:>
 // insulin type 
 // calcMethod 
 // bgStart
@@ -28,30 +35,30 @@ import react from 'react';
 // ISF - ICR - target bg
 // amount of prev dose
 
-const calc = () => {
- useEffect(() => {
-  register();
-    }, []);
+// const calc = () => {
+//  useEffect(() => {
+//   register();
+//     }, []);
 
   
-  const register = async () => {
+//   const register = async () => {
 
-  var type = '';
-  var unit = '';
+//   var type = '';
+//   var unit = '';
 
-     try {
-       db.transaction( (tx) => {
-           tx.executeSql(
-            'INSERT INTO UserAccount (firstName, lastName, email, pass, accountType) VALUES (?,?,?,?,?)',
-              ['Mohammed', 'Alawwad', 'Mohammed@gmail.com','12341234', 'Patient Account']
-          );
+//      try {
+//        db.transaction( (tx) => {
+//            tx.executeSql(
+//             'INSERT INTO UserAccount (firstName, lastName, email, pass, accountType) VALUES (?,?,?,?,?)',
+//               ['Mohammed', 'Alawwad', 'Mohammed@gmail.com','12341234', 'Patient Account']
+//           );
          
-         //  getData();
-      })
+//          //  getData();
+//       })
       
-  } catch (error) {
-      console.log(error);
-  }
+//   } catch (error) {
+//       console.log(error);
+//   }
 //   try {
 //     db.transaction( (tx) => {
 //       console.log('hey');
@@ -70,45 +77,45 @@ const calc = () => {
 // } catch (error) {
 //    console.log(error);
 // }
-try {
-  db.transaction((tx) => {
-      tx.executeSql(
-          "SELECT UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date, typeOfGlucoseM, glucoseLevel_unit, ketonesMeasure, insulinRegimen, ISF, targetBG_correct, startBG_correct, ISFIntervals, insulinCalcMethod, fromBG, toBG, height, diabetes_center, diagnosis_date FROM patientprofile",
-          [],
-          (tx, results) => {
-            var rows = results.rows;
-            for (let i = 0; i < rows.length; i++) {
-              unit = rows.item(i).glucoseLevel_unit;
-                console.log(unit);
-              }
-          }
-      )
-  })
-} catch (error) {
-  console.log(error);
-}
-  }
+// try {
+//   db.transaction((tx) => {
+//       tx.executeSql(
+//           "SELECT UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date, typeOfGlucoseM, glucoseLevel_unit, ketonesMeasure, insulinRegimen, ISF, targetBG_correct, startBG_correct, ISFIntervals, insulinCalcMethod, fromBG, toBG, height, diabetes_center, diagnosis_date FROM patientprofile",
+//           [],
+//           (tx, results) => {
+//             var rows = results.rows;
+//             for (let i = 0; i < rows.length; i++) {
+//               unit = rows.item(i).glucoseLevel_unit;
+//                 console.log(unit);
+//               }
+//           }
+//       )
+//   })
+// } catch (error) {
+//   console.log(error);
+// }
+//   }
 
 
 
-  var a= 0;
-  var b= 0;
-  var total = 0;
-  var IOB= 0;
-  var adjustment = 1;
-  var reason;
-  const [data, setData] = react.useState({
-     bgLevel: '',
-     reasonForInsulin: '',
-     CHO: '',
-     isValidBG: true,
-     isValidCHO: true,
-     PlannedExercise: false,
-     PreviousExercise: false,
-     typeOfExercise: '',
-     duration: '',
-     time: '',
-});
+//   var a= 0;
+//   var b= 0;
+//   var total = 0;
+//   var IOB= 0;
+//   var adjustment = 1;
+//   var reason;
+//   const [data, setData] = react.useState({
+//      bgLevel: '',
+//      reasonForInsulin: '',
+//      CHO: '',
+//      isValidBG: true,
+//      isValidCHO: true,
+//      PlannedExercise: false,
+//      PreviousExercise: false,
+//      typeOfExercise: '',
+//      duration: '',
+//      time: '',
+// });
 
 // const insuCalc = () => {
 //     if (type == 'Aspart' || type == 'Lispro' || type == 'Glulisine'){
@@ -268,43 +275,99 @@ try {
 
 // }
 
-const BGChange = (val) => {
-  if (isNaN(value)) {
-  if (val < 1000 && val > 0  ){
-  setData({
-    ...data,
-    bgLevel: val,
-    isValidBG: true,
-  });
-}
-  } else {
-    setData({
-      ...data,
-      isValidBG: false,
-    });
-}
-}
-const CHOChange = (val) => {
-  if (isNaN(value)) {
-  if (val < 1000 && val > 0  ){
-  setData({
-    ...data,
-    CHO: val,
-    isValidCHO: true,
-  });
-}
-  } else {
-    setData({
+const Calc = () => {
+
+
+  const checkCalc = () =>{
+    if (isValidCHO == false){
+      alert('Please enter a valid Carbohydrare content');
+      return;
+    }
+
+
+  }
+
+
+  //DateTime 
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    hideDatePicker();
+  };
+  //DateTime
+
+
+// Validate the value of CHO
+    const checkCHO = (val) => {
+  if (isNaN(val)) {
+        setData({
       ...data,
       isValidCHO: false,
     });
+
+  } else {
+       if (val < 1000 && val > 0  ){
+   setData({
+     ...data,
+     bgLevel: val,
+     isValidCHO: true,
+   });
+ }
+
 }
 }
+
+//Validate the value of BG
+  const checkBG = (val) => {
+  if (isNaN(val)) {
+        setData({
+      ...data,
+      isValidBG: false,
+    });
+
+  } else {
+       if (val < 1000 && val > 0  ){
+   setData({
+     ...data,
+     CHO: val,
+     isValidBG: true,
+   });
+ }
+
+}
+}
+
+  //Pre Switch
+  const [isPreEnabled, setIsPreEnabled] = useState(false);
+  const togglePreSwitch = () => setIsPreEnabled(previousState => !previousState);
+  //Post Switch
+  const [isPostEnabled, setIsPostEnabled] = useState(false);
+  const togglePostSwitch = () => setIsPostEnabled(previousState => !previousState);
+  
+  const [reason, setReason] = useState('0'); //ReasonForInsulin
+  const [preDuration, setPreDuration] = useState('0'); //Duration of pre exersize
+  const [preTypeOfExercise, setPreTypeOfExercise] = useState('0');//reason of pre exercize
+  const [postDuration, setPostDuration] = useState('0'); //Duration of post exersize
+  const [postTypeOfExercise, setPostTypeOfExercise] = useState('0');//reason of post exercize
+  
+  var  isValidBG= true;
+  var isValidCHO= true;
+  var bgLevel= '';
+  var CHO='';
+  var time='';
 
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
+        <Image source={require('./images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -323,20 +386,42 @@ const CHOChange = (val) => {
           <TextInput
             keyboardType="decimal-pad"
             placeholder="000.00"
-            style={styles.inputT}></TextInput>
+            onChangeText={(val) => checkBG(val)}
+            style={styles.inputT}
+            />
           <Text style={{fontSize: 15, paddingTop: 15}}>mg/dl</Text>
         </View>
 
-        <View style={styles.vNext}>
-          <Text style={styles.inpTxt}>Reason for insulin: </Text>
-          
-        </View>
+        <Text style={styles.inpTxt}>Reason for insulin: </Text>
+
+        <Picker
+          selectedValue={reason}
+          onValueChange={value => setReason(value)}
+          mode="dropdown"
+          style={styles.picker}>
+          <Picker.Item label="Pre-Breakfast" value="0" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Lunch" value="1" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Dinner" value="2" testID="0"></Picker.Item>
+          <Picker.Item
+            label="Pre-Daytime snack"
+            value="3"
+            testID="0"></Picker.Item>
+          <Picker.Item
+            label="Pre-Bedtime snack"
+            value="4"
+            testID="0"></Picker.Item>
+          <Picker.Item
+            label="No meal only for correction"
+            value="5"
+            testID="1"></Picker.Item>
+        </Picker>
 
         <View style={styles.vNext}>
-          <Text style={styles.inpTxt}>Meal carbohydate content: </Text>
+          <Text style={styles.inpTxt}>Meal carbohydrate content: </Text>
           <TextInput
-            keyboardType="number-pad"
-            placeholder="0000 g"
+            keyboardType="decimal-pad"
+            placeholder="000.00 g"
+            onChangeText={(val) => checkCHO(val)}
             style={styles.inputT}></TextInput>
         </View>
 
@@ -345,224 +430,234 @@ const CHOChange = (val) => {
             Calculate carbohydrate in a meal
           </Text>
           <Image
-            source={require('../images/carb.png')}
+            source={require('./images/carb.png')}
             style={{height: 30, width: 30}}
           />
         </TouchableOpacity>
 
-        <View style={styles.vNext}>
+        
           <Text style={styles.inpTxt}>
             Do you have planned exercise wihtin the upcoming 3 hours?{' '}
           </Text>
-        </View>
+          <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isPreEnabled ? "#f4f3f4" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={togglePreSwitch}
+        value={isPreEnabled}
+      />
+        
 
+
+        <View style={{backgroundColor:'#c3d4e0', marginTop: 20}}>
         <View>
-          <View style={styles.vNext}>
-            <Text style={styles.inpTxt}>Type of exercise: </Text>
-            <Picker
-              selectedValue={data.reasonForInsulin}
-              // onValueChange={(value) => setCenter(value)}
-              mode="dropdown"
-              style={styles.picker}
-              >
-            <Picker.Item label= 'Running' value='0' valueIndex='0'></Picker.Item>
-            <Picker.Item label= 'Swimming' value='0' valueIndex='1'></Picker.Item>
-            <Picker.Item label= 'Walking' value='0' valueIndex='2'></Picker.Item>
-            <Picker.Item label= 'Spinning' value='0' valueIndex='3'></Picker.Item>
-            <Picker.Item label= 'Mountain Climbing' value='0' valueIndex='4'></Picker.Item>
-            <Picker.Item label= 'Dancing' value='0' valueIndex='5'></Picker.Item>
-            <Picker.Item label= 'Kickboxing' value='0' valueIndex='6'></Picker.Item>
-            <Picker.Item label= 'Cross country skiing' value='0' valueIndex='7'></Picker.Item>
-            <Picker.Item label= 'Jumping jacks' value='0' valueIndex='8'></Picker.Item>
-            <Picker.Item label= 'Rowing' value='0' valueIndex='9'></Picker.Item>
-            <Picker.Item label= 'Martial arts' value='0' valueIndex='10'></Picker.Item>
-            <Picker.Item label= 'Zumba' value='0' valueIndex='11'></Picker.Item>
-            <Picker.Item label= 'Basketball' value='0' valueIndex='12'></Picker.Item>
-            <Picker.Item label= 'Trampoline-ing' value='0' valueIndex='13'></Picker.Item>
-            <Picker.Item label= 'Aerobic strength circuit' value='0'  valueIndex='14'></Picker.Item>
-            <Picker.Item label= 'Cycling' value='0'  valueIndex='15'></Picker.Item>
-            <Picker.Item label= 'Jogging' value='0'  valueIndex='16'></Picker.Item>
-            <Picker.Item label= 'Dancing' value='0' valueIndex='17'></Picker.Item>
-            <Picker.Item label= 'Cardio exercises/ machines' value='0' valueIndex='18'></Picker.Item>
-            <Picker.Item label= 'Aerobic exercise classes' value='0' valueIndex='19'></Picker.Item>
-            <Picker.Item label= 'Skipping/ Jump rope' value='0' valueIndex='20'></Picker.Item>
-            <Picker.Item label= 'Stair mill /Stair stepper' value='0' valueIndex='21'></Picker.Item>
-            <Picker.Item label= 'Stationary bike' value='0' valueIndex='22'></Picker.Item>
-            <Picker.Item label= 'Elliptical' value='0' valueIndex='23'></Picker.Item>
-            <Picker.Item label= 'Skating' value='0' valueIndex='24'></Picker.Item>
-            <Picker.Item label= 'Tennis' value='0' valueIndex='25'></Picker.Item>
-            <Picker.Item label= 'Soccer' value='0'  valueIndex='26'></Picker.Item>
-            <Picker.Item label= 'Boxing' value='0'  valueIndex='27'></Picker.Item>
-            <Picker.Item label= 'Hula-hooping' value='0'  valueIndex='28'></Picker.Item>
-            <Picker.Item label= 'Other aerobic exercise' value='0'  valueIndex='29'></Picker.Item>
+          <Text style={styles.inpTxt}>Type of exercise: </Text>
+      <Picker
+            selectedValue={preTypeOfExercise}
+            onValueChange={value => setPreTypeOfExercise(value)}
+            mode="dropdown"
+            style={styles.picker}>
+            <Picker.Item label="Select" value="0" testID="2"></Picker.Item>
+            <Picker.Item label="Running" value="1" testID="0"></Picker.Item>
+            <Picker.Item label="Swimming" value="2" testID="0"></Picker.Item>
+            <Picker.Item label="Walking" value="3" testID="0"></Picker.Item>
+            <Picker.Item label="Spinning" value="4" testID="0"></Picker.Item>
+            <Picker.Item label="Mountain Climbing" value="5" testID="0"></Picker.Item>
+            <Picker.Item label="Dancing" value="6" testID="0"></Picker.Item>
+            <Picker.Item label="Kickboxing" value="7" testID="0"></Picker.Item>
+            <Picker.Item label="Cross country skiing" value="8" testID="0"></Picker.Item>
+            <Picker.Item label="Jumping jacks" value="9" testID="0"></Picker.Item>
+            <Picker.Item label="Rowing" value="10" testID="0"></Picker.Item>
+            <Picker.Item label="Martial arts" value="11" testID="0"></Picker.Item>
+            <Picker.Item label="Zumba" value="12" testID="0"></Picker.Item>
+            <Picker.Item label="Basketball" value="13" testID="0"></Picker.Item>
+            <Picker.Item label="Trampoline-ing" value="14" testID="0"></Picker.Item>
+            <Picker.Item
+              label="Aerobic strength circuit"
+              value="15" testID="0"></Picker.Item>
+            <Picker.Item label="Cycling" value="16" testID="0"></Picker.Item>
+            <Picker.Item label="Jogging" value="17" testID="0"></Picker.Item>
+            <Picker.Item label="Dancing" value="18" testID="0"></Picker.Item>
+            <Picker.Item
+              label="Cardio exercises/ machines"
+              value="19" testID="0"></Picker.Item>
+            <Picker.Item
+              label="Aerobic exercise classes"
+              value="20" testID="0"></Picker.Item>
+            <Picker.Item label="Skipping/ Jump rope" value="21" testID="0"></Picker.Item>
+            <Picker.Item
+              label="Stair mill /Stair stepper"
+              value="22" testID="0"></Picker.Item>
+            <Picker.Item label="Stationary bike" value="23" testID="0"></Picker.Item>
+            <Picker.Item label="Elliptical" value="24" testID="0"></Picker.Item>
+            <Picker.Item label="Skating" value="25" testID="0"></Picker.Item>
+            <Picker.Item label="Tennis" value="26" testID="0"></Picker.Item>
+            <Picker.Item label="Soccer" value="27" testID="0"></Picker.Item>
+            <Picker.Item label="Boxing" value="28" testID="0"></Picker.Item>
+            <Picker.Item label="Hula-hooping" value="29" testID="0"></Picker.Item>
+            <Picker.Item
+              label="Other aerobic exercise"
+              value="30" testID="0"></Picker.Item>
+            <Picker.Item
+              label="HIIT (High Intensity Interval Training)"
+              value="31" testID="1"></Picker.Item>
+            <Picker.Item label="Pilates" value="32" testID="1"></Picker.Item>
+            <Picker.Item
+              label="Anaerobic Circuit training"
+              value="33" testID="1"></Picker.Item>
+            <Picker.Item label="Sprinting" value="34" testID="1"></Picker.Item>
+            <Picker.Item label="Resistance exercises" value="35" testID="1"></Picker.Item>
+            <Picker.Item
+              label="Bodyweight exercise (e.g. push-ups, pull-ups, squats, lunges)"
+              value="36" testID="1"></Picker.Item>
+            <Picker.Item label="Weight lifting" value="37" testID="1"></Picker.Item>
+            <Picker.Item label="Yoga" value="38" testID="1"></Picker.Item>
+            <Picker.Item label="Cross-fit" value="39" testID="1"></Picker.Item>
+            <Picker.Item label="Isometrics" value="40" testID="1"></Picker.Item>
+            <Picker.Item label="Gymnastics" value="41" testID="1"></Picker.Item>
+            <Picker.Item
+              label="Other anaerobic exercise"
+              value="42" testID="1"></Picker.Item>
+          </Picker>
 
+          <Text style={styles.inpTxt}>Duration of exercise: </Text>
+          <Picker
+            selectedValue={preDuration}
+            onValueChange={value => setPreDuration(value)}
+            mode="dropdown"
+            style={styles.picker}>
+            <Picker.Item label="Select" value="0"></Picker.Item>
+            <Picker.Item label="Less than 15 minutes" value="14"></Picker.Item>
+            <Picker.Item label="15 to 29 minutes" value="16"></Picker.Item>
+            <Picker.Item label="30 to 45 minutes" value="31"></Picker.Item>
+            <Picker.Item label="More than 45 minutes" value="46"></Picker.Item>
+            <Picker.Item label="Unknown" value="Unknown"></Picker.Item>
+          </Picker>
+        </View>
+        </View>
+        
 
-        </Picker>
-            {/* <ModalDropdown
-              style={styles.ddown}
-              options={[
-                'Running',
-                'Swimming',
-                'Walking',
-                'Spinning',
-                'Mountain Climbing',
-                'Dancing',
-                'Kickboxing',
-                'Cross country skiing',
-                'Jumping jacks',
-                'Rowing',
-                'Martial arts',
-                'Zumba',
-                'Basketball',
-                'Trampoline-ing',
-                'Aerobic strength circuit',
-                'Cycling',
-                'Jogging',
-                'Cardio exercises/ machines',
-                'Aerobic exercise classes',
-                'Skipping/ Jump rope',
-                'Stair mill /Stair stepper',
-                'Stationary bike',
-                'Elliptical',
-                'Plyometrics',
-                'Skating',
-                'Tennis',
-                'Soccer',
-                'Boxing',
-                'Hula-hooping',
-                'Other aerobic exercise',
-                'HIIT (High Intensity Interval Training)',
-                'Pilates',
-                'Anaerobic Circuit training',
-                'Sprinting',
-                'Resistance exercises',
-                'Bodyweight exercise (e.g. push-ups, pull-ups, squats, lunges)',
-                'Weight lifting',
-                'Yoga',
-                'Cross-fit',
-                'Isometrics',
-                'Gymnastics',
-                'Other anaerobic exercise',
-              ]}
-              defaultValue="----------------"
-            /> */}
-          </View>
+        <Text style={styles.inpTxt}>
+          Did you exercise wihtin the past 6 hours?
+        </Text>
+         <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isPostEnabled ? "#f4f3f4" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={togglePostSwitch}
+        value={isPostEnabled}
+      />
 
-          <View style={styles.vNext}>
-            <Text style={styles.inpTxt}>Duration of exercise: </Text>
-            {/* <ModalDropdown
-              style={styles.ddown}
-              options={[
-                'Less than 15 minutes',
-                '15 to 29 minutes',
-                '30 to 45 minutes',
-                'More than 45 minutes',
-                'Unknown',
-              ]}
-              defaultValue="Unknown"
-            /> */}
-          </View>
+        <View style={{backgroundColor:'#c3d4e0', marginTop: 20}}>
+          <Text style={styles.inpTxt}>Type of exercise: </Text>
+          <Picker
+            selectedValue={postTypeOfExercise}
+            onValueChange={value => setPostTypeOfExercise(value)}
+            mode="dropdown"
+            style={styles.picker}>
+            <Picker.Item label="Select" value="0" testID="2"></Picker.Item>
+            <Picker.Item label="Running" value="1" testID="0"></Picker.Item>
+            <Picker.Item label="Swimming" value="2" testID="0"></Picker.Item>
+            <Picker.Item label="Walking" value="3" testID="0"></Picker.Item>
+            <Picker.Item label="Spinning" value="4" testID="0"></Picker.Item>
+            <Picker.Item label="Mountain Climbing" value="5" testID="0"></Picker.Item>
+            <Picker.Item label="Dancing" value="6" testID="0"></Picker.Item>
+            <Picker.Item label="Kickboxing" value="7" testID="0"></Picker.Item>
+            <Picker.Item label="Cross country skiing" value="8" testID="0"></Picker.Item>
+            <Picker.Item label="Jumping jacks" value="9" testID="0"></Picker.Item>
+            <Picker.Item label="Rowing" value="10" testID="0"></Picker.Item>
+            <Picker.Item label="Martial arts" value="11" testID="0"></Picker.Item>
+            <Picker.Item label="Zumba" value="12" testID="0"></Picker.Item>
+            <Picker.Item label="Basketball" value="13" testID="0"></Picker.Item>
+            <Picker.Item label="Trampoline-ing" value="14" testID="0"></Picker.Item>
+            <Picker.Item
+              label="Aerobic strength circuit"
+              value="15" testID="0"></Picker.Item>
+            <Picker.Item label="Cycling" value="16" testID="0"></Picker.Item>
+            <Picker.Item label="Jogging" value="17" testID="0"></Picker.Item>
+            <Picker.Item label="Dancing" value="18" testID="0"></Picker.Item>
+            <Picker.Item
+              label="Cardio exercises/ machines"
+              value="19" testID="0"></Picker.Item>
+            <Picker.Item
+              label="Aerobic exercise classes"
+              value="20" testID="0"></Picker.Item>
+            <Picker.Item label="Skipping/ Jump rope" value="21" testID="0"></Picker.Item>
+            <Picker.Item
+              label="Stair mill /Stair stepper"
+              value="22" testID="0"></Picker.Item>
+            <Picker.Item label="Stationary bike" value="23" testID="0"></Picker.Item>
+            <Picker.Item label="Elliptical" value="24" testID="0"></Picker.Item>
+            <Picker.Item label="Skating" value="25" testID="0"></Picker.Item>
+            <Picker.Item label="Tennis" value="26" testID="0"></Picker.Item>
+            <Picker.Item label="Soccer" value="27" testID="0"></Picker.Item>
+            <Picker.Item label="Boxing" value="28" testID="0"></Picker.Item>
+            <Picker.Item label="Hula-hooping" value="29" testID="0"></Picker.Item>
+            <Picker.Item
+              label="Other aerobic exercise"
+              value="30" testID="0"></Picker.Item>
+            <Picker.Item
+              label="HIIT (High Intensity Interval Training)"
+              value="31" testID="1"></Picker.Item>
+            <Picker.Item label="Pilates" value="32" testID="1"></Picker.Item>
+            <Picker.Item
+              label="Anaerobic Circuit training"
+              value="33" testID="1"></Picker.Item>
+            <Picker.Item label="Sprinting" value="34" testID="1"></Picker.Item>
+            <Picker.Item label="Resistance exercises" value="35" testID="1"></Picker.Item>
+            <Picker.Item
+              label="Bodyweight exercise (e.g. push-ups, pull-ups, squats, lunges)"
+              value="36" testID="1"></Picker.Item>
+            <Picker.Item label="Weight lifting" value="37" testID="1"></Picker.Item>
+            <Picker.Item label="Yoga" value="38" testID="1"></Picker.Item>
+            <Picker.Item label="Cross-fit" value="39" testID="1"></Picker.Item>
+            <Picker.Item label="Isometrics" value="40" testID="1"></Picker.Item>
+            <Picker.Item label="Gymnastics" value="41" testID="1"></Picker.Item>
+            <Picker.Item
+              label="Other anaerobic exercise"
+              value="42" testID="1"></Picker.Item>
+          </Picker>
+
+          <Text style={styles.inpTxt}>Duration of exercise: </Text>
+          <Picker
+            selectedValue={postDuration}
+            onValueChange={value => setPostDuration(value)}
+            mode="dropdown"
+            style={styles.picker}>
+             <Picker.Item label="Select" value="0"></Picker.Item>
+            <Picker.Item label="Less than 30 minutes" value="14"></Picker.Item>
+            <Picker.Item label="30 to 45 minutes" value="31"></Picker.Item>
+            <Picker.Item label="More than 45 minutes" value="46"></Picker.Item>
+          </Picker>
+
+            <Text style={styles.inpTxt}>Time of exersice: </Text>
+            <Button title="Set Time" onPress={showDatePicker}/>
+            <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="time"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
+          
         </View>
 
-        <View style={styles.vNext}>
-          <Text style={styles.inpTxt}>
-            Did you exercise wihtin the past 6 hours?
-          </Text>
-        </View>
-
-        <View style={{paddingBottom:30}}>
-          <View style={styles.vNext}>
-            <Text style={styles.inpTxt}>Type of exercise: </Text>
-            {/* <ModalDropdown
-              style={styles.ddown}
-              options={[
-                'Running',
-                'Swimming',
-                'Walking',
-                'Spinning',
-                'Mountain Climbing',
-                'Dancing',
-                'Kickboxing',
-                'Cross country skiing',
-                'Jumping jacks',
-                'Rowing',
-                'Martial arts',
-                'Zumba',
-                'Basketball',
-                'Trampoline-ing',
-                'Aerobic strength circuit',
-                'Cycling',
-                'Jogging',
-                'Cardio exercises/ machines',
-                'Aerobic exercise classes',
-                'Skipping/ Jump rope',
-                'Stair mill /Stair stepper',
-                'Stationary bike',
-                'Elliptical',
-                'Plyometrics',
-                'Skating',
-                'Tennis',
-                'Soccer',
-                'Boxing',
-                'Hula-hooping',
-                'Other aerobic exercise',
-                'HIIT (High Intensity Interval Training)',
-                'Pilates',
-                'Anaerobic Circuit training',
-                'Sprinting',
-                'Resistance exercises',
-                'Bodyweight exercise (e.g. push-ups, pull-ups, squats, lunges)',
-                'Weight lifting',
-                'Yoga',
-                'Cross-fit',
-                'Isometrics',
-                'Gymnastics',
-                'Other anaerobic exercise',
-
-              ]}
-              defaultValue="----------------"
-            /> */}
-          </View>
-
-          <View style={styles.vNext}>
-            <Text style={styles.inpTxt}>Duration of exercise: </Text>
-            {/* <ModalDropdown
-              style={styles.ddown}
-              options={[
-                'Less than 30 minutes',
-                '30 to 45 minutes',
-                'More than 45 minutes',
-              ]}
-              defaultValue="Unknown"
-            /> */}
-          </View>
-
-          <View style={styles.vNext}>
-          <Text style={styles.inpTxt}>Time of exersice: </Text>
-          </View>
-        </View>
-
-  
-        <TouchableOpacity style={{paddingTop:30, paddingBottom: 30, backgroundColor: '#6496d7'}}>
-          <Text style={{fontSize: 18, textAlign: 'center'}}>
-            Calculate
-          </Text>
-
+        <TouchableOpacity
+          style={{
+            marginTop: 30,
+            paddingTop: 15,
+            paddingBottom: 30,
+            backgroundColor: '#6496d7',
+          }}
+          /*onPress={checkCalc()*/
+        >
+          <Text style={{fontSize: 18, textAlign: 'center'}}>Calculate</Text>
         </TouchableOpacity>
 
-              <Text>
-             
-              
-               
-                
-        </Text>
-
-
-
+        <Text></Text>
       </ScrollView>
     </LinearGradient>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -670,12 +765,6 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: '#f5f5f5',
   },
-  picker: {
-    width: 150,
-    borderBottomWidth: 1,
-    borderBottomColor: '#4c4c4c',
-    
-  },
 });
 
-export default calc;
+export default Calc;

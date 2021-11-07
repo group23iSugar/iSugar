@@ -21,7 +21,7 @@ import moment from 'moment';
     console.log(route.params);
     //-------------------------------
     if(AccType == 'Patient Account'){
-      var {bgMonitor, unit, kMeasure, bgF, bgt, cen, uMRN, DOD, DOB, DOLH, weight, height, latestH, cenName, cenCity} = route.params;
+      var {bgMonitor, unit, kMeasure, bgF, bgt, cen, uMRN, DOD, DOB, DOLH, mrn, weight, height, latestH, cenName, cenCity} = route.params;
       
      } else {
       var { DOD, DOB, DOLH, weight, height, latestH, bgMonitor, unit, kMeasure, bgF, bgt} = route.params;
@@ -221,16 +221,123 @@ const check = () => {
   }else if (iDose2Called==true && isDose2Vallid == false ){
     alert('Please enter a valid insulin dose!');
     return;
-   } 
-   // else if (iDose1Called==true && iDose2Called == false){
-  //  // navigation.navigate('isf', {insulinReg: InsulinR, monitor: bgMonitor, ievelUnit: unit, ketones: kMeasure, bgFrom: bgF, bgTo: bgt, center: cen, MRN: uMRN, DateD: DOD, DateB: DOB, DateLH: DOLH, wKG: weight, hCM: height, LH: latestH, name: cenName, city: cenCity })
-  
-  // }else if (iDose1Called==true && iDose2Called == true){
-  //  // navigation.navigate('isf', {insulinReg: InsulinR, monitor: bgMonitor, ievelUnit: unit, ketones: kMeasure, bgFrom: bgF, bgTo: bgt, center: cen, MRN: uMRN, DateD: DOD, DateB: DOB, DateLH: DOLH, wKG: weight, hCM: height, LH: latestH, name: cenName, city: cenCity })
-  // }
+   }
   else {
-    navigation.navigate('isf', {insulinReg: InsulinR, monitor: bgMonitor, ievelUnit: unit, ketones: kMeasure, bgFrom: bgF, bgTo: bgt, center: cen, MRN: uMRN, DateD: DOD, DateB: DOB, DateLH: DOLH, wKG: weight, hCM: height, LH: latestH, name: cenName, city: cenCity })
+    if ((iType == 'Aspart' || iType == 'Lispro'  || iType == 'Glulisine') && InsulinR == 'Pen'){
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
+             [uID, iType, halfFull1]
+         );
+        
+        
+     })
+     
+ } catch (error) {
+     console.log(error);
+ } } else {
+  try {
+    db.transaction( (tx) => {
+        tx.executeSql(
+         'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
+           [uID, iType, iDose, date]
+       );
+      
+      
+   })
+   
+} catch (error) {
+   console.log(error);
+}
+ }
+ if ((iType == 'Aspart' || iType == 'Lispro'  || iType == 'Glulisine') && InsulinR == 'Pen'){
+  try {
+    db.transaction( (tx) => {
+        tx.executeSql(
+         'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
+           [uID, iType, halfFull]
+       );
+      
+      
+   })
+   
+} catch (error) {
+   console.log(error);
+} } else {
+try {
+  db.transaction( (tx) => {
+      tx.executeSql(
+       'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
+         [uID, iType, iDose, date]
+     );
+    
+    
+ })
+ 
+} catch (error) {
+ console.log(error);
+}
+} if (iDose1Called && ((iType1 == 'Aspart' || iType1 == 'Lispro'  || iType1 == 'Glulisine') && InsulinR == 'Pen')){
+try {
+  db.transaction( (tx) => {
+      tx.executeSql(
+       'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
+         [uID, iType1, halfFull1]
+     );
+    
+    
+ })
+ 
+} catch (error) {
+ console.log(error);
+} } else {
+try {
+db.transaction( (tx) => {
+    tx.executeSql(
+     'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
+       [uID, iType1, iDose1, date1]
+   );
+  
+  
+})
+
+} catch (error) {
+console.log(error);
+} 
+}
+if (iDose2Called && ((iType2 == 'Aspart' || iType2 == 'Lispro'  || iType2 == 'Glulisine') && InsulinR == 'Pen')){
+  try {
+    db.transaction( (tx) => {
+        tx.executeSql(
+         'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
+           [uID, iType2, halfFull2]
+       );
+      
+      
+   })
+   
+  } catch (error) {
+   console.log(error);
+  } } else {
+  try {
+  db.transaction( (tx) => {
+      tx.executeSql(
+       'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
+         [uID, iType2, iDose2, date2]
+     );
+    
+    
+  })
+  
+  } catch (error) {
+  console.log(error);
+  } 
   }
+  
+ //-----------------------------
+ navigation.navigate('isf', {insulinReg: InsulinR, monitor: bgMonitor, ievelUnit: unit, ketones: kMeasure, bgFrom: bgF, bgTo: bgt, center: cen, MRN: uMRN, DateD: DOD, DateB: DOB, DateLH: DOLH, wKG: weight, hCM: height, LH: latestH, name: cenName, city: cenCity })
+  } 
 }
     return (
       <View style={styles.container}>

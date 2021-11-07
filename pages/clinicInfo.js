@@ -123,14 +123,7 @@ const check = () => {
   }
 
 }
-// const [data] = useState({
-//   ID: userID,
-//   userCenter: center,
-//   centName: centerName,
-//   centCity: centerCity,
-//   userMRN: mrn,
-//   DOD: dateOfDiagnosis,
-// });
+
 
     return (
       <View style={styles.container}>
@@ -185,7 +178,6 @@ const check = () => {
     placeholder ='City'
     autoCapitalize="none"
     onChangeText={(val) => cCityCheck(val)}
-    // onEndEditing={(e)=>validLN(e.nativeEvent.text)}
     />
    </View>
     </View>
