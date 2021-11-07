@@ -273,39 +273,7 @@ const getData = () => {
 }
 
 }
-// const onlineReg = () =>{
-//   if ( data.fName.trim().length>2 && data.lName.trim().length>2 && data.isValidEmail == true && data.password.trim().length>=8 ){
-//     if (AccountT == 'Patient Account'){
-//   var InsertAPIURL = "http://192.168.12.1/isugaronline/userAccount.php";   //API to render signup
 
-//       var headers = {
-//         'Accept': 'application/json',
-//         'Content-Type': 'application/json'
-//       };
-      
-//       var Data ={
-//         firstname: data.fName,
-//         lastname: data.lName,
-//         email: data.email,
-//         password: data.password,
-//         accountT: AccountT
-//       };
-//       fetch(InsertAPIURL,{
-//         method:'POST',
-//         headers:headers,
-//         body: JSON.stringify(Data) //convert data to JSON
-//     })
-//     .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-//     .then((response)=>{
-//       alert(response[0].Message);       // If data is in JSON => Display alert msg
-//       navigation.navigate("clinic"); //Navigate to next screen if authentications are valid
-//     })
-//     .catch((error)=>{
-//         alert("Error Occured" + error);
-//     })
-//     }
-//   }
-//     }
 
 
  

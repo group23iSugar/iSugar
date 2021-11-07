@@ -104,6 +104,17 @@ var calcMethod = [
         setShow1TO(Platform.OS === 'ios');
         setDate1TO(currentDate);
       };
+      const onChange11From = (event, selectedDate) => { // Time methods for every to/from time
+        const currentDate = selectedDate || date1From;
+        setShow11From(Platform.OS === 'ios');
+        setDate11From(currentDate);
+      };
+//-------------------------------------------------
+      const onChange11To = (event, selectedDate) => {
+        const currentDate = selectedDate || date1TO;
+        setShow11TO(Platform.OS === 'ios');
+        setDate11TO(currentDate);
+      };
 //-------------------------------------------------
     const onChange2From = (event, selectedDate) => {
         const currentDate = selectedDate || date2From;
@@ -117,6 +128,19 @@ const onChange2To = (event, selectedDate) => {
     setShow2TO(Platform.OS === 'ios');
     setDate2TO(currentDate);
   };
+//-------------------------------------------------
+const onChange22From = (event, selectedDate) => {
+  const currentDate = selectedDate || date2From;
+  setShow22From(Platform.OS === 'ios');
+  setDate22From(currentDate);
+};
+
+//-------------------------------------------------
+const onChange22To = (event, selectedDate) => {
+const currentDate = selectedDate || date2TO;
+setShow22TO(Platform.OS === 'ios');
+setDate22TO(currentDate);
+};
 
 //-------------------------------------------------
 const onChange3From = (event, selectedDate) => {
@@ -131,6 +155,19 @@ const onChange3To = (event, selectedDate) => {
     setShow3TO(Platform.OS === 'ios');
     setDate3TO(currentDate);
   };
+//-------------------------------------------------
+const onChange33From = (event, selectedDate) => {
+  const currentDate = selectedDate || date3From;
+  setShow3From(Platform.OS === 'ios');
+  setDate3From(currentDate);
+};
+ 
+//-------------------------------------------------
+const onChange33To = (event, selectedDate) => {
+  const currentDate = selectedDate || date3TO;
+  setShow33TO(Platform.OS === 'ios');
+  setDate33TO(currentDate);
+};
 
 //-------------------------------------------------
 const onChange4From = (event, selectedDate) => {
@@ -182,6 +219,17 @@ const onChange6To = (event, selectedDate) => {
         setShow1TO(true);
         setMode(currentMode);
       };
+      //-------------------------------------------------
+      const showMode11From = (currentMode) => {
+        setShow1From(true);
+        setMode(currentMode);
+      };
+//-------------------------------------------------
+      const showMode11To = (currentMode) => {
+        setShow1TO(true);
+        setMode(currentMode);
+      };
+//-------
 //-------------------------------------------------
     const showMode2From = (currentMode) => {
         setShow2From(true);
@@ -381,14 +429,12 @@ const setShouldShowAll = () =>{
         
 
         />
-        
     
         </View>
         
 
 <View style={styles.action}>
   
-{data.caluMethod=='Sliding Scale' ? navigation.navigate('slidin'): null}
 {data.caluMethod=='ICR' ? <Text style={{fontSize: 20, color: '#05375a',}}>Time intervals for ICR:{'\n'}</Text> : null }
 {data.caluMethod=='ICR' ? (<View style={styles.field} >
              <View style= {styles.actionP}>
@@ -717,7 +763,7 @@ const setShouldShowAll = () =>{
    
 
           <View style={styles.buttonV}>
-        <TouchableOpacity onPress={()=>insert()}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >

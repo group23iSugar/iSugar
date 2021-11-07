@@ -16,6 +16,8 @@ import insulin from './pages/insulin';
 import isf from './pages/isf';
 import icr from './pages/icr';
 import sliding from './pages/sliding';
+import home from './pages/Home';
+import edit from './pages/editProfile';
 
 global.db = SQLite.openDatabase(
   {
@@ -60,6 +62,8 @@ const mainStack = () => {
         <Stack.Screen name="isf" component={isf} />
         <Stack.Screen name="icr" component={icr} />
         <Stack.Screen name="sliding" component={sliding} />
+        <Stack.Screen name="home" component={home} />
+        <Stack.Screen name="edit" component={edit} />
         
       </Stack.Navigator>
     </NavigationContainer>

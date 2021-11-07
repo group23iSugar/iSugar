@@ -24,7 +24,7 @@ const App = () => {
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
+        <Image source={require('../images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
         <Text
