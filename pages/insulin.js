@@ -351,7 +351,9 @@ if (iDose2Called && ((iType2 == 'Aspart' || iType2 == 'Lispro'  || iType2 == 'Gl
       </LinearGradient>
 
       <View style={styles.footer}>
-      <Text style={styles.title}>Step 5 of 7: Insulin Information{'\n'}</Text>
+        {AccType == 'Patient Account' ? <Text style={styles.title}>Step 5 of 7: Insulin Information{'\n'}</Text>
+        : <Text style={styles.title}>Step 4 of 6: Insulin Information{'\n'}</Text> }
+      
       <ScrollView>
           <View style={styles.action}>
               <Text style={styles.text_footer}>Insulin regimen</Text>

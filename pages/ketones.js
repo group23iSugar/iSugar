@@ -93,7 +93,9 @@ const validateBGFrom = (val) => {
       </LinearGradient>
 
       <View style={styles.footer}>
-      <Text style={styles.title}>Step 4 of 7: Glucose and Ketones Monitoring Information{'\n'}</Text>
+        {AccType == 'Patient Account' ? <Text style={styles.title}>Step 4 of 7: Glucose and Ketones Monitoring Information{'\n'}</Text> :
+        <Text style={styles.title}>Step 3 of 6: Glucose and Ketones Monitoring Information{'\n'}</Text>}
+      
       <ScrollView>
           <View style={styles.action}>
               <Text style={styles.text_footer}>Type of Glucose Monitoring</Text>

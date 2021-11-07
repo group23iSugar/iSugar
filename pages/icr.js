@@ -411,7 +411,9 @@ const setShouldShowAll = () =>{
       </LinearGradient>
 
       <View style={styles.footer}>
-      <Text style={styles.title}>Step 7 of 7: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>
+        {AccType == 'Patient Account' ? <Text style={styles.title}>Step 7 of 7: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>
+        : <Text style={styles.title}>Step 6 of 6: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>}
+      
       
          
 <ScrollView>
@@ -760,7 +762,7 @@ const setShouldShowAll = () =>{
             ) : null }
         </View>
    </View>
-   
+    
 
           <View style={styles.buttonV}>
         <TouchableOpacity onPress={()=>navigation.navigate('Home')}>

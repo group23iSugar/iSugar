@@ -331,7 +331,9 @@ const check = () =>{
       </LinearGradient>
 
       <View style={styles.footer}>
-      <Text style={styles.title}>Step 6 of 7: Insulin Sensitivity Factor {'\n'}</Text>
+        {AccType == 'Patient Account' ? <Text style={styles.title}>Step 6 of 7: Insulin Sensitivity Factor {'\n'}</Text>
+        : <Text style={styles.title}>Step 5 of 6: Insulin Sensitivity Factor {'\n'}</Text> }
+      
          
 <ScrollView>
 
