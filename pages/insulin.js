@@ -18,16 +18,7 @@ import moment from 'moment';
 
 
   const insulin = ({ navigation, route }) =>{
-    console.log(route.params);
-    //-------------------------------
-    if(AccType == 'Patient Account'){
-      var {bgMonitor, unit, kMeasure, bgF, bgt, cen, uMRN, DOD, DOB, DOLH, mrn, weight, height, latestH, cenName, cenCity} = route.params;
-      
-     } else {
-      var { DOD, DOB, DOLH, weight, height, latestH, bgMonitor, unit, kMeasure, bgF, bgt} = route.params;
-     }
-    //-----------------------------------------------
-    
+   
   const [shouldShow, setShouldShow] = useState(false);
   const [shouldShow2, setShouldShow2] = useState(false);
   const [InsulinR, setInsulinR] = useState('0');
@@ -47,7 +38,7 @@ import moment from 'moment';
   const [penProvide1, setPen1] = useState('');
   const [penProvide2, setPen2] = useState('');
   
- 
+    
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -161,18 +152,20 @@ const checkIDose =  (val) => {
       ...iDose,
       iDose: val,
       
-    })
+    });
     setValid ({
       ...isDoseVallid,
       isDoseVallid: true
-    })
+    });
     return;
   } else {
-    isDoseVallid= false;
+    setValid ({
+      ...isDoseVallid,
+      isDoseVallid: false
+    });
   }
 }
-console.log(isDoseVallid);
-console.log(iDose);
+
 const checkIDose1 =  (val) => {
  
   if (val < 99 && val >= 0){
@@ -180,16 +173,25 @@ const checkIDose1 =  (val) => {
       ...iDose1,
       iDose1: val,
       
-    })
-    isDose1Vallid= true;
-    iDose1Called = true;
+    });
+    setValid1 ({
+      ...isDose1Vallid,
+      isDose1Vallid: true
+    });
+    setCalled1({
+      ...iDose1Called,
+      iDose1Called: true
+    });
     return;
   } else {
-    isDose1Vallid= false;
+    setValid1 ({
+      ...isDose1Vallid,
+      isDose1Vallid: false
+    });
     
   }
 }
-console.log(iDose1);
+
 const checkIDose2 =  (val) => {
   
   if (val < 99 && val >= 0){
@@ -197,14 +199,25 @@ const checkIDose2 =  (val) => {
       ...iDose2,
       iDose2: val,
       
-    })
-    isDose2Vallid= true;
-    iDose2Called = true;
+    });
+    setValid2 ({
+      ...isDose2Vallid,
+      isDose2Vallid: true
+    });
+    setCalled2({
+      ...iDose2Called,
+      iDose2Called: true
+    });
     return;
   } else {
-    isDose2Vallid= false;
+    setValid2 ({
+      ...isDose2Vallid,
+      isDose2Vallid: false
+    });
   }
 }
+insulinReg = InsulinR;
+
 const check = () => {
   if (InsulinR == '0'){
     alert('Please select an Insulin Regimen!');
@@ -215,7 +228,7 @@ const check = () => {
   }else if (isDoseVallid == false){
     alert('Please enter a valid insulin dose!');
     return;
-  }else if (iDose1Called==true && isDose1Vallid == false){
+  }else if (iDose1Called.iDose1Called==true && isDose1Vallid == false){
     alert('Please enter a valid insulin dose!');
     return;
   }else if (iDose2Called==true && isDose2Vallid == false ){
@@ -228,7 +241,7 @@ const check = () => {
       db.transaction( (tx) => {
           tx.executeSql(
            'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
-             [uID, iType, halfFull1]
+             [uID, iType, halfFull]
          );
         
         
@@ -241,7 +254,7 @@ const check = () => {
     db.transaction( (tx) => {
         tx.executeSql(
          'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
-           [uID, iType, iDose, date]
+           [uID, iType, iDose.iDose, date]
        );
       
       
@@ -251,94 +264,93 @@ const check = () => {
    console.log(error);
 }
  }
- if ((iType == 'Aspart' || iType == 'Lispro'  || iType == 'Glulisine') && InsulinR == 'Pen'){
-  try {
-    db.transaction( (tx) => {
-        tx.executeSql(
-         'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
-           [uID, iType, halfFull]
-       );
-      
-      
-   })
-   
-} catch (error) {
-   console.log(error);
-} } else {
-try {
-  db.transaction( (tx) => {
-      tx.executeSql(
-       'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
-         [uID, iType, iDose, date]
-     );
-    
-    
- })
- 
-} catch (error) {
- console.log(error);
-}
-} if (iDose1Called && ((iType1 == 'Aspart' || iType1 == 'Lispro'  || iType1 == 'Glulisine') && InsulinR == 'Pen')){
-try {
-  db.transaction( (tx) => {
-      tx.executeSql(
-       'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
-         [uID, iType1, halfFull1]
-     );
-    
-    
- })
- 
-} catch (error) {
- console.log(error);
-} } else {
-try {
-db.transaction( (tx) => {
-    tx.executeSql(
-     'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
-       [uID, iType1, iDose1, date1]
-   );
-  
-  
-})
-
-} catch (error) {
-console.log(error);
-} 
-}
-if (iDose2Called && ((iType2 == 'Aspart' || iType2 == 'Lispro'  || iType2 == 'Glulisine') && InsulinR == 'Pen')){
-  try {
-    db.transaction( (tx) => {
-        tx.executeSql(
-         'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
-           [uID, iType2, halfFull2]
-       );
-      
-      
-   })
-   
-  } catch (error) {
-   console.log(error);
-  } } else {
-  try {
-  db.transaction( (tx) => {
-      tx.executeSql(
-       'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
-         [uID, iType2, iDose2, date2]
-     );
-    
-    
-  })
-  
-  } catch (error) {
-  console.log(error);
-  } 
   }
   
- //-----------------------------
- navigation.navigate('isf', {insulinReg: InsulinR, monitor: bgMonitor, ievelUnit: unit, ketones: kMeasure, bgFrom: bgF, bgTo: bgt, center: cen, MRN: uMRN, DateD: DOD, DateB: DOB, DateLH: DOLH, wKG: weight, hCM: height, LH: latestH, name: cenName, city: cenCity })
+  addSecondDose();
+  addThirdDose();
+
+ navigation.navigate('isf')
   } 
+//--------------------------
+  const addSecondDose = () => {
+    console.log('in method ADD 2');
+    if (iDose1Called.iDose1Called==true && isDose1Vallid.isDose1Vallid==true){
+      console.log('in if1');
+     if ((iType1 == 'Aspart' || iType1 == 'Lispro'  || iType1 == 'Glulisine') && InsulinR == 'Pen'){
+       console.log('in if2');
+       try {
+         db.transaction( (tx) => {
+             tx.executeSql(
+              'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
+                [uID, iType1, halfFull1]
+            );
+           
+           
+        })
+        
+    } catch (error) {
+        console.log(error);
+    } } else{
+     console.log('in else');
+     try {
+      console.log('in try');
+       db.transaction( (tx) => {
+           tx.executeSql(
+            'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
+              [uID, iType1, iDose1.iDose1, date1]
+          );
+         
+         
+      })
+      
+   } catch (error) {
+      console.log(error);
+   }
+   console.log(iType1+' - '+iDose1.iDose1+' - '+date1);
+  }
 }
+  }
+
+  //------------------------
+  const addThirdDose = () => {
+    console.log('in method ADD 3');
+    if (iDose2Called.iDose2Called==true && isDose2Vallid.isDose2Vallid==true){
+      console.log('in if1');
+     if ((iType2 == 'Aspart' || iType2 == 'Lispro'  || iType2 == 'Glulisine') && InsulinR == 'Pen'){
+       console.log('in if2');
+       try {
+         db.transaction( (tx) => {
+             tx.executeSql(
+              'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
+                [uID, iType2, halfFull2]
+            );
+           
+           
+        })
+        
+    } catch (error) {
+        console.log(error);
+    } } else{
+     console.log('in else3');
+     try {
+      console.log('in try3');
+       db.transaction( (tx) => {
+           tx.executeSql(
+            'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
+              [uID, iType2, iDose2.iDose2, date2]
+          );
+         
+         
+      })
+      
+   } catch (error) {
+      console.log(error);
+   }
+   console.log(iType2+' - '+iDose2.iDose2+' - '+date2);
+  }
+}
+  }
+
     return (
       <View style={styles.container}>
       <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
