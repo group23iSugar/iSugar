@@ -7,6 +7,7 @@ import {
   StatusBar,
   Text,
   View,
+  Dimensions,
   AppRegistry,
   Navigator,
   TextInput,
@@ -14,11 +15,7 @@ import {
   ActivityIndicator,
   Switch,
 } from 'react-native';
-import ModalDropdown from 'react-native-modal-dropdown';
 import LinearGradient from 'react-native-linear-gradient';
-import {Picker} from '@react-native-picker/picker';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const App = () => {
   return (
@@ -75,6 +72,8 @@ const App = () => {
     </LinearGradient>
   );
 };
+const {height} = Dimensions.get("screen");
+const height_logo = height * 0.15;
 
 const styles = StyleSheet.create({
   container: {
@@ -88,8 +87,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   pic: {
-    width: 70,
-    height: 90,
+
+      width: height_logo,
+      height: height_logo,
+ 
   },
   inputT: {
     //inputs field
