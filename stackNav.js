@@ -9,15 +9,12 @@ import AccInfo from './pages/AccInfo';
 import clinicInfo from './pages/clinicInfo';
 import warning from './pages/warning';
 import SQLite from 'react-native-sqlite-storage';
-import calc from './pages/Calc';
 import personalInfo from './pages/personalInfo';
 import ketones from './pages/ketones';
 import insulin from './pages/insulin';
 import isf from './pages/isf';
 import icr from './pages/icr';
-import sliding from './pages/sliding';
 import home from './pages/Home';
-import edit from './pages/editProfile';
 
 global.db = SQLite.openDatabase(
   {
@@ -34,9 +31,27 @@ global.db = SQLite.openDatabase(
 );
 
 global.uID='';
-global. AccType = '';
+global.AccType = '';
 global.centName = '';
 global.centCity = '';
+global.Diabetescenter= '';
+global.DOD = '';
+global.weightKG = 0;
+global.heightCM = 0;
+global.DOBirth= '';
+global.DOLatestHB1AC = '';
+global.latestHB1AC_ = 0; 
+global.glucoseUnit = '';
+global.insulinReg = '';
+global.ketonesMeasure = '';
+global.bgTarget = 0;
+global.bgStart = 0;
+global.fromBG = 0;
+global.toBG= 0;
+global.InsulinSF = 0;
+global.intervalISF = '';
+global.insulinCalcMethod = '';
+global.glucoseMonitor = '';
 
 const Stack = createNativeStackNavigator();
 const mainStack = () => {
@@ -55,16 +70,13 @@ const mainStack = () => {
         <Stack.Screen name="accinfo" component={AccInfo} />
         <Stack.Screen name="clinic" component={clinicInfo} />
         <Stack.Screen name="warning" component={warning} />
-        <Stack.Screen name="calc" component={calc} />
         <Stack.Screen name="personal" component={personalInfo} />
         <Stack.Screen name="ketones" component={ketones} />
         <Stack.Screen name="insulin" component={insulin} />
         <Stack.Screen name="isf" component={isf} />
         <Stack.Screen name="icr" component={icr} />
-        <Stack.Screen name="sliding" component={sliding} />
         <Stack.Screen name="home" component={home} />
-        <Stack.Screen name="edit" component={edit} />
-        
+      
       </Stack.Navigator>
     </NavigationContainer>
   );
