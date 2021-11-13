@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
 },
   logo: {
     width: height_logo,
-    height: height_logo+40,
+    height: height_logo,
 
   },
   header: {
