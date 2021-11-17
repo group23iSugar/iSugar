@@ -192,11 +192,13 @@ const validEmail = (val) => {
                     AccType = rows.item(i).accountType;               
                     var userEmail = rows.item(i).email;
                     if (data.email == userEmail){
-                      if (AccType == 'Patient Account'){
-                      navigation.navigate('clinic') }
-                      else{
+                      if (AccType != 'Patient Account'){
                         navigation.navigate('personal')
-                      }
+                      // navigation.navigate('clinic')
+                     }
+                      // else{
+                      //   navigation.navigate('personal')
+                      // }
                       return;
                     }
                   }
@@ -241,6 +243,7 @@ const checkEmail = () => {
                 }
                 
                 register();
+                onlineDB();
                 
             }
             
@@ -250,9 +253,40 @@ const checkEmail = () => {
 } catch (error) {
     console.log(error);
 }
-
-
 }
+
+const onlineDB = () => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/userAccount.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    firstname: data.fName,
+    lastname: data.lName,
+    email: data.email,
+    pass: data.password,
+    accountType: AccountT
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert(response[0].Message);       // If data is in JSON => Display alert msg
+  navigation.navigate("clinic"); //Navigate to next screen if authentications are valid
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
+
 const getData = () => {
   try {
     db.transaction((tx) => {
@@ -411,6 +445,7 @@ const getData = () => {
     );
   
                   };
+
 
 
 const {height} = Dimensions.get("screen");

@@ -225,13 +225,13 @@ const check = () => {
   }else if (iType == '0'){
     alert('Please select an Insulin type!');
     return;
-  }else if (isDoseVallid == false){
+  }else if (isDoseVallid == false && halfOrFull() == false){
     alert('Please enter a valid insulin dose!');
     return;
-  }else if (iDose1Called.iDose1Called==true && isDose1Vallid == false){
+  }else if ((iDose1Called.iDose1Called==true && isDose1Vallid == false) && halfOrFull1() == false){
     alert('Please enter a valid insulin dose!');
     return;
-  }else if (iDose2Called==true && isDose2Vallid == false ){
+  }else if ((iDose2Called==true && isDose2Vallid == false)  && halfOrFull2() == false ){
     alert('Please enter a valid insulin dose!');
     return;
    }
@@ -241,7 +241,7 @@ const check = () => {
       db.transaction( (tx) => {
           tx.executeSql(
            'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
-             [uID, iType, halfFull]
+             [uID, iType, penProvide]
          );
         
         
@@ -273,27 +273,24 @@ const check = () => {
   } 
 //--------------------------
   const addSecondDose = () => {
-    console.log('in method ADD 2');
+    if ((iType1 == 'Aspart' || iType1 == 'Lispro'  || iType1 == 'Glulisine') && InsulinR == 'Pen'){
+      console.log('in if2');
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
+               [uID, iType1, penProvide1]
+           );
+          
+          
+       })
+       
+   } catch (error) {
+       console.log(error);
+   } }
     if (iDose1Called.iDose1Called==true && isDose1Vallid.isDose1Vallid==true){
-      console.log('in if1');
-     if ((iType1 == 'Aspart' || iType1 == 'Lispro'  || iType1 == 'Glulisine') && InsulinR == 'Pen'){
-       console.log('in if2');
-       try {
-         db.transaction( (tx) => {
-             tx.executeSql(
-              'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
-                [uID, iType1, halfFull1]
-            );
-           
-           
-        })
-        
-    } catch (error) {
-        console.log(error);
-    } } else{
-     console.log('in else');
+    
      try {
-      console.log('in try');
        db.transaction( (tx) => {
            tx.executeSql(
             'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
@@ -306,34 +303,30 @@ const check = () => {
    } catch (error) {
       console.log(error);
    }
-   console.log(iType1+' - '+iDose1.iDose1+' - '+date1);
-  }
+  
 }
   }
 
   //------------------------
   const addThirdDose = () => {
-    console.log('in method ADD 3');
+    if ((iType2 == 'Aspart' || iType2 == 'Lispro'  || iType2 == 'Glulisine') && InsulinR == 'Pen'){
+      console.log('in if2');
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
+               [uID, iType2, penProvide2]
+           );
+          
+          
+       })
+       
+   } catch (error) {
+       console.log(error);
+   } } 
     if (iDose2Called.iDose2Called==true && isDose2Vallid.isDose2Vallid==true){
-      console.log('in if1');
-     if ((iType2 == 'Aspart' || iType2 == 'Lispro'  || iType2 == 'Glulisine') && InsulinR == 'Pen'){
-       console.log('in if2');
-       try {
-         db.transaction( (tx) => {
-             tx.executeSql(
-              'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
-                [uID, iType2, halfFull2]
-            );
-           
-           
-        })
-        
-    } catch (error) {
-        console.log(error);
-    } } else{
-     console.log('in else3');
+    
      try {
-      console.log('in try3');
        db.transaction( (tx) => {
            tx.executeSql(
             'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
@@ -346,8 +339,7 @@ const check = () => {
    } catch (error) {
       console.log(error);
    }
-   console.log(iType2+' - '+iDose2.iDose2+' - '+date2);
-  }
+   
 }
   }
 
@@ -457,7 +449,7 @@ const check = () => {
 </View>
 <View  style={styles.action}>
           {shouldShow && halfOrFull1() ? (<View style={styles.field } >
-            <Text style={styles.text_footer}>Insulin Type</Text>
+            <Text style={styles.text_footer}>Pen provided</Text>
               <Picker
               selectedValue={penProvide1}
               onValueChange={(value) => setPen1(value)}

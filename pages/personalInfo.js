@@ -21,83 +21,105 @@ import react from 'react';
   const personalInfo = ({ navigation, route }) =>{
     
 
-    // useEffect(() => {
-    //     search();
-    //       }, []);
-// console.log(uID);
-//     const search = async () => {
+    useEffect(() => {
+        search();
+          }, []);
+console.log(uID);
+    const search = async () => {
 
-//       try {
-//        db.transaction( (tx) => {
-//            tx.executeSql(
-//              'SELECT UserID, firstName, lastName, email, pass, accountType FROM UserAccount',
-//              [],
-//              (tx, results) => {
-//                 var rows = results.rows;                              
-//                 for (let i = 0; i < rows.length; i++) {
-//                    var userID = rows.item(i).UserID;               
-//                     accountT = rows.item(i).accountType;
-//                     if (uID == userID){
-//                       console.log(accountT);
-//                       return;
-//                     }
-//                   }
-//                  }
-//                  ) }    
-//    ) 
+      try {
+       db.transaction( (tx) => {
+           tx.executeSql(
+             'SELECT UserID, firstName, lastName, email, pass, accountType FROM UserAccount',
+             [],
+             (tx, results) => {
+                var rows = results.rows;                              
+                for (let i = 0; i < rows.length; i++) {
+                   var userID = rows.item(i).UserID;               
+                    accountT = rows.item(i).accountType;
+                    if (uID == userID){
+                      console.log(accountT);
+                      return;
+                    }
+                  }
+                 }
+                 ) }    
+   ) 
        
  
-//  }  catch (error) {
-//       console.log(error);
-//   }
+ }  catch (error) {
+      console.log(error);
+  }
           
-//    }
+   }
  
   
 
   console.log(AccType);
   console.log(uID);
-  if (AccType == 'Patient Account'){
-  var {cen, ceCity, uMRN, DOD, ceName}= route.params;
-  }
+
     const [dateOfBirth, setDateOfBirth] = useState(new Date());
     const [dateOfHB1AC, setDateOfHB1AC] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false); //DOB
     const [show2, setShow2] = useState(false); // Date of latest HB1AC
+    const [data, setData] = useState({
+      weight: 0,
+      height: 0,
+      latestHB1AC: 0,
+      isValidWeight: true,
+      isValidHeight: true,
+      isValidHB1AC: true,
+    });
 
-    var weight = 0;
-    var isValidWeight = true;
-    var height = 0;
-    var isValidHeight = true;
-    var latestHB1AC = 0;
-    var isValidHB1AC = true;
     var isValidAge = true;
     var DOB = moment.utc(dateOfBirth).format('DD-MM-YYYY');
     var dateOfLatestHB1AC = moment.utc(dateOfHB1AC).format('DD-MM-YYYY');
 
     const changeWeight = (val) => {
         if (val <= 999 && val > 0){
-        weight = val;
-        isValidWeight= true;
+       setData({
+         ...data,
+         weight: val,
+         isValidWeight: true
+       })
+        weightKG = data.weight;
+        
         } else {
-            isValidWeight= false;
+          setData({
+            ...data,
+            isValidWeight: false
+          })
         }
     }
     const changeHeight = (val) => {
         if (val <= 999 && val > 0){
-        height = val;
-        isValidHeight = true;
+          setData({
+            ...data,
+            height: val,
+            isValidHeight: true
+          })
+        heightCM = data.height;
         } else {
-            isValidHeight = false;
+          setData({
+            ...data,
+            isValidHeight: false
+          })
         }
     }
     const changeHB1AC = (val) => {
         if (val <= 99 && val > 0){
-        latestHB1AC = val;
-        isValidHB1AC = true;
+          setData({
+            ...data,
+            latestHB1AC: val,
+            isValidHB1AC: true
+          })
+        latestHB1AC_ = data.latestHB1AC;
         } else {
-            isValidHB1AC = false;
+          setData({
+            ...data,
+            isValidHB1AC: false
+          })
         }
     }
 
@@ -152,19 +174,24 @@ import react from 'react';
         return age;
     }
     const  getBMI = ( )=>{ // calculate BMI 
-      var w = weight;
-      var h = height;
+      var w = data.weight;
+      var h = data.height;
       var BMI = 0;
-      if (isValidHeight == true && isValidWeight == true){
+      if (data.isValidHeight == true && data.isValidWeight == true){
        BMI=(w)/((h)/100)*((h)/100);
       return BMI;}
   
       return 'Waiting ...';
   }
 
+  DOLatestHB1AC = dateOfLatestHB1AC;
+  DOBirth = DOB;
+  
+
+
     const checkPatientAccount = () => { // validating patient entries
-        if (isValidWeight==true && isValidHeight == true && isValidHB1AC == true && isValidAge){
-           navigation.navigate('ketones', {center: cen, MRN: uMRN, DateD: DOD, DateB: DOB, DateLH: dateOfLatestHB1AC, wKG: weight, hCM: height, lateH: latestHB1AC, city: ceCity, cname: ceName })
+        if (data.isValidWeight==true && data.isValidHeight == true && data.isValidHB1AC == true && isValidAge){
+           navigation.navigate('ketones')
        
           } else {
             if (isValidAge == false) {
@@ -175,8 +202,8 @@ import react from 'react';
         }
     }
     const checkNonPatientAccount = () => { // validating non patient entries
-        if (isValidWeight==true && isValidHB1AC == true && isValidAge){
-            navigation.navigate('ketones', {DateB: DOB, DateLH: dateOfLatestHB1AC, lateH: latestHB1AC, wKG: weight})
+        if (data.isValidWeight==true && data.isValidHB1AC == true && isValidAge){
+            navigation.navigate('ketones')
         } else {
             if (isValidAge == false) {
                 alert('Please enter a valid Date of Birth');
@@ -185,7 +212,143 @@ import react from 'react';
             }
         }
     }
-       
+     
+    // onlinDB function for weight
+// const onlineDBWeight = () => {
+//   var InsertAPIURL = "http://192.168.12.1/isugar/weightKG.php";   //API to  signup
+
+//   var headers = {
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json'
+//   };
+//   var Data ={
+//     weight_KG: weightKG,
+//   };
+
+// // FETCH func ------------------------------------
+// fetch(InsertAPIURL,{
+//       method:'POST',
+//     headers:headers,
+//     body: JSON.stringify(Data) //convert data to JSON
+// })
+// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+// .then((response)=>{
+//   alert(response[0].Message);       // If data is in JSON => Display alert msg
+//   navigation.navigate('ketones');
+// })
+// .catch((error)=>{
+//     alert("Error Occured" + error);
+// })
+// }
+
+// const onlineDBHeight = () => {
+//   var InsertAPIURL = "http://192.168.12.1/isugar/height.php";   //API to  signup
+
+//   var headers = {
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json'
+//   };
+//   var Data ={
+//     heightM: height,
+//   };
+
+// // FETCH func ------------------------------------
+// fetch(InsertAPIURL,{
+//       method:'POST',
+//     headers:headers,
+//     body: JSON.stringify(Data) //convert data to JSON
+// })
+// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+// .then((response)=>{
+//   alert(response[0].Message);       // If data is in JSON => Display alert msg
+//   navigation.navigate('ketones');
+// })
+// .catch((error)=>{
+//     alert("Error Occured" + error);
+// })
+// }
+
+// const onlineDBDOB = () => {
+//   var InsertAPIURL = "http://192.168.12.1/isugar/DOB.php";   //API to  signup
+
+//   var headers = {
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json'
+//   };
+//   var Data ={
+//     DOP: DOBirth,
+//   };
+
+// // FETCH func ------------------------------------
+// fetch(InsertAPIURL,{
+//       method:'POST',
+//     headers:headers,
+//     body: JSON.stringify(Data) //convert data to JSON
+// })
+// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+// .then((response)=>{
+//   alert(response[0].Message);       // If data is in JSON => Display alert msg
+//   navigation.navigate('ketones');
+// })
+// .catch((error)=>{
+//     alert("Error Occured" + error);
+// })
+// }
+
+// const onlineDBHB1AC = () => {
+//   var InsertAPIURL = "http://192.168.12.1/isugar/latest_HB1AC.php";   //API to  signup
+
+//   var headers = {
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json'
+//   };
+//   var Data ={
+//     latest_HP1AC: latestHB1AC,
+//   };
+
+// // FETCH func ------------------------------------
+// fetch(InsertAPIURL,{
+//       method:'POST',
+//     headers:headers,
+//     body: JSON.stringify(Data) //convert data to JSON
+// })
+// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+// .then((response)=>{
+//   alert(response[0].Message);       // If data is in JSON => Display alert msg
+//   navigation.navigate('ketones');
+// })
+// .catch((error)=>{
+//     alert("Error Occured" + error);
+// })
+// }
+
+// const onlineDBHB1ACDate = () => {
+//   var InsertAPIURL = "http://192.168.12.1/isugar/latest_HB1AC_Date.php";   //API to  signup
+
+//   var headers = {
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json'
+//   };
+//   var Data ={
+//     latest_HP1AC_date: dateOfHB1AC,
+//   };
+
+// // FETCH func ------------------------------------
+// fetch(InsertAPIURL,{
+//       method:'POST',
+//     headers:headers,
+//     body: JSON.stringify(Data) //convert data to JSON
+// })
+// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+// .then((response)=>{
+//   alert(response[0].Message);       // If data is in JSON => Display alert msg
+//   navigation.navigate('ketones');
+// })
+// .catch((error)=>{
+//     alert("Error Occured" + error);
+// })
+// }
+
     return (
       <View style={styles.container}>
       <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>

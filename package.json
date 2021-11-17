@@ -27,6 +27,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-hash": "^2.0.0",
     "react-native-linear-gradient": "^2.5.6",
+    "react-native-modal-datetime-picker": "^13.0.0",
     "react-native-modal-dropdown": "^1.0.2",
     "react-native-month-year-picker": "^1.8.0",
     "react-native-paper": "^4.9.2",

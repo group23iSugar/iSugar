@@ -16,18 +16,21 @@ import moment from 'moment';
 
 
   const isf = ({ navigation, route }) =>{
-    console.log(route.params);
-    //-------------------------------
-    if(AccType == 'Patient Account'){
-      var {monitor, ievelUnit, ketones, bgFrom, bgTo, center, MRN, DateD, DateB, DateLH, wKG, hCM, LH, name, city, insulinReg } = route.params;
-      
-     } else {
-      var { DateB, DateLH, wKG, LH, monitor, ievelUnit, ketones, bgFrom, bgTo, insulinReg} = route.params;
-     }
-    //-----------------------------------------------
-
-
-    
+   
+  //---------------------------------------------------
+    const[bgTarget1, setbgTarget1] = useState(0);
+    const[bgTarget2, setbgTarget2] = useState(0);
+    const[bgTarget3, setbgTarget3] = useState(0);
+    const[bgTarget4, setbgTarget4] = useState(0);
+    const[bgTarget5, setbgTarget5] = useState(0);
+    const[bgTarget6, setbgTarget6] = useState(0);
+    const[bgStart1, setbgStart1] = useState(0);
+    const[bgStart2, setbgStart2] = useState(0);
+    const[bgStart3, setbgStart3] = useState(0);
+    const[bgStart4, setbgStart4] = useState(0);
+    const[bgStart5, setbgStart5] = useState(0);
+    const[bgStart6, setbgStart6] = useState(0);
+//------------------------------------------------------
     const [mode, setMode] = useState('date');
 //--------------Date----------------------- 
     const [date1From, setDate1From] = useState(new Date());         // time entries x6 for user
@@ -304,15 +307,110 @@ const setShouldShowAll = () =>{
 
   
 }
+InsulinSF = ISF;
+bgTarget = targetBG;
+bgStart= startBG;
+intervalISF =isfInterval;
+
+
 const check = () =>{
-  insert();
-  if (AccType=='Paitent Account'){
-    navigation.navigate('icr', {insulinSF: ISF, intervalISF: isfInterval , tBG: targetBG, sBG: startBG, moni: monitor, unit: ievelUnit, ketoneM:  ketones, bgF: bgFrom, bgT: bgTo, cen: center, uMRN: MRN, DOD: DateD, DOB: DateB,DOH: DateLH, Weight: wKG, height: hCM, latestH: LH, cName:  name, cCity: city, insulinR: insulinReg })
-  }else {
-    navigation.navigate('icr', {insulinSF: ISF, intervalISF: isfInterval , tBG:targetBG , sBG: startBG, moni: monitor, unit: ievelUnit, ketoneM:  ketones, bgF: bgFrom, bgT: bgTo, DOB: DateB,DOH: DateLH, Weight: wKG, latestH: LH, insulinR: insulinReg })
+    if (isfInterval == '1'){
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+              'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
+               [uID, date1From, date1TO, ISF1, bgTarget1, bgStart1 ]
+           );
+          
+          
+       })
+       
+   } catch (error) {
+       console.log(error);
+   }
+   
+    } 
+     if (isfInterval == '1' && shouldShow1 == true) {
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+              'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
+               [uID, date2From, date2TO, ISF2, bgTarget2, bgStart2]
+           );
+          
+          
+       })
+       
+   } catch (error) {
+       console.log(error);
+   }
+    }
+    if (isfInterval == '1' && shouldShow2 == true) {
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+              'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
+               [uID, date3From, date3TO, ISF3, bgTarget3, bgStart3]
+           );
+          
+          
+       })
+       
+   } catch (error) {
+       console.log(error);
+   }
+    }
+    if (isfInterval == '1' && shouldShow3 == true) {
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+              'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
+               [uID, date4From, date4TO, ISF4, bgTarget4, bgStart4]
+           );
+          
+          
+       })
+       
+   } catch (error) {
+       console.log(error);
+   }
+    }
+    if (isfInterval == '1' && shouldShow4 == true) {
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+              'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
+               [uID, date5From, date5TO, ISF5, bgTarget5, bgStart5]
+           );
+          
+          
+       })
+       
+   } catch (error) {
+       console.log(error);
+   }
+   console.log(date2From +' '+date2TO+' '+ISF5);
+    }
+    if (isfInterval == '1' && shouldShow5 == true) {
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
+               [uID, date6From, date6TO, ISF6, bgTarget6, bgStart6]
+           );
+          
+          
+       })
+       
+   } catch (error) {
+       console.log(error);
+   }
+    }
+     //-------------------------
+      navigation.navigate('icr')
+    
+    
 
-
-  }
 } 
 
 
@@ -331,47 +429,11 @@ const check = () =>{
       </LinearGradient>
 
       <View style={styles.footer}>
-        {AccType == 'Patient Account' ? <Text style={styles.title}>Step 6 of 7: Insulin Sensitivity Factor {'\n'}</Text>
+        {'Patient Account' == 'Patient Account' ? <Text style={styles.title}>Step 6 of 7: Insulin Sensitivity Factor {'\n'}</Text>
         : <Text style={styles.title}>Step 5 of 6: Insulin Sensitivity Factor {'\n'}</Text> }
       
          
 <ScrollView>
-
-
-<View style={styles.actionB}>
-<Text style={styles.text_footer}>Insulin Sensitivity 
-Factor{'\n'}(ISF):</Text>
-<TextInput
-            keyboardType="decimal-pad"
-            placeholder="000"
-            onChangeText={(val)=>setISFM(val)}
-            style={styles.actionN}></TextInput>
-
-</View>
-
-
-<View style={styles.actionB}>
-
-<Text style={styles.text_footer}>Target glucose level{'\n'}
-for correction:</Text>
-<TextInput
-            keyboardType="decimal-pad"
-            placeholder="000"
-            onChangeText={(val)=>setTargetBG(val)}
-            style={styles.actionN}></TextInput>
-            
-</View> 
-<View style={styles.actionB}>
-<Text style={styles.text_footer}>Glucose level to{'\n'}
-start correction:</Text>
-<TextInput
-            keyboardType="decimal-pad"
-            placeholder="000"
-            onChangeText={(val)=>setStartBG(val)}
-            style={styles.actionN}></TextInput>
-
-</View> 
-
 
 <View style={styles.actionB}>
               <Text style={styles.text_footer}>Time to start{'\n'}correction</Text>
@@ -387,6 +449,48 @@ start correction:</Text>
         </Picker>
       
 </View>
+{isfInterval=='0' ? (<View style={styles.actionB}>
+ 
+ <Text style={styles.text_footer}>Insulin Sensitivity 
+ Factor{'\n'}(ISF):</Text>
+ <TextInput
+             keyboardType="decimal-pad"
+             placeholder="000"
+             onChangeText={(val)=>setISFM(val)}
+             style={styles.actionN}></TextInput>
+ 
+ </View>) 
+  : null}
+
+
+{isfInterval == '0' ? (<View style={styles.actionB}>
+
+<Text style={styles.text_footer}>Target glucose level{'\n'}
+for correction:</Text>
+<TextInput
+            keyboardType="decimal-pad"
+            placeholder="000"
+            onChangeText={(val)=>setTargetBG(val)}
+            style={styles.actionN}></TextInput>
+            
+</View> )
+: null}
+
+{isfInterval=='0' ? (<View style={styles.actionB}>
+<Text style={styles.text_footer}>Glucose level to{'\n'}
+start correction:</Text>
+<TextInput
+            keyboardType="decimal-pad"
+            placeholder="000"
+            onChangeText={(val)=>setStartBG(val)}
+            style={styles.actionN}></TextInput>
+
+</View> 
+) 
+: null}
+
+
+
 
 <View style={styles.action}>
 
@@ -432,13 +536,32 @@ start correction:</Text>
                    )} 
                    </View> 
                    <View style={styles.actionP}>
-                   <Text style={styles.text_footer}>ISF:</Text>
+                   <Text style={styles.text_footer}>ISF:{'\n'}</Text>
                    <TextInput
                                keyboardType="decimal-pad"
                                placeholder="000"
+                               onChangeText={(val)=>setISF1(val)}
                                style={styles.action}></TextInput>
+                    </View>
+                    <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Target glucose level{'\n'}
+                    for correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgTarget1(val)}
+                               style={styles.action}></TextInput>
+                    </View>
+                    <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Glucose level to{'\n'}
+                    start correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgStart1(val)}
+                               style={styles.action}></TextInput>
+                    </View>      
                    
-                   </View>
                  
                  </View>) : null }
 </View>
@@ -489,9 +612,28 @@ start correction:</Text>
                    <TextInput
                                keyboardType="decimal-pad"
                                placeholder="000"
+                               onChangeText={(val)=>setISF2(val)}
                                style={styles.action}></TextInput>
                    
                    </View>
+                   <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Target glucose level{'\n'}
+                    for correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgTarget2(val)}
+                               style={styles.action}></TextInput>
+                    </View>
+                    <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Glucose level to{'\n'}
+                    start correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgStart2(val)}
+                               style={styles.action}></TextInput>
+                    </View> 
                  
                  </View>) : null }
                  {shouldShow2 ? (<View style={styles.field} >
@@ -527,7 +669,7 @@ start correction:</Text>
                    {show3TO && (
                      <DateTimePicker
                        testID="dateTimePicker"
-                       value={date1TO}
+                       value={date3TO}
                        mode={mode}
                        is24Hour={false}
                        display="default"
@@ -540,9 +682,28 @@ start correction:</Text>
                    <TextInput
                                keyboardType="decimal-pad"
                                placeholder="000"
+                               onChangeText={(val)=>setISF3(val)}
                                style={styles.action}></TextInput>
                    
                    </View>
+                   <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Target glucose level{'\n'}
+                    for correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgTarget3(val)}
+                               style={styles.action}></TextInput>
+                    </View>
+                    <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Glucose level to{'\n'}
+                    start correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgStart3(val)}
+                               style={styles.action}></TextInput>
+                    </View> 
                  
                  </View>) : null }
 
@@ -592,9 +753,28 @@ start correction:</Text>
                    <TextInput
                                keyboardType="decimal-pad"
                                placeholder="000"
+                               onChangeText={(val)=>setISF4(val)}
                                style={styles.action}></TextInput>
                    
                    </View>
+                   <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Target glucose level{'\n'}
+                    for correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgTarget4(val)}
+                               style={styles.action}></TextInput>
+                    </View>
+                    <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Glucose level to{'\n'}
+                    start correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgStart4(val)}
+                               style={styles.action}></TextInput>
+                    </View> 
                  
                  </View>) : null }
                  {shouldShow4?(<View style={styles.field} >
@@ -643,9 +823,28 @@ start correction:</Text>
                    <TextInput
                                keyboardType="decimal-pad"
                                placeholder="000"
+                               onChangeText={(val)=>setISF5(val)}
                                style={styles.action}></TextInput>
                    
                    </View>
+                   <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Target glucose level{'\n'}
+                    for correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgTarget5(val)}
+                               style={styles.action}></TextInput>
+                    </View>
+                    <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Glucose level to{'\n'}
+                    start correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgStart5(val)}
+                               style={styles.action}></TextInput>
+                    </View> 
                  
                  </View>): null }
                     {shouldShow5 ? (<View style={styles.field} >
@@ -694,9 +893,28 @@ start correction:</Text>
                    <TextInput
                                keyboardType="decimal-pad"
                                placeholder="000"
+                               onChangeText={(val)=>setISF6(val)}
                                style={styles.action}></TextInput>
                    
                    </View>
+                   <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Target glucose level{'\n'}
+                    for correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgTarget6(val)}
+                               style={styles.action}></TextInput>
+                    </View>
+                    <View style={styles.actionP}>
+                    <Text style={styles.text_footer}>Glucose level to{'\n'}
+                    start correction:</Text>
+                    <TextInput
+                               keyboardType="decimal-pad"
+                               placeholder="000"
+                               onChangeText={(val)=>setbgStart6(val)}
+                               style={styles.action}></TextInput>
+                    </View> 
                  
                  </View>) : null }
                  
@@ -796,8 +1014,7 @@ fieldMain: {
   marginBottom: 15,
 },
 field: {
-    width: 250,
-    height: 250,
+    width: 350,
     justifyContent:'space-evenly',
     paddingLeft: 15,
     marginBottom: 35,
@@ -883,7 +1100,7 @@ action: {
   flex: 1,
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent:'space-evenly',
+  justifyContent:'space-between',
   flexWrap: 'wrap',
   marginTop: 10,
   marginBottom: 10,
@@ -898,9 +1115,9 @@ actionN: {
   
 },
 actionP: {
-  width: 150,
+  width: 350,
   flexDirection: 'row',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
   alignItems: 'center',
   flexWrap: 'wrap',
   marginTop: 10,
@@ -939,5 +1156,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
-

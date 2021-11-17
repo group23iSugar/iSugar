@@ -18,20 +18,15 @@ import moment from 'moment';
 
 
   const ketones = ({ navigation, route }) =>{
-    console.log(route.params);
- if(AccType == 'Patient Account'){
-  var {center, MRN, DateD, DateB, DateLH, wKG, hCM, lateH, cname, city} = route.params;
-  
- } else {
-  var {DateD, DateB, DateLH, wKG, lateH} = route.params;
- }
+   
   const [monitor, setMonitor] = useState('0');
   const [levelUnit, setlevelUnit] = useState('0');
   const [ketones, setketones] = useState('0');
   const [BGFrom, setFROM] = useState(0);
   const [BGTO, setTO] = useState(0);
 
-  
+ 
+
 
 const check = () => {
   if (monitor == '0'){
@@ -47,11 +42,9 @@ const check = () => {
     return;
   } 
   if (BGFrom != 0 && BGTO !=0 ){
-    if (AccType == 'Patient Account'){
-      navigation.navigate('insulin', {bgMonitor: monitor, unit: levelUnit, kMeasure: ketones, bgF: BGFrom, bgt: BGTO, cen: center, uMRN: MRN, DOD: DateD, DOB: DateB, DOLH: DateLH, weight: wKG, height: hCM, latestH: lateH, cenName: cname, cenCity: city})
-    } else {
-      navigation.navigate('insulin', {bgMonitor: monitor, unit: levelUnit, kMeasure: ketones, bgF: BGFrom, bgt: BGTO, DOB: DateB, DOLH: DateLH, weight: wKG, latestH: lateH })
-    }
+      navigation.navigate('insulin')
+ 
+    
     }
 
 }
@@ -80,6 +73,11 @@ const validateBGFrom = (val) => {
   }
 }
 
+glucoseMonitor = monitor;
+fromBG = BGFrom.BGFrom;
+toBG = BGTO.BGTO;
+glucoseUnit = levelUnit;
+ketonesMeasure = ketones;
 
     return (
       <View style={styles.container}>
@@ -183,8 +181,6 @@ const validateBGFrom = (val) => {
      
       
 </View>
-
-
 
           <View style={styles.buttonV}>
         <TouchableOpacity onPress={()=>check()}>

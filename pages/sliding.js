@@ -20,13 +20,15 @@ import RadioForm, {
 } from 'react-native-simple-radio-button';
 
 var calcMethod = [
-  {label: 'I use a ratio (ICR) to calculate my meal insulin'+'\n', value: 'ICR', valueIndex: 0},
-  {label: 'I use sliding scale to determine my meal insulin'+'\n', value: 'Sliding Scale', valueIndex: 1},
+  
+  {label: 'I use a ratio (ICR) to calculate my meal insulin'+'\n', value: 'ICR', valueIndex: 1},
+  {label: 'I use sliding scale to determine my meal insulin'+'\n', value: 'Sliding Scale', valueIndex: 0},
+  
   ];
   const icr = ({ navigation, route }) =>{
    
     useEffect(() => {
-      MethodForCalc('ICR');
+      MethodForCalc('Sliding Scale');
         }, []);
     const [data, setData] = useState({
       caluMethod: '',
@@ -37,6 +39,9 @@ var calcMethod = [
         caluMethod: value,
       });
   };
+    const [insulin1, setInsulin1] = useState(0);
+    const [insulin2, setInsulin2] = useState(0);
+    const [insulin3, setInsulin3] = useState(0);
     const [mode, setMode] = useState('date');
 //--------------Date----------------------- 
     const [date1From, setDate1From] = useState(new Date());         // time entries x6 for user
@@ -45,14 +50,14 @@ var calcMethod = [
 //-------------------------------------------
     const [date1TO, setDate1TO] = useState(new Date());
     const [show1TO, setShow1TO] = useState(false);
-    const [ICR1, setICR1] = useState(0);
+    const [toRange1, setToRange1] = useState(0);
 //-------------------------------------------
     const [date2From, setDate2From] = useState(new Date());
     const [show2From, setShow2From] = useState(false);
 //-------------------------------------------
     const [date2TO, setDate2TO] = useState(new Date());
     const [show2TO, setShow2TO] = useState(false);
-    const [ICR2, setICR2] = useState(0);
+    const [toRange2, setToRange2] = useState(0);
 //-------------------------------------------
     const [date3From, setDate3From] = useState(new Date());
     const [show3From, setShow3From] = useState(false);
@@ -60,21 +65,21 @@ var calcMethod = [
 //-------------------------------------------
     const [date3TO, setDate3TO] = useState(new Date());
     const [show3TO, setShow3TO] = useState(false);
-    const [ICR3, setICR3] = useState(0);
+    const [toRange3, setToRange3] = useState(0);
 //-------------------------------------------                   
     const [date4From, setDate4From] = useState(new Date());
     const [show4From, setShow4From] = useState(false);
 //-------------------------------------------
     const [date4TO, setDate4TO] = useState(new Date());
     const [show4TO, setShow4TO] = useState(false);
-    const [ICR4, setICR4] = useState(0);
+    const [fromRange1, setFromRange1] = useState(0);
 //-------------------------------------------
     const [date5From, setDate5From] = useState(new Date());
     const [show5From, setShow5From] = useState(false);
 //-------------------------------------------
     const [date5TO, setDate5TO] = useState(new Date());
     const [show5TO, setShow5TO] = useState(false);
-    const [ICR5, setICR5] = useState(0);
+    const [fromRange2, setFromRange2] = useState(0);
 //-------------------------------------------
     const [date6From, setDate6From] = useState(new Date());
     const [show6From, setShow6From] = useState(false);
@@ -82,7 +87,7 @@ var calcMethod = [
 //-------------------------------------------
     const [date6TO, setDate6TO] = useState(new Date());
     const [show6TO, setShow6TO] = useState(false);
-    const [ICR6, setICR6] = useState(0);
+    const [fromRange3, setFromRange3] = useState(0);
 //-------------------------------------------------
     const onChange1From = (event, selectedDate) => { // Time methods for every to/from time
         const currentDate = selectedDate || date1From;
@@ -294,7 +299,7 @@ const showTimepicker2T = () => {
   };
   //-------------------------------------------------
   const showTimepicker3T = () => {
-    showMode3TO('time');
+    showMode3To('time');
   };
 //-------------------------------------------------
   const showTimepicker4F = () => {
@@ -328,18 +333,8 @@ showMode6To('time');
   const [shouldShow3, setShouldShow3] = useState(false);
   const [shouldShow4, setShouldShow4] = useState(false);
   const [shouldShow5, setShouldShow5] = useState(false);
-  var timeFrom1 = moment.utc(date1From).format('h:mm a');
-  var timeTo1 = moment.utc(date1TO).format('h:mm a');
-  var timeFrom2 = moment.utc(date2From).format('h:mm a');
-  var timeTo2 = moment.utc(date2TO).format('h:mm a');
-  var timeFrom3 = moment.utc(date3From).format('h:mm a');
-  var timeTo3 = moment.utc(date3TO).format('h:mm a');
-  var timeFrom4 = moment.utc(date4From).format('h:mm a');
-  var timeTo4 = moment.utc(date4TO).format('h:mm a');
-  var timeFrom5 = moment.utc(date5From).format('h:mm a');
-  var timeTo5 = moment.utc(date5TO).format('h:mm a');
-  var timeFrom6 = moment.utc(date6From).format('h:mm a');
-  var timeTo6 = moment.utc(date6TO).format('h:mm a');
+
+
 const setShouldShowAll = () =>{
 
  if ( shouldShow3==false  ){
@@ -360,7 +355,7 @@ const setShouldShowAll = () =>{
 }
 insulinCalcMethod = data.caluMethod;
     const insert = async () => {
-      if (AccType=='Patient Account'){
+      if ('AccType'=='Patient Account'){
         console.log(uID+' - '+ DOBirth+ ' - '+ weightKG +' - '+latestHB1AC_+' - '+ DOLatestHB1AC+ ' - '+ glucoseMonitor +' - '+glucoseUnit+' - '+ketonesMeasure +' - '+ insulinReg+ ' - '+ InsulinSF +' - '+bgTarget+' - '+ bgStart+ ' - '+ intervalISF +' - '+insulinCalcMethod+' - '+fromBG+ ' - '+ toBG +' - '+heightCM+' - '+ Diabetescenter+ ' - '+ DOD +' - '+centName+' - '+centCity);
         try {
          db.transaction( (tx) => {
@@ -393,13 +388,13 @@ insulinCalcMethod = data.caluMethod;
  }
   }
 
-  if (data.caluMethod == 'ICR'){
+  if (data.caluMethod == 'Sliding Scale'){
     try {
       db.transaction( (tx) => {
           tx.executeSql(
-           'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
-           +'VALUES (?,?,?,?)',
-             [uID, timeFrom1, timeTo1, ICR1 ]
+           'INSERT INTO ssInterval (UserID, fromTime, toTime)' 
+           +'VALUES (?,?,?)',
+             [uID, date1From, date1TO]
          );
         
         //  getData();
@@ -408,42 +403,42 @@ insulinCalcMethod = data.caluMethod;
  } catch (error) {
      console.log(error);
  }
- try {
-  db.transaction( (tx) => {
-      tx.executeSql(
-       'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
-       +'VALUES (?,?,?,?)',
-         [uID, timeFrom2, timeTo2, ICR2 ]
-     );
+//  try {
+//   db.transaction( (tx) => {
+//       tx.executeSql(
+//        'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
+//        +'VALUES (?,?,?,?)',
+//          [uID, date2From, date2TO, ICR2 ]
+//      );
     
-    //  getData();
- })
+//     //  getData();
+//  })
  
-} catch (error) {
- console.log(error);
-}
-try {
-  db.transaction( (tx) => {
-      tx.executeSql(
-       'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
-       +'VALUES (?,?,?,?)',
-         [uID, timeFrom3, timeTo3, ICR3 ]
-     );
+// } catch (error) {
+//  console.log(error);
+// }
+// try {
+//   db.transaction( (tx) => {
+//       tx.executeSql(
+//        'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
+//        +'VALUES (?,?,?,?)',
+//          [uID, date3From, date3TO, ICR3 ]
+//      );
     
-    //  getData();
- })
+//     //  getData();
+//  })
  
-} catch (error) {
- console.log(error);
+// } catch (error) {
+//  console.log(error);
+// }
 }
-  }
-  if (data.caluMethod == 'ICR' && shouldShow3==true) {
+ getID();
     try {
       db.transaction( (tx) => {
           tx.executeSql(
-           'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
+           'INSERT INTO bgleveltoinsulin (ssID, fromBGLevel, toBGLevel, nsulinDose)' 
            +'VALUES (?,?,?,?)',
-             [uID, timeFrom4, timeTo4, ICR4 ]
+             [ssID, fromRange1, toRange1, insulin1 ]
          );
         
         //  getData();
@@ -452,44 +447,64 @@ try {
     } catch (error) {
      console.log(error);
     }
-  }  
-  if (data.caluMethod == 'ICR' && shouldShow4==true) {
     try {
-      db.transaction( (tx) => {
-          tx.executeSql(
-           'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
-           +'VALUES (?,?,?,?)',
-             [uID, timeFrom5, timeTo5, ICR5 ]
-         );
-        
-        //  getData();
-     })
-     
-    } catch (error) {
-     console.log(error);
-    }
-  } 
-  if (data.caluMethod == 'ICR' && shouldShow5==true) {
-    try {
-      db.transaction( (tx) => {
-          tx.executeSql(
-           'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
-           +'VALUES (?,?,?,?)',
-             [uID, timeFrom6, timeTo6, ICR6 ]
-         );
-        
-        //  getData();
-     })
-     
-    } catch (error) {
-     console.log(error);
-    }
-  } 
-  navigation.navigate('calc') 
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'INSERT INTO bgleveltoinsulin (ssID, fromBGLevel, toBGLevel, nsulinDose)' 
+             +'VALUES (?,?,?,?)',
+               [ssID, fromRange2, toRange2, insulin2 ]
+           );
+          
+          //  getData();
+       })
+       
+      } catch (error) {
+       console.log(error);
+      }
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'INSERT INTO bgleveltoinsulin (ssID, fromBGLevel, toBGLevel, nsulinDose)' 
+             +'VALUES (?,?,?,?)',
+               [ssID, fromRange3, toRange3, insulin3 ]
+           );
+          
+          //  getData();
+       })
+       
+      } catch (error) {
+       console.log(error);
+      }
+
+  navigation.navigate('home') 
  
       } 
-    
+var ssID=0; 
+const getID = () => {
+    try {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "SELECT ssID, UserID, fromTime, toTime FROM ssInterval",
+                [],
+                (tx, results) => {
+                    var rows = results.rows;
+                    for (let i = 0; i < rows.length; i++) {
+                        ssID = rows.item(i).ssID;
+                        var ID = rows.item(i).UserID;
+                        if (uID == ID ){
+                            return;
+                        }      
+                      }
+                    }
 
+                
+            )
+            
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
  
 
 
@@ -509,17 +524,17 @@ try {
       </LinearGradient>
 
       <View style={styles.footer}>
-        {AccType == 'Patient Account' ? <Text style={styles.title}>Step 7 of 7: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>
+        {'Patient Account' == 'Patient Account' ? <Text style={styles.title}>Step 7 of 7: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>
         : <Text style={styles.title}>Step 6 of 6: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>}
       
       
          
 <ScrollView>
-<Text style={{fontSize: 20, color: '#05375a',}}>Choose your method for caculating meal insulin:{'\n'}--------------------------------</Text>
+<Text style={{fontSize: 20, color: '#05375a',}}>Choose your method for caculating meal insulin:</Text>
 <View style={styles.radioB}>
         <RadioForm
         radio_props = {calcMethod}
-        initial={0}
+        initial={1}
         onPress={ (value) => MethodForCalc(value) } 
         buttonSize = {10}
         buttonOuterSize = {14}
@@ -532,14 +547,9 @@ try {
         />
     
         </View>
-        
-
-<View style={styles.action}>
-  
-{data.caluMethod=='ICR' ? <Text style={{fontSize: 20, color: '#05375a',}}>Time intervals for ICR:{'\n'}</Text> : null }
-{data.caluMethod=='ICR' ? (<View style={styles.field} >
-             <View style= {styles.actionP}>
-             <Text style={styles.text_footer}>From</Text>
+<View style={styles.field}>
+<View style= {styles.actionP}>
+<Text style={styles.text_footer}>From</Text>
                      <TouchableOpacity onPress={showTimepicker1F} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
@@ -577,290 +587,123 @@ try {
                        onChange={onChange1To}
                      />
                    )} 
-                   </View> 
-                   <View style={styles.actionP}>
-                   <Text style={styles.text_footer}>ICR:{'\n'}</Text>
-                   <TextInput
-                               keyboardType="decimal-pad"
-                               placeholder="000"
-                               onChangeText={(val)=>setICR1(val)}
-                               style={styles.action}></TextInput>
-                   
                    </View>
-                 
-                 </View>) : null }
+                  
+                <View style={styles.actionSub}>
+                <Text style={styles.text_footer}>Blood Glucose Range:</Text>
+                <View style={styles.actionB}>
+              <Text style={styles.text_footer}>To:</Text> 
+            <TextInput
+            keyboardType="decimal-pad"
+            placeholder="000 mg/dl">
+            onChangeText={(val)=>setToRange1(val)}
+            </TextInput> 
+            </View>
+<View style={styles.actionB}>
+            <Text style={styles.text_footer}>From:</Text>
+            
+            <TextInput
+            keyboardType="decimal-pad"
+            placeholder="000 mg/dl">
+            onChangeText={(val)=>setFromRange1(val)}
+            </TextInput> 
+
+</View>
+<View style={styles.actionB}>
+            <Text style={styles.text_footer}>Assigned Units for insulin:</Text>
+            
+            <TextInput
+            keyboardType="decimal-pad"
+            placeholder="00">
+            onChangeText={(val)=>setInsulin1(val)}
+            </TextInput> 
+
 </View>
 
-{data.caluMethod=='ICR' ? (<View style={styles.field} >
-             <View style= {styles.actionP}>
-             <Text style={styles.text_footer}>From</Text>
-                     <TouchableOpacity onPress={showTimepicker2F} 
-                 >
-             <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date2From).format('h:mm a')}
-                             </Text> 
-                 </TouchableOpacity>
-                   
-                   {show2From && (
-                     <DateTimePicker
-                       testID="dateTimePicker"
-                       value={date2From}
-                       mode={mode}
-                       is24Hour={false}
-                       display="default"
-                       onChange={onChange2From}
-                     />
-                   )} 
-                       </View>    
-                       <View style= {styles.actionP}>
-                           <Text style={styles.text_footer}>To</Text>
-                     <TouchableOpacity onPress={showTimepicker2T} 
-                 >
-             <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date2TO).format('h:mm a')}
-                             </Text> 
-                 </TouchableOpacity>
-                   
-                   {show2TO && (
-                     <DateTimePicker
-                       testID="dateTimePicker"
-                       value={date2TO}
-                       mode={mode}
-                       is24Hour={false}
-                       display="default"
-                       onChange={onChange2To}
-                     />
-                   )} 
-                   </View> 
-                   <View style={styles.actionP}>
-                   <Text style={styles.text_footer}>ICR:{'\n'}</Text>
-                   <TextInput
-                               keyboardType="decimal-pad"
-                               placeholder="000"
-                               onChangeText={(val)=>setICR2(val)}
-                               style={styles.action}></TextInput>
-                   
-                   </View>
-                 
-                 </View>) : null }
-                 {data.caluMethod=='ICR' ? (<View style={styles.field} >
-             <View style= {styles.actionP}>
-             <Text style={styles.text_footer}>From</Text>
-                     <TouchableOpacity onPress={showTimepicker3F} 
-                 >
-             <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date3From).format('h:mm a')}
-                             </Text> 
-                 </TouchableOpacity>
-                   
-                   {show3From && (
-                     <DateTimePicker
-                       testID="dateTimePicker"
-                       value={date3From}
-                       mode={mode}
-                       is24Hour={false}
-                       display="default"
-                       onChange={onChange3From}
-                     />
-                   )} 
-                       </View>    
-                       <View style= {styles.actionP}>
-                           <Text style={styles.text_footer}>To</Text>
-                     <TouchableOpacity onPress={showTimepicker3T} 
-                 >
-             <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date3TO).format('h:mm a')}
-                             </Text> 
-                 </TouchableOpacity>
-                   
-                   {show3TO && (
-                     <DateTimePicker
-                       testID="dateTimePicker"
-                       value={date3TO}
-                       mode={mode}
-                       is24Hour={false}
-                       display="default"
-                       onChange={onChange3To}
-                     />
-                   )} 
-                   </View> 
-                   <View style={styles.actionP}>
-                   <Text style={styles.text_footer}>ICR:{'\n'}</Text>
-                   <TextInput
-                               keyboardType="decimal-pad"
-                               placeholder="000"
-                               onChangeText={(val)=>setICR3(val)}
-                               style={styles.action}></TextInput>
-                   
-                   </View>
-                 
-                 </View>) : null }
+                    </View>
+                    <View style={styles.actionSub}>
+                <Text style={styles.text_footer}>Blood Glucose Range:</Text>
+                <View style={styles.actionB}>
+              <Text style={styles.text_footer}>To:</Text> 
+            <TextInput
+            keyboardType="decimal-pad"
+            placeholder="000 mg/dl">
+            onChangeText={(val)=>setToRange2(val)}
+            </TextInput> 
+            </View>
+<View style={styles.actionB}>
+            <Text style={styles.text_footer}>From:</Text>
+            
+            <TextInput
+            keyboardType="decimal-pad"
+            placeholder="000 mg/dl">
+            onChangeText={(val)=>setFromRange2(val)}
+            </TextInput> 
 
-{shouldShow3?(<View style={styles.field} >
-             <View style= {styles.actionP}>
-             <Text style={styles.text_footer}>From</Text>
-                     <TouchableOpacity onPress={showTimepicker4F} 
-                 >
-             <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date4From).format('h:mm a')}
-                             </Text> 
-                 </TouchableOpacity>
-                   
-                   {show4From && (
-                     <DateTimePicker
-                       testID="dateTimePicker"
-                       value={date4From}
-                       mode={mode}
-                       is24Hour={false}
-                       display="default"
-                       onChange={onChange4From}
-                     />
-                   )} 
-                       </View>    
-                       <View style= {styles.actionP}>
-                           <Text style={styles.text_footer}>To</Text>
-                     <TouchableOpacity onPress={showTimepicker4T} 
-                 >
-             <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date4TO).format('h:mm a')}
-                             </Text> 
-                 </TouchableOpacity>
-                   
-                   {show4TO && (
-                     <DateTimePicker
-                       testID="dateTimePicker"
-                       value={date4TO}
-                       mode={mode}
-                       is24Hour={false}
-                       display="default"
-                       onChange={onChange4To}
-                     />
-                   )} 
-                   </View> 
-                   <View style={styles.actionP}>
-                   <Text style={styles.text_footer}>ICR:{'\n'}</Text>
-                   <TextInput
-                               keyboardType="decimal-pad"
-                               placeholder="000"
-                               onChangeText={(val)=>setICR4(val)}
-                               style={styles.action}></TextInput>
-                   
-                   </View>
-                 
-                 </View>) : null }
-                 {shouldShow4?(<View style={styles.field} >
-             <View style= {styles.actionP}>
-             <Text style={styles.text_footer}>From</Text>
-                     <TouchableOpacity onPress={showTimepicker5F} 
-                 >
-             <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date5From).format('h:mm a')}
-                             </Text> 
-                 </TouchableOpacity>
-                   
-                   {show5From && (
-                     <DateTimePicker
-                       testID="dateTimePicker"
-                       value={date5From}
-                       mode={mode}
-                       is24Hour={false}
-                       display="default"
-                       onChange={onChange5From}
-                     />
-                   )} 
-                       </View>    
-                       <View style= {styles.actionP}>
-                           <Text style={styles.text_footer}>To</Text>
-                     <TouchableOpacity onPress={showTimepicker5T} 
-                 >
-             <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date5TO).format('h:mm a')}
-                             </Text> 
-                 </TouchableOpacity>
-                   
-                   {show5TO && (
-                     <DateTimePicker
-                       testID="dateTimePicker"
-                       value={date5TO}
-                       mode={mode}
-                       is24Hour={false}
-                       display="default"
-                       onChange={onChange5To}
-                     />
-                   )} 
-                   </View> 
-                   <View style={styles.actionP}>
-                   <Text style={styles.text_footer}>ICR:{'\n'}</Text>
-                   <TextInput
-                               keyboardType="decimal-pad"
-                               placeholder="000"
-                               onChangeText={(val)=>setICR5(val)}
-                               style={styles.action}></TextInput>
-                   
-                   </View>
-                 
-                 </View>): null }
-                    {shouldShow5 ? (<View style={styles.field} >
-             <View style= {styles.actionP}>
-             <Text style={styles.text_footer}>From</Text>
-                     <TouchableOpacity onPress={showTimepicker6F} 
-                 >
-             <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date6From).format('h:mm a')}
-                             </Text> 
-                 </TouchableOpacity>
-                   
-                   {show6From && (
-                     <DateTimePicker
-                       testID="dateTimePicker"
-                       value={date6From}
-                       mode={mode}
-                       is24Hour={false}
-                       display="default"
-                       onChange={onChange6From}
-                     />
-                   )} 
-                       </View>    
-                       <View style= {styles.actionP}>
-                           <Text style={styles.text_footer}>To</Text>
-                     <TouchableOpacity onPress={showTimepicker6T} 
-                 >
-             <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date6TO).format('h:mm a')}
-                             </Text> 
-                 </TouchableOpacity>
-                   
-                   {show6TO && (
-                     <DateTimePicker
-                       testID="dateTimePicker"
-                       value={date6TO}
-                       mode={mode}
-                       is24Hour={false}
-                       display="default"
-                       onChange={onChange6To}
-                     />
-                   )} 
-                   </View> 
-                   <View style={styles.actionP}>
-                   <Text style={styles.text_footer}>ICR:{'\n'}</Text>
-                   <TextInput
-                               keyboardType="decimal-pad"
-                               placeholder="000"
-                               onChangeText={(val)=>setICR6(val)}
-                               style={styles.action}></TextInput>
-                   
-                   </View>
-                 
-                 </View>) : null }
-                 
+</View>
+<View style={styles.actionB}>
+            <Text style={styles.text_footer}>Assigned Units for insulin:</Text>
+            
+            <TextInput
+            keyboardType="decimal-pad"
+            placeholder="00">
+            onChangeText={(val)=>setInsulin2(val)}
+            </TextInput> 
 
-<View>
-<View style={styles.buttonV}> 
-{data.caluMethod == 'ICR'? (<TouchableOpacity onPress={()=>setShouldShowAll()}>
+</View>
+
+                    </View>
+                    <View style={styles.actionSub}>
+                <Text style={styles.text_footer}>Blood Glucose Range:</Text>
+                <View style={styles.actionB}>
+              <Text style={styles.text_footer}>To:</Text> 
+            <TextInput
+            keyboardType="decimal-pad"
+            placeholder="000 mg/dl">
+            onChangeText={(val)=>setToRange3(val)}
+            </TextInput> 
+            </View>
+<View style={styles.actionB}>
+            <Text style={styles.text_footer}>From:</Text>
+            
+            <TextInput
+            keyboardType="decimal-pad"
+            placeholder="000 mg/dl">
+            onChangeText={(val)=>setFromRange3(val)}
+            </TextInput> 
+
+</View>
+<View style={styles.actionB}>
+            <Text style={styles.text_footer}>Assigned Units for insulin:</Text>
+            
+            <TextInput
+            keyboardType="decimal-pad"
+            placeholder="00">
+            onChangeText={(val)=>setInsulin3(val)}
+            </TextInput> 
+
+</View>
+
+                    </View>
+                    <TouchableOpacity onPress={()=>setShouldShowAll()}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8']} style={styles.buttonRS}
                 >
-                    <Text style={styles.titleBS}>+ Add another Time interval</Text>
+                    <Text style={styles.titleBS}>+ Add another Range</Text>
+                  
+                </LinearGradient>
+            </TouchableOpacity>
+                  
+</View>
+
+<View style={styles.action}>
+
+<View style={styles.buttonV}> 
+{data.caluMethod == 'Sliding Scale'? (<TouchableOpacity onPress={()=>setShouldShowAll()}>
+                <LinearGradient
+                    colors={['#E7EFFA', '#AABED8']} style={styles.buttonR1S}
+                >
+                    <Text style={styles.titleB1S}>+ Add another Time interval</Text>
                   
                 </LinearGradient>
             </TouchableOpacity>
@@ -949,12 +792,10 @@ fieldMain: {
   marginBottom: 15,
 },
 field: {
-    width: 250,
-    height: 250,
-    justifyContent:'space-evenly',
-    paddingLeft: 15,
+    width: 350,
+    justifyContent:'center',
+    alignItems: 'center',
     marginBottom: 35,
-    paddingRight: 15,
     backgroundColor: '#ECECEC',
     borderRightWidth: 1,
     borderBottomWidth: 1,
@@ -1022,6 +863,7 @@ titleB: {
 buttonV: {
   marginTop: 60,
   alignItems: 'center',
+  justifyContent: 'center'
   
 },
 buttonS: {
@@ -1051,18 +893,27 @@ actionN: {
   
 },
 actionP: {
-  width: 150,
+  width: 250,
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
   flexWrap: 'wrap',
-  marginTop: 10,
-  paddingBottom: 15,
-  backgroundColor: '#fff',
+  marginTop: 5,
+  paddingBottom: 5,
 },
-actionB: {
-    justifyContent: 'space-between',
+actionSub: {
+    width: 250,
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    marginTop: 5,
+    paddingBottom: 5,
+    backgroundColor: '#fff',
+  },
+actionB: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: 10,
     marginBottom: 15,
 
@@ -1079,8 +930,9 @@ buttonR: {
 },
 buttonRS: {
   alignItems: 'center',
-  width: 150,
-  height: 55,
+  width: 200,
+  height: 45,
+  marginTop: 15,
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: 15,
@@ -1094,7 +946,22 @@ marginTop: 25
 radioB :{
   marginTop: 45,
   justifyContent: 'space-between'
-  }
+  },
+  titleB1S: {
+    color: '#05375a',
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  buttonR1S: {
+    alignItems: 'center',
+    width: 150,
+    height: 55,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    flexDirection: 'row',
+    
+  },
 });
 
 

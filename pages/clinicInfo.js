@@ -24,7 +24,7 @@ import moment from 'moment';
     const [show, setShow] = useState(false);
   
   
-  var dateOfDiagnosis = moment.utc(date).format('DD-MM-YYYY');
+  var dateOfDiagnosis = moment.utc(date).format('YYYY-MM-DD');
   const [center, setCenter] = useState('0');
   
   const [mrn1, setMRN1] = useState('0');
@@ -42,7 +42,8 @@ import moment from 'moment';
     
   });
 
-
+DOD = dateOfDiagnosis;
+Diabetescenter = center;
   var isValidName= true;
   var isValidCity = true;
 
@@ -94,7 +95,7 @@ const check = () => {
   }
   if (center == '2'){
     if (isValidName == true && isValidCity == true){
-      navigation.navigate('personal', {cen: center, ceName: centName, ceCity: centCity, DOD: dateOfDiagnosis}  )
+      navigation.navigate('personal' )
     } else {
       alert('Please fill all the fields');
     }
@@ -117,13 +118,105 @@ const check = () => {
      } catch (error) {
          console.log(error);
      }
-        navigation.navigate('personal', {cen: center, uMRN: mrn, DOD: dateOfDiagnosis}  )
+        //  onlineDBKSUMC();
+        //  onlineDBOther();
+        //  onlineDB();
+        navigation.navigate('personal')
       }
     return;
   }
 
 }
 
+// // onlinDB function for DOD
+// const onlineDB = () => {
+//   var InsertAPIURL = "http://192.168.12.1/isugar/diagnosis_date.php";   //API to  signup
+
+//   var headers = {
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json'
+//   };
+//   var Data ={
+//     diagnosisD: DOD,
+//   };
+
+// // FETCH func ------------------------------------
+// fetch(InsertAPIURL,{
+//       method:'POST',
+//     headers:headers,
+//     body: JSON.stringify(Data) //convert data to JSON
+// })
+// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+// .then((response)=>{
+//   alert(response[0].Message);       // If data is in JSON => Display alert msg
+//   navigation.navigate('personal');
+// })
+// .catch((error)=>{
+//     alert("Error Occured" + error);
+// })
+// }
+
+// //OnlineDB if user choose KSUMC 
+// const onlineDBKSUMC = () => {
+//   if(center == '1'){
+
+//     var InsertAPIURL2 = "http://192.168.12.1/isugar/KSUMC.php";   //API to  signup
+
+//     var headers = {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json'
+//     };
+//      var Data ={
+//       MRN: mrn,
+//     };
+  
+//   // FETCH func ------------------------------------
+//   fetch(InsertAPIURL2,{
+//         method:'POST',
+//       headers:headers,
+//       body: JSON.stringify(Data) //convert data to JSON
+//   })
+//   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+//   .then((response)=>{
+//     alert(response[0].Message);       // If data is in JSON => Display alert msg
+//   })
+//   .catch((error)=>{
+//       alert("Error Occured" + error);
+//   })
+//   }
+//   }
+
+//   //OnlineDB if user choose KSUMC 
+// const onlineDBOther = () => {
+  
+//   if(center == '2'){
+
+//     var InsertAPIURL3 = "http://192.168.12.1/isugar/CenterInformation.php";   //API to  signup
+
+//     var headers = {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json'
+//     };
+//      var Data ={
+//       nameCenter: centName,
+//       cityCenter: centCity
+//     };
+  
+//   // FETCH func ------------------------------------
+//   fetch(InsertAPIURL3,{
+//         method:'POST',
+//       headers:headers,
+//       body: JSON.stringify(Data) //convert data to JSON
+//   })
+//   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+//   .then((response)=>{
+//     alert(response[0].Message);       // If data is in JSON => Display alert msg
+//   })
+//   .catch((error)=>{
+//       alert("Error Occured" + error);
+//   })
+//   }
+//   }
 
     return (
       <View style={styles.container}>

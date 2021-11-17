@@ -3,7 +3,7 @@ import { StyleSheet,
     View,
     Image, 
     Text,
-    TouchableOpacity,
+    TouchableOpacity, 
     useState,
     Button,
     Platform, 
@@ -66,7 +66,7 @@ const updateSecureTextEntry = () => {
 }
 const logI = async () => {
   if (data.email.length == 0 || data.password.length == 0 ){
-    
+    alert('please fill all the entries');
   } else {
    try {
       db.transaction( (tx) => {
@@ -79,8 +79,11 @@ const logI = async () => {
                 // var id =
                   var item = rows.item(i).pass;
                   var itemS = rows.item(i).email;
+                  uID = rows.item(i).UserID;
                   if (data.email == itemS && data.password == item){
+                    found = true;
                     navigation.navigate('calc')
+                    
                     return;
                   }
                 }
@@ -92,7 +95,9 @@ const logI = async () => {
  } catch (error) {
      console.log(error);
  }
- 
+ if (found == false) {
+   alert('Your email o password is not correct, please try again');
+ }
 }
 
 }
@@ -169,8 +174,6 @@ const logI = async () => {
                     />
                     }
                 </TouchableOpacity>
-                <Text>{data.email}</Text>
-                <Text>{data.password}</Text>
           </View>
           <View style={styles.buttonF}>
             <TouchableOpacity > 
@@ -234,7 +237,7 @@ const styles = StyleSheet.create({
   
   logo: {
     width: height_logo,
-    height: height_logo+40,
+    height: height_logo,
 
   },
   header: {

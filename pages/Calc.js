@@ -2,281 +2,28 @@ import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Image,
-  Button,
   ScrollView,
-  StatusBar,
   Text,
   View,
-  AppRegistry,
-  Navigator,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator,
   Switch,
 } from 'react-native';
-import ModalDropdown from 'react-native-modal-dropdown';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import RNSearchablePicker from 'react-native-searchable-picker';
-import react from 'react';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
+
 
 // var radio_props = [
 //   {label: 'No', value: 0 },
 //   {label: 'Yes', value: 1 }
 // ];
-//From DB:>
-// insulin type 
-// calcMethod 
-// bgStart
-// time of previous dose 
-// ISF - ICR - target bg
-// amount of prev dose
-
-// const calc = () => {
-//  useEffect(() => {
-//   register();
-//     }, []);
-
-  
-//   const register = async () => {
-
-//   var type = '';
-//   var unit = '';
-
-//      try {
-//        db.transaction( (tx) => {
-//            tx.executeSql(
-//             'INSERT INTO UserAccount (firstName, lastName, email, pass, accountType) VALUES (?,?,?,?,?)',
-//               ['Mohammed', 'Alawwad', 'Mohammed@gmail.com','12341234', 'Patient Account']
-//           );
-         
-//          //  getData();
-//       })
-      
-//   } catch (error) {
-//       console.log(error);
-//   }
-//   try {
-//     db.transaction( (tx) => {
-//       console.log('hey');
-//         tx.executeSql(
-//          'INSERT INTO patientprofile (DOB, weightKG, latest_HP1AC, latest_HP1AC_date, typeOfGlucoseM, glucoseLevel_unit, ketonesMeasure, insulinRegimen, ISF, targetBG_correct, startBG_correct, ISFIntervals, insulinCalcMethod, fromBG, toBG, height, diabetes_center, diagnosis_date, center_name, center_city)' 
-//          +'VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-//            ['12-10-2010', '45.5', '50.5','7-8-2021', 'Fingerstick blood glucose', 'mg/dl', 'Pen', 35, , 65, 60, 0, 'ICR', 80, 85, '160.5', 'KSUMC', '12-12-2015', ]
-//        );
-       
-    
-     
-      
-      
-//    })
-   
-// } catch (error) {
-//    console.log(error);
-// }
-// try {
-//   db.transaction((tx) => {
-//       tx.executeSql(
-//           "SELECT UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date, typeOfGlucoseM, glucoseLevel_unit, ketonesMeasure, insulinRegimen, ISF, targetBG_correct, startBG_correct, ISFIntervals, insulinCalcMethod, fromBG, toBG, height, diabetes_center, diagnosis_date FROM patientprofile",
-//           [],
-//           (tx, results) => {
-//             var rows = results.rows;
-//             for (let i = 0; i < rows.length; i++) {
-//               unit = rows.item(i).glucoseLevel_unit;
-//                 console.log(unit);
-//               }
-//           }
-//       )
-//   })
-// } catch (error) {
-//   console.log(error);
-// }
-//   }
-
-
-
-//   var a= 0;
-//   var b= 0;
-//   var total = 0;
-//   var IOB= 0;
-//   var adjustment = 1;
-//   var reason;
-//   const [data, setData] = react.useState({
-//      bgLevel: '',
-//      reasonForInsulin: '',
-//      CHO: '',
-//      isValidBG: true,
-//      isValidCHO: true,
-//      PlannedExercise: false,
-//      PreviousExercise: false,
-//      typeOfExercise: '',
-//      duration: '',
-//      time: '',
-// });
-
-// const insuCalc = () => {
-//     if (type == 'Aspart' || type == 'Lispro' || type == 'Glulisine'){
-//       if (bgLevel > 70){
-//         if (reasonForInsulin == 'Correction'){
-//           if (bgLevel > startBG){
-//             a = 0;
-//             b = (bgLevel - targetBG)/ISF;
-//             total = a+b;
-//             if (timePrevDose <= 4){
-//               IOB = IOBSwitch();
-//               total = total - IOB;
-//             }
-//             if (PlannedExercise == true){
-//               adjustment = PreExercise();
-//               return total = total - ( adjustment * total );
-//             } else if (PreviousExercise == true){
-//                 adjustment= PostExercise();
-//                 return total = total - ( adjustment * total );
-//             }
-//           } else {
-//             alert('No correction required');
-//           }
-//         } else {
-//           if(calcMethod == 'ICR'){
-//             a = CHO/ICR;
-//             if (bgLevel > startBG){
-//               b = (bgLevel- targetBG)/ISf;
-              
-
-//             } else {
-//               b = 0;
-//             }
-//             total = a + b; 
-//             IOB = IOBSwitch();
-//             total = total - IOB;
-//             if (PlannedExercise == true){
-//               adjustment = PreExercise();
-//               return total = total - ( adjustment * total );
-//             } else if (PreviousExercise == true){
-//                 adjustment= PostExercise();
-//                 return total = total - ( adjustment * total );
-//             }
-//           } else {
-//             total = slidingScale; // from database
-//             IOB = IOBSwitch();
-//             total = total - IOB;
-//             if (PlannedExercise == true){
-//               adjustment = PreExercise();
-//               return total = total - ( adjustment * total );
-//             } else if (PreviousExercise == true){
-//                 adjustment= PostExercise();
-//                 return total = total - ( adjustment * total );
-//             }
-//           }
-         
-//         }
-//       } else {
-//         alert('Your blood sugar is low!');
-//       }
-//     }else {
-//       alert('Insulin is not supported in this application. Please contact your Diabetes center for instruction & recommendations for insulin bolus calculation & dose determination');
-//     }
-// }
-
-// const IOBSwitch = () => {
-//   var num=0;
-//   switch(timePrevDose) {
-//     case timePrevDose < 1:
-//       num = 1 * PrevDose 
-//       break;
-//     case timePrevDose >= 1 && timePrevDose < 2:
-//       num = 0.75 * PrevDose
-//       break;
-//     case timePrevDose >= 2 && timePrevDose < 3:
-//       num = 0.50 * PrevDose
-//       break;
-//     case timePrevDose >= 3 && timePrevDose <= 4:
-//       num = 0.25 * PrevDose
-//       break; }
-//       return num;
-// }
-
-// const PreExercise = () => {
-//   var adjNum = 1;
-//    if (typeOfExercise == '0'){
-//      switch(duration) {
-//         case duration < 15:
-//          break;
-//         case duration >= 15 && duration < 30:
-//           adjNum = 0.25
-//           break;
-//         case duration >=30 && duration <= 45:
-//           adjNum = 0.50
-//           break;
-//         case duration > 45: 
-//           adjNum = 0.75
-//           break;
-//         case duration = 'unknown':
-//           adjNum = 0.25
-//           break;
-//      }
-//    } else if (typeOfExercise == '1'){
-//      switch(duration) {
-//       case duration < 15:
-//        break;
-//       case duration >= 15 && duration < 30:
-//         break;
-//       case duration >=30 && duration <= 45:
-//         adjNum = 0.25
-//         break;
-//       case duration > 45: 
-//         adjNum = 0.50
-//         break;
-//       case duration = 'unknown':
-//         adjNum = 0.25
-//         break;
-//    }  
-//    }
-//    return adjNum;
-// }
-
-
-// const PostExercise = () => {
-//   var adjNum = 1;
-//    if (typeOfExercise == '0'){
-//      switch(duration) {
-//         case duration < 30:
-//           adjNum = 0.25
-//           break;
-//         case duration >=30 && duration <= 45:
-//           adjNum = 0.40
-//           break;
-//         case duration > 45: 
-//           adjNum = 0.50
-//           break;
-        
-//      }
-//    } else if (typeOfExercise == '1'){
-//      switch(duration) {
-//       case duration < 30:
-//         adjNum = 0.25
-//         break;
-//       case duration >=30 && duration <= 45:
-//         adjNum = 0.30
-//         break;
-//       case duration > 45: 
-//         adjNum = 0.40
-//         break;
-//      }
-//    return adjNum;
-// }
-// }
-
-// const timeCheck = () => {
-//   var currentDate = new Date();
-
-// }
 
 const Calc = () => {
-
+  useEffect(() => {
+    retrieve();
+      }, []);
 
   const checkCalc = () =>{
     if (isValidCHO == false){
@@ -289,35 +36,20 @@ const Calc = () => {
 
 
   //DateTime 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date) => {
-    hideDatePicker();
-  };
-  //DateTime
-
+  
 
 // Validate the value of CHO
     const checkCHO = (val) => {
   if (isNaN(val)) {
-        setData({
-      ...data,
+        setCHO({
+      ...CHO,
       isValidCHO: false,
     });
 
   } else {
        if (val < 1000 && val > 0  ){
-   setData({
-     ...data,
-     bgLevel: val,
+   setCHO({
+     ...CHO,
      isValidCHO: true,
    });
  }
@@ -328,16 +60,15 @@ const Calc = () => {
 //Validate the value of BG
   const checkBG = (val) => {
   if (isNaN(val)) {
-        setData({
-      ...data,
+        setbgLevel({
+      ...bgLevel,
       isValidBG: false,
     });
 
   } else {
        if (val < 1000 && val > 0  ){
-   setData({
-     ...data,
-     CHO: val,
+   setbgLevel({
+     ...bgLevel,
      isValidBG: true,
    });
  }
@@ -358,16 +89,90 @@ const Calc = () => {
   const [postDuration, setPostDuration] = useState('0'); //Duration of post exersize
   const [postTypeOfExercise, setPostTypeOfExercise] = useState('0');//reason of post exercize
   
+  const [bgLevel, setbgLevel] = useState(0);
+  const [CHO, setCHO] = useState(0);
   var  isValidBG= true;
   var isValidCHO= true;
-  var bgLevel= '';
-  var CHO='';
+//--------------------------------------------
   var time='';
+  var insulinType = '';
+  var calcMethod = '';
+  var startBG = 0;
+  var targetBG =0;
+  var timePrevDose = -1;
+  var doseAmount = -1;
+  var ISF = 0;
+  var ICR = 0;
+//--------------Queries-------------------
+// ICR -ISF - PATIENT PROFILE - 
+const retrieve = () => {
+// patient profile table
+  try {
+    db.transaction( (tx) => {
+        tx.executeSql(
+          'SELECT UserID, ISF, targetBG_correct, startBG_correct, insulinCalcMethod, insulinRegimen  FROM patientprofile',
+          [],
+          (tx, results) => {
+            var rows = results.rows;
+            for (let i = 0; i < rows.length; i++) {
+              calcMethod = rows.item(i).insulinCalcMethod;
+              startBG = rows.item(i).startBG_correct;
+              targetBG = rows.item(i).targetBG_correct;
+              ISF = rows.item(i).ISF;
+              var userid = rows.item(i).UserID;
+                if (uID == userid){
+                 console.log(calcMethod +' - '+startBG+' - '+targetBG+' - '+ISF+' - '+uID);
+                  return;
+                }
+              }
+          }   
+) 
+    
 
+}  ) 
+} catch (error) {
+   console.log(error);
+}
+// ISF table
+// try {
+//   db.transaction( (tx) => {
+//       tx.executeSql(
+//         'SELECT UserID, ICR, fromTime, toTime FROM icrInterval',
+//         [],
+//         (tx, results) => {
+//           var rows = results.rows;
+//           for (let i = 0; i < rows.length; i++) {
+//             var userid = rows.item(i).UserID;
+//               if (uID == userid){
+//                 if (currentTime(rows.item(i).fromTime, rows.item(i).toTime))
+//                 console.log('ppppp');
+//               }
+//             }
+//         }   
+// ) 
+  
+
+// }  ) 
+// } catch (error) {
+//  console.log(error);
+// }
+}
+const currentTime = (from, to) => {
+  var nowDate  = new Date();
+  var nowTime = moment.utc(nowDate).format('h:mm a'); // 11:40 PM
+  var date_a = moment(from, "h:mm a");
+  var date_b = moment(to, "h:mm a");
+  if (nowTime >= date_a && nowTime <= date_b){
+    console.log('Hi');
+      return true;
+  }
+  else
+  return false;
+}
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
+        <Image source={require('../images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -429,10 +234,10 @@ const Calc = () => {
           <Text style={{fontSize: 18, textAlign: 'center'}}>
             Calculate carbohydrate in a meal
           </Text>
-          <Image
+          {/* <Image
             source={require('./images/carb.png')}
             style={{height: 30, width: 30}}
-          />
+          /> */}
         </TouchableOpacity>
 
         
@@ -445,10 +250,11 @@ const Calc = () => {
         ios_backgroundColor="#3e3e3e"
         onValueChange={togglePreSwitch}
         value={isPreEnabled}
+        disabled={isPostEnabled}
       />
         
 
-
+        { isPreEnabled ? (
         <View style={{backgroundColor:'#c3d4e0', marginTop: 20}}>
         <View>
           <Text style={styles.inpTxt}>Type of exercise: </Text>
@@ -535,6 +341,7 @@ const Calc = () => {
           </Picker>
         </View>
         </View>
+        ) : null}
         
 
         <Text style={styles.inpTxt}>
@@ -546,8 +353,10 @@ const Calc = () => {
         ios_backgroundColor="#3e3e3e"
         onValueChange={togglePostSwitch}
         value={isPostEnabled}
+        disabled={isPreEnabled}
+        
       />
-
+         { isPostEnabled ? (
         <View style={{backgroundColor:'#c3d4e0', marginTop: 20}}>
           <Text style={styles.inpTxt}>Type of exercise: </Text>
           <Picker
@@ -631,15 +440,10 @@ const Calc = () => {
           </Picker>
 
             <Text style={styles.inpTxt}>Time of exersice: </Text>
-            <Button title="Set Time" onPress={showDatePicker}/>
-            <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="time"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
+          
           
         </View>
+        ) : null}
 
         <TouchableOpacity
           style={{
