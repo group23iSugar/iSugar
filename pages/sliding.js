@@ -333,7 +333,7 @@ showMode6To('time');
   const [shouldShow3, setShouldShow3] = useState(false);
   const [shouldShow4, setShouldShow4] = useState(false);
   const [shouldShow5, setShouldShow5] = useState(false);
-
+  var ssID=0; 
 
 const setShouldShowAll = () =>{
 
@@ -355,7 +355,7 @@ const setShouldShowAll = () =>{
 }
 insulinCalcMethod = data.caluMethod;
     const insert = async () => {
-      if ('AccType'=='Patient Account'){
+      if (AccType=='Patient Account'){
         console.log(uID+' - '+ DOBirth+ ' - '+ weightKG +' - '+latestHB1AC_+' - '+ DOLatestHB1AC+ ' - '+ glucoseMonitor +' - '+glucoseUnit+' - '+ketonesMeasure +' - '+ insulinReg+ ' - '+ InsulinSF +' - '+bgTarget+' - '+ bgStart+ ' - '+ intervalISF +' - '+insulinCalcMethod+' - '+fromBG+ ' - '+ toBG +' - '+heightCM+' - '+ Diabetescenter+ ' - '+ DOD +' - '+centName+' - '+centCity);
         try {
          db.transaction( (tx) => {
@@ -403,36 +403,32 @@ insulinCalcMethod = data.caluMethod;
  } catch (error) {
      console.log(error);
  }
-//  try {
-//   db.transaction( (tx) => {
-//       tx.executeSql(
-//        'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
-//        +'VALUES (?,?,?,?)',
-//          [uID, date2From, date2TO, ICR2 ]
-//      );
-    
-//     //  getData();
-//  })
- 
-// } catch (error) {
-//  console.log(error);
-// }
-// try {
-//   db.transaction( (tx) => {
-//       tx.executeSql(
-//        'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
-//        +'VALUES (?,?,?,?)',
-//          [uID, date3From, date3TO, ICR3 ]
-//      );
-    
-//     //  getData();
-//  })
- 
-// } catch (error) {
-//  console.log(error);
-// }
+
 }
- getID();
+try {
+  db.transaction((tx) => {
+      tx.executeSql(
+          "SELECT ssID, UserID FROM ssInterval",
+          [],
+          (tx, results) => {
+              var rows = results.rows;
+              for (let i = 0; i < rows.length; i++) {
+                  ssID = rows.item(i).ssID;
+                  var ID = rows.item(i).UserID;
+                  if (uID == ID ){
+                    console.log(ssID);
+                      return;
+                  }      
+                }
+              }
+
+          
+      )
+      
+  })
+} catch (error) {
+  console.log(error);
+}
     try {
       db.transaction( (tx) => {
           tx.executeSql(
@@ -447,6 +443,7 @@ insulinCalcMethod = data.caluMethod;
     } catch (error) {
      console.log(error);
     }
+    console.log(ssID+' '+fromRange1+' '+toRange1+' '+insulin1);
     try {
         db.transaction( (tx) => {
             tx.executeSql(
@@ -461,6 +458,7 @@ insulinCalcMethod = data.caluMethod;
       } catch (error) {
        console.log(error);
       }
+      console.log(ssID+' '+fromRange2+' '+toRange2+' '+insulin2);
       try {
         db.transaction( (tx) => {
             tx.executeSql(
@@ -475,36 +473,16 @@ insulinCalcMethod = data.caluMethod;
       } catch (error) {
        console.log(error);
       }
-
+      console.log(ssID+' '+fromRange3+' '+toRange3+' '+insulin3);
   navigation.navigate('home') 
  
       } 
-var ssID=0; 
-const getID = () => {
-    try {
-        db.transaction((tx) => {
-            tx.executeSql(
-                "SELECT ssID, UserID, fromTime, toTime FROM ssInterval",
-                [],
-                (tx, results) => {
-                    var rows = results.rows;
-                    for (let i = 0; i < rows.length; i++) {
-                        ssID = rows.item(i).ssID;
-                        var ID = rows.item(i).UserID;
-                        if (uID == ID ){
-                            return;
-                        }      
-                      }
-                    }
 
-                
-            )
-            
-        })
-    } catch (error) {
-        console.log(error);
-    }
-}
+  
+  
+     
+
+
  
 
 
@@ -524,11 +502,11 @@ const getID = () => {
       </LinearGradient>
 
       <View style={styles.footer}>
-        {'Patient Account' == 'Patient Account' ? <Text style={styles.title}>Step 7 of 7: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>
+        {AccType == 'Patient Account' ? <Text style={styles.title}>Step 7 of 7: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>
         : <Text style={styles.title}>Step 6 of 6: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>}
       
       
-         
+{data.caluMethod == 'ICR' ? navigation.navigate('icr') : null}  
 <ScrollView>
 <Text style={{fontSize: 20, color: '#05375a',}}>Choose your method for caculating meal insulin:</Text>
 <View style={styles.radioB}>
@@ -595,8 +573,9 @@ const getID = () => {
               <Text style={styles.text_footer}>To:</Text> 
             <TextInput
             keyboardType="decimal-pad"
-            placeholder="000 mg/dl">
-            onChangeText={(val)=>setToRange1(val)}
+            placeholder="000 mg/dl"
+            onChangeText={(val)=>setToRange1(val)}>
+            
             </TextInput> 
             </View>
 <View style={styles.actionB}>
@@ -604,8 +583,9 @@ const getID = () => {
             
             <TextInput
             keyboardType="decimal-pad"
-            placeholder="000 mg/dl">
-            onChangeText={(val)=>setFromRange1(val)}
+            placeholder="000 mg/dl"
+            onChangeText={(val)=>setFromRange1(val)}>
+           
             </TextInput> 
 
 </View>
@@ -614,8 +594,9 @@ const getID = () => {
             
             <TextInput
             keyboardType="decimal-pad"
-            placeholder="00">
-            onChangeText={(val)=>setInsulin1(val)}
+            placeholder="00"
+            onChangeText={(val)=>setInsulin1(val)}>
+            
             </TextInput> 
 
 </View>
@@ -627,8 +608,9 @@ const getID = () => {
               <Text style={styles.text_footer}>To:</Text> 
             <TextInput
             keyboardType="decimal-pad"
-            placeholder="000 mg/dl">
-            onChangeText={(val)=>setToRange2(val)}
+            placeholder="000 mg/dl"
+            onChangeText={(val)=>setToRange2(val)}>
+           
             </TextInput> 
             </View>
 <View style={styles.actionB}>
@@ -636,8 +618,9 @@ const getID = () => {
             
             <TextInput
             keyboardType="decimal-pad"
-            placeholder="000 mg/dl">
-            onChangeText={(val)=>setFromRange2(val)}
+            placeholder="000 mg/dl"
+            onChangeText={(val)=>setFromRange2(val)}>
+            
             </TextInput> 
 
 </View>
@@ -646,8 +629,9 @@ const getID = () => {
             
             <TextInput
             keyboardType="decimal-pad"
-            placeholder="00">
-            onChangeText={(val)=>setInsulin2(val)}
+            placeholder="00"
+            onChangeText={(val)=>setInsulin2(val)}>
+            
             </TextInput> 
 
 </View>
@@ -659,8 +643,9 @@ const getID = () => {
               <Text style={styles.text_footer}>To:</Text> 
             <TextInput
             keyboardType="decimal-pad"
-            placeholder="000 mg/dl">
-            onChangeText={(val)=>setToRange3(val)}
+            placeholder="000 mg/dl"
+            onChangeText={(val)=>setToRange3(val)}>
+           
             </TextInput> 
             </View>
 <View style={styles.actionB}>
@@ -668,8 +653,9 @@ const getID = () => {
             
             <TextInput
             keyboardType="decimal-pad"
-            placeholder="000 mg/dl">
-            onChangeText={(val)=>setFromRange3(val)}
+            placeholder="000 mg/dl"
+            onChangeText={(val)=>setFromRange3(val)}>
+            
             </TextInput> 
 
 </View>
@@ -678,8 +664,9 @@ const getID = () => {
             
             <TextInput
             keyboardType="decimal-pad"
-            placeholder="00">
-            onChangeText={(val)=>setInsulin3(val)}
+            placeholder="00"
+            onChangeText={(val)=>setInsulin3(val)}>
+           
             </TextInput> 
 
 </View>

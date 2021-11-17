@@ -16,7 +16,7 @@ import isf from './pages/isf';
 import icr from './pages/icr';
 import home from './pages/Home';
 import Calc from './pages/Calc';
-
+import sliding from './pages/sliding';
 global.db = SQLite.openDatabase(
   {
     name: 'iSugar.db',
@@ -78,7 +78,7 @@ const mainStack = () => {
         <Stack.Screen name="icr" component={icr} />
         <Stack.Screen name="home" component={home} />
         <Stack.Screen name="calc" component={Calc} />
-      
+        <Stack.Screen name="sliding" component={sliding} />
       </Stack.Navigator>
     </NavigationContainer>
   );

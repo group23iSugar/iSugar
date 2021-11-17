@@ -328,6 +328,7 @@ showMode6To('time');
   const [shouldShow3, setShouldShow3] = useState(false);
   const [shouldShow4, setShouldShow4] = useState(false);
   const [shouldShow5, setShouldShow5] = useState(false);
+
   var timeFrom1 = moment.utc(date1From).format('h:mm a');
   var timeTo1 = moment.utc(date1TO).format('h:mm a');
   var timeFrom2 = moment.utc(date2From).format('h:mm a');
@@ -501,10 +502,7 @@ try {
          <View style={styles.header}>
          <Image source={require('../images/logo.png')}
          style={styles.logo}
-         resizeMode='stretch'/>
-           <TouchableOpacity onPress={()=>navigation.navigate('clinic')}>
-         <MaterialIcons name="arrow-back" size={25} color="#FF6B6B"  />
-         </TouchableOpacity>
+         resizeMode='stretch'/> 
          </View>
       </LinearGradient>
 
@@ -535,7 +533,7 @@ try {
         
 
 <View style={styles.action}>
-  
+{data.caluMethod=='Sliding Scale' ? navigation.navigate('sliding') : null }
 {data.caluMethod=='ICR' ? <Text style={{fontSize: 20, color: '#05375a',}}>Time intervals for ICR:{'\n'}</Text> : null }
 {data.caluMethod=='ICR' ? (<View style={styles.field} >
              <View style= {styles.actionP}>

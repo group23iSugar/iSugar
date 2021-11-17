@@ -83,7 +83,7 @@ console.log(uID);
          weight: val,
          isValidWeight: true
        })
-        weightKG = data.weight;
+        
         
         } else {
           setData({
@@ -99,7 +99,6 @@ console.log(uID);
             height: val,
             isValidHeight: true
           })
-        heightCM = data.height;
         } else {
           setData({
             ...data,
@@ -114,7 +113,7 @@ console.log(uID);
             latestHB1AC: val,
             isValidHB1AC: true
           })
-        latestHB1AC_ = data.latestHB1AC;
+       
         } else {
           setData({
             ...data,
@@ -186,7 +185,9 @@ console.log(uID);
 
   DOLatestHB1AC = dateOfLatestHB1AC;
   DOBirth = DOB;
-  
+  weightKG = data.weight;
+  latestHB1AC_ = data.latestHB1AC;
+  heightCM = data.height;
 
 
     const checkPatientAccount = () => { // validating patient entries
