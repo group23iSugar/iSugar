@@ -32,6 +32,7 @@ global.db = SQLite.openDatabase(
 );
 
 global.uID='';
+global.onlinUserID = 0;
 global.AccType = '';
 global.centName = '';
 global.centCity = '';

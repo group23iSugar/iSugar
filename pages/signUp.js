@@ -43,7 +43,7 @@ const signUp = ({ navigation, route}) => {
         AccountT: value,
       });
   };
-
+  AccType=data.AccountT;
 
   return (
     <View style={styles.container}>
