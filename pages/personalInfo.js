@@ -73,8 +73,8 @@ console.log(uID);
     });
 
     var isValidAge = true;
-    var DOB = moment.utc(dateOfBirth).format('DD-MM-YYYY');
-    var dateOfLatestHB1AC = moment.utc(dateOfHB1AC).format('DD-MM-YYYY');
+    var DOB = moment.utc(dateOfBirth).format('YYYY-MM-DD');
+    var dateOfLatestHB1AC = moment.utc(dateOfHB1AC).format('YYYY-MM-DD');
 
     const changeWeight = (val) => {
         if (val <= 999 && val > 0){
@@ -82,10 +82,8 @@ console.log(uID);
          ...data,
          weight: val,
          isValidWeight: true
-       })
-        
-        
-        } else {
+       })   
+       } else {
           setData({
             ...data,
             isValidWeight: false
@@ -192,7 +190,12 @@ console.log(uID);
 
     const checkPatientAccount = () => { // validating patient entries
         if (data.isValidWeight==true && data.isValidHeight == true && data.isValidHB1AC == true && isValidAge){
-           navigation.navigate('ketones')
+          onlineDBDOB(); 
+          onlineDBWeight();
+          onlineDBHeight();
+          onlineDBHB1AC();
+          onlineDBHB1ACDate();
+          navigation.navigate('ketones')
        
           } else {
             if (isValidAge == false) {
@@ -214,141 +217,142 @@ console.log(uID);
         }
     }
      
-    // onlinDB function for weight
-// const onlineDBWeight = () => {
-//   var InsertAPIURL = "http://192.168.12.1/isugar/weightKG.php";   //API to  signup
+// onlinDB function for weight
+const onlineDBWeight = () => {
+  console.log('in weight');
+  var InsertAPIURL1 = "http://192.168.12.1/isugar/weigthKG.php";   //API to  signup
 
-//   var headers = {
-//     'Accept': 'application/json',
-//     'Content-Type': 'application/json'
-//   };
-//   var Data ={
-//     weight_KG: weightKG,
-//   };
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  var Data ={
+    UserID: onlinUserID,
+    weight_KG: weightKG
+  };
 
-// // FETCH func ------------------------------------
-// fetch(InsertAPIURL,{
-//       method:'POST',
-//     headers:headers,
-//     body: JSON.stringify(Data) //convert data to JSON
-// })
-// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-// .then((response)=>{
-//   alert(response[0].Message);       // If data is in JSON => Display alert msg
-//   navigation.navigate('ketones');
-// })
-// .catch((error)=>{
-//     alert("Error Occured" + error);
-// })
-// }
+// FETCH func ------------------------------------
+fetch(InsertAPIURL1,{
+  method:'POST',
+  headers:headers,
+  body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+     
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
 
-// const onlineDBHeight = () => {
-//   var InsertAPIURL = "http://192.168.12.1/isugar/height.php";   //API to  signup
+const onlineDBHeight = () => {
+  var InsertAPIURL2 = "http://192.168.12.1/isugar/height.php";   //API to  signup
 
-//   var headers = {
-//     'Accept': 'application/json',
-//     'Content-Type': 'application/json'
-//   };
-//   var Data ={
-//     heightM: height,
-//   };
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  var Data ={
+    UserID: onlinUserID,
+    heightM: heightCM
+  };
 
-// // FETCH func ------------------------------------
-// fetch(InsertAPIURL,{
-//       method:'POST',
-//     headers:headers,
-//     body: JSON.stringify(Data) //convert data to JSON
-// })
-// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-// .then((response)=>{
-//   alert(response[0].Message);       // If data is in JSON => Display alert msg
-//   navigation.navigate('ketones');
-// })
-// .catch((error)=>{
-//     alert("Error Occured" + error);
-// })
-// }
+// FETCH func ------------------------------------
+fetch(InsertAPIURL2,{
+      method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert(response[0].Message);
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
 
-// const onlineDBDOB = () => {
-//   var InsertAPIURL = "http://192.168.12.1/isugar/DOB.php";   //API to  signup
+const onlineDBDOB = () => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/DOB.php";   //API to  signup
 
-//   var headers = {
-//     'Accept': 'application/json',
-//     'Content-Type': 'application/json'
-//   };
-//   var Data ={
-//     DOP: DOBirth,
-//   };
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  var Data ={
+    UserID: onlinUserID,
+    DOP: DOB,
+  };
 
-// // FETCH func ------------------------------------
-// fetch(InsertAPIURL,{
-//       method:'POST',
-//     headers:headers,
-//     body: JSON.stringify(Data) //convert data to JSON
-// })
-// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-// .then((response)=>{
-//   alert(response[0].Message);       // If data is in JSON => Display alert msg
-//   navigation.navigate('ketones');
-// })
-// .catch((error)=>{
-//     alert("Error Occured" + error);
-// })
-// }
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+      method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  
+  
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
 
-// const onlineDBHB1AC = () => {
-//   var InsertAPIURL = "http://192.168.12.1/isugar/latest_HB1AC.php";   //API to  signup
+const onlineDBHB1AC = () => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/latest_HBA1C.php";   //API to  signup
 
-//   var headers = {
-//     'Accept': 'application/json',
-//     'Content-Type': 'application/json'
-//   };
-//   var Data ={
-//     latest_HP1AC: latestHB1AC,
-//   };
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  var Data ={
+    UserID: onlinUserID,
+    latest_HP1AC: latestHB1AC_
+  };
 
-// // FETCH func ------------------------------------
-// fetch(InsertAPIURL,{
-//       method:'POST',
-//     headers:headers,
-//     body: JSON.stringify(Data) //convert data to JSON
-// })
-// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-// .then((response)=>{
-//   alert(response[0].Message);       // If data is in JSON => Display alert msg
-//   navigation.navigate('ketones');
-// })
-// .catch((error)=>{
-//     alert("Error Occured" + error);
-// })
-// }
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+      method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
 
-// const onlineDBHB1ACDate = () => {
-//   var InsertAPIURL = "http://192.168.12.1/isugar/latest_HB1AC_Date.php";   //API to  signup
+const onlineDBHB1ACDate = () => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/latest_HBA1C_Date.php";   //API to  signup
 
-//   var headers = {
-//     'Accept': 'application/json',
-//     'Content-Type': 'application/json'
-//   };
-//   var Data ={
-//     latest_HP1AC_date: dateOfHB1AC,
-//   };
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  var Data ={
+    UserID: onlinUserID,
+    latest_HP1AC_date: dateOfLatestHB1AC
+  };
 
-// // FETCH func ------------------------------------
-// fetch(InsertAPIURL,{
-//       method:'POST',
-//     headers:headers,
-//     body: JSON.stringify(Data) //convert data to JSON
-// })
-// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-// .then((response)=>{
-//   alert(response[0].Message);       // If data is in JSON => Display alert msg
-//   navigation.navigate('ketones');
-// })
-// .catch((error)=>{
-//     alert("Error Occured" + error);
-// })
-// }
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+      method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
 
     return (
       <View style={styles.container}>
