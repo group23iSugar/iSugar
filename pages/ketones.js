@@ -42,6 +42,10 @@ const check = () => {
     return;
   } 
   if (BGFrom != 0 && BGTO !=0 ){
+      onlineKetonesM();
+      onlineUnitDB();
+      onlineMonitorDB();
+      onlineTargetBGDB();
       navigation.navigate('insulin')
  
     
@@ -78,7 +82,116 @@ fromBG = BGFrom.BGFrom;
 toBG = BGTO.BGTO;
 glucoseUnit = levelUnit;
 ketonesMeasure = ketones;
+//--------------------------------------
+const onlineKetonesM = () => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/ketonesMeasurement.php";   //API to  signup
 
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    UserID: onlinUserID,
+    ketonesMeasure: ketones
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert('Measure ' + response[0].Message);
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
+const onlineUnitDB = () => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/GlucoseLevelUnit.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    UserID: onlinUserID,
+    glucoseLevel_unit: levelUnit
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert('Unit ' + response[0].Message);
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
+const onlineTargetBGDB = () => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/TargetBGPerDay%20.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    UserID: onlinUserID,
+    fromBG: fromBG,
+    toBG: toBG
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert('target ' + response[0].Message);
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
+const onlineMonitorDB = () => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/typeOfGlucoseMonitoring.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    UserID: onlinUserID,
+    typeOfGlucoseM: monitor
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert('Monitor ' + response[0].Message);
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
     return (
       <View style={styles.container}>
       <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
