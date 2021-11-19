@@ -26,7 +26,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 //  useEffect(() => {
 //   register();
 //     }, []);
-    const AccountT = route.params;
     const [data, setData] = react.useState({
       fName: '',
       lName: '',
@@ -171,7 +170,7 @@ const validEmail = (val) => {
             db.transaction( (tx) => {
                 tx.executeSql(
                  'INSERT INTO UserAccount (firstName, lastName, email, pass, accountType) VALUES (?,?,?,?,?)',
-                   [data.fName, data.lName, data.email, data.password, AccountT]
+                   [data.fName, data.lName, data.email, data.password, AccType]
                );
               
               //  getData();
@@ -188,8 +187,7 @@ const validEmail = (val) => {
               (tx, results) => {
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
-                    uID = rows.item(i).UserID;
-                    AccType = rows.item(i).accountType;               
+                    uID = rows.item(i).UserID;               
                     var userEmail = rows.item(i).email;
                     if (data.email == userEmail){
                       if (AccType != 'Patient Account'){
@@ -225,7 +223,6 @@ const validEmail = (val) => {
 
 
 const checkEmail = () => {
-
   try {
     db.transaction((tx) => {
         tx.executeSql(
@@ -234,7 +231,6 @@ const checkEmail = () => {
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
-                  
                   var mail = rows.item(i).email;
                   if (data.email == mail ){
                     alert('Email already exists');
@@ -254,8 +250,9 @@ const checkEmail = () => {
     console.log(error);
 }
 }
-
+//-----------------------------
 const onlineDB = () => {
+  console.log('in DB1');
   var InsertAPIURL = "http://192.168.12.1/isugar/userAccount.php";   //API to  signup
 
   var headers = {
@@ -268,7 +265,7 @@ const onlineDB = () => {
     lastname: data.lName,
     email: data.email,
     pass: data.password,
-    accountType: AccountT
+    accountType: AccType
   };
 
 // FETCH func ------------------------------------
@@ -279,39 +276,40 @@ fetch(InsertAPIURL,{
 })
 .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
 .then((response)=>{
-  alert(response[0].Message);       // If data is in JSON => Display alert msg
-  navigation.navigate("clinic"); //Navigate to next screen if authentications are valid
+  alert(response[0].Message);
+  getOnlineInfo();       // If data is in JSON => Display alert msg
 })
 .catch((error)=>{
     alert("Error Occured" + error);
 })
 }
-
-const getData = () => {
-  try {
-    db.transaction((tx) => {
-        tx.executeSql(
-            "SELECT UserID, firstName, lastName, email, pass, accountType FROM UserAccount",
-            [],
-            (tx, results) => {
-              var rows = results.rows;
-              for (let i = 0; i < rows.length; i++) {
-                  var item = rows.item(i);
-                  console.log(item);
-                }
-            }
-        )
-    })
-} catch (error) {
-    console.log(error);
+//---------------------------------------
+const getOnlineInfo = () => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/findAccount.php"; 
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    email: data.email
+  };
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+  method:'POST',
+  headers:headers,
+  body: JSON.stringify(Data) //convert data to JSON
+})
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+    onlinUserID= response[0].userID;
+    navigation.navigate("clinic"); //Navigate to next screen if authentications are valid
+    // alert('ID: '+onlinUserID);
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
 }
-
-}
-
-
-
- 
-
 
 
     return (
@@ -325,7 +323,7 @@ const getData = () => {
       </LinearGradient>
       <View style={styles.footer}>
         <ScrollView>
-      {AccountT == 'Patient Account' ? 
+      {AccType == 'Patient Account' ? 
       <Text style={styles.title}>Step 1 of 7: Account Information{'\n'}</Text> :
       <Text style={styles.title}>Step 1 of 6: Account Information{'\n'}</Text>
     }

@@ -69,7 +69,7 @@ Diabetescenter = center;
         centerName: val,
         isValidName: true
       })
-      centName= other.centerName;
+      
     } else {
       isValidName= false;
   }
@@ -82,12 +82,15 @@ const cCityCheck = (val) => {
       centerCity: val,
       isValidCity: true
     })
-    centCity =  other.centerCity;
+   
   } else {
     isValidCity= false;
 }
 }
 
+
+centCity =  other.centerCity;
+centName= other.centerName;
 const check = () => {
   if (center == '0'){
     alert('Please select a medical center');
@@ -95,7 +98,8 @@ const check = () => {
   }
   if (center == '2'){
     if (isValidName == true && isValidCity == true){
-      navigation.navigate('personal' )
+      onlineDBOther();
+      onlineDB();
     } else {
       alert('Please fill all the fields');
     }
@@ -118,105 +122,105 @@ const check = () => {
      } catch (error) {
          console.log(error);
      }
-        //  onlineDBKSUMC();
-        //  onlineDBOther();
-        //  onlineDB();
-        navigation.navigate('personal')
+        
+          onlineDBKSUMC();
+          onlineDB();
+      
+        
       }
     return;
   }
-
+  
 }
 
-// // onlinDB function for DOD
-// const onlineDB = () => {
-//   var InsertAPIURL = "http://192.168.12.1/isugar/diagnosis_date.php";   //API to  signup
+ 
+const onlineDB = () => {
+   var InsertAPIURL = "http://192.168.12.1/isugar/diagnosis_date.php";   
 
-//   var headers = {
-//     'Accept': 'application/json',
-//     'Content-Type': 'application/json'
-//   };
-//   var Data ={
-//     diagnosisD: DOD,
-//   };
+   var headers = {
+     'Accept': 'application/json',
+     'Content-Type': 'application/json'
+   };
+   var Data ={
+    UserID: onlinUserID,
+    diagnosisD: dateOfDiagnosis 
+   }; 
 
-// // FETCH func ------------------------------------
-// fetch(InsertAPIURL,{
-//       method:'POST',
-//     headers:headers,
-//     body: JSON.stringify(Data) //convert data to JSON
-// })
-// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-// .then((response)=>{
-//   alert(response[0].Message);       // If data is in JSON => Display alert msg
-//   navigation.navigate('personal');
-// })
-// .catch((error)=>{
-//     alert("Error Occured" + error);
-// })
-// }
 
-// //OnlineDB if user choose KSUMC 
-// const onlineDBKSUMC = () => {
-//   if(center == '1'){
+ fetch(InsertAPIURL,{
+       method:'POST',
+     headers:headers,
+     body: JSON.stringify(Data) //convert data to JSON
+ })
+ .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+ .then((response)=>{
+   alert(response[0].Message);       // If data is in JSON => Display alert msg
+   navigation.navigate('personal');
+ })
+ .catch((error)=>{
+     alert("Error Occured" + error);
+ })
+ }
 
-//     var InsertAPIURL2 = "http://192.168.12.1/isugar/KSUMC.php";   //API to  signup
+ //OnlineDB if user choose KSUMC 
+const onlineDBKSUMC = () => {
 
-//     var headers = {
-//       'Accept': 'application/json',
-//       'Content-Type': 'application/json'
-//     };
-//      var Data ={
-//       MRN: mrn,
-//     };
+    var InsertAPIURL2 = "http://192.168.12.1/isugar/KSUMC.php";   //API to  signup
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+     var Data ={
+      UserID: onlinUserID,
+      MRN: mrn
+    };
   
-//   // FETCH func ------------------------------------
-//   fetch(InsertAPIURL2,{
-//         method:'POST',
-//       headers:headers,
-//       body: JSON.stringify(Data) //convert data to JSON
-//   })
-//   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-//   .then((response)=>{
-//     alert(response[0].Message);       // If data is in JSON => Display alert msg
-//   })
-//   .catch((error)=>{
-//       alert("Error Occured" + error);
-//   })
-//   }
-//   }
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL2,{
+        method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+    alert(response[0].Message);       // If data is in JSON => Display alert msg
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+ 
+  }
 
-//   //OnlineDB if user choose KSUMC 
-// const onlineDBOther = () => {
+//OnlineDB if user choose Other 
+const onlineDBOther = () => {
+    console.log('other');
+    var InsertAPIURL3 = "http://192.168.12.1/isugar/CenterInformation.php";   //API to  signup
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+     var Data ={
+      UserID: onlinUserID,
+      nameC: other.centerName,
+      city: other.centerCity
+    };
   
-//   if(center == '2'){
-
-//     var InsertAPIURL3 = "http://192.168.12.1/isugar/CenterInformation.php";   //API to  signup
-
-//     var headers = {
-//       'Accept': 'application/json',
-//       'Content-Type': 'application/json'
-//     };
-//      var Data ={
-//       nameCenter: centName,
-//       cityCenter: centCity
-//     };
-  
-//   // FETCH func ------------------------------------
-//   fetch(InsertAPIURL3,{
-//         method:'POST',
-//       headers:headers,
-//       body: JSON.stringify(Data) //convert data to JSON
-//   })
-//   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-//   .then((response)=>{
-//     alert(response[0].Message);       // If data is in JSON => Display alert msg
-//   })
-//   .catch((error)=>{
-//       alert("Error Occured" + error);
-//   })
-//   }
-//   }
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL3,{
+        method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+    alert(response[0].Message);       // If data is in JSON => Display alert msg
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
 
     return (
       <View style={styles.container}>
@@ -461,7 +465,7 @@ null
         />
       )}
 </View>
-<Text>{center}</Text>
+<Text>{onlinUserID}</Text>
 
           <View style={styles.buttonV}>
         <TouchableOpacity onPress={()=>check()}>
