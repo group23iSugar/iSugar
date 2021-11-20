@@ -34,9 +34,9 @@ import moment from 'moment';
   const [isDose2Vallid, setValid2] = useState(false);
   const [iDose1Called, setCalled1] = useState(false);
   const [iDose2Called, setCalled2] = useState(false);
-  const [penProvide, setPen] = useState('');
-  const [penProvide1, setPen1] = useState('');
-  const [penProvide2, setPen2] = useState('');
+  const [penProvide, setPen] = useState('0');
+  const [penProvide1, setPen1] = useState('0');
+  const [penProvide2, setPen2] = useState('0');
   
     
   const [date, setDate] = useState(new Date());
@@ -99,7 +99,9 @@ const onChange2 = (event, selectedDate) => {
     showMode2('time');
   };
 //-----------------Date---------------------------
-
+var time =  moment.utc(date).format('HH:mm');
+var time1 = moment.utc(date1).format('HH:mm');
+var time2 = moment.utc(date2).format('HH:mm');
 const halfOrFull = ()=>{
    if (InsulinR == 'Pen'){
      if (iType == 'Aspart' || iType == 'Lispro'  || iType == 'Glulisine' ){
@@ -236,7 +238,9 @@ const check = () => {
     return;
    }
   else {
+    onlineInsulinRegDB();
     if ((iType == 'Aspart' || iType == 'Lispro'  || iType == 'Glulisine') && InsulinR == 'Pen'){
+      onlinePenDB(iType, penProvide);
     try {
       db.transaction( (tx) => {
           tx.executeSql(
@@ -250,6 +254,7 @@ const check = () => {
  } catch (error) {
      console.log(error);
  } } else {
+  onlineOtherDB(iType, iDose.iDose, time);
   try {
     db.transaction( (tx) => {
         tx.executeSql(
@@ -274,6 +279,7 @@ const check = () => {
 //--------------------------
   const addSecondDose = () => {
     if ((iType1 == 'Aspart' || iType1 == 'Lispro'  || iType1 == 'Glulisine') && InsulinR == 'Pen'){
+      onlinePenDB(iType1, penProvide1);
       console.log('in if2');
       try {
         db.transaction( (tx) => {
@@ -289,7 +295,7 @@ const check = () => {
        console.log(error);
    } }
     if (iDose1Called.iDose1Called==true && isDose1Vallid.isDose1Vallid==true){
-    
+      onlineOtherDB(iType1, iDose1.iDose1, time1)
      try {
        db.transaction( (tx) => {
            tx.executeSql(
@@ -310,6 +316,7 @@ const check = () => {
   //------------------------
   const addThirdDose = () => {
     if ((iType2 == 'Aspart' || iType2 == 'Lispro'  || iType2 == 'Glulisine') && InsulinR == 'Pen'){
+      onlinePenDB(iType2, penProvide2);
       console.log('in if2');
       try {
         db.transaction( (tx) => {
@@ -325,7 +332,7 @@ const check = () => {
        console.log(error);
    } } 
     if (iDose2Called.iDose2Called==true && isDose2Vallid.isDose2Vallid==true){
-    
+      onlineOtherDB(iType2, iDose2.iDose2, time2)
      try {
        db.transaction( (tx) => {
            tx.executeSql(
@@ -342,6 +349,93 @@ const check = () => {
    
 }
   }
+//--------------------------
+const onlinePenDB = (type, halfull) => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/insulin_Pen.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    UserID: onlinUserID,
+    insulinType: type,
+    halfOrFull: halfull
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert('pen ' + response[0].Message);
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
+//---------------------------
+const onlineOtherDB = (type, dose, time) => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/insulin_Other.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    UserID: onlinUserID,
+    insulinType: type,
+    iDose: dose,
+    iTime: time
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert('other ' + response[0].Message);
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
+//-----------------------
+const onlineInsulinRegDB = () => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/insulin_Regimen.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    UserID: onlinUserID,
+    insulinRegimen: InsulinR
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert('Unit ' + response[0].Message);
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
 
     return (
       <View style={styles.container}>

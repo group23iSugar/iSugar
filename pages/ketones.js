@@ -96,7 +96,7 @@ const onlineKetonesM = () => {
     ketonesMeasure: ketones
   };
 
-// FETCH func ------------------------------------
+// FETCH func 
 fetch(InsertAPIURL,{
     method:'POST',
     headers:headers,
@@ -110,6 +110,7 @@ fetch(InsertAPIURL,{
     alert("Error Occured" + error);
 })
 }
+//-------------------------------
 const onlineUnitDB = () => {
   var InsertAPIURL = "http://192.168.12.1/isugar/GlucoseLevelUnit.php";   //API to  signup
 
@@ -123,7 +124,7 @@ const onlineUnitDB = () => {
     glucoseLevel_unit: levelUnit
   };
 
-// FETCH func ------------------------------------
+// FETCH func 
 fetch(InsertAPIURL,{
     method:'POST',
     headers:headers,
@@ -137,6 +138,7 @@ fetch(InsertAPIURL,{
     alert("Error Occured" + error);
 })
 }
+//-------------------------------
 const onlineTargetBGDB = () => {
   var InsertAPIURL = "http://192.168.12.1/isugar/TargetBGPerDay%20.php";   //API to  signup
 
@@ -151,7 +153,7 @@ const onlineTargetBGDB = () => {
     toBG: toBG
   };
 
-// FETCH func ------------------------------------
+// FETCH func 
 fetch(InsertAPIURL,{
     method:'POST',
     headers:headers,
@@ -165,6 +167,7 @@ fetch(InsertAPIURL,{
     alert("Error Occured" + error);
 })
 }
+//-------------------------------
 const onlineMonitorDB = () => {
   var InsertAPIURL = "http://192.168.12.1/isugar/typeOfGlucoseMonitoring.php";   //API to  signup
 
@@ -178,7 +181,7 @@ const onlineMonitorDB = () => {
     typeOfGlucoseM: monitor
   };
 
-// FETCH func ------------------------------------
+// FETCH func 
 fetch(InsertAPIURL,{
     method:'POST',
     headers:headers,
@@ -192,6 +195,7 @@ fetch(InsertAPIURL,{
     alert("Error Occured" + error);
 })
 }
+//-------------------------------
     return (
       <View style={styles.container}>
       <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
