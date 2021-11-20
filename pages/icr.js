@@ -395,6 +395,9 @@ insulinCalcMethod = data.caluMethod;
   }
 
   if (data.caluMethod == 'ICR'){
+    onlineICRDB(timeFrom1, timeTo1, ICR1);
+    onlineICRDB(timeFrom2, timeTo2, ICR2);
+    onlineICRDB(timeFrom3, timeTo3, ICR3);
     try {
       db.transaction( (tx) => {
           tx.executeSql(
@@ -439,6 +442,7 @@ try {
 }
   }
   if (data.caluMethod == 'ICR' && shouldShow3==true) {
+    onlineICRDB(timeFrom4, timeTo4, ICR4);
     try {
       db.transaction( (tx) => {
           tx.executeSql(
@@ -455,6 +459,7 @@ try {
     }
   }  
   if (data.caluMethod == 'ICR' && shouldShow4==true) {
+    onlineICRDB(timeFrom5, timeTo5, ICR5);
     try {
       db.transaction( (tx) => {
           tx.executeSql(
@@ -471,6 +476,7 @@ try {
     }
   } 
   if (data.caluMethod == 'ICR' && shouldShow5==true) {
+    onlineICRDB(timeFrom6, timeTo6, ICR6);
     try {
       db.transaction( (tx) => {
           tx.executeSql(
@@ -486,12 +492,71 @@ try {
      console.log(error);
     }
   } 
+  onlineCalcDB();
   navigation.navigate('calc') 
  
       } 
-    
+//-------------------------------    
+const onlineICRDB = (fromT, toT, icr) => {
+        var InsertAPIURL = "http://192.168.12.1/isugar/ICRInterval.php";   //API to  signup
+      
+        var headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        };
+        
+        var Data ={
+          UserID: onlinUserID,
+          fromTime: fromT,
+          toTime: toT,
+          ICR: icr
+          
+        };
+      
+      // FETCH func ------------------------------------
+      fetch(InsertAPIURL,{
+          method:'POST',
+          headers:headers,
+          body: JSON.stringify(Data) //convert data to JSON
+      })
+      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response)=>{
+        alert('intervalss ' + response[0].Message);
+      })
+      .catch((error)=>{
+          alert("Error Occured" + error);
+      })
+      }
+//---------------------------
+const onlineCalcDB = () => {
+  var InsertAPIURL = "http://192.168.12.1/isugar/insulinCalcMethod.php";   //API to  signup
 
- 
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    UserID: onlinUserID,
+    insulinCalc: data.caluMethod
+    
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert('intervalss ' + response[0].Message);
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
+//---------------------------
 
 
 
