@@ -17,6 +17,10 @@ import icr from './pages/icr';
 import home from './pages/Home';
 import Calc from './pages/Calc';
 import sliding from './pages/sliding';
+import editProfile from './pages/editProfile';
+import passEdit from './pages/passEdit';
+import AccInfoEdit from './pages/AccInfoEdit';
+
 global.db = SQLite.openDatabase(
   {
     name: 'iSugar.db',
@@ -64,7 +68,8 @@ const mainStack = () => {
     headerShown: false
   }}
 >
-      
+        
+        
         <Stack.Screen name="logo" component={logoScreen}  />
         <Stack.Screen name="login" component={logIn} />
         <Stack.Screen name="signup" component={signUp} />
@@ -80,6 +85,9 @@ const mainStack = () => {
         <Stack.Screen name="home" component={home} />
         <Stack.Screen name="calc" component={Calc} />
         <Stack.Screen name="sliding" component={sliding} />
+        <Stack.Screen name="edit" component={editProfile}  />
+        <Stack.Screen name="pass" component={passEdit}  />
+        <Stack.Screen name="AccEdit" component={AccInfoEdit}  />
       </Stack.Navigator>
     </NavigationContainer>
   );
