@@ -238,6 +238,9 @@ const check = () => {
     }
 
   }
+  if (flagFun(date) == false){
+    updateDODLocal();
+  }
   
 }
 const updateMRNLocal = () => {
@@ -392,6 +395,27 @@ try {
 }  ) 
 } catch (error) {
  console.log(error);
+}
+}
+const updateDODLocal = () => {
+  try {
+    console.log('in dod');
+    db.transaction( (tx) => {
+        tx.executeSql(
+          'UPDATE patientprofile SET diagnosis_date=? WHERE UserID=? ',
+          [dateOfDiagnosis, uID],
+          (tx, results) => {
+            console.log('Results', results.rowsAffected);
+         if (results.rowsAffected > 0) {
+         console.log('dod updated seuccefully');
+              }
+          }   
+) 
+    
+
+}  ) 
+} catch (error) {
+   console.log(error);
 }
 }
 
