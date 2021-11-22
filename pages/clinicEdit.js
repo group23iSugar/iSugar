@@ -98,7 +98,7 @@ import moment from 'moment';
       }
   
     }
-     console.log('MRN: '+dbData.uMRN); 
+     
     var d = moment(dbData.diagnosisdate).format('YYYY-MM-DD'); // 2021-11-21
     
     const [date, setDate] = useState(new Date());

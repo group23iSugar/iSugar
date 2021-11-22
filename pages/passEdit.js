@@ -49,6 +49,9 @@ const passEdit = ({ navigation, route }) => {
       if (infoType=='Clinic Information'){
         navigation.navigate('clinicEdit')
       }
+      if (infoType=='Personal Information'){
+        navigation.navigate('personalEdit')
+      }
       
     }else{
       alert('Wrong password please try again');
