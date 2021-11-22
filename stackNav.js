@@ -20,6 +20,7 @@ import sliding from './pages/sliding';
 import editProfile from './pages/editProfile';
 import passEdit from './pages/passEdit';
 import AccInfoEdit from './pages/AccInfoEdit';
+import clinicEdit from './pages/clinicEdit';
 
 global.db = SQLite.openDatabase(
   {
@@ -88,6 +89,7 @@ const mainStack = () => {
         <Stack.Screen name="edit" component={editProfile}  />
         <Stack.Screen name="pass" component={passEdit}  />
         <Stack.Screen name="AccEdit" component={AccInfoEdit}  />
+        <Stack.Screen name="clinicEdit" component={clinicEdit}  />
       </Stack.Navigator>
     </NavigationContainer>
   );

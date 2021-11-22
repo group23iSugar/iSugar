@@ -253,6 +253,12 @@ const checkEmail = () => {
 if (dbData.f_name!=data.fName){
     localfNameUpdate();
 }
+if (dbData.l_name!=data.lName){
+  localLNameUpdate();
+}
+if (dbData.uEmail!=data.email){
+  localemailUpdate();
+}
 }
 const getLocalInfo = ()=>{
     try {
@@ -290,66 +296,7 @@ const getLocalInfo = ()=>{
     }
   
 }
-//-----------------------------
-// const onlineDB = () => {
-//   console.log('in DB1');
-//   var InsertAPIURL = "http://192.168.12.1/isugar/userAccount.php";   //API to  signup
-
-//   var headers = {
-//     'Accept': 'application/json',
-//     'Content-Type': 'application/json'
-//   };
-  
-//   var Data ={
-//     firstname: data.fName,
-//     lastname: data.lName,
-//     email: data.email,
-//     pass: data.password,
-//     accountType: AccType
-//   };
-
-// // FETCH func ------------------------------------
-// fetch(InsertAPIURL,{
-//     method:'POST',
-//     headers:headers,
-//     body: JSON.stringify(Data) //convert data to JSON
-// })
-// .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-// .then((response)=>{
-//   alert(response[0].Message);
-//   getOnlineInfo();       // If data is in JSON => Display alert msg
-// })
-// .catch((error)=>{
-//     alert("Error Occured" + error);
-// })
-// }
-//---------------------------------------
-// const getOnlineInfo = () => {
-//   var InsertAPIURL = "http://192.168.12.1/isugar/findAccount.php"; 
-//   var headers = {
-//     'Accept': 'application/json',
-//     'Content-Type': 'application/json'
-//   };
-  
-//   var Data ={
-//     email: data.email
-//   };
-//   // FETCH func ------------------------------------
-//   fetch(InsertAPIURL,{
-//   method:'POST',
-//   headers:headers,
-//   body: JSON.stringify(Data) //convert data to JSON
-// })
-//   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-//   .then((response)=>{
-//     onlinUserID= response[0].userID;
-//     navigation.navigate("clinic"); //Navigate to next screen if authentications are valid
-//     // alert('ID: '+onlinUserID);
-// })
-// .catch((error)=>{
-//     alert("Error Occured" + error);
-// })
-// }
+//=========================================//
 const localfNameUpdate =() => {
     try {
         console.log('in try2');
@@ -360,8 +307,8 @@ const localfNameUpdate =() => {
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
              if (results.rowsAffected > 0) {
-            alert('Record Updated Successfully...')
-            console.log( dbData.f_name +'-'+dbData.l_name+'-'+dbData.uEmail);
+            
+            console.log( dbData.f_name);
                   }
               }   
     ) 
@@ -371,6 +318,50 @@ const localfNameUpdate =() => {
     } catch (error) {
        console.log(error);
     }
+}
+const localLNameUpdate =() => {
+  try {
+      console.log('in try3');
+      db.transaction( (tx) => {
+          tx.executeSql(
+            'UPDATE UserAccount SET lastName=? WHERE UserID=? ',
+            [data.lName, uID],
+            (tx, results) => {
+              console.log('Results', results.rowsAffected);
+           if (results.rowsAffected > 0) {
+             
+          console.log( dbData.l_name);
+                }
+            }   
+  ) 
+      
+  
+  }  ) 
+  } catch (error) {
+     console.log(error);
+  }
+}
+const localemailUpdate =() => {
+  try {
+      console.log('in try3');
+      db.transaction( (tx) => {
+          tx.executeSql(
+            'UPDATE UserAccount SET email=? WHERE UserID=? ',
+            [data.email, uID],
+            (tx, results) => {
+              console.log('Results', results.rowsAffected);
+           if (results.rowsAffected > 0) {
+             
+          console.log( dbData.uEmail);
+                }
+            }   
+  ) 
+      
+  
+  }  ) 
+  } catch (error) {
+     console.log(error);
+  }
 }
 
 

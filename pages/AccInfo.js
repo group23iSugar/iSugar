@@ -174,7 +174,7 @@ const validEmail = (val) => {
                );
               
               //  getData();
-           })
+           }) 
            
        } catch (error) {
            console.log(error);
