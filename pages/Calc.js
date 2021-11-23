@@ -15,25 +15,33 @@ import {
   Switch,
   Alert,
 } from 'react-native';
+import ModalDropdown from 'react-native-modal-dropdown';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import RNSearchablePicker from 'react-native-searchable-picker';
+import react from 'react';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import SQLite from 'react-native-sqlite-storage';
 
-
-
+//=========================Local DB==========================
+global.db = SQLite.openDatabase(
+  {
+    name: 'iSugear.db',
+    creatFromLocation: '~iSugarL.db',
+    location: 'Library',
+  },
+  () => {
+    console.log('success');
+  },
+  error => {
+    console.log('ERROR: ' + error);
+  },
+);
 //=========================Local DB===============================
-
-//=========================Retrive From DB========================
-// var time='';
-var insulinType = '';
-var calcMethod = '';
-var startBG = 0;
-var targetBG = 0;
-var timePrevDose = -1;
-var doseAmount = -1;
-var ISF = 0;
-var ICR = 0;
 
 //----------------------------------
 // const currentTime = (from, to) => {
@@ -49,16 +57,12 @@ var ICR = 0;
 //   return false;
 // }
 
-//========================Insuling Calculation method=============
-var a = 0;
-var b = 0;
-var total = 0;
-var IOB = 0;
-var adjustment = 1;
-var reason;
-
 const insuCalc = () => {
-  if (type == 'Aspart' || type == 'Lispro' || type == 'Glulisine') {
+  if (
+    ReData2.insulinType == 'Aspart' ||
+    ReData2.insulinType == 'Lispro' ||
+    ReData2.insulinType == 'Glulisine'
+  ) {
     if (bgLevel > 70) {
       if (reasonForInsulin == 'Correction') {
         if (bgLevel > startBG) {
@@ -115,7 +119,7 @@ const insuCalc = () => {
     }
   } else {
     alert(
-      'Insulin is not supported in this application. Please contact your Diabetes center for instruction & recommendations for insulin bolus calculation & dose determination',
+      'Your Insulin type is not supported in this application. Please contact your Diabetes center for instruction & recommendations for insulin bolus calculation & dose determination',
     );
   }
 };
@@ -212,13 +216,36 @@ const timeCheck = () => {
   var currentDate = new Date();
 };
 
-const test = () => {
-  total = startBG + targetBG;
-};
-
 //======================End of insuling Calc methods===================
 
-const App = () => {
+const Calc = () => {
+  const test = () => {
+    var t = ReData1.startBG + ReData1.targetBG;
+    setTotala({
+      ...totala,
+      total: t,
+    });
+  };
+
+  //=========================Retrive From DB========================
+  // var time='';
+  const [ReData1, setReData1] = useState({
+    calcMethod: '',
+    startBG: 0,
+    targetBG: 0,
+    timePrevDose: -1,
+    doseAmount: -1,
+    ISF: 0,
+    ICR: 0,
+  });
+
+  const [ReData2, setReData2] = useState({
+    insulinType: '',
+  });
+  const [totala, setTotala] = useState({
+    total: 0,
+  });
+
   useEffect(() => {
     retrieve();
     retrieve2();
@@ -232,22 +259,84 @@ const App = () => {
     try {
       db.transaction(tx => {
         tx.executeSql(
-          'SELECT UserID, ISF, targetBG_correct, startBG_correct, insulinCalcMethod, insulinRegimen FROM patientprofile',
+          'SELECT UserID, ISF, ISFIntervals, targetBG_correct, startBG_correct, insulinCalcMethod, insulinRegimen FROM patientprofile',
           [],
           (tx, results) => {
             var rows = results.rows;
+            var ISFInterval = 0;
 
             for (let i = 0; i < rows.length; i++) {
-              calcMethod = rows.item(i).insulinCalcMethod;
-              startBG = rows.item(i).startBG_correct;
-              targetBG = rows.item(i).targetBG_correct;
-              ISF = rows.item(i).ISF;
               var userid = rows.item(i).UserID;
-              
-              if (userid == 222) {
-                console.log( calcMethod + ' - ' + startBG + ' - ' + targetBG + ' - ' + ISF);
 
-                return;
+              if (userid == 159) {
+                console.log('Hii  ' + rows.item(i).ISFIntervals);
+
+                ISFInterval = rows.item(i).ISFIntervals;
+
+                if (ISFInterval == 0) {
+                  console.log('hello if hi');
+                  setReData1({
+                    ...ReData1,
+                    calcMethod: rows.item(i).insulinCalcMethod,
+                    startBG: rows.item(i).startBG_correct,
+                    targetBG: rows.item(i).targetBG_correct,
+                    ISF: rows.item(i).ISF,
+                  });
+
+                  console.log(
+                    ReData1.calcMethod +
+                      ' - ' +
+                      ReData1.startBG +
+                      ' - ' +
+                      ReData1.targetBG +
+                      ' - ' +
+                      ReData1.ISF,
+                  );
+
+                  return;
+                } else {
+                  var fromList = [];
+                  var toList = [];
+                  var ISFList = [];
+                  var targetBGList = [];
+                  var startBGList = [];
+                  //=============================
+                  try {
+                    db.transaction(tx => {
+                      tx.executeSql(
+                        'SELECT UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct FROM isfInterval',
+                        [],
+                        (tx, results) => {
+                          var rows2 = results.rows2;
+
+                          for (let i = 0; i < rows2.length; i++) {
+                            var userid = rows2.item(i).UserID;
+
+                            if (userid == 54) {
+                              fromList.push(rows2.item(i).fromTime);
+                              toList.push(rows2.item(i).toTime);
+                              ISFList.push(rows2.item(i).ISF);
+                              targetBGList.push(rows2.item(i).targetBG_correct);
+                              startBGList.push(rows2.item(i).startBG_correct);
+
+                              console.log(fromList);
+                            }
+                          }
+                        },
+                      );
+                    });
+                  } catch (error) {
+                    console.log(error);
+                  }
+                  //=============================
+                  for (let i = 0; i < rows.length; i++) {
+                    if (userid == 222) {
+                      fromLsit.push(rows.item(i).fromTime);
+                      toList.push(rows.item(i).toTime);
+                      ISFList.push(rows.item(i).ISF);
+                    }
+                  }
+                }
               }
             }
           },
@@ -256,10 +345,10 @@ const App = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  //=========================Insulin Type 
-    const retrieve2 = () => {
+  //=========================Insulin Type
+  const retrieve2 = () => {
     // insulinPen table
     try {
       db.transaction(tx => {
@@ -270,12 +359,15 @@ const App = () => {
             var rows = results.rows;
 
             for (let i = 0; i < rows.length; i++) {
-
-              insulinType = rows.item(i).insulinType;
               var userid = rows.item(i).UserID;
-              
-              if (userid == 222) {
-                console.log( insulinType  );
+
+              if (userid == 54) {
+                setReData2({
+                  ...ReData2,
+                  insulinType: rows.item(i).insulinType,
+                });
+
+                console.log(ReData2.insulinType);
 
                 return;
               }
@@ -286,13 +378,12 @@ const App = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   //DateTime
 
-  var nowDate  = new Date();
+  var nowDate = new Date();
   var nowTime = moment.utc(nowDate).format('h:mm a'); // 11:40 PM
-
 
   const [PosTime, setPosTime] = useState(new Date());
   const [showPosTime, setShowPosTime] = useState(false);
@@ -334,7 +425,7 @@ const App = () => {
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
+        <Image source={require('./images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -348,14 +439,14 @@ const App = () => {
           Insulin Bolus Calculator
         </Text>
 
-        <Text style={styles.inpTxt}>{nowTime}</Text>
+        <Text style={styles.inpTxt}>{ReData1.ISF}</Text>
 
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>Current BG levet: </Text>
           <TextInput
             keyboardType="decimal-pad"
             placeholder="000.00"
-            onValueChange={value => setCHO(value)}
+            onChangeText={value => setbgLevel(value)}
             style={styles.inputT}
           />
           <Text style={{fontSize: 15, paddingTop: 15}}>mg/dl</Text>
@@ -398,10 +489,10 @@ const App = () => {
           <Text style={{fontSize: 18, textAlign: 'center'}}>
             Calculate carbohydrate in a meal
           </Text>
-          {/* <Image
+          <Image
             source={require('./images/carb.png')}
             style={{height: 30, width: 30}}
-          /> */}
+          />
         </TouchableOpacity>
 
         <Text style={styles.inpTxt}>
@@ -771,8 +862,7 @@ const App = () => {
             paddingBottom: 30,
             backgroundColor: '#6496d7',
           }}
-          // onPress={checkCalc};
-        >
+          onPress={test}>
           <Text style={{fontSize: 18, textAlign: 'center'}}>Calculate</Text>
         </TouchableOpacity>
 
@@ -890,4 +980,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Calc;
