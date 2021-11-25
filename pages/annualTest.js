@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -21,8 +22,13 @@ import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import react from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
-const annual = () => {
+let onlinUserID = 13;
+var AccType = '';
+
+const annual = ({navigation}) => {
 //const
   const [ThroidDate, setThroidDate] = useState(new Date());
   const [AdrenalDate, setAdrenalDate] = useState(new Date());
@@ -181,26 +187,87 @@ const [BPreading, setBPreading] = useState('0');
 const [Finding, setFinding] = useState('0');
 //------------------------------------------------------------------------------
 
+//-----------------------------
+const onlineDB = () => {
+  console.log('in DB1');
+  // eslint-disable-next-line quotes
+  var InsertAPIURL = "http://192.168.56.1/isugar/AnnualTest.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  };
+  // eslint-disable-next-line eqeqeq
+  if (AccType == 'Patient Account') {
+    var Data = {
+      UserID: onlinUserID,
+      Thyroid_date: ThroidDate,
+      Anti_TPO: anti_TPO,
+      TSH: TSH,
+      FT4: FT4,
+      cortisol: cortisol,
+      Adrenal_date: AdrenalDate,
+      NA: NA,
+      K: K,
+      Celiac_date: CeliacDate,
+      IgA: IgA,
+      tTG_IgA: tTG_IgA,
+      tTG_IgG: tTG_IgG,
+      Deamidated_Gliadin_IgA: DeamidatedGliadinIgA,
+      Deamidated_Gliadin_IgG: DeamidatedGliadinIgG,
+      Renal_date: RenalDate,
+      ACR: ACR,
+      Lipids_date: LipidsDate,
+      TG: TG,
+      LDL: LDL,
+      HDL: HDL,
+      Cholesterol: Cholesterol,
+      Blood_Pressure_date: BPDate,
+      BP_reading: BPreading,
+      Eyes_date: EyesDate,
+      Finding: Finding,
+      LastFluVaccine: LastFluVaccineDate,
+      LastDentalVisit: LastDentalVisitDate,
+    };
+  } else {
+    alert('only accounts of type (patient account) can store information about annual test');
+  }
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data),//convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert(response[0].Message);
+    // If data is in JSON => Display alert msg
+})
+.catch((error)=>{
+    alert('Error Occured' + error);
+// eslint-disable-next-line semi
+})
+// eslint-disable-next-line semi
+}
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={['#E7EFFA', '#E7EFFA', '#AABED8']}
-        style={styles.container}>
-        <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('../images/logo.png')} style={styles.logo} resizeMode="stretch"/>
-        </View>
-      </LinearGradient>
+     <View style={{top: 10, flexDirection: 'row', padding: 30}}>
+       <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+         <Entypo name="menu" color="#212222" size={35} style={{marginLeft: -10, paddingVertical: 5}} />
+       </TouchableOpacity>
+       </View>
 
+       <Text style={styles.Annual}>Annual screening test</Text>
         <View style={styles.footer}>
-          <Text style={styles.Annual}>Annual screening test</Text>
           <View>
           <ScrollView>
             <View style={styles.action}>
               <View><Text style={styles.internalText}>Throid Date: </Text></View>
               <View style={styles.dateB}>
                 <TouchableOpacity onPress={showDatePicker} style={styles.dateB}>
-                  <MaterialIcons name="date-range" size={30} color="#8CA1BB" />
+                  <MaterialIcons name="date-range" size={30} color="#e9ebee" />
                   <Text testID="dateOfThroidText" style={styles.text_footerD}>
                   {moment.utc(ThroidDate).format('DD/MM/YYYY')}
                   </Text>
@@ -247,7 +314,7 @@ const [Finding, setFinding] = useState('0');
               <View><Text style={styles.internalText}>Adrenal Date: </Text></View>
               <View style={styles.dateB}>
                 <TouchableOpacity onPress={showDatePicker2} style={styles.dateB}>
-                  <MaterialIcons name="date-range" size={30} color="#8CA1BB" />
+                  <MaterialIcons name="date-range" size={30} color="#e9ebee" />
                   <Text testID="dateOfAdrenalText" style={styles.text_footerD}>
                   {moment.utc(AdrenalDate).format('DD/MM/YYYY')}
                   </Text>
@@ -294,7 +361,7 @@ const [Finding, setFinding] = useState('0');
               <View><Text style={styles.internalText}>Celiac Date: </Text></View>
               <View style={styles.dateB}>
                 <TouchableOpacity onPress={showDatePicker3} style={styles.dateB}>
-                  <MaterialIcons name="date-range" size={30} color="#8CA1BB" />
+                  <MaterialIcons name="date-range" size={30} color="#e9ebee" />
                   <Text testID="dateOfCeliacText" style={styles.text_footerD}>
                     {moment.utc(CeliacDate).format('DD/MM/YYYY')}
                   </Text>
@@ -359,7 +426,7 @@ const [Finding, setFinding] = useState('0');
               <View><Text style={styles.internalText}>Renal Date: </Text></View>
               <View style={styles.dateB}>
                 <TouchableOpacity onPress={showDatePicker4} style={styles.dateB}>
-                  <MaterialIcons name="date-range" size={30} color="#8CA1BB" />
+                  <MaterialIcons name="date-range" size={30} color="#e9ebee" />
                   <Text testID="dateOfRenalText" style={styles.text_footerD}>
                     {moment.utc(RenalDate).format('DD/MM/YYYY')}
                   </Text>
@@ -388,7 +455,7 @@ const [Finding, setFinding] = useState('0');
               <View><Text style={styles.internalText}>Lipids Date: </Text></View>
               <View style={styles.dateB}>
                 <TouchableOpacity onPress={showDatePicker5} style={styles.dateB}>
-                  <MaterialIcons name="date-range" size={30} color="#8CA1BB" />
+                  <MaterialIcons name="date-range" size={30} color="#e9ebee" />
                   <Text testID="dateOfLipidsText" style={styles.text_footerD}>
                     {moment.utc(LipidsDate).format('DD/MM/YYYY')}
                   </Text>
@@ -444,7 +511,7 @@ const [Finding, setFinding] = useState('0');
               <View><Text style={styles.internalText}>Blood Pressure Date: </Text></View>
               <View style={styles.dateB}>
                 <TouchableOpacity onPress={showDatePicker6} style={styles.dateB}>
-                  <MaterialIcons name="date-range" size={30} color="#8CA1BB" />
+                  <MaterialIcons name="date-range" size={30} color="#e9ebee" />
                   <Text testID="dateOfBPText" style={styles.text_footerD}>
                     {moment.utc(BPDate).format('DD/MM/YYYY')}
                   </Text>
@@ -473,7 +540,7 @@ const [Finding, setFinding] = useState('0');
               <View><Text style={styles.internalText}>Eyes Date: </Text></View>
               <View style={styles.dateB}>
                 <TouchableOpacity onPress={showDatePicker7} style={styles.dateB}>
-                  <MaterialIcons name="date-range" size={30} color="#8CA1BB" />
+                  <MaterialIcons name="date-range" size={30} color="#e9ebee" />
                   <Text testID="dateOfEyesText" style={styles.text_footerD}>
                     {moment.utc(EyesDate).format('DD/MM/YYYY')}
                   </Text>
@@ -505,7 +572,7 @@ const [Finding, setFinding] = useState('0');
               <View><Text style={styles.internalText}>Last Flu Vaccine Date: </Text></View>
               <View style={styles.dateB}>
                 <TouchableOpacity onPress={showDatePicker8} style={styles.dateB}>
-                  <MaterialIcons name="date-range" size={30} color="#8CA1BB" />
+                  <MaterialIcons name="date-range" size={30} color="#e9ebee" />
                   <Text testID="dateOfLFVText" style={styles.text_footerD}>
                     {moment.utc(LastFluVaccineDate).format('DD/MM/YYYY')}
                   </Text>
@@ -525,7 +592,7 @@ const [Finding, setFinding] = useState('0');
               <View><Text style={styles.internalText}>Last Dental Visit Date: </Text></View>
               <View style={styles.dateB}>
                 <TouchableOpacity onPress={showDatePicker9} style={styles.dateB}>
-                  <MaterialIcons name="date-range" size={30} color="#8CA1BB" />
+                  <MaterialIcons name="date-range" size={30} color="#e9ebee" />
                   <Text testID="dateOfLDVText" style={styles.text_footerD}>
                     {moment.utc(LastDentalVisitDate).format('DD/MM/YYYY')}
                   </Text>
@@ -541,6 +608,17 @@ const [Finding, setFinding] = useState('0');
                 />
               )}
             </View>
+            <View style={styles.buttonV}>
+          <TouchableOpacity onPress={() => onlineDB()}>
+            <LinearGradient
+              colors={['#f5f5f5', '#e9ebee', '#e9ebee']}
+              style={styles.buttonR}>
+              <Text style={styles.titleB}>
+                Save
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          </View>
             </ScrollView>
           </View>
         </View>
@@ -552,28 +630,17 @@ const {height} = Dimensions.get('screen');
 const height_logo = height * 0.15;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#AABED8',
-  },
+    container: {
+      flex: 1,
+      backgroundColor: '#f5f5f5',
+    },
   text: {
     fontSize: 15,
     fontWeight: '200',
-    color: '#415979',
+    color: '#656363',
   },
-  footer: {
-    flex: 3,
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingVertical: 50,
-    paddingHorizontal: 30,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 10,
-},
   internalText: {
-    color: '#415979',
+    color: '#656363',
     fontSize: 16,
     textAlign: 'left',
     paddingTop: 20,
@@ -591,11 +658,12 @@ const styles = StyleSheet.create({
     borderColor: '#4c4c4c',
   },
   Annual: {
-    color: '#415979',
+    color: '#656363',
         fontSize: 20,
         textAlign: 'left',
         fontWeight: 'bold',
         paddingBottom: 15,
+        marginLeft: 18,
   },
   vNext: {
     // to make items next to each other
@@ -605,7 +673,7 @@ const styles = StyleSheet.create({
   },
   inpTxt: {
     //lables
-    color: '#415979',
+    color: '#656363',
     paddingLeft: 20,
     paddingTop: 15,
     fontSize: 16,
@@ -618,7 +686,7 @@ const styles = StyleSheet.create({
     //inputs field
     width: 100,
     fontSize: 16,
-    shadowColor: '#415979',
+    shadowColor: '#656363',
     height: 50,
     textAlign: 'center',
     shadowOffset: {
@@ -650,9 +718,46 @@ const styles = StyleSheet.create({
     paddingBottom: 25,
   },
   text_footerD: {
-    color: '#05375a',
+    color: '#656363',
     fontSize: 18,
     paddingLeft: 15,
   },
+  header:{
+    width:'100%',
+    height:60,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    paddingHorizontal:20,
+  },
+  footer: {
+    flex: 1,
+    width: 380,
+    height: 30,
+    marginBottom: 15,
+    marginLeft: 15,
+    backgroundColor: '#fff',
+    borderRadius: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 10,
+},
+buttonV: {
+  alignItems: 'center',
+  marginTop: 40,
+  paddingBottom: 15,
+},
+buttonR: {
+  alignItems: 'center',
+  width: 150,
+  height: 40,
+  justifyContent: 'center',
+  borderRadius: 10,
+},
+titleB: {
+  color: '#4c4c4c',
+  fontSize: 20,
+  fontWeight: 'bold',
+},
 });
 export default annual;
