@@ -43,20 +43,6 @@ global.db = SQLite.openDatabase(
 );
 //=========================Local DB===============================
 
-//----------------------------------
-// const currentTime = (from, to) => {
-//   var nowDate  = new Date();
-//   var nowTime = moment.utc(nowDate).format('h:mm a'); // 11:40 PM
-//   var date_a = moment(from, "h:mm a");
-//   var date_b = moment(to, "h:mm a");
-//   if (nowTime >= date_a && nowTime <= date_b){
-//     console.log('Hi');
-//       return true;
-//   }
-//   else
-//   return false;
-// }
-
 const insuCalc = () => {
   if (
     ReData2.insulinType == 'Aspart' ||
@@ -249,12 +235,51 @@ const Calc = () => {
   useEffect(() => {
     retrieve();
     retrieve2();
+    retrieve3();
   }, []);
 
   //--------------Queries-------------------
 
   // ICR -ISF - PATIENT PROFILE -
   const retrieve = () => {
+    //=============================
+    // try {
+    //   db.transaction(tx => {
+    //     console.log('qwqw');
+    //     tx.executeSql(
+    //       'SELECT UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct FROM isfInterval',
+    //       [],
+    //       (tx, results) => {
+    //               var fromList = [];
+    //               var toList = [];
+    //               var ISFList = [];
+    //               var targetBGList = [];
+    //               var startBGList = [];
+    //               // console.log(results +"Hello");
+
+    //         var rows2 = results.rows;
+    //         for (let z = 0; z < rows2.length; z++) {
+
+    //           var userid2 = rows2.item(z).UserID;
+
+    //           if (userid2 == 159) {
+    //             fromList.push(rows2.item(z).fromTime);
+    //             toList.push(rows2.item(z).toTime);
+    //             ISFList.push(rows2.item(z).ISF);
+    //             targetBGList.push(rows2.item(z).targetBG_correct);
+    //             startBGList.push(rows2.item(z).startBG_correct);
+
+    //             console.log(fromList + 'kk');
+    //           }
+    //         }
+    //       },
+    //     );
+    //     console.log('qwqw2222');
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    //=============================
     // patient profile table
     try {
       db.transaction(tx => {
@@ -268,7 +293,7 @@ const Calc = () => {
             for (let i = 0; i < rows.length; i++) {
               var userid = rows.item(i).UserID;
 
-              if (userid == 159) {
+              if (userid == 222) {
                 console.log('Hii  ' + rows.item(i).ISFIntervals);
 
                 ISFInterval = rows.item(i).ISFIntervals;
@@ -294,49 +319,16 @@ const Calc = () => {
                   );
 
                   return;
-                } else {
-                  var fromList = [];
-                  var toList = [];
-                  var ISFList = [];
-                  var targetBGList = [];
-                  var startBGList = [];
-                  //=============================
-                  try {
-                    db.transaction(tx => {
-                      tx.executeSql(
-                        'SELECT UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct FROM isfInterval',
-                        [],
-                        (tx, results) => {
-                          var rows2 = results.rows2;
+                } //else {
 
-                          for (let i = 0; i < rows2.length; i++) {
-                            var userid = rows2.item(i).UserID;
-
-                            if (userid == 54) {
-                              fromList.push(rows2.item(i).fromTime);
-                              toList.push(rows2.item(i).toTime);
-                              ISFList.push(rows2.item(i).ISF);
-                              targetBGList.push(rows2.item(i).targetBG_correct);
-                              startBGList.push(rows2.item(i).startBG_correct);
-
-                              console.log(fromList);
-                            }
-                          }
-                        },
-                      );
-                    });
-                  } catch (error) {
-                    console.log(error);
-                  }
-                  //=============================
-                  for (let i = 0; i < rows.length; i++) {
-                    if (userid == 222) {
-                      fromLsit.push(rows.item(i).fromTime);
-                      toList.push(rows.item(i).toTime);
-                      ISFList.push(rows.item(i).ISF);
-                    }
-                  }
-                }
+                //   for (let i = 0; i < rows.length; i++) {
+                //     if (userid == 222) {
+                //       fromLsit.push(rows.item(i).fromTime);
+                //       toList.push(rows.item(i).toTime);
+                //       ISFList.push(rows.item(i).ISF);
+                //     }
+                //   }
+                // }
               }
             }
           },
@@ -347,8 +339,47 @@ const Calc = () => {
     }
   };
 
-  //=========================Insulin Type
+  //=========================ICR intervals
   const retrieve2 = () => {
+    // insulinPen table
+    try {
+      db.transaction(tx => {
+        tx.executeSql(
+          'SELECT UserID, fromTime, toTime, ICR FROM icrInterval',
+          [],
+          (tx, results) => {
+            var rows = results.rows;
+            var fromListICR = [];
+            var toListICR = [];
+            var icrList = [];
+            // console.log(results + '-');
+
+            for (let i = 0; i < rows.length; i++) {
+              var userid = rows.item(i).UserID;
+
+              if (userid == 222) {
+                fromListICR.push(rows.item(i).fromTime);
+                toListICR.push(rows.item(i).toTime);
+                icrList.push(rows.item(i).ICR);
+              }
+            }
+            for (let z = 0; z < fromListICR.length; z++) {
+              //if (nowTime >= fromTime)
+            }
+
+            console.log(toListICR + ' \n' + fromListICR + '\n' + icrList);
+
+            return;
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //===================Insulin Type
+  const retrieve3 = () => {
     // insulinPen table
     try {
       db.transaction(tx => {
@@ -361,12 +392,11 @@ const Calc = () => {
             for (let i = 0; i < rows.length; i++) {
               var userid = rows.item(i).UserID;
 
-              if (userid == 54) {
+              if (userid == 222) {
                 setReData2({
                   ...ReData2,
                   insulinType: rows.item(i).insulinType,
                 });
-
                 console.log(ReData2.insulinType);
 
                 return;
@@ -419,8 +449,6 @@ const Calc = () => {
   const [CHO, setCHO] = useState(0);
   var isValidBG = true;
   var isValidCHO = true;
-  var time = '';
-  var Dina = 'Dina Albarqi';
 
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
@@ -439,7 +467,7 @@ const Calc = () => {
           Insulin Bolus Calculator
         </Text>
 
-        <Text style={styles.inpTxt}>{ReData1.ISF}</Text>
+        <Text style={styles.inpTxt}></Text>
 
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>Current BG levet: </Text>
@@ -980,4 +1008,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Calc;
+export default Cacl;
