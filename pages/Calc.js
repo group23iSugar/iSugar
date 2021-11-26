@@ -43,17 +43,28 @@ global.db = SQLite.openDatabase(
 );
 //=========================Local DB===============================
 
+
+
+const Calc = () => {
+
 const insuCalc = () => {
+
+  var a = 0;
+  var b =0;
+  var c=0;
+  var IOB=0;
+  var adjustment=0;
+
   if (
     ReData2.insulinType == 'Aspart' ||
     ReData2.insulinType == 'Lispro' ||
     ReData2.insulinType == 'Glulisine'
   ) {
     if (bgLevel > 70) {
-      if (reasonForInsulin == 'Correction') {
-        if (bgLevel > startBG) {
+      if (reason == '5') { //5 is the value for correction lable
+        if (bgLevel > ReData1.startBG) {
           a = 0;
-          b = (bgLevel - targetBG) / ISF;
+          b = (bgLevel - ReData1.targetBG) / ISF;
           total = a + b;
           if (timePrevDose <= 4) {
             IOB = IOBSwitch();
@@ -72,8 +83,8 @@ const insuCalc = () => {
       } else {
         if (calcMethod == 'ICR') {
           a = CHO / ICR;
-          if (bgLevel > startBG) {
-            b = (bgLevel - targetBG) / ISf;
+          if (bgLevel > ReData1.startBG) {
+            b = (bgLevel - ReData1.targetBG) / ISF;
           } else {
             b = 0;
           }
@@ -204,7 +215,8 @@ const timeCheck = () => {
 
 //======================End of insuling Calc methods===================
 
-const Calc = () => {
+
+  //=================To test only
   const test = () => {
     var t = ReData1.startBG + ReData1.targetBG;
     setTotala({
@@ -467,7 +479,7 @@ const Calc = () => {
           Insulin Bolus Calculator
         </Text>
 
-        <Text style={styles.inpTxt}></Text>
+        <Text style={styles.inpTxt}>{reason}</Text>
 
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>Current BG levet: </Text>
@@ -487,21 +499,21 @@ const Calc = () => {
           onValueChange={value => setReason(value)}
           mode="dropdown"
           style={styles.picker}>
-          <Picker.Item label="Pre-Breakfast" value="0" testID="0"></Picker.Item>
-          <Picker.Item label="Pre-Lunch" value="1" testID="0"></Picker.Item>
-          <Picker.Item label="Pre-Dinner" value="2" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Breakfast" value="0" testID="meal"></Picker.Item>
+          <Picker.Item label="Pre-Lunch" value="1" testID="meal"></Picker.Item>
+          <Picker.Item label="Pre-Dinner" value="2" testID="meal"></Picker.Item>
           <Picker.Item
             label="Pre-Daytime snack"
             value="3"
-            testID="0"></Picker.Item>
+            testID="meal"></Picker.Item>
           <Picker.Item
             label="Pre-Bedtime snack"
             value="4"
-            testID="0"></Picker.Item>
+            testID="meal"></Picker.Item>
           <Picker.Item
             label="No meal only for correction"
             value="5"
-            testID="1"></Picker.Item>
+            testID="correction"></Picker.Item>
         </Picker>
 
         <View style={styles.vNext}>
@@ -1008,4 +1020,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Cacl;
+export default Calc;
