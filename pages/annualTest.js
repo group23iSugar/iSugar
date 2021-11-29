@@ -24,7 +24,7 @@ import moment from 'moment';
 import react from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-
+ 
 let onlinUserID = 13;
 var AccType = '';
 
