@@ -47,7 +47,7 @@ global.db = SQLite.openDatabase(
 
 const Calc = () => {
 
-  const insuCalc = () => {
+ const insuCalc = () => {
    
   var a;
   var b;
@@ -89,7 +89,7 @@ const Calc = () => {
           } else if (PreviousExercise == true) {
             
             adjustment = PostExercise();
-             c = total - adjustment * total;
+             c = b - adjustment * b;
               setTotal(c);
             // return (total);
           }
@@ -115,10 +115,12 @@ const Calc = () => {
             setTotal(c);
             // return (total);
           } else if (PreviousExercise == true) {
+            if(differ <= 4 && differ >=0){
             adjustment = PostExercise();
              c = total - adjustment * total
              setTotal(c);
             //  return (total);
+            }
           }
         } else {
           c = slidingScale; // from database
@@ -226,9 +228,11 @@ const PostExercise = () => {
      adjNum = 0.4;
     }
 
-    return adjNum;
+   
   }
+   return adjNum;
 };
+
 
 //======================End of insuling Calc methods===================
 
