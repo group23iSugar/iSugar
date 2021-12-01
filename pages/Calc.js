@@ -47,35 +47,51 @@ global.db = SQLite.openDatabase(
 
 const Calc = () => {
 
-const insuCalc = () => {
-
-  var a = 0;
-  var b =0;
-  var c=0;
-  var IOB=0;
-  var adjustment=0;
-
+  const insuCalc = () => {
+   
+  var a;
+  var b;
+  var c = 0;
+  var IOB;
+  var adjustment;
+ 
   if (
     ReData2.insulinType == 'Aspart' ||
     ReData2.insulinType == 'Lispro' ||
     ReData2.insulinType == 'Glulisine'
   ) {
+
+     console.log('1-  '+c);
     if (bgLevel > 70) {
+      console.log('2-  '+c);
       if (reason == '5') { //5 is the value for correction lable
+      console.log('3-  '+c);
         if (bgLevel > ReData1.startBG) {
+          console.log('4-  '+c);
           a = 0;
           b = (bgLevel - ReData1.targetBG) / ISF;
-          total = a + b;
+          c = a + b;
+          console.log('5-  '+c);
+          setTotal(c);
           if (timePrevDose <= 4) {
+            console.log('6-  '+c);
             IOB = IOBSwitch();
-            total = total - IOB;
+            console.log('7-  '+IOB);
+            c = total - IOB;
+            setTotal(c);
           }
           if (PlannedExercise == true) {
+            
             adjustment = PreExercise();
-            return (total = total - adjustment * total);
+            c = total - adjustment * total;
+            setTotal(c);
+            // return (total);
           } else if (PreviousExercise == true) {
+            
             adjustment = PostExercise();
-            return (total = total - adjustment * total);
+             c = total - adjustment * total;
+              setTotal(c);
+            // return (total);
           }
         } else {
           alert('No correction required');
@@ -88,26 +104,38 @@ const insuCalc = () => {
           } else {
             b = 0;
           }
-          total = a + b;
+          c = a + b;
+          setTotal(c);
           IOB = IOBSwitch();
-          total = total - IOB;
+          c = total - IOB;
+          setTotal(c);
           if (PlannedExercise == true) {
             adjustment = PreExercise();
-            return (total = total - adjustment * total);
+            c = total - adjustment * total
+            setTotal(c);
+            // return (total);
           } else if (PreviousExercise == true) {
             adjustment = PostExercise();
-            return (total = total - adjustment * total);
+             c = total - adjustment * total
+             setTotal(c);
+            //  return (total);
           }
         } else {
-          total = slidingScale; // from database
+          c = slidingScale; // from database
+           setTotal(c);
           IOB = IOBSwitch();
-          total = total - IOB;
+          c = total - IOB;
+           setTotal(c);
           if (PlannedExercise == true) {
             adjustment = PreExercise();
-            return (total = total - adjustment * total);
+            c = total - adjustment * total
+             setTotal(c);
+            //  return (total);
           } else if (PreviousExercise == true) {
             adjustment = PostExercise();
-            return (total = total - adjustment * total);
+             c = total - adjustment * total
+             setTotal(c);
+            //  return (total);
           }
         }
       }
@@ -122,95 +150,84 @@ const insuCalc = () => {
 };
 
 const IOBSwitch = () => {
+ 
   var num = 0;
-  switch (timePrevDose) {
-    case timePrevDose < 1:
-      num = 1 * PrevDose;
-      break;
-    case timePrevDose >= 1 && timePrevDose < 2:
-      num = 0.75 * PrevDose;
-      break;
-    case timePrevDose >= 2 && timePrevDose < 3:
-      num = 0.5 * PrevDose;
-      break;
-    case timePrevDose >= 3 && timePrevDose <= 4:
-      num = 0.25 * PrevDose;
-      break;
+  if (timePrevDose < 1){
+     num = 1 * PrevDose;
+  }else if (timePrevDose >= 1 && timePrevDose < 2){
+    num = 0.75 * PrevDose;
+  }else if (timePrevDose >= 2 && timePrevDose < 3){
+     num = 0.5 * PrevDose;
+  }else if (timePrevDose >= 3 && timePrevDose <= 4){
+     num = 0.25 * PrevDose;
   }
+
   return num;
 };
 
 const PreExercise = () => {
   var adjNum = 1;
-  if (typeOfExercise == '0') {
-    switch (duration) {
-      case duration < 15:
-        break;
-      case duration >= 15 && duration < 30:
-        adjNum = 0.25;
-        break;
-      case duration >= 30 && duration <= 45:
-        adjNum = 0.5;
-        break;
-      case duration > 45:
-        adjNum = 0.75;
-        break;
-      case (duration = 'unknown'):
-        adjNum = 0.25;
-        break;
+  var p = parseInt(preDuration);
+  var numi = parseInt(preTypeOfExercise);
+  console.log('da p:  '+p);
+  if (numi >= 0 && numi <= 30) {
+
+    if (p < 15){
+      //nothing
+    }else if (p >= 15 && p < 30){
+       adjNum = 0.25;
+    }else if (p >= 30 && p <= 45){
+      adjNum = 0.5;
+    }else if (p > 45){
+      adjNum = 0.75;
+    }else if (preDuration == 'unknown'){
+      adjNum = 0.25;
     }
-  } else if (typeOfExercise == '1') {
-    switch (duration) {
-      case duration < 15:
-        break;
-      case duration >= 15 && duration < 30:
-        break;
-      case duration >= 30 && duration <= 45:
-        adjNum = 0.25;
-        break;
-      case duration > 45:
-        adjNum = 0.5;
-        break;
-      case (duration = 'unknown'):
-        adjNum = 0.25;
-        break;
+
+  } else if (numi > 30 && numi <= 42) {
+
+    if (p < 15){
+      //nothing
+    }else if (p >= 15 && p < 30){
+      //nothing
+    }else if (p >= 30 && p <= 45){
+      adjNum = 0.25;
+    }else if (p > 45){
+      adjNum = 0.5;
+    }else if (preDuration == 'unknown'){
+      adjNum = 0.25;
     }
+
   }
   return adjNum;
 };
 
 const PostExercise = () => {
   var adjNum = 1;
-  if (typeOfExercise == '0') {
-    switch (duration) {
-      case duration < 30:
-        adjNum = 0.25;
-        break;
-      case duration >= 30 && duration <= 45:
-        adjNum = 0.4;
-        break;
-      case duration > 45:
-        adjNum = 0.5;
-        break;
+  var p = parseInt(postDuration);
+  var numi = parseInt(postTypeOfExercise);
+  if (numi >= 0 && numi <= 30) {
+
+    if (p < 30){
+      adjNum = 0.25;
+    }else if (p >= 30 && p <= 45){
+      adjNum = 0.4;
+    }else if (p > 45){
+     adjNum = 0.5;
     }
-  } else if (typeOfExercise == '1') {
-    switch (duration) {
-      case duration < 30:
-        adjNum = 0.25;
-        break;
-      case duration >= 30 && duration <= 45:
-        adjNum = 0.3;
-        break;
-      case duration > 45:
-        adjNum = 0.4;
-        break;
+
+  } else if (numi > 30 && numi <= 42) {
+
+    if (p < 30){
+      adjNum = 0.25;
+    }else if (p >= 30 && p <= 45){
+      adjNum = 0.3;
+    }else if (p > 45){
+     adjNum = 0.4;
     }
+
     return adjNum;
   }
-};
-
-const timeCheck = () => {
-  var currentDate = new Date();
 };
 
 //======================End of insuling Calc methods===================
