@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const App = () => {
+const Home = () => {
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
@@ -185,4 +185,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Home;
