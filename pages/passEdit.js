@@ -52,6 +52,18 @@ const passEdit = ({ navigation, route }) => {
       if (infoType=='Personal Information'){
         navigation.navigate('personalEdit')
       }
+      if (infoType=='Glucose and Ketones Monitoring Information'){
+        navigation.navigate('ketonesEdit')
+      }
+      if (infoType=='Insulin Information'){
+        navigation.navigate('insulinEdit')
+      }
+      if (infoType=='Insulin Sensitivity Factor'){
+        navigation.navigate('isfEdit')
+      }
+      if (infoType=='Insulin to Carbohydrate Ratio (ICR)'){
+        navigation.navigate('icrEdit')
+      }
       
     }else{
       alert('Wrong password please try again');

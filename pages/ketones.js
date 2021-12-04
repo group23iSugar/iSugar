@@ -274,6 +274,7 @@ fetch(InsertAPIURL,{
             style={styles.actionN}></TextInput> : 
             <TextInput
             keyboardType="decimal-pad"
+            onChangeText = {(val)=>validateBGTo(val)}
             placeholder="00 mmol/L"
             style={styles.actionN}></TextInput>
             }
@@ -290,6 +291,7 @@ fetch(InsertAPIURL,{
             <TextInput
             keyboardType="decimal-pad"
             placeholder="00 mmol/L"
+            onChangeText = {(val)=>validateBGFrom(val)}
             style={styles.actionN}></TextInput>
             }
 
@@ -304,7 +306,7 @@ fetch(InsertAPIURL,{
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={styles.titleB}>Continue</Text>
+                    <Text style={styles.titleB}>Update</Text>
                   
                 </LinearGradient>
             </TouchableOpacity>

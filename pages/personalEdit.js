@@ -33,6 +33,7 @@ import react from 'react';
         });
         
         const getLocalInfo = ()=>{
+        // if (patient ) then
           try {
               console.log('in try');
               db.transaction( (tx) => {
@@ -43,7 +44,7 @@ import react from 'react';
                       var rows = results.rows;
                       for (let i = 0; i < rows.length; i++) {           
                           var userID = rows.item(i).UserID;
-                          if (uID == userID){
+                          if (238 == userID){
                               setDbData({
                                   ...dbData,
                                   dateBirth: rows.item(i).DOB,
@@ -64,7 +65,37 @@ import react from 'react';
           } catch (error) {
              console.log(error);
           }
+        // if (non-patient ) then
+        // try {
+        //     console.log('in try');
+        //     db.transaction( (tx) => {
+        //         tx.executeSql(
+        //           'SELECT UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date FROM nonPatientprofile',
+        //           [],
+        //           (tx, results) => {
+        //             var rows = results.rows;
+        //             for (let i = 0; i < rows.length; i++) {           
+        //                 var userID = rows.item(i).UserID;
+        //                 if (uID == userID){
+        //                     setDbData({
+        //                         ...dbData,
+        //                         dateBirth: rows.item(i).DOB,
+        //                         weigh: rows.item(i).weightKG,
+        //                         doLateH: rows.item(i).latest_HP1AC_date,
+        //                         lh1: rows.item(i).latest_HP1AC,
+        //                     });
+                            
+        //                   return;
+        //                 }
+        //               }
+        //           }   
+        // ) 
+            
         
+        // }  ) 
+        // } catch (error) {
+        //    console.log(error);
+        // }
         
       }
       var d = moment(dbData.dateBirth).format('YYYY-MM-DD'); // 2021-11-21
@@ -200,8 +231,9 @@ import react from 'react';
       var w = data.weight;
       var h = data.height;
       var BMI = 0;
-      if (data.isValidHeight == true && data.isValidWeight == true){
-       BMI=(w)/((h)/100)*((h)/100);
+      if (data.weight > 0 && data.height > 0){
+       BMI=((w) / ((h * h) / 10000)).toFixed(2);
+  
       return BMI;}
   
       return 'Waiting ...';
@@ -218,18 +250,23 @@ import react from 'react';
         if (data.isValidWeight==true && data.isValidHeight == true && data.isValidHB1AC == true && isValidAge){
          if (data.weight!=0){
             updateWeightLocal();
+            onlineDBWeight();
          }
          if (data.height!=0){
             updateHeightLocal();
+            onlineDBHeight();
          }
          if (data.latestHB1AC!=0){
             updateLHLocal();
+            onlineDBHB1ACDate();
          }
          if (flagFun(dateOfBirth) == false){
             updateDOBLocal();
+            onlineDBDOB();
          }
          if (flagFun(dateOfHB1AC) == false){
             updateDOLHLocal();
+            onlineDBHB1AC();
          }
        
           } else {
@@ -252,12 +289,13 @@ import react from 'react';
         }
     }
     const updateWeightLocal = () => {
+        //if patient then
         try {
           console.log('in weight');
           db.transaction( (tx) => {
               tx.executeSql(
                 'UPDATE patientprofile SET weightKG=? WHERE UserID=? ',
-                [data.weight, uID],
+                [data.weight, 238],
                 (tx, results) => {
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
@@ -271,6 +309,26 @@ import react from 'react';
       } catch (error) {
          console.log(error);
       }
+      //if non patient then
+    //   try {
+    //     console.log('in weight');
+    //     db.transaction( (tx) => {
+    //         tx.executeSql(
+    //           'UPDATE nonPatientprofile SET weightKG=? WHERE UserID=? ',
+    //           [data.weight, uID],
+    //           (tx, results) => {
+    //             console.log('Results', results.rowsAffected);
+    //          if (results.rowsAffected > 0) {
+    //          console.log('weight updated seuccefully');
+    //               }
+    //           }   
+    // ) 
+        
+    
+    // }  ) 
+    // } catch (error) {
+    //    console.log(error);
+    // }
       }
      
       const updateHeightLocal = () => {
@@ -279,7 +337,7 @@ import react from 'react';
           db.transaction( (tx) => {
               tx.executeSql(
                 'UPDATE patientprofile SET height=? WHERE UserID=? ',
-                [data.height, uID],
+                [data.height, 238],
                 (tx, results) => {
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
@@ -295,12 +353,13 @@ import react from 'react';
       }
       }
       const updateLHLocal = () => {
+          // if patient then
         try {
           console.log('in lh');
           db.transaction( (tx) => {
               tx.executeSql(
                 'UPDATE patientprofile SET latest_HP1AC=? WHERE UserID=? ',
-                [data.latestHB1AC, uID],
+                [data.latestHB1AC, 238],
                 (tx, results) => {
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
@@ -314,14 +373,35 @@ import react from 'react';
       } catch (error) {
          console.log(error);
       }
+      // if non patient then 
+    //   try {
+    //     console.log('in lh');
+    //     db.transaction( (tx) => {
+    //         tx.executeSql(
+    //           'UPDATE nonPatientprofile SET latest_HP1AC=? WHERE UserID=? ',
+    //           [data.latestHB1AC, uID],
+    //           (tx, results) => {
+    //             console.log('Results', results.rowsAffected);
+    //          if (results.rowsAffected > 0) {
+    //          console.log('latest updated seuccefully');
+    //               }
+    //           }   
+    // ) 
+        
+    
+    // }  ) 
+    // } catch (error) {
+    //    console.log(error);
+    // }
       } 
       const updateDOBLocal = () => {
+          //if patient then
         try {
           console.log('in dob');
           db.transaction( (tx) => {
               tx.executeSql(
                 'UPDATE patientprofile SET DOB=? WHERE UserID=? ',
-                [DOB, uID],
+                [DOB, 238],
                 (tx, results) => {
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
@@ -335,14 +415,35 @@ import react from 'react';
       } catch (error) {
          console.log(error);
       }
+    //   if non patient then
+    //   try {
+    //     console.log('in dob');
+    //     db.transaction( (tx) => {
+    //         tx.executeSql(
+    //           'UPDATE nonPatientprofile SET DOB=? WHERE UserID=? ',
+    //           [DOB, uID],
+    //           (tx, results) => {
+    //             console.log('Results', results.rowsAffected);
+    //          if (results.rowsAffected > 0) {
+    //          console.log('dob updated seuccefully');
+    //               }
+    //           }   
+    // ) 
+        
+    
+    // }  ) 
+    // } catch (error) {
+    //    console.log(error);
+    // }
       } 
       const updateDOLHLocal = () => {
+        // if patient then
         try {
           console.log('in doLH');
           db.transaction( (tx) => {
               tx.executeSql(
                 'UPDATE patientprofile SET latest_HP1AC_date=? WHERE UserID=? ',
-                [dateOfLatestHB1AC, uID],
+                [dateOfLatestHB1AC, 238],
                 (tx, results) => {
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
@@ -356,8 +457,163 @@ import react from 'react';
       } catch (error) {
          console.log(error);
       }
+      // if non patient then
+    //   try {
+    //     console.log('in doLH');
+    //     db.transaction( (tx) => {
+    //         tx.executeSql(
+    //           'UPDATE nonPatientprofile SET latest_HP1AC_date=? WHERE UserID=? ',
+    //           [dateOfLatestHB1AC, uID],
+    //           (tx, results) => {
+    //             console.log('Results', results.rowsAffected);
+    //          if (results.rowsAffected > 0) {
+    //          console.log('dolh updated seuccefully');
+    //               }
+    //           }   
+    // ) 
+        
+    
+    // }  ) 
+    // } catch (error) {
+    //    console.log(error);
+    // }
       } 
+      const onlineDBWeight = () => {
+        console.log('in weight');
+        var InsertAPIURL1 = "http://192.168.12.1/isugar/weigthKG.php";   //API to  signup
+      
+        var headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        };
+        var Data ={
+          UserID: 119,
+          weight_KG: weightKG
+        };
+      
+      // FETCH func ------------------------------------
+      fetch(InsertAPIURL1,{
+        method:'POST',
+        headers:headers,
+        body: JSON.stringify(Data) //convert data to JSON
+      })
+      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response)=>{
+           
+      })
+      .catch((error)=>{
+          alert("Error Occured" + error);
+      })
+      }
 
+      const onlineDBHeight = () => {
+        var InsertAPIURL2 = "http://192.168.12.1/isugar/height.php";   //API to  signup
+      
+        var headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        };
+        var Data ={
+          UserID: 119,
+          heightM: heightCM
+        };
+      
+      // FETCH func ------------------------------------
+      fetch(InsertAPIURL2,{
+            method:'POST',
+          headers:headers,
+          body: JSON.stringify(Data) //convert data to JSON
+      })
+      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response)=>{
+        alert(response[0].Message);
+      })
+      .catch((error)=>{
+          alert("Error Occured" + error);
+      })
+      }
+      
+      const onlineDBDOB = () => {
+        var InsertAPIURL = "http://192.168.12.1/isugar/DOB.php";   //API to  signup
+      
+        var headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        };
+        var Data ={
+          UserID: 119,
+          DOP: DOB,
+        };
+      
+      // FETCH func ------------------------------------
+      fetch(InsertAPIURL,{
+            method:'POST',
+          headers:headers,
+          body: JSON.stringify(Data) //convert data to JSON
+      })
+      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response)=>{
+        
+        
+      })
+      .catch((error)=>{
+          alert("Error Occured" + error);
+      })
+      }
+      
+      const onlineDBHB1AC = () => {
+        var InsertAPIURL = "http://192.168.12.1/isugar/latest_HBA1C.php";   //API to  signup
+      
+        var headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        };
+        var Data ={
+          UserID: 119,
+          latest_HP1AC: latestHB1AC_
+        };
+      
+      // FETCH func ------------------------------------
+      fetch(InsertAPIURL,{
+            method:'POST',
+          headers:headers,
+          body: JSON.stringify(Data) //convert data to JSON
+      })
+      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response)=>{
+      })
+      .catch((error)=>{
+          alert("Error Occured" + error);
+      })
+      }
+      
+      const onlineDBHB1ACDate = () => {
+        var InsertAPIURL = "http://192.168.12.1/isugar/latest_HBA1C_Date.php";   //API to  signup
+      
+        var headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        };
+        var Data ={
+          UserID: 119,
+          latest_HP1AC_date: dateOfLatestHB1AC
+        };
+      
+      // FETCH func ------------------------------------
+      fetch(InsertAPIURL,{
+            method:'POST',
+          headers:headers,
+          body: JSON.stringify(Data) //convert data to JSON
+      })
+      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response)=>{
+        
+      })
+      .catch((error)=>{
+          alert("Error Occured" + error);
+      })
+      }
+      
     return (
       <View style={styles.container}>
       <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
@@ -373,7 +629,7 @@ import react from 'react';
       </LinearGradient>
 
       <View style={styles.footer}>
-      <Text style={styles.title}>Personal Information{'\n'}</Text>
+      <Text style={styles.title}>Edit Personal Information{'\n'}</Text>
         
 <ScrollView>
 <View style={styles.action}>
@@ -407,7 +663,8 @@ import react from 'react';
 <View style={styles.action}>
 <Text style={styles.text_footer}>Age:</Text>
 <View style={styles.field}>
-<Text style={styles.text_footer}>{getAge(dateBr)} years old</Text>
+<Text style={styles.text_footer}>{flagFun(dateOfBirth) ? getAge(dateBr) : 
+           getAge(dateOfBirth)} years old</Text>
 </View>
 </View>
 

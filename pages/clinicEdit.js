@@ -43,7 +43,7 @@ import moment from 'moment';
                       var rows = results.rows;
                       for (let i = 0; i < rows.length; i++) {           
                           var userID = rows.item(i).UserID;
-                          if (uID == userID){
+                          if (238 == userID){
                               setDbData({
                                   ...dbData,
                                   diagnosisdate: rows.item(i).diagnosis_date,
@@ -80,7 +80,7 @@ import moment from 'moment';
                   var rows = results.rows;
                   for (let i = 0; i < rows.length; i++) {           
                       var userID = rows.item(i).UserID;
-                      if (uID == userID){
+                      if (238 == userID){
                           setDbData2({
                               ...dbData2,
                               uMRN: rows.item(i).MRN
@@ -192,16 +192,21 @@ const check = () => {
   if (center == '2' && dbData.diabetescenter == '2'){ // if user only updated the name/city 
     if (isValidName == true && isValidCity == true){
       if (other.centerName != dbData.centername){
+        onlineDBOther();
         updateCenterNameLocal();
       }
       if (other.centerCity != dbData.centercity){
         updateCenterCityLocal();
+        onlineDBOther();
       }
-    } 
+
+    }
   }
   if (center == '2' && dbData.diabetescenter != '2' ){ // if the user choose KSUMC in register and changed to other
     deleteMRNLocal();
+    deleteOnlineDB();
     if (isValidName == true && isValidCity == true){
+      onlineDBOther();
       updateCenterNameLocal();
       updateCenterCityLocal();
       updateCenterLocal();
@@ -211,35 +216,36 @@ const check = () => {
       if (mrn == '00000000'){
         alert('Please fill all the fields');
       } else {
+        onlineDBKSUMC();
         deleteNameCityLocal();
+        deleteOTHEROnlineDB();
         updateCenterLocal();
         try {
           db.transaction( (tx) => {
               tx.executeSql(
                'INSERT INTO KSUMC (UserID, MRN) VALUES (?,?)',
-                 [uID, mrn]
+                 [238, mrn]
              );
             
-            //  getData();
+             
          })
          
      } catch (error) {
          console.log(error);
      }
-        
-
-      
-        
+    
       }
     return;
   } else if (center == '1' && dbData.diabetescenter == '1'){
     if (mrn!=dbData2.uMRN){
       updateMRNLocal();
+      onlineDBKSUMC();
     }
 
   }
   if (flagFun(date) == false){
     updateDODLocal();
+    onlineDBDOD();
   }
   
 }
@@ -249,14 +255,14 @@ const updateMRNLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE KSUMC SET MRN=? WHERE UserID=? ',
-          [mrn, uID],
+          [mrn, 238],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
          console.log('record updated seuccefully');
          console.log(center);
               }
-          }   
+          }    
 ) 
     
 
@@ -271,7 +277,7 @@ const updateCenterNameLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET center_name=? WHERE UserID=? ',
-          [other.centerName, uID],
+          [other.centerName, 238],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -294,7 +300,7 @@ const updateCenterCityLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET center_city=? WHERE UserID=? ',
-          [other.centerCity, uID],
+          [other.centerCity, 238],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -316,7 +322,7 @@ const updateCenterLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET diabetes_center=? WHERE UserID=? ',
-          [center, uID],
+          [center, 238],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -339,7 +345,7 @@ const deleteMRNLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'DELETE FROM KSUMC WHERE UserID=? ',
-          [uID],
+          [238],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -361,7 +367,7 @@ const deleteNameCityLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET center_city=? WHERE UserID=? ',
-          ['', uID],
+          ['', 238],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -381,7 +387,7 @@ try {
   db.transaction( (tx) => {
       tx.executeSql(
         'UPDATE patientprofile SET center_name=? WHERE UserID=? ',
-        ['', uID],
+        ['', 238],
         (tx, results) => {
           console.log('Results', results.rowsAffected);
        if (results.rowsAffected > 0) {
@@ -403,7 +409,7 @@ const updateDODLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET diagnosis_date=? WHERE UserID=? ',
-          [dateOfDiagnosis, uID],
+          [dateOfDiagnosis, 238],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -418,7 +424,138 @@ const updateDODLocal = () => {
    console.log(error);
 }
 }
+const deleteOnlineDB = () =>{
+  var InsertAPIURL = "http://192.168.12.1/isugar/updateClinic.php";  
+  
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    UserID: 119,
+  };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+    alert("Error Occured" + error);
+  })
+  }
+  const deleteOTHEROnlineDB = () =>{
+    var InsertAPIURL = "http://192.168.12.1/isugar/deleteOther.php";  
+    
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: 119,
+    };
+    
+    // FETCH func ------------------------------------
+    fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+    })
+    .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+    .then((response)=>{
+    })
+    .catch((error)=>{
+      alert("Error Occured" + error);
+    })
+    }
+  const onlineDBOther = () => {
+    console.log('other');
+    var InsertAPIURL3 = "http://192.168.12.1/isugar/CenterInformation.php";   //API to  signup
 
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+     var Data ={
+      UserID: 119,
+      nameC: other.centerName,
+      city: other.centerCity
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL3,{
+        method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+    alert(response[0].Message);       // If data is in JSON => Display alert msg
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  const onlineDBKSUMC = () => {
+
+    var InsertAPIURL2 = "http://192.168.12.1/isugar/KSUMC.php";   //API to  signup
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+     var Data ={
+      UserID: 119,
+      MRN: mrn
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL2,{
+        method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+    alert(response[0].Message);       // If data is in JSON => Display alert msg
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+ 
+  }
+  const onlineDBDOD = () => {
+    var InsertAPIURL = "http://192.168.12.1/isugar/diagnosis_date.php";   
+ 
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    var Data ={
+     UserID: 119,
+     diagnosisD: dateOfDiagnosis 
+    }; 
+ 
+ 
+  fetch(InsertAPIURL,{
+        method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+ 
     return (
       
       <View style={styles.container}>
@@ -432,7 +569,7 @@ const updateDODLocal = () => {
       </LinearGradient>
       
       <View style={styles.footer}>
-      <Text style={styles.title}>Clinic Information{'\n'}</Text>
+      <Text style={styles.title}>Edit Clinic Information{'\n'}</Text>
       <ScrollView>
         
         {dbData.diabetescenter=='1' ? ( <View style={styles.action}>
@@ -540,8 +677,6 @@ null
         />
       )}
 </View>
-<Text>{dbData.diagnosisdate}</Text>
-<Text>{center}</Text>
 
 
           <View style={styles.buttonV}>

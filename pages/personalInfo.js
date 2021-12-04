@@ -174,9 +174,10 @@ console.log(uID);
       var w = data.weight;
       var h = data.height;
       var BMI = 0;
-      if (data.isValidHeight == true && data.isValidWeight == true){
-       BMI=(w)/((h)/100)*((h)/100);
-      return BMI;}
+      if (data.weight > 0 && data.height > 0){
+        BMI=((w) / ((h * h) / 10000)).toFixed(2);
+   
+       return BMI;}
   
       return 'Waiting ...';
   }

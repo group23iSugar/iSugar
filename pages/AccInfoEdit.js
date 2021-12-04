@@ -161,130 +161,31 @@ const validEmail = (val) => {
           secureTextEntry: !data.secureTextEntry
       });
     }
-    
- 
-//     const register = async () => {
-
-//          if ( data.fName.trim().length>2 && data.lName.trim().length>2 && data.isValidEmail == true && data.password.trim().length>=8 ){
-//           try {
-//             db.transaction( (tx) => {
-//                 tx.executeSql(
-//                  'INSERT INTO UserAccount (firstName, lastName, email, pass, accountType) VALUES (?,?,?,?,?)',
-//                    [data.fName, data.lName, data.email, data.password, AccType]
-//                );
-              
-//               //  getData();
-//            })
-           
-//        } catch (error) {
-//            console.log(error);
-//        }
-//        try {
-//         db.transaction( (tx) => {
-//             tx.executeSql(
-//               'SELECT UserID, firstName, lastName, email, pass, accountType FROM UserAccount',
-//               [],
-//               (tx, results) => {
-//                 var rows = results.rows;
-//                 for (let i = 0; i < rows.length; i++) {
-//                     uID = rows.item(i).UserID;               
-//                     var userEmail = rows.item(i).email;
-//                     if (data.email == userEmail){
-//                       if (AccType != 'Patient Account'){
-//                         navigation.navigate('personal')
-//                       // navigation.navigate('clinic')
-//                      }
-//                       // else{
-//                       //   navigation.navigate('personal')
-//                       // }
-//                       return;
-//                     }
-//                   }
-//               }   
-//     ) 
-        
   
-//   }  ) 
-//    } catch (error) {
-//        console.log(error);
-//    }
-           
-//          } else {
-           
-//             alert('Please fill all the entries ');
-        
-         
-          
-//            }
 
-//     }
-  
-   
-const [dbData, setDbData] = react.useState({
-    f_name:'',
-    l_name: '',
-    uEmail: '',
-});
 
-const checkEmail = () => {
-  try {
-    db.transaction((tx) => {
-        tx.executeSql(
-            "SELECT UserID, firstName, lastName, email, pass, accountType FROM UserAccount",
-            [],
-            (tx, results) => {
-              var rows = results.rows;
-              for (let i = 0; i < rows.length; i++) {
-                  var mail = rows.item(i).email;
-                  if (data.email == mail ){
-                    
-                  }
-                }
-                
-                
-            }
-            
-        )
-        
-    })
-} catch (error) {
-    console.log(error);
-}
-if (dbData.f_name!=data.fName){
-    localfNameUpdate();
-}
-if (dbData.l_name!=data.lName){
-  localLNameUpdate();
-}
-if (dbData.uEmail!=data.email){
-  localemailUpdate();
-}
-}
 const getLocalInfo = ()=>{
     try {
         console.log('in try');
         db.transaction( (tx) => {
             tx.executeSql(
-              'SELECT UserID, firstName, lastName, email, pass, accountType FROM UserAccount',
+              'SELECT UserID, firstName, lastName, email FROM UserAccount',
               [],
               (tx, results) => {
                 var rows = results.rows;
-                for (let i = 0; i < rows.length; i++) { 
-                    
-                    // dbData.f_name = rows.item(i).firstName;
-                    // dbData.l_name = rows.item(i).lastName; 
-                    // dbData.uEmail =  rows.item(i).email;           
+                for (let i = 0; i < rows.length; i++) {           
                     var userID = rows.item(i).UserID;
-                    if (uID == userID){
-                        setDbData({
-                            ...dbData,
-                            f_name: rows.item(i).firstName,
-                            l_name: rows.item(i).lastName,
-                            uEmail: rows.item(i).email
-                        });
-                        console.log( dbData.f_name +'-'+dbData.l_name+'-'+dbData.uEmail);
+                    if (238 == userID){
+                      setData({
+                        ...data,
+                        fName: rows.item(i).firstName,
+                        lName: rows.item(i).lastName,
+                        email: rows.item(i).email,
+                      });
                       return;
                     }
+                    
+                 
                   }
               }   
     ) 
@@ -297,18 +198,56 @@ const getLocalInfo = ()=>{
   
 }
 //=========================================//
-const localfNameUpdate =() => {
+const checkEmail = () => {
+  if (data.isValidEmail){
+    try {
+      db.transaction((tx) => {
+          tx.executeSql(
+              "SELECT UserID, firstName, lastName, email, pass, accountType FROM UserAccount",
+              [],
+              (tx, results) => {
+                var rows = results.rows;
+                for (let i = 0; i < rows.length; i++) {
+                    var mail = rows.item(i).email;
+                    var UsserID = rows.item(i).UserID;
+                    if (data.email == mail && 238 == UsserID){
+                      localUpdate();
+                      return;
+                    }
+                    else if (data.email == mail ){
+                      alert('Email already exists');
+                      return ;
+                    } 
+                  }
+                  
+                  localUpdate();
+                  
+              }
+              
+          )
+          
+      })
+  } catch (error) {
+      console.log(error);
+  }
+  } else {
+    localUpdate();
+  }
+  
+}
+const localUpdate =() => {
+  if (data.isValidPassword){
+    onlineDBPP();
     try {
         console.log('in try2');
         db.transaction( (tx) => {
             tx.executeSql(
-              'UPDATE UserAccount SET firstName=? WHERE UserID=? ',
-              [data.fName, uID],
+              'UPDATE UserAccount SET firstName=?, lastName=?, email=?  WHERE UserID=? ',
+              [data.fName, data.lName, data.email, 238],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
              if (results.rowsAffected > 0) {
-            
-            console.log( dbData.f_name);
+              alert('Updated successfully!');
                   }
               }   
     ) 
@@ -318,52 +257,44 @@ const localfNameUpdate =() => {
     } catch (error) {
        console.log(error);
     }
-}
-const localLNameUpdate =() => {
-  try {
-      console.log('in try3');
-      db.transaction( (tx) => {
-          tx.executeSql(
-            'UPDATE UserAccount SET lastName=? WHERE UserID=? ',
-            [data.lName, uID],
-            (tx, results) => {
-              console.log('Results', results.rowsAffected);
-           if (results.rowsAffected > 0) {
-             
-          console.log( dbData.l_name);
-                }
-            }   
-  ) 
-      
-  
-  }  ) 
-  } catch (error) {
-     console.log(error);
+  } else {
+    alert('please fill all the entries');
   }
-}
-const localemailUpdate =() => {
-  try {
-      console.log('in try3');
-      db.transaction( (tx) => {
-          tx.executeSql(
-            'UPDATE UserAccount SET email=? WHERE UserID=? ',
-            [data.email, uID],
-            (tx, results) => {
-              console.log('Results', results.rowsAffected);
-           if (results.rowsAffected > 0) {
-             
-          console.log( dbData.uEmail);
-                }
-            }   
-  ) 
-      
   
-  }  ) 
-  } catch (error) {
-     console.log(error);
-  }
+
 }
 
+const onlineDBPP = () => {
+  console.log('in DB1');
+  var InsertAPIURL = "http://192.168.12.1/isugar/updateUserAccount.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  
+  var Data ={
+    UserID: 119,
+    firstname: data.fName,
+    lastname: data.lName,
+    email: data.email,
+    pass: data.password,
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  alert(response[0].Message);      // If data is in JSON => Display alert msg
+})
+.catch((error)=>{
+    alert("Error Occured" + error);
+})
+}
 
     return (
       <View style={styles.container}>
@@ -377,7 +308,7 @@ const localemailUpdate =() => {
       <View style={styles.footer}>
         <ScrollView>
      
-      <Text style={styles.title}>Account Information{'\n'}</Text> 
+      <Text style={styles.title}>Edit Account Information{'\n'}</Text> 
     
       <Text style={styles.text_footer}>First Name</Text>
         <View style={styles.action}>
@@ -385,7 +316,7 @@ const localemailUpdate =() => {
          
           <TextInput 
           style={styles.textInput}
-          defaultValue = {dbData.f_name}
+          defaultValue = {data.fName}
           autoCapitalize="none"
           onChangeText={(val) => fnameCheck(val)}
           onEndEditing={(e)=>validFN(e.nativeEvent.text)}
@@ -404,7 +335,7 @@ const localemailUpdate =() => {
          
           <TextInput 
           style={styles.textInput}
-          defaultValue={dbData.l_name}
+          defaultValue={data.lName}
           autoCapitalize="none"
           onChangeText={(val) => lnameCheck(val)}
           onEndEditing={(e)=>validLN(e.nativeEvent.text)}
@@ -427,7 +358,7 @@ const localemailUpdate =() => {
          
           <TextInput 
           style={styles.textInput}
-          defaultValue={dbData.uEmail}
+          defaultValue={data.email}
           autoCapitalize="none"
           onChangeText={(val) => emailCheck(val)}
           onEndEditing={(e)=>validEmail(e.nativeEvent.text)}
