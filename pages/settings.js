@@ -13,9 +13,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import { Modal } from 'react-native-paper';
 import SQLite from 'react-native-sqlite-storage';
-import { useNavigation } from '@react-navigation/native';
 
 
 //======Local Database======//
@@ -36,7 +34,7 @@ global.db = SQLite.openDatabase(
 global.onlinUserID = '';
 global.uID = '162';
 
-
+const Setting = ({navigation}) => {
 
 var Language  = [
   {label: 'English', value: 'English', valueIndex: 0},
@@ -54,6 +52,8 @@ Alert.alert(
       text: 'OK',
       onPress: () => {
       console.log('OK pressed');
+      //navigation.navigate('l');
+      //allOperation();
       },
     },
     {
@@ -67,38 +67,30 @@ Alert.alert(
 );
 };//end twoOption
 
+const logOutAlert = () => {
+  Alert.alert(
+    //Title
+    'Log out',
+    //body
+    'Are you sure you want to log out?',
+  //  'if your account of type non-patient account it will delete it',
+    [
+      {
+        text: 'OK',
+        onPress: () => {
+          allOperation();
+        },
+      },
+      {
+        text: 'Cancel',
+        onPress: () => {
+        console.log('Cancel pressed');
+        },
+      },
+    ]
 
-
-const ModalPoup = ({visible, children}) => {
-  const [showModal, setShowModal] = react.useState(visible);
-
-  react.useEffect(() => {
-  toggleModal();
-}, [visible]);
-
-  const toggleModal = () =>{
-   if (visible){
-    setShowModal(true);
-  }
-   else {
-    setShowModal(false);
-  }
-};
-
-
-
- return (
-  <Modal transparent visible={showModal}>
-     <View style={styles.modalBackground}>
-      <View style={styles.modalContainer}>{children}</View>
-     </View>
- </Modal>
-);
-};
-
-
-const Setting = () => {
-  const navigation = useNavigation();
+  );
+  };//end logoutalert
 
   const [dbData, setDbData] = useState({
     accountT:'',
@@ -138,7 +130,7 @@ const Setting = () => {
         currentLanguage: value,
       });
     };
-  const [visible, setVisible] = react.useState(false);
+ // const [visible, setVisible] = react.useState(false);
 ////////////////////////////////////////////SELECT QUERIES//////////////////////////////////////////////
   const FirstRetreive = ()=>{
     try {
@@ -312,6 +304,7 @@ const SelectUsers = () => {
 ///////////////////////////////METHOD FOR DELETE QUERIES////////////////////////////////////////////
 const allOperation = () => {
   navigation.navigate('l');
+  navigation.navigate('lo');
   //deleteUserAccount();
   DeleteAll();
   console.log('hello');
@@ -725,36 +718,23 @@ const DeleteAll = () => {
         </View>
     </View>
 
-    <View style={{flexGrow: 1,justifyContent: 'center', alignItems: 'center'}}>
-      <ModalPoup visible= {visible}>
-        <View style={{alignItems: 'center'}}>
-          <View style={styles.header}>
-            <Text style={{textAlign: 'center', fontSize: 20, color: '#000'}}>Log out</Text>
-            <Text style={{textAlign: 'center', fontSize: 18 , paddingTop: 5, color: '#000'}}>Are you sure you want to logout?</Text>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 50}}>
-            <TouchableOpacity onPress={() => allOperation()}>
-              <Text style={{textAlign: 'center', fontSize: 16, paddingTop: 10, color: '#000'}}>OK</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=>setVisible(false)}>
-              <Text style={{textAlign: 'center', fontSize: 16, paddingTop: 10, color: '#000'}}>Cancel</Text>
-            </TouchableOpacity>
-            </View>
-         </View>
-       </View>
-     </ModalPoup>
-   </View>
 <View style={{marginBottom: 80, paddingBottom: 40}}>
      <View style={{flexDirection: 'row' ,marginLeft:15, paddingTop: 30 }}>
        <MaterialIcons name="account-circle" color="#212222" size={22}/>
        <Text style={styles.title}>Account</Text>
      </View>
         <View style={styles.buttonV}>
-           <TouchableOpacity onPress={()=> setVisible(true)}>
+           <TouchableOpacity>
              <LinearGradient
                colors={['#fff', '#fff', '#fff']}
                style={styles.buttonR}>
                 <SimpleLineIcons name="logout" color="#212222" size={22}/>
-               <Text style={styles.titleB}>Logout</Text>
+               <Text
+                onPress={ logOutAlert }
+               style={styles.titleB}
+               >
+                 Logout
+                 </Text>
              </LinearGradient>
             </TouchableOpacity>
          </View>
