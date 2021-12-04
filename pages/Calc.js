@@ -26,8 +26,10 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import SQLite from 'react-native-sqlite-storage';
+import timeCompare from './timeCompare';
 
-//=========================Local DB==========================
+
+//=========================Local DB===============================
 global.db = SQLite.openDatabase(
   {
     name: 'iSugear.db',
@@ -47,7 +49,10 @@ global.db = SQLite.openDatabase(
 
 const Calc = () => {
 
- const insuCalc = () => {
+  const insuCalc = () => {
+    checkISFIntervals();
+    checkICRIntervals();
+    checkSSIntervals();
    
   var a;
   var b;
@@ -69,7 +74,7 @@ const Calc = () => {
         if (bgLevel > ReData1.startBG) {
           console.log('4-  '+c);
           a = 0;
-          b = (bgLevel - ReData1.targetBG) / ISF;
+          b = (bgLevel - ReData1.targetBG) / ReData1.ISF;
           c = a + b;
           console.log('5-  '+c);
           setTotal(c);
@@ -80,13 +85,13 @@ const Calc = () => {
             c = total - IOB;
             setTotal(c);
           }
-          if (PlannedExercise == true) {
+          if (isPreEnabled == true) {
             
             adjustment = PreExercise();
             c = total - adjustment * total;
             setTotal(c);
             // return (total);
-          } else if (PreviousExercise == true) {
+          } else if (isPostEnabled == true) {
             
             adjustment = PostExercise();
              c = b - adjustment * b;
@@ -100,7 +105,7 @@ const Calc = () => {
         if (calcMethod == 'ICR') {
           a = CHO / ICR;
           if (bgLevel > ReData1.startBG) {
-            b = (bgLevel - ReData1.targetBG) / ISF;
+            b = (bgLevel - ReData1.targetBG) / ReData1.ISF;
           } else {
             b = 0;
           }
@@ -109,12 +114,12 @@ const Calc = () => {
           IOB = IOBSwitch();
           c = total - IOB;
           setTotal(c);
-          if (PlannedExercise == true) {
+          if (isPreEnabled == true) {
             adjustment = PreExercise();
             c = total - adjustment * total
             setTotal(c);
             // return (total);
-          } else if (PreviousExercise == true) {
+          } else if (isPostEnabled == true) {
             if(differ <= 4 && differ >=0){
             adjustment = PostExercise();
              c = total - adjustment * total
@@ -123,17 +128,18 @@ const Calc = () => {
             }
           }
         } else {
-          c = slidingScale; // from database
-           setTotal(c);
+          c = SlidingScale; // from database
+           setTotal(SlidingScale);
+           console.log(total+'  This is tt');
           IOB = IOBSwitch();
           c = total - IOB;
            setTotal(c);
-          if (PlannedExercise == true) {
+          if (isPreEnabled == true) {
             adjustment = PreExercise();
             c = total - adjustment * total
              setTotal(c);
             //  return (total);
-          } else if (PreviousExercise == true) {
+          } else if (isPostEnabled == true) {
             adjustment = PostExercise();
              c = total - adjustment * total
              setTotal(c);
@@ -233,186 +239,269 @@ const PostExercise = () => {
    return adjNum;
 };
 
-
 //======================End of insuling Calc methods===================
-
-
-  //=================To test only
-  const test = () => {
-    var t = ReData1.startBG + ReData1.targetBG;
-    setTotala({
-      ...totala,
-      total: t,
-    });
-  };
 
   //=========================Retrive From DB========================
   // var time='';
   const [ReData1, setReData1] = useState({
-    calcMethod: '',
     startBG: 0,
     targetBG: 0,
-    timePrevDose: -1,
-    doseAmount: -1,
     ISF: 0,
-    ICR: 0,
   });
 
   const [ReData2, setReData2] = useState({
     insulinType: '',
   });
-  const [totala, setTotala] = useState({
-    total: 0,
-  });
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    retrieve();
-    retrieve2();
+    FirstRetrieve(retrieve, secondretrieve);
     retrieve3();
+    retrieve4();
   }, []);
 
-  //--------------Queries-------------------
-
-  // ICR -ISF - PATIENT PROFILE -
-  const retrieve = () => {
-    //=============================
-    // try {
-    //   db.transaction(tx => {
-    //     console.log('qwqw');
-    //     tx.executeSql(
-    //       'SELECT UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct FROM isfInterval',
-    //       [],
-    //       (tx, results) => {
-    //               var fromList = [];
-    //               var toList = [];
-    //               var ISFList = [];
-    //               var targetBGList = [];
-    //               var startBGList = [];
-    //               // console.log(results +"Hello");
-
-    //         var rows2 = results.rows;
-    //         for (let z = 0; z < rows2.length; z++) {
-
-    //           var userid2 = rows2.item(z).UserID;
-
-    //           if (userid2 == 159) {
-    //             fromList.push(rows2.item(z).fromTime);
-    //             toList.push(rows2.item(z).toTime);
-    //             ISFList.push(rows2.item(z).ISF);
-    //             targetBGList.push(rows2.item(z).targetBG_correct);
-    //             startBGList.push(rows2.item(z).startBG_correct);
-
-    //             console.log(fromList + 'kk');
-    //           }
-    //         }
-    //       },
-    //     );
-    //     console.log('qwqw2222');
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    //=============================
-    // patient profile table
+ 
+  
+  // ====== ISF ========== //
+  const  [fromTime, setFromTime]= useState([]);
+  const  [toTime, setToTime]= useState([]);
+  const  [isf, setISF]= useState([]);
+  const  [tBG, setTBG]= useState([]);
+  const  [sBG, setSBG]= useState([]);
+  //======== ICR AND SS========= //
+  const [ICRarr, setICRarr]= useState([]);
+  const [ICR, setICR]= useState(0);
+  const [SlidingScaleArr, setSlidingScaleArr] = useState([]);
+  const [SlidingScale, setSlidingScale] = useState(0);
+  // ======= Patient Profile ===== //
+  const  [calcMethod, setCalcM]= useState('');
+  const  [isIsfInterval, setInterval]= useState(-1);
+  const  [insulinReg, setReg]= useState('');
+  const  [insulinType, setType]= useState('');
+  const  [isfP, setISFP]= useState(-1); // p indicates patient ;) these values won't be retreived unless isf interval = 0: All day
+  const  [tBGP, setTBGP]= useState(-1);
+  const  [sBGP, setSBGP]= useState(-1);
+  //======= Previous Dose==========//
+  const [timePrevDose, setTimePrevDose] = useState(0);
+  const [PrevDose, setPrevDose]= useState(0);
+  //==================================//
+   //--------------Queries-------------------
+  const FirstRetrieve =  (callback, callback2) => {
+    var interval=-1;
+    console.log('in first');
     try {
-      db.transaction(tx => {
-        tx.executeSql(
-          'SELECT UserID, ISF, ISFIntervals, targetBG_correct, startBG_correct, insulinCalcMethod, insulinRegimen FROM patientprofile',
-          [],
-          (tx, results) => {
-            var rows = results.rows;
-            var ISFInterval = 0;
-
-            for (let i = 0; i < rows.length; i++) {
-              var userid = rows.item(i).UserID;
-
-              if (userid == 222) {
-                console.log('Hii  ' + rows.item(i).ISFIntervals);
-
-                ISFInterval = rows.item(i).ISFIntervals;
-
-                if (ISFInterval == 0) {
-                  console.log('hello if hi');
-                  setReData1({
-                    ...ReData1,
-                    calcMethod: rows.item(i).insulinCalcMethod,
-                    startBG: rows.item(i).startBG_correct,
-                    targetBG: rows.item(i).targetBG_correct,
-                    ISF: rows.item(i).ISF,
-                  });
-
-                  console.log(
-                    ReData1.calcMethod +
-                      ' - ' +
-                      ReData1.startBG +
-                      ' - ' +
-                      ReData1.targetBG +
-                      ' - ' +
-                      ReData1.ISF,
-                  );
-
-                  return;
-                } //else {
-
-                //   for (let i = 0; i < rows.length; i++) {
-                //     if (userid == 222) {
-                //       fromLsit.push(rows.item(i).fromTime);
-                //       toList.push(rows.item(i).toTime);
-                //       ISFList.push(rows.item(i).ISF);
-                //     }
-                //   }
-                // }
+      db.transaction( (tx) => {
+        // insulinRegimen, ISFIntervals, insulinCalcMethod Retrive
+          tx.executeSql(
+              'SELECT UserID, insulinRegimen, ISFIntervals, insulinCalcMethod FROM patientprofile',
+            [],
+            (tx, results) => {
+              var rows = results.rows;
+              for (let i = 0; i < rows.length; i++){
+                  var UID = rows.item(i).UserID;
+                  if (UID == 222){
+                    console.log('in if (user is found)');
+                      interval = rows.item(i).ISFIntervals;//boolean 0 or 1
+                      console.log(interval);
+                     setInterval(interval);
+                     var calcM = rows.item(i).insulinCalcMethod;// ICR or SS
+                     console.log(calcM);
+                     setCalcM(calcM);
+                     var insulinR = rows.item(i).insulinRegimen;// pen , pump , etc..
+                     console.log(insulinR);
+                     setReg(insulinR);
+                     //----------------
+                    //  console.log(interval+' intervals before calling');
+                    //   console.log(calcM+' method for calc');
+                      callback(interval);
+                      callback2(calcM);
+                     return;
               }
+              
             }
-          },
-        );
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+            
+            },
+          );
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      
+  }
 
+  const retrieve =  (interval) => { //interval is wither the user is using isf intervals or not ( 1 or 0)
+    console.log('in second');
+    console.log(interval);
+    if (interval != -1){
+      if (interval == 1){ // specific hours
+        try {
+          db.transaction( (tx) => {
+              tx.executeSql(
+                  'SELECT isfID, UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct FROM isfInterval',
+                [],
+                (tx, results) => {
+                  var rows = results.rows;
+                  for (let i = 0; i < rows.length; i++){
+                      var UID = rows.item(i).UserID;
+                      if (UID == 222){  //user id
+                        var from =  rows.item(i).fromTime;
+                        setFromTime(fromTime => [...fromTime, from]);
+                        var to = rows.item(i).toTime;
+                        setToTime(toTime => [...toTime, to]);
+                        var ISF_ = rows.item(i).ISF;
+                        setISF(isf => [...isf, ISF_]);
+                        var target = rows.item(i).targetBG_correct;
+                        setTBG(tBG => [...tBG, target]);
+                        var start = rows.item(i).startBG_correct;
+                        setSBG(sBG => [...sBG, start]);
+                        //  التخزين في ارايز
+ 
+                  }
+                  
+                 
+                }
+                
+                },
+              );
+            });
+          } catch (error) {
+            console.log(error);
+          }
+      } else if (interval == 0) { // All day
+        try {
+          db.transaction( (tx) => {
+              tx.executeSql(
+                  'SELECT UserID, ISF, targetBG_correct, startBG_correct FROM patientprofile',
+                [],
+                (tx, results) => {
+                  var rows = results.rows;
+                  for (let i = 0; i < rows.length; i++){
+                      var UID = rows.item(i).UserID;
+                      if (UID == 222){
+                        //***************************************FIXIXIXIX */
+                        var ISF_ = rows.item(i).ISF;
+                        setISFP(ISF_);
+                        var target = rows.item(i).targetBG_correct;
+                        setTBGP(target);
+                        var start = rows.item(i).startBG_correct;
+                        setSBGP(start);
+                        
+                    setReData1({
+                            startBG: start,
+                            targetBG: target,
+                            ISF: ISF_, 
+                                   });
+                        
+                  }
+                  
+                }
+                
+                },
+              );
+            });
+          } catch (error) {
+            console.log(error);
+          }
+          
+      }
+    }
+    
+   
+  };
   //=========================ICR intervals
-  const retrieve2 = () => {
-    // insulinPen table
-    try {
-      db.transaction(tx => {
-        tx.executeSql(
-          'SELECT UserID, fromTime, toTime, ICR FROM icrInterval',
-          [],
-          (tx, results) => {
-            var rows = results.rows;
-            var fromListICR = [];
-            var toListICR = [];
-            var icrList = [];
-            // console.log(results + '-');
-
-            for (let i = 0; i < rows.length; i++) {
-              var userid = rows.item(i).UserID;
-
-              if (userid == 222) {
-                fromListICR.push(rows.item(i).fromTime);
-                toListICR.push(rows.item(i).toTime);
-                icrList.push(rows.item(i).ICR);
-              }
-            }
-            for (let z = 0; z < fromListICR.length; z++) {
-              //if (nowTime >= fromTime)
-            }
-
-            console.log(toListICR + ' \n' + fromListICR + '\n' + icrList);
-
-            return;
-          },
-        );
-      });
+  const secondretrieve = (method) =>{//calcM??
+    console.log('inside is: '+method);
+    if (method == 'ICR'){
+      
+      var tempArr=[...ICRarr]; // array of obj
+      try {
+ 
+          db.transaction(( tx) => {
+            tx.executeSql(
+              'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
+              [222],
+              (tx, results) => {
+                var rows = results.rows;
+                for (let i = 0; i < rows.length; i++){
+                    console.log('hello?1?************8');
+                        tempArr.push({
+                            id: rows.item(i).icrID,
+                            from: rows.item(i).fromTime,
+                            to: rows.item(i).toTime,
+                            icr: rows.item(i).ICR,
+                            isChanged: false,//no need
+                            isNew: true // no need
+                        });
+                   
+            
+                  }
+                  setICRarr([...tempArr]);
+                  console.log(tempArr + 'This is icr arr');
+              }   
+    ) 
+        
+    
+    }  ) 
     } catch (error) {
-      console.log(error);
+       console.log(error);
     }
-  };
-
+    } else if(method=='Sliding Scale') {
+      console.log('hello Sliding');
+      var tempArr=[...SlidingScaleArr];
+      try {
+          db.transaction(  ( tx) => {
+            tx.executeSql(
+              'SELECT ssID, fromTime, toTime FROM ssInterval WHERE UserID=?',
+              [222],
+              (tx, results) => {
+                var rows = results.rows;
+                for (let i = 0; i < rows.length; i++){
+                        tempArr.push({
+                            id: rows.item(i).ssID,
+                            from: rows.item(i).fromTime,
+                            to: rows.item(i).toTime,
+                            Rnages: []
+                        });
+                        try {
+                          db.transaction(  ( tx) => {
+                            tx.executeSql(
+                              'SELECT bgID, fromBGLevel, toBGLevel, insulinDose FROM bgleveltoinsulin WHERE ssID=?',
+                              [tempArr[i].id],
+                              (tx, results) => {
+                                var rows2 = results.rows;
+                                for (let j = 0; j < rows2.length; j++){
+                                        tempArr[i].Rnages.push({
+                                            id: rows2.item(j).bgID,
+                                            BGFrom: rows2.item(j).fromBGLevel,
+                                            BGTo: rows2.item(j).toBGLevel,
+                                            insulin: rows2.item(j).insulinDose,
+                                        });
+                                        console.log( tempArr[i].Rnages[j]);
+                                  }
+                                  
+                                  setSlidingScaleArr([...tempArr]);
+                              }   
+                    ) 
+                        
+                    
+                    }  ) 
+                    } catch (error) {
+                       console.log(error);
+                    }
+                  }
+                  setSlidingScaleArr([...tempArr]);
+              }   
+    ) 
+        
+    
+    }  ) 
+    } catch (error) {
+       console.log(error);
+    }
+    }
+  }
   //===================Insulin Type
-  const retrieve3 = () => {
+  const retrieve3 = () => { 
     // insulinPen table
     try {
       db.transaction(tx => {
@@ -443,10 +532,117 @@ const PostExercise = () => {
     }
   };
 
+ //=========================Previous Insulin==========================
+  const retrieve4 = () => { 
+    // insulinPen table
+    try {
+      db.transaction(tx => {
+        tx.executeSql(
+          'SELECT insulinDose, Dose_time FROM takenInsulinDose WHERE UserID=?',
+          [222],
+          (tx, results) => {
+            var rows = results.rows;
+
+            var t = rows.item(rows.length-1).Dose_time; //12:00am
+            var d = rows.item(rows.length-1).insulinDose;//2
+            var tO = new Date(t);
+            var currentTime = new Date();
+            var pTime= currentTime.getHours() - tO.getHours();// integer
+            setTimePrevDose(pTime);
+            setPrevDose(d);
+            console.log('RwR '+ timePrevDose +'H '+PrevDose);
+
+
+
+
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //DateTime
 
+  //Choose ISF , Start BG , Target Bg based on current time
+const checkISFIntervals = () => {
+  console.log('i got called');
+  var index = -1;
+  for (let i=0; i<fromTime.length; i++){ // icr: icr.length - ss: SlidingScale.length
+    if (timeCompare(fromTime[i], toTime[i])){ // icr: (icr[i].from,icr[i].to) -  ss: (SlidingScale[i].from, SlidingScale[i].to ) 
+      console.log('index: '+i);
+      index = i;
+      console.log('found interval at: '+index);
+
+      setReData1({...ReData1, 
+      ISF: isf[index],
+      startBG: sBG[index],
+      targetBG: tBG[index]});
+      console.log(ReData1.ISF + ReData1.startBG + ReData1.targetBG + 'Did u work?');
+      // return index;
+    } else {
+      console.log('not found interval');
+    }
+  }
+}
+
+
+  //Choose ICR based on current time
+
+  const checkICRIntervals = () => {
+  var index = -1;
+  for (let i=0; i<ICRarr.length; i++){ // icr: icr.length - ss: SlidingScale.length
+   console.log('i got called ICR');
+    if (timeCompare(ICRarr[i].from, ICRarr[i].to)){ // icr: (icr[i].from,icr[i].to) -  ss: (SlidingScale[i].from, SlidingScale[i].to ) 
+      console.log('index: '+i);
+      index = i;
+      console.log('found interval at: '+index);
+
+      setICR(ICRarr[index].icr);
+
+      console.log(ICR + '  Did u work?');
+      // return index;
+    } else {
+      console.log('not found interval');
+    }
+  }
+}
+
+//Choose SS based on current time
+  const checkSSIntervals = () => {
+  var index = -1;
+  for (let i=0; i<SlidingScaleArr.length; i++){ // icr: icr.length - ss: SlidingScale.length
+   console.log('i got called SS');
+    if (timeCompare(SlidingScaleArr[i].from, SlidingScaleArr[i].to)){ // icr: (icr[i].from,icr[i].to) -  ss: (SlidingScale[i].from, SlidingScale[i].to ) 
+      for(let j=0; j<SlidingScaleArr[i].Rnages.length; j++){
+        if(SlidingScaleArr[i].Rnages[j].BGFrom <= bgLevel && SlidingScaleArr[i].Rnages[j].BGTo >= bgLevel){
+          setSlidingScale(SlidingScaleArr[i].Rnages[j].insulin);
+        }
+      }
+      console.log('index: '+i);
+      index = i;
+      console.log('found interval at: '+index);
+      console.log(SlidingScale);
+
+      // setICR(ICRarr[index].icr);
+
+      // console.log(ICR + '  Did u work?');
+      // return index;
+    } else {
+      console.log('not found interval');
+    }
+  }
+}
+
+
+
+
+//=====================================================================
   var nowDate = new Date();
   var nowTime = moment.utc(nowDate).format('h:mm a'); // 11:40 PM
+
+ 
 
   const [PosTime, setPosTime] = useState(new Date());
   const [showPosTime, setShowPosTime] = useState(false);
@@ -460,6 +656,10 @@ const PostExercise = () => {
   const showPosTimeMethod = () => {
     setShowPosTime(true);
   };
+   var showTime = moment(PosTime).format('h:mm a');
+
+  var differ = nowDate.getHours()-PosTime.getHours();
+  var differToString = moment(differ).format('h:mm a');
 
   //DateTime
 
@@ -474,15 +674,16 @@ const PostExercise = () => {
   //=================================================================================
 
   const [reason, setReason] = useState('0'); //ReasonForInsulin
-  const [preDuration, setPreDuration] = useState('0'); //Duration of pre exersize
-  const [preTypeOfExercise, setPreTypeOfExercise] = useState('0'); //reason of pre exercize
-  const [postDuration, setPostDuration] = useState('0'); //Duration of post exersize
-  const [postTypeOfExercise, setPostTypeOfExercise] = useState('0'); //reason of post exercize
+  const [preDuration, setPreDuration] = useState('14'); //Duration of pre exersize
+  const [preTypeOfExercise, setPreTypeOfExercise] = useState('1'); //reason of pre exercize
+  const [postDuration, setPostDuration] = useState('14'); //Duration of post exersize
+  const [postTypeOfExercise, setPostTypeOfExercise] = useState('1'); //reason of post exercize
   const [bgLevel, setbgLevel] = useState(0);
   const [CHO, setCHO] = useState(0);
   var isValidBG = true;
   var isValidCHO = true;
-
+ 
+  
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
@@ -499,9 +700,9 @@ const PostExercise = () => {
           }}>
           Insulin Bolus Calculator
         </Text>
+        <Text style={styles.inpTxt}>{total}</Text>
 
-        <Text style={styles.inpTxt}>{reason}</Text>
-
+         
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>Current BG levet: </Text>
           <TextInput
@@ -520,23 +721,22 @@ const PostExercise = () => {
           onValueChange={value => setReason(value)}
           mode="dropdown"
           style={styles.picker}>
-          <Picker.Item label="Pre-Breakfast" value="0" testID="meal"></Picker.Item>
-          <Picker.Item label="Pre-Lunch" value="1" testID="meal"></Picker.Item>
-          <Picker.Item label="Pre-Dinner" value="2" testID="meal"></Picker.Item>
+          <Picker.Item label="Pre-Breakfast" value="0" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Lunch" value="1" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Dinner" value="2" testID="0"></Picker.Item>
           <Picker.Item
             label="Pre-Daytime snack"
             value="3"
-            testID="meal"></Picker.Item>
+            testID="0"></Picker.Item>
           <Picker.Item
             label="Pre-Bedtime snack"
             value="4"
-            testID="meal"></Picker.Item>
+            testID="0"></Picker.Item>
           <Picker.Item
             label="No meal only for correction"
             value="5"
-            testID="correction"></Picker.Item>
+            testID="1"></Picker.Item>
         </Picker>
-
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>Meal carbohydrate content: </Text>
           <TextInput
@@ -550,10 +750,10 @@ const PostExercise = () => {
           <Text style={{fontSize: 18, textAlign: 'center'}}>
             Calculate carbohydrate in a meal
           </Text>
-          <Image
+          {/* <Image
             source={require('./images/carb.png')}
             style={{height: 30, width: 30}}
-          />
+          /> */}
         </TouchableOpacity>
 
         <Text style={styles.inpTxt}>
@@ -903,7 +1103,11 @@ const PostExercise = () => {
             <Text style={styles.inpTxt}>Time of exersice: </Text>
             <View>
               <Button onPress={showPosTimeMethod} title="Set Time" />
+
+              
             </View>
+
+            <Text style={{textAlign: 'center', fontSize: 20, backgroundColor: 'white'}}>{showTime}</Text>
 
             {showPosTime && (
               <DateTimePicker
@@ -915,6 +1119,7 @@ const PostExercise = () => {
             )}
           </View>
         ) : null}
+        
 
         <TouchableOpacity
           style={{
@@ -923,7 +1128,8 @@ const PostExercise = () => {
             paddingBottom: 30,
             backgroundColor: '#6496d7',
           }}
-          onPress={test}>
+          onPress={insuCalc}
+          >
           <Text style={{fontSize: 18, textAlign: 'center'}}>Calculate</Text>
         </TouchableOpacity>
 
