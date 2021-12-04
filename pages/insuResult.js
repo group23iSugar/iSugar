@@ -21,7 +21,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import moment from 'moment';
 
-const App = ({navigation, route}) => {
+const insuResult = ({navigation, route}) => {
   
   
   var total = route.params.result;
@@ -245,4 +245,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default insuResult;
