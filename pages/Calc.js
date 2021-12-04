@@ -158,6 +158,7 @@ const Calc = () => {
     );
   }
   setTotal(c);
+  navigation.navigate('result',{result: total, calcM: calcMethod, reasonD: reason, bg: bgLevel, cho: CHO})
   console.log(c +' and:3  '+ total);
 };
 
@@ -1132,7 +1133,7 @@ const checkISFIntervals = () => {
             paddingBottom: 30,
             backgroundColor: '#6496d7',
           }}
-          onPress={insuCalc}
+          onPress={()=>insuCalc()}
           >
           <Text style={{fontSize: 18, textAlign: 'center'}}>Calculate</Text>
         </TouchableOpacity>
