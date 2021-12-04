@@ -56,7 +56,7 @@ const Calc = () => {
    
   var a;
   var b;
-  var c = 0;
+  var c;
   var IOB;
   var adjustment;
  
@@ -72,30 +72,31 @@ const Calc = () => {
       if (reason == '5') { //5 is the value for correction lable
       console.log('3-  '+c);
         if (bgLevel > ReData1.startBG) {
+          console.log('BG: '+bgLevel+' Start BG: '+ReData1.startBG+ ' ISF: '+ReData1.ISF);
           console.log('4-  '+c);
           a = 0;
           b = (bgLevel - ReData1.targetBG) / ReData1.ISF;
           c = a + b;
           console.log('5-  '+c);
-          setTotal(c);
+         
           if (timePrevDose <= 4) {
             console.log('6-  '+c);
             IOB = IOBSwitch();
             console.log('7-  '+IOB);
             c = total - IOB;
-            setTotal(c);
+          
           }
           if (isPreEnabled == true) {
             
             adjustment = PreExercise();
             c = total - adjustment * total;
-            setTotal(c);
+            
             // return (total);
           } else if (isPostEnabled == true) {
             
             adjustment = PostExercise();
              c = b - adjustment * b;
-              setTotal(c);
+            
             // return (total);
           }
         } else {
@@ -110,39 +111,40 @@ const Calc = () => {
             b = 0;
           }
           c = a + b;
-          setTotal(c);
+       
           IOB = IOBSwitch();
           c = total - IOB;
-          setTotal(c);
+        
           if (isPreEnabled == true) {
             adjustment = PreExercise();
             c = total - adjustment * total
-            setTotal(c);
+          
             // return (total);
           } else if (isPostEnabled == true) {
             if(differ <= 4 && differ >=0){
             adjustment = PostExercise();
              c = total - adjustment * total
-             setTotal(c);
+         
             //  return (total);
             }
           }
         } else {
           c = SlidingScale; // from database
-           setTotal(SlidingScale);
-           console.log(total+'  This is tt');
+           console.log(c +' and:3  '+ total);
+           console.log(c+'  This is tt');
           IOB = IOBSwitch();
           c = total - IOB;
-           setTotal(c);
+          console.log(IOB+'  This is IOB and c after IOB: '+c);
+          
           if (isPreEnabled == true) {
             adjustment = PreExercise();
             c = total - adjustment * total
-             setTotal(c);
+            
             //  return (total);
           } else if (isPostEnabled == true) {
             adjustment = PostExercise();
              c = total - adjustment * total
-             setTotal(c);
+            
             //  return (total);
           }
         }
@@ -152,9 +154,11 @@ const Calc = () => {
     }
   } else {
     alert(
-      'Your Insulin type is not supported in this application. Please contact your Diabetes center for instruction & recommendations for insulin bolus calculation & dose determination',
+      'Your Insulin type is not supported in this application. Please contact your Diabetes center for instruction & recommendations for insulin bolus calculation & dose determination'
     );
   }
+  setTotal(c);
+  console.log(c +' and:3  '+ total);
 };
 
 const IOBSwitch = () => {
