@@ -72,7 +72,8 @@ const logOutAlert = () => {
     //Title
     'Log out',
     //body
-    'Are you sure you want to log out?',
+    'Are you sure you want to log out? ' +
+    'if your account of type non-patient it will delete.',
   //  'if your account of type non-patient account it will delete it',
     [
       {
@@ -303,7 +304,7 @@ const SelectUsers = () => {
 
 ///////////////////////////////METHOD FOR DELETE QUERIES////////////////////////////////////////////
 const allOperation = () => {
-  navigation.navigate('l');
+  //navigation.navigate('l');
   navigation.navigate('lo');
   //deleteUserAccount();
   DeleteAll();
