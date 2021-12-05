@@ -16,6 +16,7 @@ import {
   TextInput,
   Dimensions,
   alert,
+  Alert,
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -108,7 +109,12 @@ global.counter = 0;//isf counter
 global.countericr = 0;
 global.counterss = 0;
 global.counterbg = 0;
-
+isAuthen = '';
+global.doseHour = 0;
+global.doseMin = 0;
+global.doseDay = 0;
+global.doseMonth = 0;
+global.doseYear = 0;
 
 const logIn = ({navigation}) => {
  // var isAuthenticated = "";
@@ -162,10 +168,46 @@ const logIn = ({navigation}) => {
     });
   }
 
+  const logAlert = () => {
+    Alert.alert(
+      //Title
+      '',
+      //body
+      'Email or password is incorrect',
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+          console.log('ok pressed');
+          },
+        },
+      ]
+    
+    );
+    };//end twoOption
+    
+    const emptyAlert = () => {
+      Alert.alert(
+        //Title
+        '',
+        //body
+        'please fill all the fields',
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+            console.log('ok pressed');
+            },
+          },
+        ]
+      
+      );
+      };//end twoOption
+      
   const logI = async () => {
    
     if (data.email.length == 0 || data.password.length == 0) {
-      alert('Please fill all the entries ');
+      emptyAlert();
     } else {
       onlineDB();
    //------------------------------------------------------------------------------------
@@ -226,23 +268,6 @@ const logIn = ({navigation}) => {
 console.log('out local patient');
     }//end method patient 
 
-    const insertInLocalNonPatient = async () => {
-    console.log('in local non patient');
-   try {
-     db.transaction( (tx) => {
-         tx.executeSql(
-          'INSERT INTO patientprofile (UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date, typeOfGlucoseM, glucoseLevel_unit, ketonesMeasure, insulinRegimen, ISF, targetBG_correct, startBG_correct, ISFIntervals, insulinCalcMethod, fromBG, toBG) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            [uID, DOBirth, weightKG, latestHB1AC_, DOLatestHB1AC, glucoseMonitor, glucoseUnit, ketonesMeasure, insulinReg, InsulinSF, bgTarget, bgStart, intervalISF, insulinCalcMethod, fromBG, toBG]
-        );
-          console.log("here inside2");
-       //  getData();
-    })
-    console.log("here outside2");
- } catch (error) {
-    console.log(error);
- }
- console.log('out local non-patient');
-    }//end method patient 
 
     const insertInLocalMRN = async () => {
     console.log('in local mrn');
@@ -405,8 +430,8 @@ console.log('out local patient');
       try {
         db.transaction( (tx) => {
           tx.executeSql(
-           'INSERT INTO takenInsulinDose (UserID, BG_Level, ReasonForInsulin, CHO, insulinDose, Dose_time, Dose_date) VALUES (?,?,?,?,?,?,?)',
-             [uID, BGLevel, reason, CHO, insulinDose, doseTime, doseDate]
+           'INSERT INTO takenInsulinDose (UserID, BG_Level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Month, Dose_Date_Day, Dose_Date_Year) VALUES (?,?,?,?,?,?,?,?,?,?)',
+             [uID, BGLevel, reason, CHO, insulinDose, doseHour, doseMin, doseMonth, doseDay, doseYear]
              //, suggestedInsulin, userInsulin
          );
         
@@ -503,27 +528,29 @@ console.log('out local patient');
   .then((response)=>{
 
     onlinUserID = response[0].userID;
-    if (onlinUserID != '0'){
-      console.log(response[0].userID);
-       fName = response[0].firstName;
-        console.log(response[0].firstName);
-       lName = response[0].lastName;
-        console.log(response[0].lastName);
-       AccType = response[0].userAccType;
-       console.log(response[0].userAccType);
-        console.log('inside authenticate: ');
-       navigation.navigate('home');
-  } else {
-       alert("Email or pass is not correct");
-  }
-  console.log(onlinUserID + '-' + fName + '-' + lName + '-' + AccType);
-  insertInLocal();
-  if (AccType == 'Patient Account'){
-    onlineDBProfile();
-  }
-  else {
-    onlineDBNonPatientProfile();
-  }
+    isAuthen = response[0].flag;
+    console.log(response[0].flag);
+
+if (response[0].flag == "true"){
+ // if (onlinUserID != '0'){
+    console.log(response[0].userID);
+     fName = response[0].firstName;
+      console.log(response[0].firstName);
+     lName = response[0].lastName;
+      console.log(response[0].lastName);
+     AccType = response[0].userAccType;
+     console.log(response[0].userAccType);
+      console.log('inside authenticate: ');
+        navigation.navigate('home');    
+//} 
+console.log(onlinUserID + '-' + fName + '-' + lName + '-' + AccType);
+onlineDBProfile();
+insertInLocal();
+}
+else if (response[0].flag == "false"){
+  logAlert();
+}
+ 
 })
   .catch((error)=>{
       alert("Error Occured" + error);
@@ -600,9 +627,7 @@ fetch(InsertAPIURL,{
  Diabetescenter = response[0].diabetes_center;
    console.log(response[0].diabetes_center);
  console.log('inside authenticate of patient user: ');
-} else {
-alert("Email or pass is not correct");
-}
+} 
 console.log('Patient profile');
 insertInLocalPatient();
 insertInLocalMRN();
@@ -631,95 +656,6 @@ onlineDBTakenInsulin();
     alert("Error Occured" + error);
 })
 console.log('inside onlineDB pateint profile: ');
-}
-
-//----------------------for non-patient profile -------------------------------
-const onlineDBNonPatientProfile = () => {
-console.log('in database3');
-var InsertAPIURL = "http://192.168.56.1/isugar/AuthenticatePatientProfile.php";   //API to  signup
-
-var headers = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json'
-};
-
-var Data = {
-  email: data.email,
-  pass: data.password,
-  UserID: onlinUserID,
-};
-
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-  method:'POST',
-  headers:headers,
-  body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-
-if (onlinUserID != '0'){
-//onlinUserID = response[0].userID;
-DOBirth = response[0].dob;
- console.log(response[0].dob);
-weightKG = response[0].weight_KG;
- console.log(response[0].weight_KG);
-latestHB1AC_ = response[0].latest_HP1AC;
- console.log(response[0].latest_HP1AC);
-DOLatestHB1AC = response[0].latest_HP1AC_date;
- console.log(response[0].latest_HP1AC_date);
-glucoseMonitor = response[0].typeOfGlucoseM;
- console.log(response[0].typeOfGlucoseM);
-glucoseUnit = response[0].glucoseLevel_unit;
- console.log(response[0].glucoseLevel_unit);
-ketonesMeasure = response[0].ketonesMeasure;
- console.log(response[0].ketonesMeasure);
-insulinReg = response[0].insulinRegimen;
- console.log(response[0].insulinRegimen);
-InsulinSF = response[0].ISF;
- console.log(response[0].ISF);
-intervalISF = response[0].ISFInter;
- console.log(response[0].ISFInter);
-bgTarget = response[0].targetBG;
- console.log(response[0].targetBG);
-bgStart = response[0].startBG;
- console.log(response[0].startBG);
-insulinCalcMethod = response[0].insulinCalc;
- console.log(response[0].insulinCalc);
-fromBG = response[0].fromBG;
- console.log(response[0].fromBG);
-toBG = response[0].toBG;
- console.log(response[0].toBG);
-console.log('inside authenticate of non-patient user: ');
-} else {
-alert("Email or pass is not correct");
-}
-console.log('Non-Patient profile');
-insertInLocalNonPatient();
-if (insulinReg == 'Pen'){
-onlineDBPen();
-}
-else {
-onlineDBOther();
-}
-
-if (intervalISF == 1){
-  onlineDBISF();
-}
-
-if (insulinCalcMethod == 'ICR'){
-  onlineDBICRinter();
-} else if (insulinCalcMethod == 'Sliding Scale'){
-  onlineDBSSInterval();
-}
-
-onlineDBTakenInsulin();
-
-})
-.catch((error)=>{
-  alert("Error Occured" + error);
-})
-console.log('inside onlineDB non-pateint profile: ');
 }
 
 //------------------------for insulin type PEN -----------------------------
@@ -753,8 +689,6 @@ insulinT = response[0].insulinType;
 console.log(response[0].insulinType);
 halfOrfull = response[0].halfOrFull;
 console.log(response[0].halfOrFull);
-} else {
-alert("Email or pass is not correct");
 }
 insertInLocalPen();
 })
@@ -796,8 +730,6 @@ iDose = response[0].iDose;
 console.log(response[0].iDose);
 iTime = response[0].iTime;
 console.log(response[0].iTime);
-} else {
-alert("Email or pass is not correct");
 }
 insertInLocalOther();
 })
@@ -847,9 +779,7 @@ for (let i = 0; i < counter; i++ ){
  startBGISF.push([response[0][i].startBG]);
   //console.log(startBGISF);
 }
-} else {
-alert("Email or pass is not correct");
-}
+} 
 console.log(fromTimeISF);
 console.log(toTimeISF);
 console.log(ISF_);
@@ -896,9 +826,7 @@ for (let i = 0; i < countericr; i++){
   toTime1.push([response[0][i].toTime]);
   ICR1.push([response[0][i].ICR]);
 }
-} else {
-alert("Email or pass is not correct");
-}
+} 
  console.log(fromTime1);
  console.log(toTime1);
  console.log(ICR1);
@@ -950,8 +878,6 @@ if (onlinUserID != '0'){
   }
 //onlinUserID = response[0].userID;
 
-} else {
-alert("Email or pass is not correct");
 }
 //console.log('ssID; ',ssID);
 console.log(fromTimeSS);
@@ -1016,9 +942,7 @@ for (let j = 0; j < counterbg; j++){
  // insulinDoseScale.push([response[i].insulinDose]);
 //}
 }//end for
-} else {
-alert("Email or pass is not correct");
-}
+} 
 console.log(sID);
 console.log(formBGLevel);
 console.log(toBGLevel);
@@ -1067,17 +991,21 @@ CHO = response[0].CHO;
 console.log(response[0].CHO);
 insulinDose = response[0].insulinDose;
 console.log(response[0].insulinDose);
-doseTime = response[0].doseTime;
-console.log(response[0].doseTime);
-doseDate = response[0].doseDate;
-console.log(response[0].doseDate);
+doseHour = response[0].Dose_time_hours;
+console.log(response[0].Dose_time_hours);
+doseMin = response[0].Dose_time_minutes;
+console.log(response[0].Dose_time_minutes);
+doseDay = response[0].Dose_Date_Day;
+console.log(response[0].Dose_Date_Day);
+doseMonth = response[0].Dose_Date_Month;
+console.log(response[0].Dose_Date_Month);
+doseYear = response[0].Dose_Date_Year;
+console.log(response[0].Dose_Date_Year);
 suggested = response[0].suggestedAccepted;
 console.log(response[0].suggestedAccepted);
 userInsulin = response[0].userInsulinDose;
 console.log(response[0].userInsulinDose);
 
-} else {
-alert("Email or pass is not correct");
 }
 insertInLocalTakenInsulin(); //local 
 
@@ -1124,9 +1052,7 @@ console.log(response[0].typeEx);
 Duration = response[0].duration;
 console.log(response[0].duration);
 
-} else {
-alert("Email or pass is not correct");
-}
+} 
 insertInLocalPlanned();
 })
 .catch((error)=>{
@@ -1169,9 +1095,7 @@ console.log(response[0].duration);
 TimeExercisePrev = response[0].timeEX;
 console.log(response[0].timeEX);
 
-} else {
-alert("Email or pass is not correct");
-}
+} 
 insertInLocalPrev();
 })
 .catch((error)=>{
