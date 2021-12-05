@@ -6,60 +6,154 @@ import { StyleSheet,
     ScrollView,
     TouchableOpacity, 
     Dimensions } from 'react-native'; 
-    import timeCompare from './timeCompare';
     import LinearGradient from 'react-native-linear-gradient';
-    import carbRetrieve from './carbRetrieve';
-    import {Picker} from '@react-native-picker/picker';
+    
+import {Picker} from '@react-native-picker/picker';
+import { FlatList } from 'react-native-gesture-handler';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 
 
 
 
 const carb = ({ navigation }) => {
 
+  useEffect(() => {
+    ret(unitSearch);
+    }, []);
 
-var cho = carbRetrieve();
+
+const [cho, setCHO] = useState([]);  // from 0-10
 const [wholeQuan, setWholeQuan] = useState(0); // from 0-10
 const [fractionQuan, setFractionQuan] = useState(0);
 const [foodName, setFoodName] = useState(''); // based on user choice 
 const [unit, setUnit] = useState(''); // based on database?
 const [gram, setGram] = useState(0);  // based on database?
-const [mealName,  setMealName]= useState('0');
-const [quantity,  setQuantity]= useState('0');
-const [quart, setQuart]= useState('0');
+const [dummyList, setList] = useState([
+  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},
+  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},
+  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},
+  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},
+  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},
+  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0}
 
+]);
+const [counter, setCounter] = useState(0);
+const [totalCHO, setTtoal] = useState(0);
+const [index, setIndex]  = useState(-1);
 
-// cho = carbRetrieve();
+const ret = (callback) => {
+  var tempArr = [...cho];
+  try {
+    console.log('in try');
+      db.transaction(  ( tx) => {
+        tx.executeSql(
+          'SELECT foodID, foodEnglishName, foodArabicName, unit, gramsOfCHO FROM CHO',
+          [],
+          (tx, results) => {
+            var rows = results.rows;
+            for (let i = 0; i < rows.length; i++){
+                    tempArr.push({
+                        id: rows.item(i).foodID,
+                        foodEnglishName: rows.item(i).foodEnglishName,
+                        foodArabicName: rows.item(i).foodArabicName,
+                        unit: rows.item(i).unit,
+                        gramsOfCHO: rows.item(i).gramsOfCHO,
+                    });
+                    console.log(tempArr[i].id+' / '+tempArr[i].foodEnglishName+' / '+tempArr[i].foodArabicName+' / '+tempArr[i].unit +' / '+tempArr[i].gramsOfCHO);
+                    setCHO([...tempArr]);
+              }
+              callback(tempArr);
+          }   
+) 
+
+    
+
+}  ) 
+} catch (error) {
+   console.log(error);
+}
+}
+
 const quantity = (whole, fraction) => { 
-return whole+fraction;
+  return parseInt(whole) + parseFloat(fraction);
 }
 //
-const CHOcontent = (quan, grams) => {
 
-    return grams * quan; //chpTotal = total+q
+const CHOcontent = () => {
+  console.log('hhrreee'+ index);
+   var g = 0;
+   g = search();
+  var dish = 0;
+  if (dummyList[index].selectedQ !='-1'){
+    dish = g * quantity(dummyList[index].selectedQ, dummyList[index].selectedW);
+    setTtoal(totalCHO+dish);
+  } else {
+    alert('Please Select a value');
+    return;
+  }
+    //chpTotal = total+q
 
 }
-const search = (id) => {
-    for(let i =0; i< cho.length(); i++){
-        if (cho[i].id == id ){
-            setFoodName(cho[i].foodEnglishName);
-            setUnit(cho[i].unit);
-            setGram(cho[i].gramsOfCHO);
-            CHOcontent(quantity(wholeQuan, fractionQuan), gram )
-        }
+const unitSearch = (arr) => {
+  console.log('In UNITTTT');
+  for(let i =0; i< arr.length; i++){
+    console.log(arr[i].id);
+    if (arr[i].id == dummyList[i].pokemon ){
+      console.log('FOUND YA');
+        setUnit(arr[i].unit);
+        return;
     }
 }
-const print = ()=>{
-  for (let i =0; i<cho.length;i++){
-    console.log(cho[i].foodEnglishName);
+
+}
+const search = () => {
+    for(let i =0; i< cho.length; i++){
+      console.log(cho[i].gramsOfCHO);
+        if (cho[i].id == dummyList[index].pokemon ){
+            setFoodName(cho[i].foodEnglishName);
+            setUnit(cho[i].unit);
+            var g =cho[i].gramsOfCHO
+            setGram(g);
+            return g;
+        }
+    }
+     
+}
+console.log('i index: '+index);
+const increment = () => {
+  if (counter >= 20){
+    alert('You have reach your limit');
+    return;
+  } else {
+    setCounter(counter+1);
   }
 }
+const setPokemon = (val, index) => {
+  setIndex(index);
+var temp = [...dummyList];
+temp[index].pokemon = val;
+setList([...temp]);
+}
+const setQ = (val, index) => {
+var temp = [...dummyList];
+temp[index].selectedQ = val;
+setList([...temp]);
+}
+const setW = (val, index) => {
+  var temp = [...dummyList];
+  temp[index].selectedW = val;
+  setList([...temp]);
+}
 
-
+const renderProductList = () => {
+  return cho.map((ch) => {
+    return <Picker.Item key= {ch.id+''} label={ch.foodEnglishName+' - '+ch.unit+'         '} value={ch.id+''} />
+  })
+} 
 
   return (
-	  
-	  
-<LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
+
     <View style={styles.container}>
        <View style={styles.header}>
          <Text style={styles.textHeader}>Hello Sara
@@ -68,109 +162,138 @@ const print = ()=>{
          </Text>
          </View>
          <ScrollView>
-      <ScrollView style={styles.contView}>
-        <Text
+         <Text
           style={{
-            color: '#000',
-            fontSize: 25,
+            color: '#05375a',
+            fontSize: 18,
+            fontWeight: 'bold',
             textAlign: 'left',
             paddingTop: 20,
             paddingLeft: 15,
           }}>
           Carbohydrate Calculator
         </Text>
-<View style={{backgroundColor: '#d3dde0',
-height: 250,
-marginTop: 10,
-marginButtom: 10}}>
-        <Text style={styles.inpTxt}>Food Item:</Text>
+        <View style={styles.body}>
+          {cho.length > 0 ? (<FlatList 
+          data={dummyList.slice(0, counter+1)}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item, index}) => (
+            <View>
+               {/* <Text style={styles.inpTxt}>Food Item:</Text>
         <Picker
                 selectedValue={mealName}
                 onValueChange={value => setMealName(value)}
                 mode="dropdown"
                 style={styles.ddown}>
-                <Picker.Item label="Select" value="0"></Picker.Item>
-              </Picker>
+                <Picker.Item label="Select" valu e="0"></Picker.Item>
+              </Picker> */}
+            <View style={styles.innerCotainer}>
+              <Text style={{fontSize: 17, color: 'grey'}}>Food Item: </Text>
+            <Picker
+        selectedValue={item.pokemon}
+        onValueChange={(val) => {setPokemon(val, index)}}
+        style={{ 
+          width: 360,
+          height: 40,
+        fontSize: 17,
+      color: '#05375a'}}
+        mode={'dropdown'}>
+           <Picker.Item label='Select ...' value='Unknown' />
+           {renderProductList()}
+      </Picker>
+      </View>
+      <View style={styles.innerCotainer}>
+        <Text style={{fontSize: 15, color: 'grey'}}>Quantity:</Text>
+          <View style={styles.innerView}>
+          <Picker
+        selectedValue={item.selectedQ}
+        onValueChange={(val) => setQ(val, index)}
+        style={{ width: 90,
+          height: 40,
+          paddingLeft:5,
+          borderWidth: 2,
+          borderColor: '#4c4c4c',
+        fontSize: 17,
+      color: '#05375a'}}
+        mode={'dropdown'}>
+          <Picker.Item label= 'Select' value='-1'></Picker.Item>
+           <Picker.Item label= '0  ' value='0'></Picker.Item>
+            <Picker.Item label= '1  ' value='1'></Picker.Item>
+            <Picker.Item label= '2  ' value='2'></Picker.Item>
+            <Picker.Item label= '3  ' value='3'></Picker.Item>
+            <Picker.Item label= '4  ' value='4'></Picker.Item>
+            <Picker.Item label= '5  ' value='5'></Picker.Item>
+            <Picker.Item label= '6  ' value='6'></Picker.Item>
+            <Picker.Item label= '7  ' value='7'></Picker.Item>
+            <Picker.Item label= '8  ' value='8'></Picker.Item>
+            <Picker.Item label= '9  ' value='9'></Picker.Item>
+            <Picker.Item label= '10  ' value='10'></Picker.Item>
 
-        <Text style={styles.inpTxt}>Quantity:</Text>
-<View style={styles.neighbor}>
-                <Picker
-                selectedValue={quantity}
-                onValueChange={value => setQuantity(value)}
-                mode="dropdown"
-                style={styles.ddown2}
+      </Picker>
+      <Text style={{fontSize: 15, color: 'grey', paddingTop: 20}}>And</Text>
+      <Picker
+        selectedValue={item.selectedW}
+        onValueChange={(val) => setW(val, index)}
+        style={{ width: 115,
+          height: 40,
+          borderWidth: 2,
+          borderColor: '#4c4c4c',
+        fontSize: 17,
+        paddingRight: 5,
+      color: '#05375a'}}
+        mode={'dropdown'}>
+           <Picker.Item label= '0  ' value='0'></Picker.Item>
+            <Picker.Item label= '1/4  ' value='0.25'></Picker.Item>
+            <Picker.Item label= '1/3  ' value='0.333'></Picker.Item>
+            <Picker.Item label= '1/2  ' value='0.5'></Picker.Item>
+            <Picker.Item label= '2/3  ' value='0.666'></Picker.Item>
+            <Picker.Item label= '3/4  ' value='0.75'></Picker.Item>
+
+      </Picker>
+     
+          </View>
+      </View>
+      <TouchableOpacity onPress={()=>CHOcontent()}
+      style={{alignItems: 'flex-start'}}
+      >
+      <MaterialIcons
+      name="calculate"
+      color='#8CA1BB'
+      size={45}
+      />
+    </TouchableOpacity>
+      </View>
+          )}
+          />) 
+          : <ActivityIndicator animating={true} color={Colors.blue100} size={'large'} /> }
+          <TouchableOpacity onPress={() => increment()}>
+            <Text>Add Another Dish</Text>
+            </TouchableOpacity>
+  <View style={styles.innerView} >
+   
+ <View style={styles.innerCotainer2}>
+                    <Text style={{fontSize: 15, color: 'grey'}}>Carbohydrate amount:</Text>
+                    <Text style={styles.textHeader} >{totalCHO}</Text>
+                  
+            </View>
+            
+            </View>
+            <View style={styles.buttonV}>
+        <TouchableOpacity onPress={()=>navigation.navigate('calc', totalCHO)}>
+                <LinearGradient
+                    colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                <Picker.Item label="0" value='0'></Picker.Item>
-                <Picker.Item label="1" value='1'></Picker.Item>
-                <Picker.Item label="2" value='2'></Picker.Item>
-                <Picker.Item label="3" value='3'></Picker.Item>
-                <Picker.Item label="4" value='4'></Picker.Item>
-                <Picker.Item label="5" value='5'></Picker.Item>
-                <Picker.Item label="6" value='6'></Picker.Item>
-                <Picker.Item label="7" value='7'></Picker.Item>
-                <Picker.Item label="8" value='8'></Picker.Item>
-                <Picker.Item label="9" value='9'></Picker.Item>
-                <Picker.Item label="10" value='10'></Picker.Item>
-              </Picker>
-
-              <Text style={{
-                marginTop:40,
-                marginLeft:10,
-                fontSize: 20,
-
-              }}>And</Text>
-
-                              <Picker
-                selectedValue={quart}
-                onValueChange={value => setQuart(value)}
-                mode="dropdown"
-                style={styles.ddown3}
-                >
-                <Picker.Item label="No fraction" value='0'></Picker.Item>
-                <Picker.Item label="quarter" value='1'></Picker.Item>
-                <Picker.Item label="third" value='2'></Picker.Item>
-                <Picker.Item label="half" value='3'></Picker.Item>
-                <Picker.Item label="two thirds" value='4'></Picker.Item>
-                <Picker.Item label="three quarters" value='5'></Picker.Item>
-
-              </Picker>
-
-              <Text style={{
-                marginTop:40,
-                marginLeft:10,
-                fontSize: 20,
-
-              }}>cups</Text>
-
-
-
-
-</View>
-  </View>
-        
-
-       
-
-        <TouchableOpacity
-          style={{
-            marginTop: 30,
-            paddingTop: 10,
-            paddingBottom: 10,
-            width: 100,
-            height: 50,
-            alignSelf: 'center',
-            backgroundColor: '#6496d7',
-          }}
-          // onPress={insuCalc}
-          >
-          <Text style={{fontSize: 18, textAlign: 'center'}}>+ Add</Text>
-        </TouchableOpacity>
-
-        <Text></Text>
-      </ScrollView>
+                    <Text style={styles.textBody}>Done</Text>
+                  
+                </LinearGradient>
+            </TouchableOpacity>
+            </View>
+           <Text>
+           </Text>
+       </View>
         </ScrollView>
     </View>      
-    </LinearGradient>
+
     
   );
 };
@@ -233,77 +356,169 @@ textBody:{
     color: '#05375a', 
     textAlign: 'center',
     fontWeight: 'bold',
- },
-	  ddown: {
-    //drop down list style
+ }, 
+ innerCotainer: {
+  backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10, width: 330,
+              shadowColor: "#000",
+              shadowOffset: {
+              width: 0,
+              height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+},
+innerCotainer2: {
+  backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10, width: 200,
+              shadowColor: "#000",
+              shadowOffset: {
+              width: 0,
+              height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+},
+buttonV: {
+  marginTop: 60,
+  alignItems: 'center',
+  
+},
+buttonR: {
+  alignItems: 'center',
+  width: 150,
+  height: 55,
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 15,
+  flexDirection: 'row',
+  
+},
+innerView: {
+    flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
+}, 
+container: {
+  flex: 1,
+  backgroundColor: '#EEF0F2',
+},
+header: {
+  justifyContent: 'center',
+  alignItems: 'center'
+},
+body: {
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: 50,
+  marginBottom: 20,
 
-
-    marginTop: 20,
-    shadowColor: '#000',
-    alignSelf: 'center',
-    width: 300,
-
-
-    alignItems: 'center',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.33,
-    shadowRadius: 0.62,
-
-    elevation: 7,
-    backgroundColor: '#f5f5f5',
+},
+outer: {
+  width: 275,
+  height: 110,
+  marginTop: 15,
+  marginBottom: 20,
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 15,
+  flexDirection: 'row',
+  shadowColor: "#000",
+  shadowOffset: {
+width: 0,
+height: 2,
   },
-  ddown2: {
-    //drop down list style
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5,
+},
+inner: {
+  width: 250,
+  height: 110,
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'row',
+  backgroundColor: 'white'
+  
+},
+textHeader:{
+ fontSize: 15,
+ color: '#05375a', 
+},
+textBody:{
+  fontSize: 20,
+  color: '#05375a', 
+  textAlign: 'center',
+  fontWeight: 'bold',
+},
+  ddown: {
+  //drop down list style
 
 
-    marginTop: 20,
-    marginLeft: 10,
-    shadowColor: '#000',
+  marginTop: 20,
+  shadowColor: '#000',
+  alignSelf: 'center',
+  width: 300,
 
-    width: 100,
-    fontSize: 5,
 
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.33,
-    shadowRadius: 0.62,
-
-    elevation: 7,
-    backgroundColor: '#f5f5f5',
+  alignItems: 'center',
+  shadowOffset: {
+    width: 0,
+    height: 1,
   },
-    ddown3: {
-    //drop down list style
+  shadowOpacity: 0.33,
+  shadowRadius: 0.62,
+
+  elevation: 7,
+  backgroundColor: '#f5f5f5',
+},
+ddown2: {
+  //drop down list style
 
 
-    marginTop: 20,
-    marginLeft: 10,
-    shadowColor: '#000',
+  marginTop: 20,
+  marginLeft: 10,
+  shadowColor: '#000',
 
-    width: 130,
-    fontSize: 5,
+  width: 100,
+  fontSize: 5,
 
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.33,
-    shadowRadius: 0.62,
-
-    elevation: 7,
-    backgroundColor: '#f5f5f5',
+  shadowOffset: {
+    width: 0,
+    height: 1,
   },
-	inpTxt: {
-    //lables
-    paddingLeft: 20,
-    paddingTop: 15,
-    fontSize: 18,
+  shadowOpacity: 0.33,
+  shadowRadius: 0.62,
+
+  elevation: 7,
+  backgroundColor: '#f5f5f5',
+},
+  ddown3: {
+  //drop down list style
+
+
+  marginTop: 20,
+  marginLeft: 10,
+  shadowColor: '#000',
+
+  width: 130,
+  fontSize: 5,
+
+  shadowOffset: {
+    width: 0,
+    height: 1,
   },
+  shadowOpacity: 0.33,
+  shadowRadius: 0.62,
+
+  elevation: 7,
+  backgroundColor: '#f5f5f5',
+},
+inpTxt: {
+  //lables
+  paddingLeft: 20,
+  paddingTop: 15,
+  fontSize: 18,
+},
 
 });
 
-
+{/* */}
