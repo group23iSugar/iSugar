@@ -15,6 +15,7 @@ import {
   Image,
   Dimensions,
   alert,
+  Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -24,9 +25,9 @@ import moment from 'moment';
 import react from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
- 
+
 let onlinUserID = 13;
-var AccType = '';
+var AccType = 'Patient Account';
 
 const annual = ({navigation}) => {
 //const
@@ -197,41 +198,36 @@ const onlineDB = () => {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   };
-  // eslint-disable-next-line eqeqeq
-  if (AccType == 'Patient Account') {
-    var Data = {
-      UserID: onlinUserID,
-      Thyroid_date: ThroidDate,
-      Anti_TPO: anti_TPO,
-      TSH: TSH,
-      FT4: FT4,
-      cortisol: cortisol,
-      Adrenal_date: AdrenalDate,
-      NA: NA,
-      K: K,
-      Celiac_date: CeliacDate,
-      IgA: IgA,
-      tTG_IgA: tTG_IgA,
-      tTG_IgG: tTG_IgG,
-      Deamidated_Gliadin_IgA: DeamidatedGliadinIgA,
-      Deamidated_Gliadin_IgG: DeamidatedGliadinIgG,
-      Renal_date: RenalDate,
-      ACR: ACR,
-      Lipids_date: LipidsDate,
-      TG: TG,
-      LDL: LDL,
-      HDL: HDL,
-      Cholesterol: Cholesterol,
-      Blood_Pressure_date: BPDate,
-      BP_reading: BPreading,
-      Eyes_date: EyesDate,
-      Finding: Finding,
-      LastFluVaccine: LastFluVaccineDate,
-      LastDentalVisit: LastDentalVisitDate,
-    };
-  } else {
-    alert('only accounts of type (patient account) can store information about annual test');
-  }
+  var Data = {
+    UserID: onlinUserID,
+    Thyroid_date: ThroidDate,
+    Anti_TPO: anti_TPO,
+    TSH: TSH,
+    FT4: FT4,
+    cortisol: cortisol,
+    Adrenal_date: AdrenalDate,
+    NA: NA,
+    K: K,
+    Celiac_date: CeliacDate,
+    IgA: IgA,
+    tTG_IgA: tTG_IgA,
+    tTG_IgG: tTG_IgG,
+    Deamidated_Gliadin_IgA: DeamidatedGliadinIgA,
+    Deamidated_Gliadin_IgG: DeamidatedGliadinIgG,
+    Renal_date: RenalDate,
+    ACR: ACR,
+    Lipids_date: LipidsDate,
+    TG: TG,
+    LDL: LDL,
+    HDL: HDL,
+    Cholesterol: Cholesterol,
+    Blood_Pressure_date: BPDate,
+    BP_reading: BPreading,
+    Eyes_date: EyesDate,
+    Finding: Finding,
+    LastFluVaccine: LastFluVaccineDate,
+    LastDentalVisit: LastDentalVisitDate,
+  };
 
 // FETCH func ------------------------------------
 fetch(InsertAPIURL,{
@@ -250,6 +246,15 @@ fetch(InsertAPIURL,{
 })
 // eslint-disable-next-line semi
 }
+
+const StoreInOnline = () => {
+  // eslint-disable-next-line eqeqeq
+  if (AccType == 'Patient Account'){
+    onlineDB();
+  } else {
+    Alert.alert('only accounts of type (patient account) can store their information');
+  }
+  };
 
   return (
     <View style={styles.container}>
@@ -609,7 +614,7 @@ fetch(InsertAPIURL,{
               )}
             </View>
             <View style={styles.buttonV}>
-          <TouchableOpacity onPress={() => onlineDB()}>
+          <TouchableOpacity onPress={StoreInOnline}>
             <LinearGradient
               colors={['#f5f5f5', '#e9ebee', '#e9ebee']}
               style={styles.buttonR}>
