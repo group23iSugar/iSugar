@@ -72,7 +72,7 @@ const logOutAlert = () => {
     //Title
     'تسجيل الخروج',
     //body
-    'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+    ' هل أنت متأكد أنك تريد تسجيل الخروج؟ في حال كان حسابك من نوع غير مصاب سيتم حذفه نهائيًا',
   //  'if your account of type non-patient account it will delete it',
     [
       {
