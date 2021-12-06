@@ -22,6 +22,37 @@ import passEdit from './pages/passEdit';
 import AccInfoEdit from './pages/AccInfoEdit';
 import clinicEdit from './pages/clinicEdit';
 import personalEdit from './pages/personalEdit';
+import ketonesEdit from './pages/ketonesEdit';
+import insulinEdit from './pages/insulinEdit';
+import isfEdit from './pages/isfEdit';
+import icrEdit from './pages/icrEdit';
+import carb from './pages/carb';
+import insuResult from './pages/insuResult';
+import signUpAR from './pages/signUpArabic';
+import AccInfoAR from './pages/AccInfoArabic';
+import AccInfoAREdit from './pages/AccInfoEdit';
+import carbAR from './pages/carbArabic';
+import clinicEditAR from './pages/clinicEditArabic';
+import ketonesAR from './pages/ketonesArabic';
+import clinicInfoAR from './pages/clinicInfoArabic';
+import disclaimerAR from './pages/disclaimerArabic';
+import editProfileAR from './pages/editProfileArabic';
+import icrAR from './pages/icrArabic';
+import icrEditAR from './pages/icrEditArabic';
+import insulinAR from './pages/insulinArabic';
+import insulinARe from './pages/insulinEdit';
+import isfARA from './pages/isfArabic';
+import ketonesEditAR from './pages/ketonesEditArabic';
+import logoAR from './pages/logoScreenArabic';
+import passEditAR from './pages/passEditArabic';
+import personalEditAR from './pages/personalEditArabic';
+import warmar from './pages/warninAr';
+import AuthStack from './pages/AuthStack';
+import logInAR from './pages/logInAR';
+
+
+
+
 
 global.db = SQLite.openDatabase(
   {
@@ -67,11 +98,12 @@ const mainStack = () => {
     <NavigationContainer>
       <Stack.Navigator
   screenOptions={{
-    headerShown: false
+    headerShown: false 
   }}
 >
-        
-        
+
+
+
         <Stack.Screen name="logo" component={logoScreen}  />
         <Stack.Screen name="login" component={logIn} />
         <Stack.Screen name="signup" component={signUp} />
@@ -84,16 +116,46 @@ const mainStack = () => {
         <Stack.Screen name="insulin" component={insulin} />
         <Stack.Screen name="isf" component={isf} />
         <Stack.Screen name="icr" component={icr} />
-        <Stack.Screen name="home" component={home} />
-        <Stack.Screen name="calc" component={Calc} />
+        <Stack.Screen name="home" component={AuthStack} />
         <Stack.Screen name="sliding" component={sliding} />
-        <Stack.Screen name="edit" component={editProfile}  />
         <Stack.Screen name="pass" component={passEdit}  />
-        <Stack.Screen name="AccEdit" component={AccInfoEdit}  />
+        <Stack.Screen name="insulinEdit" component={insulinEdit}  />
+        <Stack.Screen name="carb" component={carb}  />
+        <Stack.Screen name="calc" component={Calc} />
+        <Stack.Screen name="result" component={insuResult} />
+        <Stack.Screen name="edit" component={editProfile}  />
+
+        <Stack.Screen name="icrEdit" component={icrEdit}  />
+        <Stack.Screen name="isfEdit" component={isfEdit}  />
+                
+        <Stack.Screen name="ketonesEdit" component={ketonesEdit}  />
+        <Stack.Screen name="personalEdit" component={personalEdit}  />   
         <Stack.Screen name="clinicEdit" component={clinicEdit}  />
-        <Stack.Screen name="personalEdit" component={personalEdit}  />
+        <Stack.Screen name="AccEdit" component={AccInfoEdit}  />   
+        <Stack.Screen name="signupAR" component={signUpAR}  />   
+        <Stack.Screen name="accAR" component={AccInfoAR}  />   
+        <Stack.Screen name="accEAR" component={AccInfoAREdit}  /> 
+        <Stack.Screen name="carbAR" component={carbAR}  /> 
+        <Stack.Screen name="ketoAR" component={ketonesAR}  /> 
+        <Stack.Screen name="clinicEAR" component={clinicEditAR}  /> 
+        <Stack.Screen name="clinicInfoAR" component={clinicInfoAR}  /> 
+        <Stack.Screen name="discAR" component={disclaimerAR}  /> 
+        <Stack.Screen name="icrAR" component={icrAR}  /> 
+        <Stack.Screen name="icrERA" component={icrEditAR}  /> 
+        <Stack.Screen name="isfARA" component={isfARA}  /> 
+        <Stack.Screen name="insARE" component={insulinARe}  /> 
+        <Stack.Screen name="insAR" component={insulinAR}  /> 
+        <Stack.Screen name="editProAR" component={editProfileAR}  /> 
+        <Stack.Screen name="ketonesEAR" component={ketonesEditAR}  /> 
+        <Stack.Screen name="logoAR" component={logoAR}  /> 
+        <Stack.Screen name="passEAR" component={passEditAR}  />  
+        <Stack.Screen name="personalEAR" component={personalEditAR}  /> 
+        <Stack.Screen name="warningAR" component={warmar}  /> 
+        <Stack.Screen name="logInAR" component={logInAR}  />
+
+
       </Stack.Navigator>
     </NavigationContainer>
-  );
+  );//fffSS
   };
 export default mainStack;
