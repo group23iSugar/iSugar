@@ -279,7 +279,7 @@ const renderProductList = () => {
             
             </View>
             <View style={styles.buttonV}>
-        <TouchableOpacity onPress={()=>navigation.navigate('calc', totalCHO)}>
+        <TouchableOpacity onPress={()=>navigation.navigate('CalcAR', totalCHO)}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
