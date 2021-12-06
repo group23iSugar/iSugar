@@ -146,7 +146,7 @@ const onlineDB = () => {
  })
  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
  .then((response)=>{       // If data is in JSON => Display alert msg
-   navigation.navigate('personal');
+   navigation.navigate('personalInfoArabic');
  })
  .catch((error)=>{
      alert("Error Occured" + error);
