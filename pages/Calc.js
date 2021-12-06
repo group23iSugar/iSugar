@@ -214,6 +214,23 @@ else{//half-units
     setTotal(c);
     // navigation.navigate('result',{result: total, calcM: calcMethod, reasonD: reason, bg: bgLevel, cho: CHO})
     console.log(c + ' and:3  ' + total);
+	  
+    //======================Save into DB========================
+
+      try {
+          db.transaction( (tx) => {
+              tx.executeSql(
+               'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Day, Dose_Date_Month, Dose_Date_Year) VALUES (?,?,?,?,?,?,?,?,?,?)',
+                 [uID, bgLevel, reason, CHO, total, currentTimeHours, currentTimeMin, currentTimeDate_day, currentTimeDate_month, currentTimeDate_year]
+             );
+            
+         })
+         
+     } catch (error) {
+         console.log(error);
+     }
+
+    //==============================================
   };
 
   const IOBSwitch = (timePrevDose, PrevDose) => {
