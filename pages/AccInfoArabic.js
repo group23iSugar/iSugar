@@ -187,7 +187,7 @@ const validEmail = (val) => {
                     var userEmail = rows.item(i).email;
                     if (data.email == userEmail){
                       if (AccType != 'Patient Account'){
-                        navigation.navigate('personal')
+                        navigation.navigate('personalInfoArabic')
                       // navigation.navigate('clinic')
                      }
                       // else{
@@ -278,7 +278,7 @@ const getOnlineInfo = () => {
   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
   .then((response)=>{
     onlinUserID= response[0].userID;
-    navigation.navigate("clinic"); //Navigate to next screen if authentications are valid
+    navigation.navigate("clinicInfoAR"); //Navigate to next screen if authentications are valid
     // alert('ID: '+onlinUserID);
 })
 .catch((error)=>{
