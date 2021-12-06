@@ -274,7 +274,7 @@ const check = () => {
   addSecondDose();
   addThirdDose();
 
- navigation.navigate('isf')
+ navigation.navigate('isfArabic')
   } 
 //--------------------------
   const addSecondDose = () => {
