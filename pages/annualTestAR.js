@@ -261,11 +261,13 @@ const StoreInOnline = () => {
 
   return (
     <View style={styles.container}>
-     <View style={{top: 10, flexDirection: 'row', padding: 30}}>
-       <TouchableOpacity onPress={()=>navigation.openDrawer()}>
-         <Entypo name="menu" color="#212222" size={35} style={{marginLeft: -10, paddingVertical: 5}} />
-       </TouchableOpacity>
-       </View>
+         <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
+         <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
+        <Image source={require('../images/logo.png')} style={styles.pic} />
+        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+         <Entypo name="menu" color="#05375a" size={35} />
+         </TouchableOpacity>
+      </View>
 
        <Text style={styles.Annual}>الفحوصات السنوية</Text>
         <View style={styles.footer}>
@@ -630,6 +632,7 @@ const StoreInOnline = () => {
             </ScrollView>
           </View>
         </View>
+        </LinearGradient>
     </View>
   );
 };
@@ -645,10 +648,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 15,
     fontWeight: '200',
-    color: '#656363',
+    color: '#05375a',
   },
   internalText: {
-    color: '#656363',
+    color: '#05375a',
     fontSize: 16,
     textAlign: 'left',
     paddingTop: 20,
@@ -666,7 +669,7 @@ const styles = StyleSheet.create({
     borderColor: '#4c4c4c',
   },
   Annual: {
-    color: '#656363',
+    color: '#05375a',
         fontSize: 20,
         textAlign: 'left',
         fontWeight: 'bold',
@@ -679,9 +682,15 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     paddingTop: 25,
   },
+  pic: {
+
+    width: height_logo,
+    height: height_logo,
+    marginRight: 10,
+},
   inpTxt: {
     //lables
-    color: '#656363',
+    color: '#05375a',
     paddingLeft: 20,
     paddingTop: 15,
     fontSize: 16,
