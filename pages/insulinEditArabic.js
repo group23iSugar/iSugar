@@ -377,7 +377,7 @@ const oldOnlineOtherDB = (type, dose, time) => {
   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
   .then((response)=>{
     alert('Updated ' + response[0].Message+'fully');
-    navigation.navigate('edit');
+    navigation.navigate('editProAR');
   })
   .catch((error)=>{
       alert("Error Occured" + error);
