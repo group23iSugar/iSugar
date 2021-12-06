@@ -431,7 +431,7 @@ const check = () =>{
     }
      //-------------------------
       onlineIntervalDB();
-      navigation.navigate('icr')
+      navigation.navigate('icrAR')
     
     
 
