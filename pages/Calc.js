@@ -29,7 +29,6 @@ import SQLite from 'react-native-sqlite-storage';
 import timeCompare from './timeCompare';
 
 //=========================Local DB===============================
-
 //=========================Local DB===============================
 
 const Calc = () => {
@@ -41,10 +40,18 @@ const Calc = () => {
 
   const insuCalc = () => {
 
+    // for(let x =0; x<prevArr.length; x++){
+    //   console.log('=================================');
+    //   console.log(prevArr[x].time);
+    //   console.log(prevArr[x].dose);
+    //   console.log('=================================');
+    // }
+
+    console.log(prevArr);
     var a;
     var b;
     var c = 0;
-    var IOB;
+    var IOB = 0;
     var adjustment;
 
     if (
@@ -82,6 +89,7 @@ const Calc = () => {
                   for (let i = 0; i < prevArr.length; i++){
                     console.log('DoubleCheckaaaaa');
                     console.log('DoubleCheck: '+prevArr[i].time +' '+ prevArr[i].dose);
+                    // var w = parseInt(prevArr[i].dose);
 		               IOB = IOB + IOBSwitch(prevArr[i].time, prevArr[i].dose); 
                    }
                 }
@@ -208,7 +216,7 @@ else{//half-units
     console.log(c + ' and:3  ' + total);
   };
 
-  const IOBSwitch = (timePrevDose,PrevDose) => {
+  const IOBSwitch = (timePrevDose, PrevDose) => {
     var num = 0;
     console.log('check1');
     if (timePrevDose < 1) {
@@ -304,8 +312,8 @@ else{//half-units
 
   useEffect(() => {
     FirstRetrieve(retrieve, secondretrieve);
-    if(insulinReg=='Pen'){
-    retrieve3();}
+    //if(insulinReg=='Pen'){
+    retrieve3();//}
     retrieve4();
   }, []);
 
@@ -580,7 +588,7 @@ else{//half-units
     var previousDayMonth;
     var previousDayYear;
     // console.log('F(AG'+currentTime1 +' \n '+currentTimeHours+' \n '+currentTimeDate_day+' \n '+currentTimeDate_month+' \n '+currentTimeDate_year);
-    var previousDosesArray = [];
+    var previousDosesArray = [...prevArr];
     try {
       db.transaction(tx => {
         tx.executeSql(
@@ -616,13 +624,14 @@ else{//half-units
                 console.log('Did Ya Work?!?!' + previousDosesArray[i].time);
               }
             }
+            setPrevArr([...previousDosesArray]);
 
            
             
 
             if (currentTimeHours <= IOBTimeRange) {
               // then we must take the previous day into consideration too
-              console.log('Gambari gambari');
+             
               if (currentTimeDate_day > 1) {
                 // if it is not the first day in the month, then we just subtract 1 from the current day to get the the previous day
                 previousDay = currentTimeDate_day - 1;
@@ -674,6 +683,7 @@ else{//half-units
                         });
                       }
                     }
+                    setPrevArr([...previousDosesArray]);
                   },
                 );
               });
@@ -687,7 +697,7 @@ else{//half-units
       console.log(error);
     }
 
-    setPrevArr([...previousDosesArray]);
+    
   };
 
 
