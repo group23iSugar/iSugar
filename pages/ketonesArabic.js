@@ -53,7 +53,7 @@ const check = () => {
  
     
     }
-    navigation.navigate('insulin')
+    navigation.navigate('insAR')
 
 }
 const validateBGTo = (val) => {
