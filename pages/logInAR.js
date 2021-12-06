@@ -541,7 +541,7 @@ if (response[0].flag == "true"){
      AccType = response[0].userAccType;
      console.log(response[0].userAccType);
       console.log('inside authenticate: ');
-        navigation.navigate('home');    
+        navigation.navigate('HomeAR');    
 //} 
 console.log(onlinUserID + '-' + fName + '-' + lName + '-' + AccType);
 onlineDBProfile();
@@ -1173,7 +1173,7 @@ insertInLocalPrev();
           </TouchableOpacity>
         </View>
         <View style={styles.buttonS}>
-          <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+          <TouchableOpacity onPress={() => navigation.navigate('signupAR')}>
             <Text style={styles.SignUptext}>
             ليس لديك حساب؟ قم بإنشاء حساب
             </Text>
