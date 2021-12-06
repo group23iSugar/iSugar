@@ -6,8 +6,6 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import About from './AboutAR';
 import setting from './settingsAR';
 import CustomDrawerAR from './CustomDrawerAR';
-import logIn from './logIn';
-import logoScreen from './logoScreen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -47,8 +45,6 @@ const AuthStack = () => {
             <Feather name="settings" size={22} color={color}/>
            ),
          }}/>
-          <Drawer.Screen name="l" component={logoScreen}/>
-          <Drawer.Screen name="lo" component={logIn}/>
         </Drawer.Navigator>
         </NavigationContainer>
     );
