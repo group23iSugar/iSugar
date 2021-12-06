@@ -51,6 +51,7 @@ import AuthStack from './pages/AuthStack';
 import logInAR from './pages/logInAR';
 import personalInfoArabic from './pages/personalInfoArabic;
 import CalcAR from './pages/CalcAR;
+import isfArabic from './pages/isfArabic';
 
 
 
@@ -156,6 +157,7 @@ const mainStack = () => {
         <Stack.Screen name="logInAR" component={logInAR}  />
         <Stack.Screen name="personalInfoArabic" component={personalInfoArabic}  />
         <Stack.Screen name="CalcAR" component={CalcAR}  />
+        <Stack.Screen name="isfArabic" component={isfArabic}  />
 
 
       </Stack.Navigator>
