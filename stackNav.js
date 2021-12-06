@@ -49,6 +49,7 @@ import personalEditAR from './pages/personalEditArabic';
 import warmar from './pages/warninAr';
 import AuthStack from './pages/AuthStack';
 import logInAR from './pages/logInAR';
+import personalInfoArabic from './pages/personalInfoArabic;
 
 
 
@@ -152,6 +153,7 @@ const mainStack = () => {
         <Stack.Screen name="personalEAR" component={personalEditAR}  /> 
         <Stack.Screen name="warningAR" component={warmar}  /> 
         <Stack.Screen name="logInAR" component={logInAR}  />
+        <Stack.Screen name="personalInfoArabic" component={personalInfoArabic}  />
 
 
       </Stack.Navigator>
