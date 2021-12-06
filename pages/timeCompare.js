@@ -1,6 +1,7 @@
 import moment from 'moment';
 
      const timeCompare = function(from, to) { 
+         var currentTimeInsideInterval = false;
         //====== parsing FROM ========//
         // from = moment(from).format('h:mm a'); // delete this line if your format is h:mm a-------------
         console.log(from+' ......');
@@ -11,8 +12,6 @@ import moment from 'moment';
         var FromPeriod = fullFrom[1];
         if (getFromHour < 12 && (FromPeriod == 'pm' || FromPeriod == 'PM' )){
             getFromHour = getFromHour+12;
-        } else if (getFromHour == 12 && (FromPeriod == 'am' || FromPeriod == 'AM' )){
-            getFromHour == 0;
         }
         //====== parsing TO ========//
         // to = moment(to).format('h:mm a');  // delete this line if your format is h:mm a--------------------
@@ -37,27 +36,51 @@ import moment from 'moment';
             getCurrentHour = getCurrentHour+12;
         }
         // ====== comparing =======//
-        var flagHours = false;
-        var flagMinutes = true;
-        if (getCurrentHour >= getFromHour && getCurrentHour <= getToHour){
-            flagHours = true;
-        }
-        if (flagHours){
-            if (getCurrentHour == getFromHour || getCurrentHour ==  getToHour){
-                if (getCurrentMinutes >= getFromMinutes){
-                    flagMinutes = true;
-                } else {
-                    flagMinutes = false;
-                }
-                if (getCurrentMinutes <= getToMinutes){
-                    flagMinutes = true;
-                } else {
-                    flagMinutes= false;
-                }
 
-            }
-        }
-        return flagMinutes&&flagHours;
+                          if (getFromHour < getToHour){
+                  	if (((getCurrentHour > getFromHour) && (getCurrentHour < getToHour)) || 
+                  	((getCurrentHour == getFromHour) && (getCurrentMinutes >= getFromMinutes)) ||
+                  	((getCurrentHour ==  getToHour) && (getCurrentMinutes <= getToMinutes)) ){
+                  		currentTimeInsideInterval = true;}
+                  	else{
+                  		currentTimeInsideInterval = false;}
+                  	
+         } else if (getFromHour > getToHour){
+                  	if ((((getCurrentHour > getFromHour) && (getCurrentHour < 24)) || ((getCurrentHour >= 0) && (getCurrentHour < getToHour))) ||
+                  	((getCurrentHour == getFromHour) && (getCurrentMinutes >= getFromMinutes)) ||
+                  	((getCurrentHour ==  getToHour) && (getCurrentMinutes <= getToMinutes)) ){
+                  		currentTimeInsideInterval = true;}
+                  	else{
+                  		currentTimeInsideInterval = false;}
+                  	
+                  } else {// (getFromHour == getToHour)
+                  	if((getCurrentHour == getFromHour) && (getCurrentMinutes >= getFromMinutes) && (getCurrentMinutes <= getToMinutes)){
+                  		currentTimeInsideInterval = true;}
+                  	else{
+                  		currentTimeInsideInterval = false;}
+                  }
+                  return currentTimeInsideInterval;
+        // var flagHours = false;
+        // var flagMinutes = true;
+        // if (getCurrentHour >= getFromHour && getCurrentHour <= getToHour){
+        //     flagHours = true;
+        // }
+        // if (flagHours){
+        //     if (getCurrentHour == getFromHour || getCurrentHour ==  getToHour){
+        //         if (getCurrentMinutes >= getFromMinutes){
+        //             flagMinutes = true;
+        //         } else {
+        //             flagMinutes = false;
+        //         }
+        //         if (getCurrentMinutes <= getToMinutes){
+        //             flagMinutes = true;
+        //         } else {
+        //             flagMinutes= false;
+        //         }
+
+        //     }
+        // }
+        // return flagMinutes&&flagHours;
     }
     
 export default timeCompare;
