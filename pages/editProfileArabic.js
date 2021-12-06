@@ -37,7 +37,7 @@ const editProfileAR = ({ navigation }) => {
         </Text>
         <View style={styles.body}>
            
-        <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Account Information', }); }}>
+        <TouchableOpacity onPress={()=>{navigation.navigate('passEAR', {textE: 'Account Information', }); }}>
             <LinearGradient style={styles.outer}
             colors={['#a8dadc', '#457b9d']}>
             <View style={styles.inner}>
@@ -47,7 +47,7 @@ const editProfileAR = ({ navigation }) => {
             </LinearGradient>
             </TouchableOpacity>
      {/* //=================// */}
-     {AccType == 'Non-Patient Account' ? null : (  <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Clinic Information', }); }}>
+     {AccType == 'Non-Patient Account' ? null : (  <TouchableOpacity onPress={()=>{navigation.navigate('passEAR', {textE: 'Clinic Information', }); }}>
             <LinearGradient style={styles.outer}
             colors={['#a8dadc', '#457b9d']}>
             <View style={styles.inner}>
@@ -58,7 +58,7 @@ const editProfileAR = ({ navigation }) => {
             </TouchableOpacity>)}
            
             {/* //=================// */}
-            <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Personal Information', }); }}>
+            <TouchableOpacity onPress={()=>{navigation.navigate('passEAR', {textE: 'Personal Information', }); }}>
             <LinearGradient style={styles.outer}
             colors={['#a8dadc', '#457b9d']}>
             <View style={styles.inner}>
@@ -68,7 +68,7 @@ const editProfileAR = ({ navigation }) => {
             </LinearGradient>
             </TouchableOpacity>
             {/* //======= ==========// */}
-            <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Glucose and Ketones Monitoring Information', }); }}>
+            <TouchableOpacity onPress={()=>{navigation.navigate('passEAR', {textE: 'Glucose and Ketones Monitoring Information', }); }}>
             <LinearGradient style={styles.outer}
             colors={[ '#a8dadc', '#457b9d']}>
             <View style={styles.inner}>
@@ -77,7 +77,7 @@ const editProfileAR = ({ navigation }) => {
             </LinearGradient>
             </TouchableOpacity>
             {/* //=================// */}
-            <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Insulin Information', }); }}>
+            <TouchableOpacity onPress={()=>{navigation.navigate('passEAR', {textE: 'Insulin Information', }); }}>
             <LinearGradient style={styles.outer}
             colors={[ '#a8dadc', '#457b9d']}>
             <View style={styles.inner}>
@@ -87,7 +87,7 @@ const editProfileAR = ({ navigation }) => {
             </LinearGradient>
             </TouchableOpacity>
              {/* //=================// */}
-             <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Insulin Sensitivity Factor', }); }}>
+             <TouchableOpacity onPress={()=>{navigation.navigate('passEAR', {textE: 'Insulin Sensitivity Factor', }); }}>
             <LinearGradient style={styles.outer}
             colors={['#a8dadc', '#457b9d']}>
             <View style={styles.inner}>
@@ -97,7 +97,7 @@ const editProfileAR = ({ navigation }) => {
              </LinearGradient>
             </TouchableOpacity>
               {/* //=================// */}
-              <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Insulin to Carbohydrate Ratio (ICR)', }); }}>
+              <TouchableOpacity onPress={()=>{navigation.navigate('passEAR', {textE: 'Insulin to Carbohydrate Ratio (ICR)', }); }}>
             <LinearGradient style={styles.outer}
             colors={[ '#a8dadc', '#457b9d']}>
             <View style={styles.inner}>
