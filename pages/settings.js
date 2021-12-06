@@ -3,7 +3,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
-import {StyleSheet, View, Text, Dimensions, TouchableOpacity, Alert} from 'react-native';
+import {StyleSheet, View, Text, Dimensions, TouchableOpacity, Alert, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import react from 'react';
 //import About from './About';
@@ -305,8 +305,9 @@ const SelectUsers = () => {
 ///////////////////////////////METHOD FOR DELETE QUERIES////////////////////////////////////////////
 const allOperation = () => {
   //navigation.navigate('l');
-  navigation.navigate('lo');
+ // navigation.navigate('lo');
   //deleteUserAccount();
+  navigation.navigate('logo');
   DeleteAll();
   console.log('hello');
 // eslint-disable-next-line semi
@@ -694,34 +695,38 @@ const DeleteAll = () => {
 //////////////////////////////////////////////////////END DELETE QUERIES///////////////////////////////////////////
   return (
  <View style={styles.container}>
-    <View style={{top: 10, flexDirection: 'row', padding: 30}}>
-     <TouchableOpacity onPress={()=>navigation.openDrawer()}>
-     <Entypo name="menu" color="#212222" size={35} style={{marginLeft: -10, paddingVertical: 5}} />
-     </TouchableOpacity>
-    </View>
+   <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
+   <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
+        <Image source={require('../images/logo.png')} style={styles.pic} />
+        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+         <Entypo name="menu" color="#05375a" size={35} />
+         </TouchableOpacity>
+      </View>
 
-    <View style={{flexDirection: 'row' ,marginLeft:15 }}>
-      <Fontisto name="world-o" color="#212222" size={22}/>
+
+    <View style={styles.footer}>
+    <View style={{flexDirection: 'row' ,marginLeft:5, paddingTop: 30 }}>
+      <Fontisto name="world-o" color="#05375a" size={22}/>
        <Text style={styles.title}>Language</Text>
       </View>
-    <View style={styles.footer}>
       <View style={styles.radioB}>
          <RadioForm
           radio_props = {Language}
           onPress={ twoOptionAlert }
           buttonSize = {15}
           buttonOuterSize = {25}
-          buttonColor= "#717274"
-          selectedButtonColor = "#656363"
-          labelStyle = {{fontSize: 20, color: '#212222', padding: 10}}
+          buttonColor= "#AABED8"
+          selectedButtonColor = "#8FA5C1"
+          labelStyle = {{fontSize: 20, color: '#05375a', padding: 10}}
           formHorizontal={false}
          />
         </View>
     </View>
 
-<View style={{marginBottom: 80, paddingBottom: 40}}>
-     <View style={{flexDirection: 'row' ,marginLeft:15, paddingTop: 30 }}>
-       <MaterialIcons name="account-circle" color="#212222" size={22}/>
+<View style={{marginBottom: 30}}>
+  <View>
+  <View style={{flexDirection: 'row' ,marginLeft:20, paddingTop: 50 }}>
+       <MaterialIcons name="account-circle" color="#05375a" size={22}/>
        <Text style={styles.title}>Account</Text>
      </View>
         <View style={styles.buttonV}>
@@ -729,7 +734,7 @@ const DeleteAll = () => {
              <LinearGradient
                colors={['#fff', '#fff', '#fff']}
                style={styles.buttonR}>
-                <SimpleLineIcons name="logout" color="#212222" size={22}/>
+                <SimpleLineIcons name="logout" color="#05375a" size={22}/>
                <Text
                 onPress={ logOutAlert }
                style={styles.titleB}
@@ -739,7 +744,9 @@ const DeleteAll = () => {
              </LinearGradient>
             </TouchableOpacity>
          </View>
+  </View>
          </View>
+         </LinearGradient>
  </View>
   );
 };
@@ -748,22 +755,24 @@ const {height} = Dimensions.get('screen');
 const height_logo = height * 0.15;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#f5f5f5',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  pic: {
+
+    width: height_logo,
+    height: height_logo,
+    marginRight: 10,
+},
     title: {
-      color: '#212222',
+      color: '#05375a',
       fontSize: 18,
       fontWeight: 'bold',
       marginLeft: 10,
-      marginBottom: 10,
+      marginBottom: -10,
     },
-    logo: {
-      width: height_logo,
-      height: height_logo,
 
-    },
   footer: {
       flex: 1,
       width: 380,
@@ -778,9 +787,9 @@ const styles = StyleSheet.create({
       shadowOpacity: 10,
   },
   titleB: {
-    color: '#212222',
+    color: '#05375a',
     fontSize: 18,
-    marginLeft: 10,
+    marginLeft: 15,
     marginTop: -10,
   },
   radioB :{
