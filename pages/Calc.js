@@ -215,13 +215,20 @@ else{//half-units
     // navigation.navigate('result',{result: total, calcM: calcMethod, reasonD: reason, bg: bgLevel, cho: CHO})
     console.log(c + ' and:3  ' + total);
 	  
-    //======================Save into DB========================
+ //======================Save into DB========================
+
+    var currentTime2 = new Date();
+    var currentTimeHours1 = currentTime2.getHours(); //0-23
+    var currentTimeMin1 = currentTime2.getMinutes(); //0-59
+    var currentTimeDate_day1 = currentTime2.getDate(); //1-31
+    var currentTimeDate_month1 = currentTime2.getMonth(); //0-11
+    var currentTimeDate_year1 = currentTime2.getFullYear(); //2021
 
       try {
           db.transaction( (tx) => {
               tx.executeSql(
                'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Day, Dose_Date_Month, Dose_Date_Year) VALUES (?,?,?,?,?,?,?,?,?,?)',
-                 [uID, bgLevel, reason, CHO, total, currentTimeHours, currentTimeMin, currentTimeDate_day, currentTimeDate_month, currentTimeDate_year]
+                 [uID, bgLevel, reason, CHO, total, currentTimeHours1, currentTimeMin1, currentTimeDate_day1, currentTimeDate_month1, currentTimeDate_year1]
              );
             
          })
