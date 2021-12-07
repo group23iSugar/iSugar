@@ -51,7 +51,6 @@ import AuthStack from './pages/AuthStack';
 import logInAR from './pages/logInAR';
 import personalInfoArabic from './pages/personalInfoArabic;
 import CalcAR from './pages/CalcAR;
-import isfArabic from './pages/isfArabic';
 import HomeAR from './pages/HomeAR';
 import isfARe from './pages/isfEditArabic';
 
