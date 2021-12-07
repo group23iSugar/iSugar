@@ -48,25 +48,25 @@ var InsertAPIURL = "http://192.168.12.1/isugar/comparePass.php";
     
     if (flag1=='true'){
       if(infoType=='Account Information'){
-        navigation.navigate('AccEdit')
+        navigation.navigate('accEAR')
       }
       if (infoType=='Clinic Information'){
-        navigation.navigate('clinicEdit')
+        navigation.navigate('clinicEAR')
       }
       if (infoType=='Personal Information'){
-        navigation.navigate('personalEdit')
+        navigation.navigate('personalEAR')
       }
       if (infoType=='Glucose and Ketones Monitoring Information'){
-        navigation.navigate('ketonesEdit')
+        navigation.navigate('ketonesEAR')
       }
       if (infoType=='Insulin Information'){
-        navigation.navigate('insulinEdit')
+        navigation.navigate('insulinEAR')
       }
       if (infoType=='Insulin Sensitivity Factor'){
-        navigation.navigate('isfEdit')
+        navigation.navigate('isfEAR')
       }
       if (infoType=='Insulin to Carbohydrate Ratio (ICR)'){
-        navigation.navigate('icrEdit')
+        navigation.navigate('icrEAR')
       }
       
     }
