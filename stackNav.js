@@ -30,7 +30,7 @@ import carb from './pages/carb';
 import insuResult from './pages/insuResult';
 import signUpAR from './pages/signUpArabic';
 import AccInfoAR from './pages/AccInfoArabic';
-import AccInfoAREdit from './pages/AccInfoEdit';
+import AccInfoAREdit from './pages/AccInfoEditArabic';
 import carbAR from './pages/carbArabic';
 import clinicEditAR from './pages/clinicEditArabic';
 import ketonesAR from './pages/ketonesArabic';
@@ -40,7 +40,7 @@ import editProfileAR from './pages/editProfileArabic';
 import icrAR from './pages/icrArabic';
 import icrEditAR from './pages/icrEditArabic';
 import insulinAR from './pages/insulinArabic';
-import insulinARe from './pages/insulinEdit';
+import insulinARe from './pages/insulinEditArabic';
 import isfARA from './pages/isfArabic';
 import ketonesEditAR from './pages/ketonesEditArabic';
 import logoAR from './pages/logoScreenArabic';
@@ -53,7 +53,7 @@ import personalInfoArabic from './pages/personalInfoArabic;
 import CalcAR from './pages/CalcAR;
 import isfArabic from './pages/isfArabic';
 import HomeAR from './pages/HomeAR';
-
+import isfARe from './pages/isfEditArabic';
 
 
 
@@ -160,6 +160,7 @@ const mainStack = () => {
         <Stack.Screen name="CalcAR" component={CalcAR}  />
         <Stack.Screen name="isfArabic" component={isfArabic}  />
         <Stack.Screen name="HomeAR" component={HomeAR}  />
+        <Stack.Screen name="isfEAR" component={isfARe}  />
 
 
       </Stack.Navigator>
