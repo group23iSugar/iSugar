@@ -45,7 +45,7 @@ import react from 'react';
                   
                 </LinearGradient>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>navigation.navigate('warmar')}>
+            <TouchableOpacity onPress={()=>navigation.navigate('warningAR')}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
