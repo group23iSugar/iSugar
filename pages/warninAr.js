@@ -34,7 +34,7 @@ import react from 'react';
       
      
         <View style={styles.buttonV}>
-        <TouchableOpacity onPress={()=>navigation.navigate('login', AccountT)}>
+        <TouchableOpacity onPress={()=>navigation.navigate('logInAR', AccountT)}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
