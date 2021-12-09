@@ -18,7 +18,7 @@ const passEdit = ({ navigation, route }) => {
     const[password, setPass] = useState(''); 
      var flag1 = '';
     const check = () => {
-    var InsertAPIURL = "http://192.168.12.1/isugar/comparePass.php"; 
+    var InsertAPIURL = "https://isugarserver.com/comparePass.php"; 
       var headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -36,49 +36,44 @@ const passEdit = ({ navigation, route }) => {
     })
       .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
       .then((response)=>{
-        flag1 = response[0].flag
-        alert('flag '+ flag1);
+        flag1 = response[0].flag 
+        if (flag1=='true'){
+          if(infoType=='Account Information'){
+            navigation.navigate('AccEdit')
+          }
+          if (infoType=='Clinic Information'){
+            navigation.navigate('clinicEdit')
+          }
+          if (infoType=='Personal Information'){
+            navigation.navigate('personalEdit')
+          }
+          if (infoType=='Glucose and Ketones Monitoring Information'){
+            navigation.navigate('ketonesEdit')
+          }
+          if (infoType=='Insulin Information'){
+            navigation.navigate('insulinEdit')
+          }
+          if (infoType=='Insulin Sensitivity Factor'){
+            navigation.navigate('isfEdit')
+          }
+          if (infoType=='Insulin to Carbohydrate Ratio (ICR)'){
+            navigation.navigate('icrEdit')
+          }
+          
+        }else{
+          alert('Wrong password please try again');
+        }
     })
     .catch((error)=>{
         alert("Error Occured" + error);
     })
-    if (flag1=='true'){
-      if(infoType=='Account Information'){
-        navigation.navigate('AccEdit')
-      }
-      if (infoType=='Clinic Information'){
-        navigation.navigate('clinicEdit')
-      }
-      if (infoType=='Personal Information'){
-        navigation.navigate('personalEdit')
-      }
-      if (infoType=='Glucose and Ketones Monitoring Information'){
-        navigation.navigate('ketonesEdit')
-      }
-      if (infoType=='Insulin Information'){
-        navigation.navigate('insulinEdit')
-      }
-      if (infoType=='Insulin Sensitivity Factor'){
-        navigation.navigate('isfEdit')
-      }
-      if (infoType=='Insulin to Carbohydrate Ratio (ICR)'){
-        navigation.navigate('icrEdit')
-      }
-      
-    }else{
-      alert('Wrong password please try again');
-    }
+    
     }
     
   return (
 
     <View style={styles.container}>
-       <View style={styles.header}>
-         <Text style={styles.textHeader}>Hello Sara
-             <Image source={require('../images/ballons.png')}
-             style={{height: 30, width: 30}}/> 
-         </Text>
-         </View>
+     
          <ScrollView>
         <View style={styles.body}>
         <Text style={styles.textBody}>{infoType}</Text>
@@ -86,6 +81,7 @@ const passEdit = ({ navigation, route }) => {
           <Text style={styles.textHeader}>Please Enter your account password: </Text>
           <View style={styles.inputT}>
           <TextInput 
+          style={{color:'black'}}
           autoCapitalize="none"
           onChangeText={(val)=>setPass(val)}
           />
@@ -111,7 +107,7 @@ const passEdit = ({ navigation, route }) => {
 
 
 const {height} = Dimensions.get("screen");
-const height_logo = height * 0.28;
+const height_logo = height * 0.15;
 
 export default passEdit;
 

@@ -247,7 +247,7 @@ const check = () => {
     updateDODLocal();
     onlineDBDOD();
   }
-  
+  navigation.navigate('edit');
 }
 const updateMRNLocal = () => {
   try {
@@ -425,7 +425,7 @@ const updateDODLocal = () => {
 }
 }
 const deleteOnlineDB = () =>{
-  var InsertAPIURL = "http://192.168.12.1/isugar/updateClinic.php";  
+  var InsertAPIURL = "https://isugarserver.com/updateClinic.php";  
   
   var headers = {
     'Accept': 'application/json',
@@ -450,7 +450,7 @@ const deleteOnlineDB = () =>{
   })
   }
   const deleteOTHEROnlineDB = () =>{
-    var InsertAPIURL = "http://192.168.12.1/isugar/deleteOther.php";  
+    var InsertAPIURL = "https://isugarserver.com/deleteOther.php";  
     
     var headers = {
       'Accept': 'application/json',
@@ -476,7 +476,7 @@ const deleteOnlineDB = () =>{
     }
   const onlineDBOther = () => {
     console.log('other');
-    var InsertAPIURL3 = "http://192.168.12.1/isugar/CenterInformation.php";   //API to  signup
+    var InsertAPIURL3 = "https://isugarserver.com/CenterInformation.php";   //API to  signup
 
     var headers = {
       'Accept': 'application/json',
@@ -504,7 +504,7 @@ const deleteOnlineDB = () =>{
   }
   const onlineDBKSUMC = () => {
 
-    var InsertAPIURL2 = "http://192.168.12.1/isugar/KSUMC.php";   //API to  signup
+    var InsertAPIURL2 = "https://isugarserver.com/KSUMC.php";   //API to  signup
 
     var headers = {
       'Accept': 'application/json',
@@ -531,7 +531,7 @@ const deleteOnlineDB = () =>{
  
   }
   const onlineDBDOD = () => {
-    var InsertAPIURL = "http://192.168.12.1/isugar/diagnosis_date.php";   
+    var InsertAPIURL = "https://isugarserver.com/diagnosis_date.php";   
  
     var headers = {
       'Accept': 'application/json',
@@ -584,8 +584,8 @@ const deleteOnlineDB = () =>{
               style={styles.picker}
               >
               
-            <Picker.Item label= 'King Saud University Medical City' value='1'></Picker.Item>
-            <Picker.Item label= 'Other' value='2'></Picker.Item>
+            <Picker.Item label= 'King Saud University Medical City' value='1' color='black'></Picker.Item>
+            <Picker.Item label= 'Other' value='2' color='black'></Picker.Item>
 
         </Picker>
       
@@ -601,8 +601,8 @@ const deleteOnlineDB = () =>{
   >
   
 
-<Picker.Item label= 'Other' value='2'></Picker.Item>
-<Picker.Item label= 'King Saud University Medical City' value='1'></Picker.Item>
+<Picker.Item label= 'Other' value='2' color='black'></Picker.Item>
+<Picker.Item label= 'King Saud University Medical City' value='1' color='black'></Picker.Item>
 </Picker>
 
 </View>)}
@@ -641,6 +641,7 @@ null
 
     <TextInput 
     style={styles.textInput}
+    keyboardType="decimal-pad"
     defaultValue={dbData2.uMRN}
     autoCapitalize="none"
     onChangeText={(val) => setMRN(val)}
@@ -684,7 +685,7 @@ null
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={styles.titleB}>Continue</Text>
+                    <Text style={styles.titleB}>Update</Text>
                   
                 </LinearGradient>
             </TouchableOpacity>

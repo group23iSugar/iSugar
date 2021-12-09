@@ -16,12 +16,18 @@ import {
   Switch,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Entypo from 'react-native-vector-icons/Entypo';
 
-const App = () => {
+
+const home = ({ navigation }) => {
   return (
+    
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
-      <View style={{top: 10, alignItems: 'center'}}>
+      <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
         <Image source={require('../images/logo.png')} style={styles.pic} />
+        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+         <Entypo name="menu" color="#05375a" size={35} />
+         </TouchableOpacity>
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -57,11 +63,12 @@ const App = () => {
             margin: 30,
             borderColor: 'gray',
             borderWidth: 1,
+            color: 'grey'
           }}>
           + Add Glucose reading
         </Text>
 
-        <Text style={{textAlign: 'center', fontSize: 20, borderWidth: 1 , borderColor: 'gray'}}>
+        <Text style={{textAlign: 'center', fontSize: 20, borderWidth: 1 , borderColor: 'gray', color: 'grey'}}>
           Percentage of time in last 7-days in target range: 95%
         </Text>
         <Text style={styles.inpTxt}>Upcoming appontments:</Text>
@@ -87,11 +94,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   pic: {
-
-      width: height_logo,
-      height: height_logo,
- 
-  },
+    width: height_logo,
+    height: height_logo,
+    marginRight: 10,
+},
   inputT: {
     //inputs field
 
@@ -133,6 +139,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 15,
     fontSize: 18,
+    color: 'black'
   },
 
   vNext: {
@@ -183,6 +190,12 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: '#f5f5f5',
   },
+  pic: {
+
+    width: height_logo,
+    height: height_logo,
+    marginRight: 10,
+},
 });
 
-export default App;
+export default home;

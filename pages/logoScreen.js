@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, 
     View,
     Image, 
@@ -14,6 +14,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 const logoScreen = ({ navigation }) => {
+  
   return (
 
     <View style={styles.container}>
@@ -30,8 +31,13 @@ const logoScreen = ({ navigation }) => {
 
 
         </Text>
-        <Text style={styles.text}>Sign in/Sign up with your account</Text>
+        <Text style={styles.text}>Sign in/Sign up with your account{'\n'}</Text>
         <View style={styles.buttonV}>
+        <TouchableOpacity onPress={()=> navigation.navigate('logoAR')}
+        style={{paddingLeft: 15}}
+        >
+          <Text style={{fontSize: 17, color: 'grey'}}>العربية</Text>
+          </TouchableOpacity>
         <TouchableOpacity onPress={()=>navigation.navigate('login')}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
@@ -44,6 +50,7 @@ const logoScreen = ({ navigation }) => {
                   
                 </LinearGradient>
             </TouchableOpacity>
+           
         </View>
      </View>
 
@@ -101,8 +108,10 @@ titleB: {
  
 },
 buttonV: {
+  flexDirection: 'row',
   alignItems: 'flex-end',
-  marginTop: 40
+  marginTop: 40,
+  justifyContent: 'space-between'
 },
 buttonR: {
   alignItems: 'flex-end',
@@ -112,7 +121,7 @@ buttonR: {
   alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
-  
+  marginRight: 15
 }
 });
 

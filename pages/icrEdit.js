@@ -38,33 +38,62 @@ var calcMethod = [
       const [SlidingScaleExtra, setSlidingScaleExtra] = useState([]);
 
 const firstretrieve = async (callback)=>{
+  if (AccType == 'Patient Account'){
+    try {
+      console.log('in try');
+        db.transaction(  ( tx) => {
+          tx.executeSql(
+            'SELECT UserID, insulinCalcMethod FROM patientprofile',
+            [],
+            (tx, results) => {
+              var rows = results.rows;
+              for (let i = 0; i < rows.length; i++){
+                var userID = rows.item(i).UserID;
+                if (uID == userID){
+                  var calcM = rows.item(i).insulinCalcMethod; 
+                  callback(calcM);
+                  setData({...data, calcMethod: calcM});
+                  console.log(calcM);
+                  return;
+                }
+                
+                }
+            }   
+  ) 
+    
+  }  ) 
+  } catch (error) {
+     console.log(error);
+  }
+  } else {
+    try {
+      console.log('in try');
+        db.transaction(  ( tx) => {
+          tx.executeSql(
+            'SELECT UserID, insulinCalcMethod FROM nonPatientprofile',
+            [],
+            (tx, results) => {
+              var rows = results.rows;
+              for (let i = 0; i < rows.length; i++){
+                var userID = rows.item(i).UserID;
+                if (uID == userID){
+                  var calcM = rows.item(i).insulinCalcMethod; 
+                  callback(calcM);
+                  setData({...data, calcMethod: calcM});
+                  console.log(calcM);
+                  return;
+                }
+                
+                }
+            }   
+  ) 
+    
+  }  ) 
+  } catch (error) {
+     console.log(error);
+  }
+  }
   
-  try {
-    console.log('in try');
-      db.transaction(  ( tx) => {
-        tx.executeSql(
-          'SELECT UserID, insulinCalcMethod FROM patientprofile',
-          [],
-          (tx, results) => {
-            var rows = results.rows;
-            for (let i = 0; i < rows.length; i++){
-              var userID = rows.item(i).UserID;
-              if (238 == userID){
-                var calcM = rows.item(i).insulinCalcMethod; 
-                callback(calcM);
-                setData({...data, calcMethod: calcM});
-                console.log(calcM);
-                return;
-              }
-              
-              }
-          }   
-) 
-  
-}  ) 
-} catch (error) {
-   console.log(error);
-}
 }
 const secondretrieve = (method) =>{
   console.log('inside is: '+method);
@@ -74,7 +103,7 @@ const secondretrieve = (method) =>{
         db.transaction(  ( tx) => {
           tx.executeSql(
             'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
-            [162],
+            [uID],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++){
@@ -84,7 +113,7 @@ const secondretrieve = (method) =>{
                           to: new Date(rows.item(i).toTime),
                           icr: rows.item(i).ICR,
                           isChanged: false,
-                          isNew: true
+                          isNew: false,
                       });
                       ICRExtra.push({
                         id: rows.item(i).icrID,
@@ -92,7 +121,7 @@ const secondretrieve = (method) =>{
                           to: new Date(rows.item(i).toTime),
                           icr: rows.item(i).ICR,
                           isChanged: false,
-                          isNew: true
+                          isNew: false
                       });
                 }
                 setICR([...tempArr]);
@@ -110,7 +139,7 @@ const secondretrieve = (method) =>{
         db.transaction(  ( tx) => {
           tx.executeSql(
             'SELECT ssID, fromTime, toTime FROM ssInterval WHERE UserID=?',
-            [237],
+            [uID],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++){
@@ -383,8 +412,7 @@ const handleICRUpdate =()=>{
         return;
       } else{
         // add + update db :)
-        icrOnline(ICR[i].from, ICR[i].to, ICR[i].icr);
-        oldIcrOnline(ICRExtra[i].from, ICRExtra[i].to, ICRExtra[i].icr);
+        oldIcrOnline(ICRExtra[i].from, ICRExtra[i].to, ICRExtra[i].icr, ICR[i].from, ICR[i].to, ICR[i].icr);
         try {
           db.transaction( (tx) => {
               tx.executeSql(
@@ -393,7 +421,6 @@ const handleICRUpdate =()=>{
                 (tx, results) => {
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
-                  alert('Succefully updated');
                     }
                 }   
       ) 
@@ -408,6 +435,8 @@ const handleICRUpdate =()=>{
       localICR();
     }
   }
+  alert('Updated!');
+  navigation.navigate('edit');
 }
 
 const handleSSUpdate =()=>{
@@ -444,8 +473,8 @@ const handleSSUpdate =()=>{
           alert('Please enter a valid value!S');
           return;
         } else {
-          updateBGTOOnline(SlidingScale[i].from, SlidingScale[i].to, SlidingScaleExtra[i].Rnages[j].BGFrom, SlidingScaleExtra[i].Rnages[j].BGTo, SlidingScaleExtra[i].Rnages[j].insulin);
-          afterUpdateBGTOOnline(SlidingScale[i].from, SlidingScale[i].to, SlidingScale[i].Rnages[j].BGFrom, SlidingScale[i].Rnages[j].BGTo, SlidingScale[i].Rnages[j].insulin);
+          updateBGTOOnline(SlidingScale[i].from, SlidingScale[i].to, SlidingScaleExtra[i].Rnages[j].BGFrom, SlidingScaleExtra[i].Rnages[j].BGTo, SlidingScaleExtra[i].Rnages[j].insulin, SlidingScale[i].Rnages[j].BGFrom, SlidingScale[i].Rnages[j].BGTo, SlidingScale[i].Rnages[j].insulin);
+
           try {
             db.transaction( (tx) => {
                 tx.executeSql(
@@ -469,6 +498,8 @@ const handleSSUpdate =()=>{
     }
     }
   }
+  alert('Updated!');
+  navigation.navigate('edit');
 }
 const localSSDB = async (callback) => {
   console.log('in insert SS');
@@ -480,7 +511,7 @@ for (let i =0; i< SlidingScale.length; i++){
           tx.executeSql(
            'INSERT INTO ssInterval (UserID, fromTime, toTime)' 
            +'VALUES (?,?,?)',
-             [238, SlidingScale[i].from, SlidingScale[i].to]
+             [uID, SlidingScale[i].from, SlidingScale[i].to]
          );
          callback(SlidingScale[i].from, SlidingScale[i].to, i);
      })
@@ -507,7 +538,7 @@ try {
                   var ID = rows.item(i).UserID;
                   var f = rows.item(i).fromTime;
                   var t = rows.item(i).toTime;
-                  if (238 == ID && from.toString() == f.toString() && to.toString() == t.toString()){
+                  if (uID == ID && from.toString() == f.toString() && to.toString() == t.toString()){
                     console.log('Horaaaayy '+ssID);
                     BGToLocal(ssID, index); 
                     return ssID;
@@ -542,7 +573,7 @@ for (let j=0; j<SlidingScale[i].Rnages.length; j++){
 }
 }
 const ssOnlineDB = (i, j) =>{
-var InsertAPIURL = "http://192.168.12.1/isugar/SlideScaleInterval.php";  
+var InsertAPIURL = "https://isugarserver.com/SlideScaleInterval.php";  
 
 var headers = {
   'Accept': 'application/json',
@@ -550,9 +581,9 @@ var headers = {
 };
 
 var Data ={
-  UserID: 119,
-  fromTime: SlidingScale[i].from,
-  toTime: SlidingScale[i].to,
+  UserID: onlinUserID,
+  fromTime: SlidingScale[i].from.toString(),
+  toTime: SlidingScale[i].to.toString(),
   fromBGLevel: SlidingScale[i].Rnages[j].BGFrom,
   toBGLevel: SlidingScale[i].Rnages[j].BGTo,
   insulinDose: SlidingScale[i].Rnages[j].insulin
@@ -573,7 +604,7 @@ alert('ss ' + response[0].Message2);
 })
 }
 const oldSsOnlineDB = (from, to, from2, to2) =>{
-  var InsertAPIURL = "http://192.168.12.1/isugar/updateSS.php";  
+  var InsertAPIURL = "https://isugarserver.com/updateSS.php";  
   
   var headers = {
     'Accept': 'application/json',
@@ -581,11 +612,11 @@ const oldSsOnlineDB = (from, to, from2, to2) =>{
   };
   
   var Data ={
-    UserID: 119,
-    fromTime: moment(from).format('h:mm a'),
-    toTime: moment(to).format('h:mm a'),
-    fromTime2: moment(from2).format('h:mm a'),
-    toTime2: moment(to2).format('h:mm a')
+    UserID: onlinUserID,
+    fromTime: from.toString(),
+    toTime: to.toString(),
+    fromTime2: from2.toString(),
+    toTime2: to2.toString()
   };
   
   // FETCH func ------------------------------------
@@ -601,8 +632,8 @@ const oldSsOnlineDB = (from, to, from2, to2) =>{
     alert("Error Occured" + error);
   })
   }
-  const updateBGTOOnline = (from, to, bgf, bgt, ins) =>{
-    var InsertAPIURL = "http://192.168.12.1/isugar/updateBGTOInsulin.php";  
+const updateBGTOOnline = (from, to, bgf, bgt, ins, bgf1, bgt1, ins1 ) =>{
+    var InsertAPIURL = "https://isugarserver.com/updateBGTOInsulin.php";  
     
     var headers = {
       'Accept': 'application/json',
@@ -610,12 +641,15 @@ const oldSsOnlineDB = (from, to, from2, to2) =>{
     };
     
     var Data ={
-      UserID: 119,
-      fromTime: moment(from).format('h:mm a'),
-      toTime: moment(to).format('h:mm a'),
+      UserID: onlinUserID,
+      fromTime: from.toString(),
+      toTime: to.toString(),
       fromBGLevel: bgf,
       toBGLevel: bgt,
-      insulinDose: ins
+      insulinDose: ins,
+      fromBGLevel1: bgf1,
+      toBGLevel1: bgt1,
+      insulinDose1: ins1
     };
     
     // FETCH func ------------------------------------
@@ -631,37 +665,6 @@ const oldSsOnlineDB = (from, to, from2, to2) =>{
       alert("Error Occured" + error);
     })
     }
-    const afterUpdateBGTOOnline = (from, to, bgf, bgt, ins) =>{
-      var InsertAPIURL = "http://192.168.12.1/isugar/afterBGUpdate.php";  
-      
-      var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      };
-      
-      var Data ={
-        UserID: 119,
-        fromTime: moment(from).format('h:mm a'),
-        toTime: moment(to).format('h:mm a'),
-        fromBGLevel: bgf,
-        toBGLevel: bgt,
-        insulinDose: ins
-      };
-      
-      // FETCH func ------------------------------------
-      fetch(InsertAPIURL,{
-        method:'POST',
-        headers:headers,
-        body: JSON.stringify(Data) //convert data to JSON
-      })
-      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-      .then((response)=>{
-      alert('after ' + response[0].Message2);
-      })
-      .catch((error)=>{
-        alert("Error Occured" + error);
-      })
-      }
 //=========icr local============
 const localICR = () => {
 for (let i=0; i<ICR.length; i++){
@@ -678,7 +681,7 @@ for (let i=0; i<ICR.length; i++){
     } catch (error) {
      console.log(error);
     }
-    var InsertAPIURL = "http://192.168.12.1/isugar/ICRInterval.php";
+    var InsertAPIURL = "https://isugarserver.com/ICRInterval.php";
     
     var headers = {
       'Accept': 'application/json',
@@ -686,9 +689,9 @@ for (let i=0; i<ICR.length; i++){
     };
     
     var Data ={
-      UserID: 119,
-      fromTime: moment(ICR[i].from).format('h:mm a'),
-      toTime: moment(ICR[i].to).format('h:mm a'),
+      UserID: onlinUserID,
+      fromTime: ICR[i].from.toString(),
+      toTime: ICR[i].to.toString(),
       ICR: ICR[i].icr 
     };
   
@@ -708,10 +711,11 @@ for (let i=0; i<ICR.length; i++){
   }
   
 }
-
 }
-const icrOnline = (from, to, icr) => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/ICRInterval.php";
+
+
+const oldIcrOnline = (from, to, icr, from1, to1, icr1) => {
+  var InsertAPIURL = "https://isugarserver.com/icrUpdate.php";
     
   var headers = {
     'Accept': 'application/json',
@@ -719,40 +723,13 @@ const icrOnline = (from, to, icr) => {
   };
   
   var Data ={
-    UserID: 119,
-    fromTime: moment(from).format('h:mm a'),
-    toTime: moment(to).format('h:mm a'),
-    ICR: icr 
-  };
-
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-    method:'POST',
-    headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  
-})
-.catch((error)=>{
-    alert("Error Occured" + error);
-})
-}
-
-const oldIcrOnline = (from, to, icr) => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/icrUpdate.php";
-    
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
-  
-  var Data ={
-    UserID: 119,
-    fromTime: moment(from).format('h:mm a'),
-    toTime: moment(to).format('h:mm a'),
-    ICR: icr 
+    UserID: onlinUserID,
+    fromTime: from.toString(),
+    toTime: to.toString(),
+    ICR: icr,
+    fromTime1: from1.toString(),
+    toTime1: to1.toString(),
+    ICR1: icr1
   };
 
 // FETCH func ------------------------------------
@@ -853,7 +830,7 @@ resizeMode='stretch'/>
                     <View style={styles.innerView}>
                     <Text style={styles.innerTitle}>From</Text>
                     <TextInput
-                    style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0}}
+                    style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color: 'grey'}}
                      keyboardType="decimal-pad"
                      defaultValue={item.BGFrom+''}
                      onChangeText={(val)=>changeV(val, item.id, 'f', index)}
@@ -862,7 +839,7 @@ resizeMode='stretch'/>
                     <View style={styles.innerView}>
                     <Text style={styles.innerTitle}>To</Text>
                     <TextInput
-                    style={{borderColor: 'grey', borderBottomWidth: 1, paddingBottom: 0, paddingTop:0}}
+                    style={{borderColor: 'grey', borderBottomWidth: 1, paddingBottom: 0, paddingTop:0,color: 'grey'}}
                      keyboardType="decimal-pad"
                      defaultValue={item.BGTo+''}
                      onChangeText={(val)=>changeV(val, item.id, 't', index)}
@@ -871,7 +848,7 @@ resizeMode='stretch'/>
                     <View style={styles.innerView}>
                     <Text style={styles.innerTitle}>Insulin</Text>
                     <TextInput
-                    style={{borderColor: 'grey', borderBottomWidth: 1, paddingBottom: 0, paddingTop:0}}
+                    style={{borderColor: 'grey', borderBottomWidth: 1, paddingBottom: 0, paddingTop:0, color: 'grey'}}
                      keyboardType="decimal-pad"
                      defaultValue={item.insulin+''}
                      onChangeText={(val)=>changeV(val, item.id, 'i', index)}
@@ -951,7 +928,7 @@ resizeMode='stretch'/>
                     <View style={styles.innerView}>
                     <Text style={styles.innerTitle}>ICR: </Text>
                     <TextInput
-                    style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0}}
+                    style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color: 'grey'}}
                      keyboardType="decimal-pad"
                      defaultValue={item.icr+''}
                      onChangeText={(val) => changeICR(val, index)}

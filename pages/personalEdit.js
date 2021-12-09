@@ -33,69 +33,73 @@ import react from 'react';
         });
         
         const getLocalInfo = ()=>{
-        // if (patient ) then
+        if (AccType == 'Patient Account'){
           try {
-              console.log('in try');
-              db.transaction( (tx) => {
-                  tx.executeSql(
-                    'SELECT UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date, height FROM patientprofile',
-                    [],
-                    (tx, results) => {
-                      var rows = results.rows;
-                      for (let i = 0; i < rows.length; i++) {           
-                          var userID = rows.item(i).UserID;
-                          if (238 == userID){
-                              setDbData({
-                                  ...dbData,
-                                  dateBirth: rows.item(i).DOB,
-                                  weigh: rows.item(i).weightKG,
-                                  heigh: rows.item(i).height,
-                                  doLateH: rows.item(i).latest_HP1AC_date,
-                                  lh1: rows.item(i).latest_HP1AC,
-                              });
-                              
-                            return;
-                          }
-                        }
-                    }   
-          ) 
-              
-          
-          }  ) 
-          } catch (error) {
-             console.log(error);
-          }
-        // if (non-patient ) then
-        // try {
-        //     console.log('in try');
-        //     db.transaction( (tx) => {
-        //         tx.executeSql(
-        //           'SELECT UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date FROM nonPatientprofile',
-        //           [],
-        //           (tx, results) => {
-        //             var rows = results.rows;
-        //             for (let i = 0; i < rows.length; i++) {           
-        //                 var userID = rows.item(i).UserID;
-        //                 if (uID == userID){
-        //                     setDbData({
-        //                         ...dbData,
-        //                         dateBirth: rows.item(i).DOB,
-        //                         weigh: rows.item(i).weightKG,
-        //                         doLateH: rows.item(i).latest_HP1AC_date,
-        //                         lh1: rows.item(i).latest_HP1AC,
-        //                     });
+            console.log('in try');
+            db.transaction( (tx) => {
+                tx.executeSql(
+                  'SELECT UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date, height FROM patientprofile',
+                  [],
+                  (tx, results) => {
+                    var rows = results.rows;
+                    for (let i = 0; i < rows.length; i++) {           
+                        var userID = rows.item(i).UserID;
+                        if (238 == userID){
+                            setDbData({
+                                ...dbData,
+                                dateBirth: rows.item(i).DOB,
+                                weigh: rows.item(i).weightKG,
+                                heigh: rows.item(i).height,
+                                doLateH: rows.item(i).latest_HP1AC_date,
+                                lh1: rows.item(i).latest_HP1AC,
+                            });
                             
-        //                   return;
-        //                 }
-        //               }
-        //           }   
-        // ) 
+                          return;
+                        }
+                      }
+                  }   
+        ) 
             
         
-        // }  ) 
-        // } catch (error) {
-        //    console.log(error);
-        // }
+        }  ) 
+        } catch (error) {
+           console.log(error);
+        }
+        } else {
+try {
+            console.log('in try');
+            db.transaction( (tx) => {
+                tx.executeSql(
+                  'SELECT UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date FROM nonPatientprofile',
+                  [],
+                  (tx, results) => {
+                    var rows = results.rows;
+                    for (let i = 0; i < rows.length; i++) {           
+                        var userID = rows.item(i).UserID;
+                        if (uID == userID){
+                            setDbData({
+                                ...dbData,
+                                dateBirth: rows.item(i).DOB,
+                                weigh: rows.item(i).weightKG,
+                                doLateH: rows.item(i).latest_HP1AC_date,
+                                lh1: rows.item(i).latest_HP1AC,
+                            });
+                            
+                          return;
+                        }
+                      }
+                  }   
+        ) 
+            
+        
+        }  ) 
+        } catch (error) {
+           console.log(error);
+        }
+        }
+         
+        // if (non-patient ) then
+        
         
       }
       var d = moment(dbData.dateBirth).format('YYYY-MM-DD'); // 2021-11-21
@@ -250,23 +254,38 @@ import react from 'react';
         if (data.isValidWeight==true && data.isValidHeight == true && data.isValidHB1AC == true && isValidAge){
          if (data.weight!=0){
             updateWeightLocal();
-            onlineDBWeight();
+            if (AccType == 'Patient Account'){
+              onlineDBWeight();
+            }
+            
          }
          if (data.height!=0){
             updateHeightLocal();
-            onlineDBHeight();
+            if (AccType == 'Patient Account'){
+              onlineDBHeight();
+            }
+            
          }
          if (data.latestHB1AC!=0){
             updateLHLocal();
-            onlineDBHB1ACDate();
+            if (AccType == 'Patient Account'){
+              onlineDBHB1ACDate();
+            }
+            
          }
          if (flagFun(dateOfBirth) == false){
             updateDOBLocal();
-            onlineDBDOB();
+            if (AccType == 'Patient Account'){
+              onlineDBDOB();
+            }
+            
          }
          if (flagFun(dateOfHB1AC) == false){
             updateDOLHLocal();
-            onlineDBHB1AC();
+            if (AccType == 'Patient Account'){
+              onlineDBHB1AC();
+            }
+            
          }
        
           } else {
@@ -276,10 +295,11 @@ import react from 'react';
                 alert('Please fill all the fields correctly');
             }
         }
+        navigation.navigate('edit');
     }
     const checkNonPatientAccount = () => { // validating non patient entries
         if (data.isValidWeight==true && data.isValidHB1AC == true && isValidAge){
-            
+          navigation.navigate('edit');
         } else {
             if (isValidAge == false) {
                 alert('Please enter a valid Date of Birth');
@@ -289,46 +309,47 @@ import react from 'react';
         }
     }
     const updateWeightLocal = () => {
-        //if patient then
-        try {
-          console.log('in weight');
-          db.transaction( (tx) => {
-              tx.executeSql(
-                'UPDATE patientprofile SET weightKG=? WHERE UserID=? ',
-                [data.weight, 238],
-                (tx, results) => {
-                  console.log('Results', results.rowsAffected);
-               if (results.rowsAffected > 0) {
-               console.log('weight updated seuccefully');
-                    }
-                }   
-      ) 
-          
-      
-      }  ) 
-      } catch (error) {
-         console.log(error);
-      }
-      //if non patient then
-    //   try {
-    //     console.log('in weight');
-    //     db.transaction( (tx) => {
-    //         tx.executeSql(
-    //           'UPDATE nonPatientprofile SET weightKG=? WHERE UserID=? ',
-    //           [data.weight, uID],
-    //           (tx, results) => {
-    //             console.log('Results', results.rowsAffected);
-    //          if (results.rowsAffected > 0) {
-    //          console.log('weight updated seuccefully');
-    //               }
-    //           }   
-    // ) 
+        if (AccType == 'Patient Account'){
+          try {
+            console.log('in weight');
+            db.transaction( (tx) => {
+                tx.executeSql(
+                  'UPDATE patientprofile SET weightKG=? WHERE UserID=? ',
+                  [data.weight, 238],
+                  (tx, results) => {
+                    console.log('Results', results.rowsAffected);
+                 if (results.rowsAffected > 0) {
+                 console.log('weight updated seuccefully');
+                      }
+                  }   
+        ) 
+            
         
-    
-    // }  ) 
-    // } catch (error) {
-    //    console.log(error);
-    // }
+        }  ) 
+        } catch (error) {
+           console.log(error);
+        }
+        } else if (AccType == 'Non-Patient Account') {
+          try {
+                console.log('in weight');
+                db.transaction( (tx) => {
+                    tx.executeSql(
+                      'UPDATE nonPatientprofile SET weightKG=? WHERE UserID=? ',
+                      [data.weight, uID],
+                      (tx, results) => {
+                        console.log('Results', results.rowsAffected);
+                     if (results.rowsAffected > 0) {
+                     console.log('weight updated seuccefully');
+                          }
+                      }   
+            ) 
+                
+            
+            }  ) 
+            } catch (error) {
+               console.log(error);
+            }
+        }
       }
      
       const updateHeightLocal = () => {
@@ -353,134 +374,143 @@ import react from 'react';
       }
       }
       const updateLHLocal = () => {
-          // if patient then
-        try {
-          console.log('in lh');
-          db.transaction( (tx) => {
-              tx.executeSql(
-                'UPDATE patientprofile SET latest_HP1AC=? WHERE UserID=? ',
-                [data.latestHB1AC, 238],
-                (tx, results) => {
-                  console.log('Results', results.rowsAffected);
-               if (results.rowsAffected > 0) {
-               console.log('latest updated seuccefully');
-                    }
-                }   
-      ) 
-          
-      
-      }  ) 
-      } catch (error) {
-         console.log(error);
-      }
-      // if non patient then 
-    //   try {
-    //     console.log('in lh');
-    //     db.transaction( (tx) => {
-    //         tx.executeSql(
-    //           'UPDATE nonPatientprofile SET latest_HP1AC=? WHERE UserID=? ',
-    //           [data.latestHB1AC, uID],
-    //           (tx, results) => {
-    //             console.log('Results', results.rowsAffected);
-    //          if (results.rowsAffected > 0) {
-    //          console.log('latest updated seuccefully');
-    //               }
-    //           }   
-    // ) 
+        if (AccType == 'Patient Account'){
+          try {
+            console.log('in lh');
+            db.transaction( (tx) => {
+                tx.executeSql(
+                  'UPDATE patientprofile SET latest_HP1AC=? WHERE UserID=? ',
+                  [data.latestHB1AC, 238],
+                  (tx, results) => {
+                    console.log('Results', results.rowsAffected);
+                 if (results.rowsAffected > 0) {
+                 console.log('latest updated seuccefully');
+                      }
+                  }   
+        ) 
+            
+        
+        }  ) 
+        } catch (error) {
+           console.log(error);
+        }
+        } else {
+      try {
+        console.log('in lh');
+        db.transaction( (tx) => {
+            tx.executeSql(
+              'UPDATE nonPatientprofile SET latest_HP1AC=? WHERE UserID=? ',
+              [data.latestHB1AC, uID],
+              (tx, results) => {
+                console.log('Results', results.rowsAffected);
+             if (results.rowsAffected > 0) {
+             console.log('latest updated seuccefully');
+                  }
+              }   
+    ) 
         
     
-    // }  ) 
-    // } catch (error) {
-    //    console.log(error);
-    // }
+    }  ) 
+    } catch (error) {
+       console.log(error);
+    }
+        }
       } 
       const updateDOBLocal = () => {
-          //if patient then
-        try {
-          console.log('in dob');
-          db.transaction( (tx) => {
-              tx.executeSql(
-                'UPDATE patientprofile SET DOB=? WHERE UserID=? ',
-                [DOB, 238],
-                (tx, results) => {
-                  console.log('Results', results.rowsAffected);
-               if (results.rowsAffected > 0) {
-               console.log('dob updated seuccefully');
-                    }
-                }   
-      ) 
-          
-      
-      }  ) 
-      } catch (error) {
-         console.log(error);
-      }
-    //   if non patient then
-    //   try {
-    //     console.log('in dob');
-    //     db.transaction( (tx) => {
-    //         tx.executeSql(
-    //           'UPDATE nonPatientprofile SET DOB=? WHERE UserID=? ',
-    //           [DOB, uID],
-    //           (tx, results) => {
-    //             console.log('Results', results.rowsAffected);
-    //          if (results.rowsAffected > 0) {
-    //          console.log('dob updated seuccefully');
-    //               }
-    //           }   
-    // ) 
+        if (AccType == 'Patient Account'){
+          try {
+            console.log('in dob');
+            db.transaction( (tx) => {
+                tx.executeSql(
+                  'UPDATE patientprofile SET DOB=? WHERE UserID=? ',
+                  [DOB, 238],
+                  (tx, results) => {
+                    console.log('Results', results.rowsAffected);
+                 if (results.rowsAffected > 0) {
+                 console.log('dob updated seuccefully');
+                      }
+                  }   
+        ) 
+            
+        
+        }  ) 
+        } catch (error) {
+           console.log(error);
+        }
+        } else {
+  try {
+        console.log('in dob');
+        db.transaction( (tx) => {
+            tx.executeSql(
+              'UPDATE nonPatientprofile SET DOB=? WHERE UserID=? ',
+              [DOB, uID],
+              (tx, results) => {
+                console.log('Results', results.rowsAffected);
+             if (results.rowsAffected > 0) {
+             console.log('dob updated seuccefully');
+                  }
+              }   
+    ) 
         
     
-    // }  ) 
-    // } catch (error) {
-    //    console.log(error);
-    // }
+    }  ) 
+    } catch (error) {
+       console.log(error);
+    }
+        }
+       
+    //   if non patient then
+    
       } 
       const updateDOLHLocal = () => {
-        // if patient then
-        try {
-          console.log('in doLH');
-          db.transaction( (tx) => {
-              tx.executeSql(
-                'UPDATE patientprofile SET latest_HP1AC_date=? WHERE UserID=? ',
-                [dateOfLatestHB1AC, 238],
-                (tx, results) => {
-                  console.log('Results', results.rowsAffected);
-               if (results.rowsAffected > 0) {
-               console.log('dolh updated seuccefully');
-                    }
-                }   
-      ) 
-          
-      
-      }  ) 
-      } catch (error) {
-         console.log(error);
-      }
-      // if non patient then
-    //   try {
-    //     console.log('in doLH');
-    //     db.transaction( (tx) => {
-    //         tx.executeSql(
-    //           'UPDATE nonPatientprofile SET latest_HP1AC_date=? WHERE UserID=? ',
-    //           [dateOfLatestHB1AC, uID],
-    //           (tx, results) => {
-    //             console.log('Results', results.rowsAffected);
-    //          if (results.rowsAffected > 0) {
-    //          console.log('dolh updated seuccefully');
-    //               }
-    //           }   
-    // ) 
+        if (AccType == 'Patient Account'){
+          try {
+            console.log('in doLH');
+            db.transaction( (tx) => {
+                tx.executeSql(
+                  'UPDATE patientprofile SET latest_HP1AC_date=? WHERE UserID=? ',
+                  [dateOfLatestHB1AC, 238],
+                  (tx, results) => {
+                    console.log('Results', results.rowsAffected);
+                 if (results.rowsAffected > 0) {
+                 console.log('dolh updated seuccefully');
+                      }
+                  }   
+        ) 
+            
         
-    
-    // }  ) 
-    // } catch (error) {
-    //    console.log(error);
-    // }
+        }  ) 
+        } catch (error) {
+           console.log(error);
+        }
+        } else {
+          try {
+                console.log('in doLH');
+                db.transaction( (tx) => {
+                    tx.executeSql(
+                      'UPDATE nonPatientprofile SET latest_HP1AC_date=? WHERE UserID=? ',
+                      [dateOfLatestHB1AC, uID],
+                      (tx, results) => {
+                        console.log('Results', results.rowsAffected);
+                     if (results.rowsAffected > 0) {
+                     console.log('dolh updated seuccefully');
+                          }
+                      }   
+            ) 
+                
+            
+            }  ) 
+            } catch (error) {
+               console.log(error);
+            }
+        }
+       
+      // if non patient then
+    //  
       } 
       const onlineDBWeight = () => {
         console.log('in weight');
-        var InsertAPIURL1 = "http://192.168.12.1/isugar/weigthKG.php";   //API to  signup
+        var InsertAPIURL1 = "https://isugarserver.com/weigthKG.php";   //API to  signup
       
         var headers = {
           'Accept': 'application/json',
@@ -507,7 +537,7 @@ import react from 'react';
       }
 
       const onlineDBHeight = () => {
-        var InsertAPIURL2 = "http://192.168.12.1/isugar/height.php";   //API to  signup
+        var InsertAPIURL2 = "https://isugarserver.com/height.php";   //API to  signup
       
         var headers = {
           'Accept': 'application/json',
@@ -534,7 +564,7 @@ import react from 'react';
       }
       
       const onlineDBDOB = () => {
-        var InsertAPIURL = "http://192.168.12.1/isugar/DOB.php";   //API to  signup
+        var InsertAPIURL = "https://isugarserver.com/DOB.php";   //API to  signup
       
         var headers = {
           'Accept': 'application/json',
@@ -562,7 +592,7 @@ import react from 'react';
       }
       
       const onlineDBHB1AC = () => {
-        var InsertAPIURL = "http://192.168.12.1/isugar/latest_HBA1C.php";   //API to  signup
+        var InsertAPIURL = "https://isugarserver.com/latest_HBA1C.php";   //API to  signup
       
         var headers = {
           'Accept': 'application/json',
@@ -588,7 +618,7 @@ import react from 'react';
       }
       
       const onlineDBHB1ACDate = () => {
-        var InsertAPIURL = "http://192.168.12.1/isugar/latest_HBA1C_Date.php";   //API to  signup
+        var InsertAPIURL = "https://isugarserver.com/latest_HBA1C_Date.php";   //API to  signup
       
         var headers = {
           'Accept': 'application/json',
@@ -671,6 +701,7 @@ import react from 'react';
 <View style={styles.actionB}>
 <Text style={styles.text_footer}>Weight:</Text>
 <TextInput
+style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={dbData.weigh+''}
             onChangeText = {(val)=> changeWeight(val)}
@@ -678,18 +709,19 @@ import react from 'react';
 
 </View> 
 
-{ 'Patient Account' == 'Patient Account' ? 
+{ AccType == 'Patient Account' ? 
 (<View style={styles.actionB}>
 
 <Text style={styles.text_footer}>Heigt:</Text>
 <TextInput
+style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={dbData.heigh+''}
             onChangeText = {(val)=> changeHeight(val)}
             style={styles.actionN}></TextInput>
             
 </View>) : null }
-{ 'Patient Account' == 'Patient Account'? 
+{ AccType == 'Patient Account'? 
 (<View style={styles.action}>
   <Text style={styles.text_footer}>BMI:</Text>
   <View style={styles.field}>
@@ -700,6 +732,7 @@ import react from 'react';
 <View style={styles.actionB}>
 <Text style={styles.text_footer}>Latest HB1AC:</Text>
 <TextInput
+style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={dbData.lh1+''}
             onChangeText = {(val)=> changeHB1AC(val)}
@@ -734,7 +767,7 @@ import react from 'react';
       )}
 
 
-         {'Patient Account' == 'Patient Account' ? (<View style={styles.buttonV}>
+         {AccType == 'Patient Account' ? (<View style={styles.buttonV}>
         <TouchableOpacity onPress={()=>checkPatientAccount()}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}

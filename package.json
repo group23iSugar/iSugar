@@ -1,5 +1,6 @@
 {
   "name": "newGP1",
+  "homepage": "https://isugarserver.com",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -13,6 +14,8 @@
     "@react-native-community/datetimepicker": "^3.5.2",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-picker/picker": "^2.1.0",
+    "@react-navigation/bottom-tabs": "^6.0.9",
+    "@react-navigation/drawer": "^6.1.8",
     "@react-navigation/material-top-tabs": "^6.0.6",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
@@ -31,6 +34,7 @@
     "react-native-modal-dropdown": "^1.0.2",
     "react-native-month-year-picker": "^1.8.0",
     "react-native-paper": "^4.9.2",
+    "react-native-reanimated": "^2.2.4",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.8.0",
     "react-native-sha256": "^1.4.7",

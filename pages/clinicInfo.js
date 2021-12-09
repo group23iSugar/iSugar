@@ -27,15 +27,7 @@ import moment from 'moment';
   var dateOfDiagnosis = moment.utc(date).format('YYYY-MM-DD');
   const [center, setCenter] = useState('0');
   
-  const [mrn1, setMRN1] = useState('0');
-  const [mrn2, setMRN2] = useState('0');
-  const [mrn3, setMRN3] = useState('0');
-  const [mrn4, setMRN4] = useState('0');
-  const [mrn5, setMRN5] = useState('0');
-  const [mrn6, setMRN6] = useState('0');
-  const [mrn7, setMRN7] = useState('0');
-  const [mrn8, setMRN8] = useState('0');
-  var mrn= mrn1+mrn2+mrn3+mrn4+mrn5+mrn6+mrn7+mrn8;
+  const [mrn, setMRN] = useState('0');
   const [other, setOther] = useState({
     centerCity : '',
     centerName : ''
@@ -106,7 +98,7 @@ const check = () => {
     return;
   }
   if (center == '1'){
-      if (mrn == '00000000'){
+      if (mrn == '0'){
         alert('Please fill all the fields');
       } else {
         try {
@@ -135,7 +127,7 @@ const check = () => {
 
  
 const onlineDB = () => {
-   var InsertAPIURL = "http://192.168.12.1/isugar/diagnosis_date.php";   
+   var InsertAPIURL = "https://isugarserver.com/diagnosis_date.php";   
 
    var headers = {
      'Accept': 'application/json',
@@ -153,8 +145,7 @@ const onlineDB = () => {
      body: JSON.stringify(Data) //convert data to JSON
  })
  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
- .then((response)=>{
-   alert(response[0].Message);       // If data is in JSON => Display alert msg
+ .then((response)=>{      // If data is in JSON => Display alert msg
    navigation.navigate('personal');
  })
  .catch((error)=>{
@@ -165,7 +156,7 @@ const onlineDB = () => {
  //OnlineDB if user choose KSUMC 
 const onlineDBKSUMC = () => {
 
-    var InsertAPIURL2 = "http://192.168.12.1/isugar/KSUMC.php";   //API to  signup
+    var InsertAPIURL2 = "https://isugarserver.com/KSUMC.php";   //API to  signup
 
     var headers = {
       'Accept': 'application/json',
@@ -183,8 +174,7 @@ const onlineDBKSUMC = () => {
       body: JSON.stringify(Data) //convert data to JSON
   })
   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-  .then((response)=>{
-    alert(response[0].Message);       // If data is in JSON => Display alert msg
+  .then((response)=>{      // If data is in JSON => Display alert msg
   })
   .catch((error)=>{
       alert("Error Occured" + error);
@@ -195,7 +185,7 @@ const onlineDBKSUMC = () => {
 //OnlineDB if user choose Other 
 const onlineDBOther = () => {
     console.log('other');
-    var InsertAPIURL3 = "http://192.168.12.1/isugar/CenterInformation.php";   //API to  signup
+    var InsertAPIURL3 = "https://isugarserver.com/CenterInformation.php";   //API to  signup
 
     var headers = {
       'Accept': 'application/json',
@@ -214,8 +204,7 @@ const onlineDBOther = () => {
       body: JSON.stringify(Data) //convert data to JSON
   })
   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-  .then((response)=>{
-    alert(response[0].Message);       // If data is in JSON => Display alert msg
+  .then((response)=>{      // If data is in JSON => Display alert msg
   })
   .catch((error)=>{
       alert("Error Occured" + error);
@@ -247,9 +236,9 @@ const onlineDBOther = () => {
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select a center' value='0'></Picker.Item>
-            <Picker.Item label= 'King Saud University Medical City' value='1'></Picker.Item>
-            <Picker.Item label= 'Other' value='2'></Picker.Item>
+            <Picker.Item label= 'Select a center' value='0'  color='black'></Picker.Item>
+            <Picker.Item label= 'King Saud University Medical City' value='1' color='black'></Picker.Item>
+            <Picker.Item label= 'Other' value='2' color='black'></Picker.Item>
 
         </Picker>
       
@@ -286,154 +275,12 @@ null
       <View style={styles.actionB}>
       <Text style={styles.text_footer}>Medical file number </Text>
       <View style={styles.actionP}>
-      <Picker
-      selectedValue={mrn1}
-      onValueChange={(value) => setMRN1(value)}
-      mode="dropdown"
-      style={styles.pickerP}
-      itemStyle={{height: 44} }
-      >
-    <Picker.Item label= '0' value='0'></Picker.Item>
-    <Picker.Item label= '1' value='1'></Picker.Item>
-    <Picker.Item label= '2' value='2'></Picker.Item>
-    <Picker.Item label= '3' value='3'></Picker.Item>
-    <Picker.Item label= '4' value='4'></Picker.Item>
-    <Picker.Item label= '5' value='5'></Picker.Item>
-    <Picker.Item label= '6' value='6'></Picker.Item>
-    <Picker.Item label= '7' value='7'></Picker.Item>
-    <Picker.Item label= '8' value='8'></Picker.Item>
-    <Picker.Item label= '9' value='9'></Picker.Item>
-
-</Picker>
-<Picker
-      selectedValue={mrn2}
-      onValueChange={(value) => setMRN2(value)}
-      mode="dropdown"
-      style={styles.pickerP}
-      >
-    <Picker.Item label= '0' value='0'></Picker.Item>
-    <Picker.Item label= '1' value='1'></Picker.Item>
-    <Picker.Item label= '2' value='2'></Picker.Item>
-    <Picker.Item label= '3' value='3'></Picker.Item>
-    <Picker.Item label= '4' value='4'></Picker.Item>
-    <Picker.Item label= '5' value='5'></Picker.Item>
-    <Picker.Item label= '6' value='6'></Picker.Item>
-    <Picker.Item label= '7' value='7'></Picker.Item>
-    <Picker.Item label= '8' value='8'></Picker.Item>
-    <Picker.Item label= '9' value='9'></Picker.Item>
-
-</Picker> 
-<Text style={styles.titleB}> - </Text>
-<Picker
-      selectedValue={mrn3}
-      onValueChange={(value) => setMRN3(value)}
-      mode="dropdown"
-      style={styles.pickerP}
-      >
-    <Picker.Item label= '0' value='0'></Picker.Item>
-    <Picker.Item label= '1' value='1'></Picker.Item>
-    <Picker.Item label= '2' value='2'></Picker.Item>
-    <Picker.Item label= '3' value='3'></Picker.Item>
-    <Picker.Item label= '4' value='4'></Picker.Item>
-    <Picker.Item label= '5' value='5'></Picker.Item>
-    <Picker.Item label= '6' value='6'></Picker.Item>
-    <Picker.Item label= '7' value='7'></Picker.Item>
-    <Picker.Item label= '8' value='8'></Picker.Item>
-    <Picker.Item label= '9' value='9'></Picker.Item>
-
-</Picker>
-<Picker
-      selectedValue={mrn4}
-      onValueChange={(value) => setMRN4(value)}
-      mode="dropdown"
-      style={styles.pickerP}
-      >
-    <Picker.Item label= '0' value='0'></Picker.Item>
-    <Picker.Item label= '1' value='1'></Picker.Item>
-    <Picker.Item label= '2' value='2'></Picker.Item>
-    <Picker.Item label= '3' value='3'></Picker.Item>
-    <Picker.Item label= '4' value='4'></Picker.Item>
-    <Picker.Item label= '5' value='5'></Picker.Item>
-    <Picker.Item label= '6' value='6'></Picker.Item>
-    <Picker.Item label= '7' value='7'></Picker.Item>
-    <Picker.Item label= '8' value='8'></Picker.Item>
-    <Picker.Item label= '9' value='9'></Picker.Item>
-
-</Picker>  
-<Text  style={styles.titleB} > - </Text>
-<Picker
-      selectedValue={mrn5}
-      onValueChange={(value) => setMRN5(value)}
-      mode="dropdown"
-      style={styles.pickerP}
-      >
-    <Picker.Item label= '0' value='0'></Picker.Item>
-    <Picker.Item label= '1' value='1'></Picker.Item>
-    <Picker.Item label= '2' value='2'></Picker.Item>
-    <Picker.Item label= '3' value='3'></Picker.Item>
-    <Picker.Item label= '4' value='4'></Picker.Item>
-    <Picker.Item label= '5' value='5'></Picker.Item>
-    <Picker.Item label= '6' value='6'></Picker.Item>
-    <Picker.Item label= '7' value='7'></Picker.Item>
-    <Picker.Item label= '8' value='8'></Picker.Item>
-    <Picker.Item label= '9' value='9'></Picker.Item>
-
-</Picker>
-<Picker
-      selectedValue={mrn6}
-      onValueChange={(value) => setMRN6(value)}
-      mode="dropdown"
-      style={styles.pickerP}
-      >
-    <Picker.Item label= '0' value='0'></Picker.Item>
-    <Picker.Item label= '1' value='1'></Picker.Item>
-    <Picker.Item label= '2' value='2'></Picker.Item>
-    <Picker.Item label= '3' value='3'></Picker.Item>
-    <Picker.Item label= '4' value='4'></Picker.Item>
-    <Picker.Item label= '5' value='5'></Picker.Item>
-    <Picker.Item label= '6' value='6'></Picker.Item>
-    <Picker.Item label= '7' value='7'></Picker.Item>
-    <Picker.Item label= '8' value='8'></Picker.Item>
-    <Picker.Item label= '9' value='9'></Picker.Item>
-
-</Picker> 
-<Text  style={styles.titleB} > - </Text>
-<Picker
-      selectedValue={mrn7}
-      onValueChange={(value) => setMRN7(value)}
-      mode="dropdown"
-      style={styles.pickerP}
-      >
-    <Picker.Item label= '0' value='0'></Picker.Item>
-    <Picker.Item label= '1' value='1'></Picker.Item>
-    <Picker.Item label= '2' value='2'></Picker.Item>
-    <Picker.Item label= '3' value='3'></Picker.Item>
-    <Picker.Item label= '4' value='4'></Picker.Item>
-    <Picker.Item label= '5' value='5'></Picker.Item>
-    <Picker.Item label= '6' value='6'></Picker.Item>
-    <Picker.Item label= '7' value='7'></Picker.Item>
-    <Picker.Item label= '8' value='8'></Picker.Item>
-    <Picker.Item label= '9' value='9'></Picker.Item>
-
-</Picker>
-<Picker
-      selectedValue={mrn8}
-      onValueChange={(value) => setMRN8(value)}
-      mode="dropdown"
-      style={styles.pickerP}
-      >
-    <Picker.Item label= '0' value='0'></Picker.Item>
-    <Picker.Item label= '1' value='1'></Picker.Item>
-    <Picker.Item label= '2' value='2'></Picker.Item>
-    <Picker.Item label= '3' value='3'></Picker.Item>
-    <Picker.Item label= '4' value='4'></Picker.Item>
-    <Picker.Item label= '5' value='5'></Picker.Item>
-    <Picker.Item label= '6' value='6'></Picker.Item>
-    <Picker.Item label= '7' value='7'></Picker.Item>
-    <Picker.Item label= '8' value='8'></Picker.Item>
-    <Picker.Item label= '9' value='9'></Picker.Item>
-
-</Picker>
+      <TextInput 
+    style={styles.textInput}
+    keyboardType="decimal-pad"
+    autoCapitalize="none"
+    onChangeText={(val) => setMRN(val)}
+    />
 </View>
 </View>
       : null
@@ -465,7 +312,6 @@ null
         />
       )}
 </View>
-<Text>{onlinUserID}</Text>
 
           <View style={styles.buttonV}>
         <TouchableOpacity onPress={()=>check()}>

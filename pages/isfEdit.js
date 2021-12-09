@@ -35,32 +35,63 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
 
     const getLocalInfo = (callback)=>{
       var intervals = -1;
+      if (AccType == 'Patient Account'){
         try {
-            console.log('in try1');
-            db.transaction( (tx) => {
-                tx.executeSql(
-                  'SELECT UserID, ISFIntervals FROM patientprofile',
-                  [],
-                  (tx, results) => {
-                    var rows = results.rows;
-                    for (let i = 0; i < rows.length; i++) {           
-                        var userID = rows.item(i).UserID;
-                        if (237 == userID){
-                          intervals = rows.item(i).ISFIntervals;
-                          callback(intervals); 
-                          console.log(intervals);
-                          setInterval(intervals);
-                          return;
-                        }
+          console.log('in try1');
+          db.transaction( (tx) => {
+              tx.executeSql(
+                'SELECT UserID, ISFIntervals FROM patientprofile',
+                [],
+                (tx, results) => {
+                  var rows = results.rows;
+                  for (let i = 0; i < rows.length; i++) {           
+                      var userID = rows.item(i).UserID;
+                      if (uID == userID){
+                        intervals = rows.item(i).ISFIntervals;
+                        callback(intervals); 
+                        console.log(intervals);
+                        setInterval(intervals);
+                        return;
                       }
-                  }   
-        ) 
-                 
-        
-        }  ) 
-        } catch (error) {
-           console.log(error);
-        }
+                    }
+                }   
+      ) 
+               
+      
+      }  ) 
+      } catch (error) {
+         console.log(error);
+      }
+
+      } else {
+        try {
+          console.log('in try1');
+          db.transaction( (tx) => {
+              tx.executeSql(
+                'SELECT UserID, ISFIntervals FROM nonPatientprofile',
+                [],
+                (tx, results) => {
+                  var rows = results.rows;
+                  for (let i = 0; i < rows.length; i++) {           
+                      var userID = rows.item(i).UserID;
+                      if (uID == userID){
+                        intervals = rows.item(i).ISFIntervals;
+                        callback(intervals); 
+                        console.log(intervals);
+                        setInterval(intervals);
+                        return;
+                      }
+                    }
+                }   
+      ) 
+               
+      
+      }  ) 
+      } catch (error) {
+         console.log(error);
+      }
+      }
+       
       }
 
       const retrieve =  (interval) => {
@@ -116,31 +147,60 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
                 console.log(error);
               }
           } else if (interval == 0) { // All day
-            try {
-              db.transaction( (tx) => {
-                  tx.executeSql(
-                      'SELECT UserID, ISF, targetBG_correct, startBG_correct FROM patientprofile',
-                    [],
-                    (tx, results) => {
-                      var rows = results.rows;
-                      for (let i = 0; i < rows.length; i++){
-                          var UID = rows.item(i).UserID;
-                          if (UID == '238'){
-                            var ISF_ = rows.item(i).ISF;
-                            setISFP(ISF_);
-                            var target = rows.item(i).targetBG_correct;
-                            setTBGP(target);
-                            var start = rows.item(i).startBG_correct;
-                            setSBGP(start);
+            if (AccType == 'Patient Account'){
+              try {
+                db.transaction( (tx) => {
+                    tx.executeSql(
+                        'SELECT UserID, ISF, targetBG_correct, startBG_correct FROM patientprofile',
+                      [],
+                      (tx, results) => {
+                        var rows = results.rows;
+                        for (let i = 0; i < rows.length; i++){
+                            var UID = rows.item(i).UserID;
+                            if (UID == '238'){
+                              var ISF_ = rows.item(i).ISF;
+                              setISFP(ISF_);
+                              var target = rows.item(i).targetBG_correct;
+                              setTBGP(target);
+                              var start = rows.item(i).startBG_correct;
+                              setSBGP(start);
+                        }
+                        
                       }
-                      
-                    }
-                    },
-                  );
-                });
-              } catch (error) {
-                console.log(error);
-              }
+                      },
+                    );
+                  });
+                } catch (error) {
+                  console.log(error);
+                }
+            } else {
+              try {
+                db.transaction( (tx) => {
+                    tx.executeSql(
+                        'SELECT UserID, ISF, targetBG_correct, startBG_correct FROM nonPatientprofile',
+                      [],
+                      (tx, results) => {
+                        var rows = results.rows;
+                        for (let i = 0; i < rows.length; i++){
+                            var UID = rows.item(i).UserID;
+                            if (UID == uID){
+                              var ISF_ = rows.item(i).ISF;
+                              setISFP(ISF_);
+                              var target = rows.item(i).targetBG_correct;
+                              setTBGP(target);
+                              var start = rows.item(i).startBG_correct;
+                              setSBGP(start);
+                        }
+                        
+                      }
+                      },
+                    );
+                  });
+                } catch (error) {
+                  console.log(error);
+                }
+            }
+          
               
           }
         }
@@ -269,16 +329,38 @@ const handleAllDayUpdate = ()=> {
     alert('Please enter a valid number');
     return;
   } else {
-    try {
-      // call db onlines
-      console.log('in isf');
-      onlineISFDB();
-      onlineSbgDB();
-      onlineTbgDB();
-      db.transaction( (tx) => {
+    if (AccType == 'Patient Account'){
+      try {
+        // call db onlines
+        console.log('in isf');
+        onlineISFDB();
+        onlineSbgDB();
+        onlineTbgDB();
+        
+        db.transaction( (tx) => {
+            tx.executeSql(
+              'UPDATE patientprofile SET ISF=?, targetBG_correct=?, startBG_correct=? WHERE UserID=? ',
+              [isfP, tBGP, sBGP, 238],
+              (tx, results) => {
+                console.log('Results', results.rowsAffected);
+             if (results.rowsAffected > 0) {
+             console.log('isf Updated Succefully');
+                  }
+              }   
+    ) 
+        
+    
+    }  ) 
+    } catch (error) {
+       console.log(error);
+    }
+  
+    } else {
+      try {
+        db.transaction( (tx) => {
           tx.executeSql(
-            'UPDATE patientprofile SET ISF=?, targetBG_correct=?, startBG_correct=? WHERE UserID=? ',
-            [isfP, tBGP, sBGP, 238],
+            'UPDATE nonPatientprofile SET ISF=?, targetBG_correct=?, startBG_correct=? WHERE UserID=? ',
+            [isfP, tBGP, sBGP, uID],
             (tx, results) => {
               console.log('Results', results.rowsAffected);
            if (results.rowsAffected > 0) {
@@ -289,10 +371,11 @@ const handleAllDayUpdate = ()=> {
       
   
   }  ) 
-  } catch (error) {
-     console.log(error);
-  }
-
+      } catch (error) {
+        console.log(error);
+     }
+    } 
+    
   }
         
 
@@ -309,8 +392,7 @@ const handleISFUpdate =()=>{
       } else{
         try {
           // online db
-          onlineInterISFDB(hours[i].from, hours[i].to, hours[i].isf, hours[i].tBG, hours[i].sBG);
-          oldOnlineInterISFDB(extrHours[i].from, extrHours[i].to, extrHours[i].isf, extrHours[i].tBG, extrHours[i].sBG);
+          oldOnlineInterISFDB(extrHours[i].from, extrHours[i].to, extrHours[i].isf, extrHours[i].tBG, extrHours[i].sBG, hours[i].from, hours[i].to, hours[i].isf, hours[i].tBG, hours[i].sBG);
 
           db.transaction( (tx) => {
               tx.executeSql(
@@ -334,6 +416,8 @@ const handleISFUpdate =()=>{
       localISF();
     }
   }
+  alert('success');
+  navigation.navigate('edit');
 }
 const combineF = (id, index) => {
   showTimepickerF();
@@ -394,20 +478,56 @@ const changeV = (val, id, type, i) => {
         } catch (error) {
          console.log(error);
         }
-        var InsertAPIURL = "http://192.168.12.1/isugar/ISFInterval.php";
+        if (AccType == 'Patient Account'){
+          var InsertAPIURL = "https://isugarserver.com/ISFInterval.php";
         
+          var headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          };
+          
+          var Data ={
+            UserID: onlinUserID,
+            fromTime: hours[i].from.toString(),
+            toTime: hours[i].to.toString(),
+            ISF: hours[i].isf,
+            targetBG: hours[i].tBG,
+            startBG: hours[i].sBG,
+            
+          };
+        
+        // FETCH func ------------------------------------
+        fetch(InsertAPIURL,{
+            method:'POST',
+            headers:headers,
+            body: JSON.stringify(Data) //convert data to JSON
+        })
+        .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+        .then((response)=>{
+          
+        })
+        .catch((error)=>{
+            alert("Error Occured" + error);
+        })
+        }
+       
+      }
+    }
+    }
+    
+    }
+    const onlineISFDB = () => {
+      if (AccType == 'Patient Account'){
+        var InsertAPIURL = "https://isugarserver.com/ISF.php";   //API to  signup
+    
         var headers = {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         };
         
         var Data ={
-          UserID: 119,
-          fromTime: moment( hours[i].from).format('h:mm a'),
-          toTime: moment( hours[i].to).format('h:mm a'),
-          ISF: hours[i].isf,
-          targetBG: hours[i].tBG,
-          startBG: hours[i].sBG,
+          UserID: onlinUserID,
+          ISF: isfP
           
         };
       
@@ -419,170 +539,120 @@ const changeV = (val, id, type, i) => {
       })
       .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
       .then((response)=>{
-        
       })
       .catch((error)=>{
           alert("Error Occured" + error);
       })
       }
-    }
-    }
-    
-    }
-    const onlineISFDB = () => {
-      var InsertAPIURL = "http://192.168.12.1/isugar/ISF.php";   //API to  signup
-    
-      var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      };
-      
-      var Data ={
-        UserID: 119,
-        ISF: isfP
-        
-      };
-    
-    // FETCH func ------------------------------------
-    fetch(InsertAPIURL,{
-        method:'POST',
-        headers:headers,
-        body: JSON.stringify(Data) //convert data to JSON
-    })
-    .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-    .then((response)=>{
-      alert('isf ' + response[0].Message);
-    })
-    .catch((error)=>{
-        alert("Error Occured" + error);
-    })
+     
     }
     //---------------------------
     const onlineTbgDB = () => {
-      var InsertAPIURL = "http://192.168.12.1/isugar/targetBG_correct.php";   //API to  signup
+      if (AccType == 'Patient Account'){
+        var InsertAPIURL = "https://isugarserver.com/targetBG_correct.php";   //API to  signup
     
-      var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      };
-      
-      var Data ={
-        UserID: 119,
-        targetBG: tBGP
+        var headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        };
         
-      };
-    
-    // FETCH func ------------------------------------
-    fetch(InsertAPIURL,{
-        method:'POST',
-        headers:headers,
-        body: JSON.stringify(Data) //convert data to JSON
-    })
-    .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-    .then((response)=>{
-      alert('target ' + response[0].Message);
-    })
-    .catch((error)=>{
-        alert("Error Occured" + error);
-    })
+        var Data ={
+          UserID: onlinUserID,
+          targetBG: tBGP
+          
+        };
+      
+      // FETCH func ------------------------------------
+      fetch(InsertAPIURL,{
+          method:'POST',
+          headers:headers,
+          body: JSON.stringify(Data) //convert data to JSON
+      })
+      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response)=>{
+        alert('target ' + response[0].Message);
+      })
+      .catch((error)=>{
+          alert("Error Occured" + error);
+      })
+      }
+     
     }
     //---------------------------
     const onlineSbgDB = () => {
-      var InsertAPIURL = "http://192.168.12.1/isugar/startBG_correct.php";   //API to  signup
+      if (AccType == 'Patient Account'){
+        var InsertAPIURL = "https://isugarserver.com/startBG_correct.php";   //API to  signup
     
-      var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      };
-      
-      var Data ={
-        UserID: 119,
-        startBG: sBGP
+        var headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        };
         
-      };
-    
-    // FETCH func ------------------------------------
-    fetch(InsertAPIURL,{
-        method:'POST',
-        headers:headers,
-        body: JSON.stringify(Data) //convert data to JSON
-    })
-    .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-    .then((response)=>{
-      alert('start ' + response[0].Message);
-    })
-    .catch((error)=>{
-        alert("Error Occured" + error);
-    })
+        var Data ={
+          UserID: onlinUserID,
+          startBG: sBGP
+          
+        };
+      
+      // FETCH func ------------------------------------
+      fetch(InsertAPIURL,{
+          method:'POST',
+          headers:headers,
+          body: JSON.stringify(Data) //convert data to JSON
+      })
+      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response)=>{
+        alert('start ' + response[0].Message);
+      })
+      .catch((error)=>{
+          alert("Error Occured" + error);
+      })
+      }
+      
     }
     //---------------------------
-    const onlineInterISFDB = (fromT, toT, isf, bgT, bgS) => {
-      var InsertAPIURL = "http://192.168.12.1/isugar/ISFInterval.php";   //API to  signup
+    const oldOnlineInterISFDB = (fromT, toT, isf, bgT, bgS, fromT1, toT1, isf1, bgT1, bgS1) => {
+      if (AccType == 'Patient Account'){
+        var InsertAPIURL = "https://isugarserver.com/updateIntervalsISF.php";   //API to  signup
     
-      var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      };
-      
-      var Data ={
-        UserID: 119,
-        fromTime: moment(fromT).format('h:mm a'),
-        toTime: moment(toT).format('h:mm a'),
-        ISF: isf,
-        targetBG: bgT,
-        startBG: bgS
+        var headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        };
         
-      };
-    
-    // FETCH func ------------------------------------
-    fetch(InsertAPIURL,{
-        method:'POST',
-        headers:headers,
-        body: JSON.stringify(Data) //convert data to JSON
-    })
-    .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-    .then((response)=>{
-      alert('intervalss ' + response[0].Message);
-    })
-    .catch((error)=>{
-        alert("Error Occured" + error);
-    })
-    }
-    const oldOnlineInterISFDB = (fromT, toT, isf, bgT, bgS) => {
-      var InsertAPIURL = "http://192.168.12.1/isugar/updateIntervalsISF.php";   //API to  signup
-    
-      var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      };
+        var Data ={
+          UserID: onlinUserID,
+          fromTime: fromT,
+          toTime: toT,
+          ISF: isf,
+          targetBG: bgT,
+          startBG: bgS,
+          fromTime1: fromT1,
+          toTime1: toT1,
+          ISF1: isf1,
+          targetBG1: bgT1,
+          startBG1: bgS1
+          
+        };
       
-      var Data ={
-        UserID: 119,
-        fromTime: moment(fromT).format('h:mm a'),
-        toTime: moment(toT).format('h:mm a'),
-        ISF: isf,
-        targetBG: bgT,
-        startBG: bgS
-        
-      };
-    
-    // FETCH func ------------------------------------
-    fetch(InsertAPIURL,{
-        method:'POST',
-        headers:headers,
-        body: JSON.stringify(Data) //convert data to JSON
-    })
-    .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-    .then((response)=>{
-      alert('intervalss ' + response[0].Message);
-    })
-    .catch((error)=>{
-        alert("Error Occured" + error);
-    })
+      // FETCH func ------------------------------------
+      fetch(InsertAPIURL,{
+          method:'POST',
+          headers:headers,
+          body: JSON.stringify(Data) //convert data to JSON
+      })
+      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response)=>{
+      })
+      .catch((error)=>{
+          alert("Error Occured" + error);
+      })
+      }
+      
     }
     //---------------------------
     const onlineIntervalDB = () => {
-      var InsertAPIURL = "http://192.168.12.1/isugar/ISFIntervals.php";   //API to  signup
+      var InsertAPIURL = "https://isugarserver.com/ISFIntervals.php"; 
     
       var headers = {
         'Accept': 'application/json',
@@ -603,7 +673,6 @@ const changeV = (val, id, type, i) => {
     })
     .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
     .then((response)=>{
-      alert('interval ' + response[0].Message);
     })
     .catch((error)=>{
         alert("Error Occured" + error);

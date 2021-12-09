@@ -12,13 +12,9 @@ import {  StyleSheet,
   Dimensions,
 Alert} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import react from 'react';
-import {openDatabase} from 'react-native-sqlite-storage';
-import SQLite from 'react-native-sqlite-storage';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
@@ -135,8 +131,8 @@ const validEmail = (val) => {
   }
 }
     const handlePasswordChange = (val) => {
-      // let regPass = /^\w+(?=.*[a-z])*\w+(?=.*[A-Z])*(?=.*[0-9])+$/;
-      if( val.trim().length >= 8 ) {
+      let regPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+      if( regPass.test(val) == true) {
           setData({
               ...data,
               password: val,
@@ -165,7 +161,8 @@ const validEmail = (val) => {
  
     const register = async () => {
 
-         if ( data.fName.trim().length>2 && data.lName.trim().length>2 && data.isValidEmail == true && data.password.trim().length>=8 ){
+         if ( data.fName.trim().length>2 && data.lName.trim().length>2 && data.isValidEmail == true && data.isValidPassword == true ){
+           onlineDB();
           try {
             db.transaction( (tx) => {
                 tx.executeSql(
@@ -209,7 +206,10 @@ const validEmail = (val) => {
        console.log(error);
    }
            
-         } else {
+         } else if (data.isValidPassword == false){
+          alert('Password most contain at least on capital litter and a special character!');
+         }
+           else {
            
             alert('Please fill all the entries ');
         
@@ -222,70 +222,49 @@ const validEmail = (val) => {
    
 
 
-const checkEmail = () => {
-  try {
-    db.transaction((tx) => {
-        tx.executeSql(
-            "SELECT UserID, firstName, lastName, email, pass, accountType FROM UserAccount",
-            [],
-            (tx, results) => {
-              var rows = results.rows;
-              for (let i = 0; i < rows.length; i++) {
-                  var mail = rows.item(i).email;
-                  if (data.email == mail ){
-                    alert('Email already exists');
-                    return ;
-                  }
-                }
-                
-                register();
-                onlineDB();
-                
-            }
-            
-        )
-        
-    })
-} catch (error) {
-    console.log(error);
-}
-}
+
 //-----------------------------
 const onlineDB = () => {
-  console.log('in DB1');
-  var InsertAPIURL = "http://192.168.12.1/isugar/userAccount.php";   //API to  signup
-
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
+  if (AccType == 'Patient Account'){
+    console.log('in DB1');
+    var InsertAPIURL = "https://isugarserver.com/userAccount.php";   //API to  signup
   
-  var Data ={
-    firstname: data.fName,
-    lastname: data.lName,
-    email: data.email,
-    pass: data.password,
-    accountType: AccType
-  };
-
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-    method:'POST',
-    headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert(response[0].Message);
-  getOnlineInfo();       // If data is in JSON => Display alert msg
-})
-.catch((error)=>{
-    alert("Error Occured" + error);
-})
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      firstname: data.fName,
+      lastname: data.lName,
+      email: data.email,
+      pass: data.password,
+      accountType: AccType
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+    if (response[0].Message == "false"){
+      alert('Email already exists!');
+    } else {
+      console.log('Response', response[0].Message);
+      getOnlineInfo(); 
+    }
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  } 
 }
 //---------------------------------------
 const getOnlineInfo = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/findAccount.php"; 
+  var InsertAPIURL = "https://isugarserver.com/findAccount.php"; 
   var headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
@@ -334,6 +313,7 @@ const getOnlineInfo = () => {
           <TextInput 
           style={styles.textInput}
           placeholder ='eg. Sara'
+          laceholderTextColor={'grey'}
           autoCapitalize="none"
           onChangeText={(val) => fnameCheck(val)}
           onEndEditing={(e)=>validFN(e.nativeEvent.text)}
@@ -353,6 +333,7 @@ const getOnlineInfo = () => {
           <TextInput 
           style={styles.textInput}
           placeholder ='eg. Alawwad'
+          laceholderTextColor={'grey'}
           autoCapitalize="none"
           onChangeText={(val) => lnameCheck(val)}
           onEndEditing={(e)=>validLN(e.nativeEvent.text)}
@@ -376,6 +357,7 @@ const getOnlineInfo = () => {
           <TextInput 
           style={styles.textInput}
           placeholder='example@gmail.com'
+          laceholderTextColor={'grey'}
           autoCapitalize="none"
           onChangeText={(val) => emailCheck(val)}
           onEndEditing={(e)=>validEmail(e.nativeEvent.text)}
@@ -399,6 +381,7 @@ const getOnlineInfo = () => {
           <TextInput 
           style={styles.textInput}
           placeholder='***********'
+          laceholderTextColor={'grey'}
           autoCapitalize="none"
           secureTextEntry={data.secureTextEntry ? true : false}
           onChangeText={(val) => handlePasswordChange(val)}
@@ -423,7 +406,7 @@ const getOnlineInfo = () => {
           </View>
           
           <View style={styles.buttonV}>
-        <TouchableOpacity onPress={()=>checkEmail()} >
+        <TouchableOpacity onPress={()=>register()} >
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >

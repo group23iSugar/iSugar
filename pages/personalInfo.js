@@ -221,7 +221,7 @@ console.log(uID);
 // onlinDB function for weight
 const onlineDBWeight = () => {
   console.log('in weight');
-  var InsertAPIURL1 = "http://192.168.12.1/isugar/weigthKG.php";   //API to  signup
+  var InsertAPIURL1 = "https://isugarserver.com/weigthKG.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -248,7 +248,7 @@ fetch(InsertAPIURL1,{
 }
 
 const onlineDBHeight = () => {
-  var InsertAPIURL2 = "http://192.168.12.1/isugar/height.php";   //API to  signup
+  var InsertAPIURL2 = "https://isugarserver.com/height.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -275,7 +275,7 @@ fetch(InsertAPIURL2,{
 }
 
 const onlineDBDOB = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/DOB.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/DOB.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -303,7 +303,7 @@ fetch(InsertAPIURL,{
 }
 
 const onlineDBHB1AC = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/latest_HBA1C.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/latest_HBA1C.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -329,7 +329,7 @@ fetch(InsertAPIURL,{
 }
 
 const onlineDBHB1ACDate = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/latest_HBA1C_Date.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/latest_HBA1C_Date.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -409,6 +409,7 @@ fetch(InsertAPIURL,{
 <View style={styles.actionB}>
 <Text style={styles.text_footer}>Weight:</Text>
 <TextInput
+style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000.00 Kg"
             onChangeText = {(val)=> changeWeight(val)}
@@ -421,6 +422,7 @@ fetch(InsertAPIURL,{
 
 <Text style={styles.text_footer}>Heigt:</Text>
 <TextInput
+style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000.00 cm"
             onChangeText = {(val)=> changeHeight(val)}
@@ -438,6 +440,7 @@ fetch(InsertAPIURL,{
 <View style={styles.actionB}>
 <Text style={styles.text_footer}>Latest HB1AC:</Text>
 <TextInput
+style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="00.00 %"
             onChangeText = {(val)=> changeHB1AC(val)}

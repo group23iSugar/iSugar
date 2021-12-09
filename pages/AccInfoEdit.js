@@ -135,8 +135,8 @@ const validEmail = (val) => {
   }
 }
     const handlePasswordChange = (val) => {
-      // let regPass = /^\w+(?=.*[a-z])*\w+(?=.*[A-Z])*(?=.*[0-9])+$/;
-      if( val.trim().length >= 8 ) {
+      let regPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+      if( regPass.test(val) == true) {
           setData({
               ...data,
               password: val,
@@ -175,7 +175,7 @@ const getLocalInfo = ()=>{
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {           
                     var userID = rows.item(i).UserID;
-                    if (238 == userID){
+                    if (uID == userID){
                       setData({
                         ...data,
                         fName: rows.item(i).firstName,
@@ -198,43 +198,7 @@ const getLocalInfo = ()=>{
   
 }
 //=========================================//
-const checkEmail = () => {
-  if (data.isValidEmail){
-    try {
-      db.transaction((tx) => {
-          tx.executeSql(
-              "SELECT UserID, firstName, lastName, email, pass, accountType FROM UserAccount",
-              [],
-              (tx, results) => {
-                var rows = results.rows;
-                for (let i = 0; i < rows.length; i++) {
-                    var mail = rows.item(i).email;
-                    var UsserID = rows.item(i).UserID;
-                    if (data.email == mail && 238 == UsserID){
-                      localUpdate();
-                      return;
-                    }
-                    else if (data.email == mail ){
-                      alert('Email already exists');
-                      return ;
-                    } 
-                  }
-                  
-                  localUpdate();
-                  
-              }
-              
-          )
-          
-      })
-  } catch (error) {
-      console.log(error);
-  }
-  } else {
-    localUpdate();
-  }
-  
-}
+
 const localUpdate =() => {
   if (data.isValidPassword){
     onlineDBPP();
@@ -243,11 +207,11 @@ const localUpdate =() => {
         db.transaction( (tx) => {
             tx.executeSql(
               'UPDATE UserAccount SET firstName=?, lastName=?, email=?  WHERE UserID=? ',
-              [data.fName, data.lName, data.email, 238],
+              [data.fName, data.lName, data.email, uID],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
              if (results.rowsAffected > 0) {
-              alert('Updated successfully!');
+              navigation.navigate('edit');
                   }
               }   
     ) 
@@ -261,39 +225,42 @@ const localUpdate =() => {
     alert('please fill all the entries');
   }
   
-
+  navigation.navigate('edit');
 }
 
 const onlineDBPP = () => {
-  console.log('in DB1');
-  var InsertAPIURL = "http://192.168.12.1/isugar/updateUserAccount.php";   //API to  signup
-
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
+  if (AccType == 'Patient Account'){
+    console.log('in DB1');
+    var InsertAPIURL = "https://isugarserver.com/updateUserAccount.php";   //API to  signup
   
-  var Data ={
-    UserID: 119,
-    firstname: data.fName,
-    lastname: data.lName,
-    email: data.email,
-    pass: data.password,
-  };
-
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-    method:'POST',
-    headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert(response[0].Message);      // If data is in JSON => Display alert msg
-})
-.catch((error)=>{
-    alert("Error Occured" + error);
-})
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: onlinUserID,
+      firstname: data.fName,
+      lastname: data.lName,
+      email: data.email,
+      pass: data.password,
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{  
+    alert('Updated!');    // If data is in JSON => Display alert msg
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  
 }
 
     return (
@@ -382,6 +349,7 @@ fetch(InsertAPIURL,{
           <TextInput 
           style={styles.textInput}
           placeholder='***********'
+          placeholderTextColor={'grey'}
           autoCapitalize="none"
           secureTextEntry={data.secureTextEntry ? true : false}
           onChangeText={(val) => handlePasswordChange(val)}
@@ -406,7 +374,7 @@ fetch(InsertAPIURL,{
           </View>
           
           <View style={styles.buttonV}>
-        <TouchableOpacity onPress={()=>checkEmail()} >
+        <TouchableOpacity onPress={()=>localUpdate()} >
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >

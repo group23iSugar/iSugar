@@ -99,9 +99,6 @@ const onChange2 = (event, selectedDate) => {
     showMode2('time');
   };
 //-----------------Date---------------------------
-var time =  moment.utc(date).format('HH:mm');
-var time1 = moment.utc(date1).format('HH:mm');
-var time2 = moment.utc(date2).format('HH:mm');
 const halfOrFull = ()=>{
    if (InsulinR == 'Pen'){
      if (iType == 'Aspart' || iType == 'Lispro'  || iType == 'Glulisine' ){
@@ -254,7 +251,7 @@ const check = () => {
  } catch (error) {
      console.log(error);
  } } else {
-  onlineOtherDB(iType, iDose.iDose, time);
+  onlineOtherDB(iType, iDose.iDose, date);
   try {
     db.transaction( (tx) => {
         tx.executeSql(
@@ -295,7 +292,7 @@ const check = () => {
        console.log(error);
    } }
     if (iDose1Called.iDose1Called==true && isDose1Vallid.isDose1Vallid==true){
-      onlineOtherDB(iType1, iDose1.iDose1, time1)
+      onlineOtherDB(iType1, iDose1.iDose1, date1)
      try {
        db.transaction( (tx) => {
            tx.executeSql(
@@ -332,7 +329,7 @@ const check = () => {
        console.log(error);
    } } 
     if (iDose2Called.iDose2Called==true && isDose2Vallid.isDose2Vallid==true){
-      onlineOtherDB(iType2, iDose2.iDose2, time2)
+      onlineOtherDB(iType2, iDose2.iDose2, date2)
      try {
        db.transaction( (tx) => {
            tx.executeSql(
@@ -351,90 +348,96 @@ const check = () => {
   }
 //--------------------------
 const onlinePenDB = (type, halfull) => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/insulin_Pen.php";   //API to  signup
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/insulin_Pen.php";   //API to  signup
 
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: onlinUserID,
+      insulinType: type,
+      halfOrFull: halfull
+    };
   
-  var Data ={
-    UserID: onlinUserID,
-    insulinType: type,
-    halfOrFull: halfull
-  };
-
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-    method:'POST',
-    headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert('pen ' + response[0].Message);
-})
-.catch((error)=>{
-    alert("Error Occured" + error);
-})
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  
 }
 //---------------------------
 const onlineOtherDB = (type, dose, time) => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/insulin_Other.php";   //API to  signup
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/insulin_Other.php";   //API to  signup
 
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: onlinUserID,
+      insulinType: type,
+      iDose: dose,
+      iTime: time
+    };
   
-  var Data ={
-    UserID: onlinUserID,
-    insulinType: type,
-    iDose: dose,
-    iTime: time
-  };
-
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-    method:'POST',
-    headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert('other ' + response[0].Message);
-})
-.catch((error)=>{
-    alert("Error Occured" + error);
-})
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  
 }
 //-----------------------
 const onlineInsulinRegDB = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/insulin_Regimen.php";   //API to  signup
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/insulin_Regimen.php";   //API to  signup
 
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: onlinUserID,
+      insulinRegimen: InsulinR
+    };
   
-  var Data ={
-    UserID: onlinUserID,
-    insulinRegimen: InsulinR
-  };
-
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-    method:'POST',
-    headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert('Unit ' + response[0].Message);
-})
-.catch((error)=>{
-    alert("Error Occured" + error);
-})
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  
 }
 
     return (
@@ -461,10 +464,10 @@ fetch(InsertAPIURL,{
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Insulin regimen' value='0'></Picker.Item>
-            <Picker.Item label= 'Pump' value='Pump'></Picker.Item>
-            <Picker.Item label= 'Pen' value='Pen'></Picker.Item>
-            <Picker.Item label= 'Vials/Syringe' value='Vials/Syringe'></Picker.Item>
+            <Picker.Item label= 'Select Insulin regimen' value='0' color='black'></Picker.Item>
+            <Picker.Item label= 'Pump' value='Pump'color='black'></Picker.Item>
+            <Picker.Item label= 'Pen' value='Pen'color='black'></Picker.Item>
+            <Picker.Item label= 'Vials/Syringe' value='Vials/Syringe'color='black'></Picker.Item>
 
         </Picker>
       
@@ -482,8 +485,8 @@ fetch(InsertAPIURL,{
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Half units' value='0'></Picker.Item>
-            <Picker.Item label= 'Full units' value='1'></Picker.Item>
+            <Picker.Item label= 'Half units' value='0'  color='black'></Picker.Item>
+            <Picker.Item label= 'Full units' value='1' color='black'></Picker.Item>
            
 
         </Picker>
@@ -497,16 +500,16 @@ fetch(InsertAPIURL,{
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Insulin type' value='0'></Picker.Item>
-            <Picker.Item label= 'Aspart' value='Aspart'></Picker.Item>
-            <Picker.Item label= 'Lispro ' value='Lispro'></Picker.Item>
-            <Picker.Item label= 'Glulisine ' value='Glulisine'></Picker.Item>
-            <Picker.Item label= 'NPH' value='ANPH'></Picker.Item>
-            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'></Picker.Item>
-            <Picker.Item label= 'Detemir' value='Detemir'></Picker.Item>
-            <Picker.Item label= 'Glargine' value='Glargine'></Picker.Item>
-            <Picker.Item label= 'Degludec' value='Degludec'></Picker.Item>
-            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'></Picker.Item>
+            <Picker.Item label= 'Select Insulin type' value='0'color='black'></Picker.Item>
+            <Picker.Item label= 'Aspart' value='Aspart'color='black'></Picker.Item>
+            <Picker.Item label= 'Lispro ' value='Lispro'color='black'></Picker.Item>
+            <Picker.Item label= 'Glulisine ' value='Glulisine'color='black'></Picker.Item>
+            <Picker.Item label= 'NPH' value='ANPH'color='black'></Picker.Item>
+            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin' color='black'></Picker.Item>
+            <Picker.Item label= 'Detemir' value='Detemir'color='black'></Picker.Item>
+            <Picker.Item label= 'Glargine' value='Glargine'color='black'></Picker.Item>
+            <Picker.Item label= 'Degludec' value='Degludec'color='black'></Picker.Item>
+            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)' color='black'></Picker.Item>
 
 
         </Picker>
@@ -514,6 +517,7 @@ fetch(InsertAPIURL,{
           
         <Text style={styles.text_footer}>Insulin Dose</Text>
         <TextInput
+        style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="00"
             onChangeText= {(val)=>checkIDose(val)}
@@ -568,21 +572,22 @@ fetch(InsertAPIURL,{
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Insulin type' value='0'></Picker.Item>
-            <Picker.Item label= 'Aspart' value='Aspart'></Picker.Item>
-            <Picker.Item label= 'Lispro ' value='Lispro'></Picker.Item>
-            <Picker.Item label= 'Glulisine ' value='Glulisine'></Picker.Item>
-            <Picker.Item label= 'NPH' value='ANPH'></Picker.Item>
-            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'></Picker.Item>
-            <Picker.Item label= 'Detemir' value='Detemir'></Picker.Item>
-            <Picker.Item label= 'Glargine' value='Glargine'></Picker.Item>
-            <Picker.Item label= 'Degludec' value='Degludec'></Picker.Item>
-            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'></Picker.Item>
+         <Picker.Item label= 'Select Insulin type' value='0'color='black'></Picker.Item>
+            <Picker.Item label= 'Aspart' value='Aspart'color='black'></Picker.Item>
+            <Picker.Item label= 'Lispro ' value='Lispro'color='black'></Picker.Item>
+            <Picker.Item label= 'Glulisine ' value='Glulisine'color='black'></Picker.Item>
+            <Picker.Item label= 'NPH' value='ANPH'color='black'></Picker.Item>
+            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin' color='black'></Picker.Item>
+            <Picker.Item label= 'Detemir' value='Detemir'color='black'></Picker.Item>
+            <Picker.Item label= 'Glargine' value='Glargine'color='black'></Picker.Item>
+            <Picker.Item label= 'Degludec' value='Degludec'color='black'></Picker.Item>
+            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)' color='black'></Picker.Item>
 
 
         </Picker>
         <Text style={styles.text_footer}>Insulin Dose</Text>
         <TextInput
+          style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="00"
             onChangeText= {(val)=>checkIDose1(val)}
@@ -590,7 +595,7 @@ fetch(InsertAPIURL,{
               
               
               <Text style={styles.text_footer}>Insulin Time</Text>
-        <TouchableOpacity onPress={showTimepicker2} 
+        <TouchableOpacity onPress={showTimepicker1} 
     >
 <Text testID="dateTimePicker" style={styles.text_footerD} >
                 {moment.utc(date1).format('h:mm a')}
@@ -636,21 +641,21 @@ fetch(InsertAPIURL,{
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Insulin type' value='0'></Picker.Item>
-            <Picker.Item label= 'Aspart' value='Aspart'></Picker.Item>
-            <Picker.Item label= 'Lispro ' value='Lispro'></Picker.Item>
-            <Picker.Item label= 'Glulisine ' value='Glulisine'></Picker.Item>
-            <Picker.Item label= 'NPH' value='ANPH'></Picker.Item>
-            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'></Picker.Item>
-            <Picker.Item label= 'Detemir' value='Detemir'></Picker.Item>
-            <Picker.Item label= 'Glargine' value='Glargine'></Picker.Item>
-            <Picker.Item label= 'Degludec' value='Degludec'></Picker.Item>
-            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'></Picker.Item>
-
+         <Picker.Item label= 'Select Insulin type' value='0'color='black'></Picker.Item>
+            <Picker.Item label= 'Aspart' value='Aspart'color='black'></Picker.Item>
+            <Picker.Item label= 'Lispro ' value='Lispro'color='black'></Picker.Item>
+            <Picker.Item label= 'Glulisine ' value='Glulisine'color='black'></Picker.Item>
+            <Picker.Item label= 'NPH' value='ANPH'color='black'></Picker.Item>
+            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin' color='black'></Picker.Item>
+            <Picker.Item label= 'Detemir' value='Detemir'color='black'></Picker.Item>
+            <Picker.Item label= 'Glargine' value='Glargine'color='black'></Picker.Item>
+            <Picker.Item label= 'Degludec' value='Degludec'color='black'></Picker.Item>
+            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)' color='black'></Picker.Item>
 
         </Picker>
         <Text style={styles.text_footer}>Insulin Dose</Text>
         <TextInput
+          style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="00"
             onChangeText= {(val)=>checkIDose2(val)}

@@ -6,12 +6,15 @@ import {  StyleSheet,
   TouchableOpacity,
   Platform, 
   TextInput,
+  FlatList,
+  Alert,
   ScrollView,
   Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 
 
   const insulinEdit = ({ navigation, route }) =>{
@@ -19,99 +22,76 @@ import moment from 'moment';
         getLocalInfo();
         getOtherInfo();
         getPenInfo();
-        showOnLoad();
         }, []);
 
     const [insulinREGIMEN, setREGIMEN] = useState('');
-    const [penFlag, setPenFlag] = useState(false);
-    const [otherFlag, setOtherFlag] = useState(false);
-    const [count, setCount] = useState(0);
-    const [insulinPenT, setInsulinPen] = useState([
-      {id: 0, itype: '', half_Full: ''},
-      {id: 0, itype: '', half_Full: ''}, 
-      {id: 0, itype: '', half_Full: ''}
-    ]);
-    const [insulinOtherT, setInsulinOther] = useState([
-      {id: 0, itype: '', idose: 0, itime: ''},
-      {id: 0, itype: '', idose: 0, itime: ''}, 
-      {id: 0, itype: '', idose: 0, itime: ''}
-    ]);
-
+    const [pen, setPen]= useState([]);
+    const [other, setOther] = useState([]);
+    const [otherExtra, setOtherExtra] = useState([]);
+    const [penExtra, setpenExtra] = useState([]);
+    
+    
     const getLocalInfo = ()=>{
+      if (AccType == 'Pateint Account'){
         try {
-            console.log('in try');
-            db.transaction( (tx) => {
-                tx.executeSql(
-                  'SELECT UserID, insulinRegimen FROM patientprofile',
-                  [],
-                  (tx, results) => {
-                    var rows = results.rows;
-                    for (let i = 0; i < rows.length; i++) {           
-                        var userID = rows.item(i).UserID;
-                        if (uID == userID){
-                         setREGIMEN(rows.item(i).insulinRegimen);
-                          return;
-                        }
+          console.log('in try');
+          db.transaction( (tx) => {
+              tx.executeSql(
+                'SELECT UserID, insulinRegimen FROM patientprofile',
+                [],
+                (tx, results) => {
+                  var rows = results.rows;
+                  for (let i = 0; i < rows.length; i++) {           
+                      var userID = rows.item(i).UserID;
+                      if (uID == userID){
+                       setREGIMEN(rows.item(i).insulinRegimen);
+                        return;
                       }
-                  }   
-        ) 
-            
+                    }
+                }   
+      ) 
+          
+      
+      }  ) 
+      } catch (error) {
+         console.log(error);
+      }
+      } else {
+        try {
+          console.log('in try');
+          db.transaction( (tx) => {
+              tx.executeSql(
+                'SELECT UserID, insulinRegimen FROM nonPatientprofile',
+                [],
+                (tx, results) => {
+                  var rows = results.rows;
+                  for (let i = 0; i < rows.length; i++) {           
+                      var userID = rows.item(i).UserID;
+                      if (uID == userID){
+                       setREGIMEN(rows.item(i).insulinRegimen);
+                        return;
+                      }
+                    }
+                }   
+      ) 
+          
+      
+      }  ) 
+      } catch (error) {
+         console.log(error);
+      }
+      }
         
-        }  ) 
-        } catch (error) {
-           console.log(error);
-        }
+        //==========================================================//
+   
+      
       
       
     }
     //=========================================//
-    const getPenInfo = ()=>{
-        try {
-            console.log('in pen');
-            db.transaction( (tx) => {
-                tx.executeSql(
-                  'SELECT insulinID, UserID, insulinType, halfORfull FROM insulinPen',
-                  [],
-                  (tx, results) => {
-                    var rows = results.rows;
-                    for (let i = 0; i < rows.length; i++) {           
-                        var userID = rows.item(i).UserID;
-                        if (uID == userID){
-                         setPenFlag(true);
-                         if (count == 0){
-                           insulinPenT[0].id= rows.item(i).insulinID;
-                           insulinPenT[0].itype = rows.item(i).insulinType;
-                           insulinPenT[0].half_Full = rows.item(i).halfORfull;
-                           console.log(insulinPenT[0].id+' / '+insulinPenT[0].itype+' / '+ insulinPenT[0].half_Full);
-                         }
-                         if (count == 1){
-                          insulinPenT[1].id= rows.item(i).insulinID;
-                          insulinPenT[1].itype = rows.item(i).insulinType;
-                          insulinPenT[1].half_Full = rows.item(i).halfORfull;
-                          console.log(insulinPenT[1].id+' / '+insulinPenT[1].itype+' / '+ insulinPenT[1].half_Full);
-                        }
-                        if (count == 2){
-                          insulinPenT[2].id= rows.item(i).insulinID;
-                          insulinPenT[2].itype = rows.item(i).insulinType;
-                          insulinPenT[2].half_Full = rows.item(i).halfORfull;
-                          console.log(insulinPenT[2].id+' / '+insulinPenT[2].itype+' / '+ insulinPenT[2].half_Full);
-                        }
-                         setCount(count+1);
-                        }
-                      }
-                  }   
-        ) 
-            
-        
-        }  ) 
-        } catch (error) {
-           console.log(error);
-        }
-        console.log('insulin'+insulinREGIMEN);
-        
-    }
-    //=========================================//
+
     const getOtherInfo = ()=>{
+      var tempArr = [...other];
         try {
             console.log('in other');
             db.transaction( (tx) => {
@@ -122,29 +102,26 @@ import moment from 'moment';
                     var rows = results.rows;
                     for (let i = 0; i < rows.length; i++) {           
                         var userID = rows.item(i).UserID;
-                        if (uID == userID){
-                          setOtherFlag(true);
-                          if (count == 0){
-                            insulinOtherT[0].id= rows.item(i).insulinID;
-                            insulinOtherT[0].itype=rows.item(i).insulinType;
-                            insulinOtherT[0].idose=rows.item(i).iDose;
-                            insulinOtherT[0].itime=rows.item(i).iTime;
-                          }
-                          if (count == 1){
-                            insulinOtherT[1].id= rows.item(i).insulinID;
-                            insulinOtherT[1].itype=rows.item(i).insulinType;
-                            insulinOtherT[1].idose=rows.item(i).iDose;
-                            insulinOtherT[1].itime=rows.item(i).iTime;
-                         }
-                         if (count == 2){
-                          insulinOtherT[2].id= rows.item(i).insulinID;
-                          insulinOtherT[2].itype=rows.item(i).insulinType;
-                          insulinOtherT[2].idose=rows.item(i).iDose;
-                          insulinOtherT[2].itime=rows.item(i).iTime;
-                         }
-                          setCount(count+1);
+                        if (uID == userID){ 
+                         tempArr.push({
+                           id: rows.item(i).insulinID,
+                           type: rows.item(i).insulinType,
+                           dose: rows.item(i).iDose,
+                           time: new Date(rows.item(i).iTime),
+                           isChanged: false,
+                           isNew:false
+                         });
+                         otherExtra.push({
+                          id: rows.item(i).insulinID,
+                          type: rows.item(i).insulinType,
+                          dose: rows.item(i).iDose,
+                          time: new Date(rows.item(i).iTime),
+                          isChanged: false,
+                          isNew:false
+                         })
                          }
                       }
+                      setOther([...tempArr]);
                   }   
         ) 
             
@@ -155,256 +132,504 @@ import moment from 'moment';
         }
       
     }
+
+    const getPenInfo = () => {
+      var tempArr = [...pen];
+      try {
+        console.log('in pen');
+        db.transaction( (tx) => {
+            tx.executeSql(
+              'SELECT insulinID, UserID, insulinType, halfORfull FROM insulinPen',
+              [],
+              (tx, results) => {
+                var rows = results.rows;
+                for (let i = 0; i < rows.length; i++) {           
+                    var userID = rows.item(i).UserID;
+                    if (uID == userID){
+                      tempArr.push({
+                        id: rows.item(i).insulinID,
+                        type: rows.item(i).insulinType,
+                        halfFull: rows.item(i).halfORfull,
+                        isChanged: false,
+                        isNew: false
+                      });
+                      penExtra.push({
+                        id: rows.item(i).insulinID,
+                        type: rows.item(i).insulinType,
+                        halfFull: rows.item(i).halfORfull,
+                        isChanged: false,
+                        isNew: false
+                      });
+                      
+                    }
+                  }
+                  setPen([...tempArr]);
+              }   
+    ) 
+        
+    
+    }  ) 
+    } catch (error) {
+       console.log(error);
+    }
+    }
     //=========================================//
 
-   
-  const [shouldShow, setShouldShow] = useState(false);
-  const [shouldShow2, setShouldShow2] = useState(false);
-  const [InsulinR, setInsulinR] = useState('0');
-  const [iType, setiType] = useState('0');
-  const [halfFull, sethalfFull] = useState(false);
-  const [halfFull1, sethalfFull1] = useState(false);
-  const [halfFull2, sethalfFull2] = useState(false);
-  const [iDose, setDose] = useState(0);
-  const [iDose1, setDose1] = useState(0);
-  const [iDose2, setDose2] = useState(0);
-  const [isDoseVallid, setValid] = useState(false);
-  const [isDose1Vallid, setValid1] = useState(false);
-  const [isDose2Vallid, setValid2] = useState(false);
-  const [iDose1Called, setCalled1] = useState(false);
-  const [iDose2Called, setCalled2] = useState(false);
-  const [penProvide, setPen] = useState('0');
-  const [penProvide1, setPen1] = useState('0');
-  const [penProvide2, setPen2] = useState('0');
-  
-    
-  const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   //--------------Date-----------------------
-  const [iType1, setiType1] = useState('0');
-  const [date1, setDate1] = useState(new Date());
-  const [show1, setShow1] = useState(false);
-
-//-------------------------------------------
-const [iType2, setiType2] = useState('0');
-const [date2, setDate2] = useState(new Date());
-const [show2, setShow2] = useState(false);
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+  
+  const [flag1, setfalg1] = useState(false);
+  const [flag2, setfalg2] = useState(false);
+  const [selectedID, setID] = useState(-1);
+  const [selectedIndex, setIndexA] = useState(-1);
+  
+  const onChangeFrom = (event, selectedDate) => { 
     setShow(Platform.OS === 'ios');
-    setDate(currentDate);
+    if (flag1==false){
+      return;
+     }
+     console.log(selectedIndex);
+    const currentDate = selectedDate || other[selectedIndex].time;
+    const newArr = [...other];
+    
+    if (other[selectedIndex].id == selectedID && flag1==true){
+      console.log('I AM HERE');
+          setfalg1(false);
+          newArr[selectedIndex].time = currentDate;
+          newArr[selectedIndex].isChanged = true;
+          setOther([...newArr]);
+          return;
+         }
+       
+    
   };
-//-------------------------------------------------
-  const onChange1 = (event, selectedDate) => {
-    const currentDate = selectedDate || date1;
-    setShow1(Platform.OS === 'ios');
-    setDate1(currentDate);
-  };
-//-------------------------------------------------
-const onChange2 = (event, selectedDate) => {
-    const currentDate = selectedDate || date2;
-    setShow2(Platform.OS === 'ios');
-    setDate2(currentDate);
-  };
-
-//-------------------------------------------------
-  const showMode = (currentMode) => {
+  const changeDose= (val, index) =>{
+    const newArr = [...other];
+    newArr[index].dose = val;
+    newArr[index].isChanged = true;
+    setOther([...newArr]);
+    console.log(other[index].dose);
+    }
+  const changeFullHalf = (val, index) => {
+    const newArr = [...pen];
+    newArr[index].halfFull = val;
+    newArr[index].isChanged = true;
+    setPen([...newArr]);
+    console.log(pen[index].halfFull);
+  }
+  const showModeFrom = (currentMode) => {
     setShow(true);
     setMode(currentMode);
   };
-//-------------------------------------------------
-  const showMode1 = (currentMode) => {
-    setShow1(true);
-    setMode(currentMode);
+  const showTimepickerF = () => {
+    showModeFrom('time');
   };
-//-------------------------------------------------
-  const showMode2 = (currentMode) => {
-    setShow2(true);
-    setMode(currentMode);
-  };
-
-//-------------------------------------------------
-  const showTimepicker = () => {
-    showMode('time');
-  };
-//-------------------------------------------------
-  const showTimepicker1 = () => {
-    showMode1('time');
-  };
-//-------------------------------------------------
-  const showTimepicker2 = () => {
-    showMode2('time');
-  };
-//-----------------Date---------------------------
-var time =  moment.utc(date).format('HH:mm');
-var time1 = moment.utc(date1).format('HH:mm');
-var time2 = moment.utc(date2).format('HH:mm');
-const halfOrFull = ()=>{
-   if (InsulinR == 'Pen'){
-     if (iType == 'Aspart' || iType == 'Lispro'  || iType == 'Glulisine' ){
-        return true;
-     }
+  const combineF = (id, index) => {
+    showTimepickerF();
+    setID(id); 
+    setIndexA(index);
      
-   }else if (halfFull == false){
-     return false;
-   }
-}
-const halfOrFull1 = ()=>{
-  
-  if ((iType1 == 'Aspart' || iType1 == 'Lispro'  || iType1 == 'Glulisine') && InsulinR == 'Pen'){
-       return true;
-    }else if (halfFull1 == false){
-    return false;
   }
-}
-const halfOrFull2 = ()=>{
-  
-    if ((iType2 == 'Aspart' || iType2 == 'Lispro'  || iType2 == 'Glulisine') && InsulinR == 'Pen'){
-       return true;
-    }
-    
-  else if (halfFull2 == false){
-    return false;
-  }
-}
-var d = '12:00';
-var tim = moment(d, 'HH:mm').format('hmm'); //1200
-console.log(tim);
-console.log(new Date(tim).getHours);
-const showOnLoad2 = ()=>{
-
-  if (insulinREGIMEN == 'Pen'){
-    console.log('i am heeeereeee');
-    setInsulinR('Pen');
-  } else if (insulinREGIMEN == 'Pump'){
-    setInsulinR('Pump');
-  } else  if (insulinREGIMEN == 'Vials/Syringe'){
-    setInsulinR('Vials/Syringe');
-  }
-}
-const showOnLoad = ()=>{
-
-  if (insulinPenT[1].id > 0){
-    console.log('in show1');
-    setShouldShow(true);
-    return;
-  }
-  if (insulinPenT[2].id > 0){
-    setShouldShow2(true);
-      return;
-  }
-}
-console.log(InsulinR);
- var counter = 0
-const setShouldShowAll = () => {
-     if ((counter == 0 && (shouldShow==false))){
-       setShouldShow(true);
-       counter = counter + 1;
-       return;
-     }
-      else if (shouldShow){
-      setShouldShow2(true);
-      counter = counter + 1;
-      return;
-    } else if (shouldShow==true && shouldShow2==true) {
-        alert('You can only add x3 insulin !');
-    }
-   
-}
-
-const checkIDose =  (val) => {
-  if (val < 99 && val >= 0){
-    setDose({
-      ...iDose,
-      iDose: val,
-      
-    });
-    setValid ({
-      ...isDoseVallid,
-      isDoseVallid: true
-    });
-    return;
-  } else {
-    setValid ({
-      ...isDoseVallid,
-      isDoseVallid: false
-    });
-  }
-}
-
-const checkIDose1 =  (val) => {
- 
-  if (val < 99 && val >= 0){
-    setDose1({
-      ...iDose1,
-      iDose1: val,
-      
-    });
-    setValid1 ({
-      ...isDose1Vallid,
-      isDose1Vallid: true
-    });
-    setCalled1({
-      ...iDose1Called,
-      iDose1Called: true
-    });
-    return;
-  } else {
-    setValid1 ({
-      ...isDose1Vallid,
-      isDose1Vallid: false
-    });
-    
-  }
-}
-
-const checkIDose2 =  (val) => {
-  
-  if (val < 99 && val >= 0){
-    setDose2({
-      ...iDose2,
-      iDose2: val,
-      
-    });
-    setValid2 ({
-      ...isDose2Vallid,
-      isDose2Vallid: true
-    });
-    setCalled2({
-      ...iDose2Called,
-      iDose2Called: true
-    });
-    return;
-  } else {
-    setValid2 ({
-      ...isDose2Vallid,
-      isDose2Vallid: false
-    });
-  }
-}
-insulinReg = InsulinR;
-
-const check = () => {
-  if (InsulinR == '0'){
-    
-  }else if (iType == '0'){
-   
-  }else if (isDoseVallid == false && halfOrFull() == false){
-   
-  }else if ((iDose1Called.iDose1Called==true && isDose1Vallid == false) && halfOrFull1() == false){
-    
-  }else if ((iDose2Called==true && isDose2Vallid == false)  && halfOrFull2() == false ){
-    
-   }
-  else {
-    
-  } 
-}
 //--------------------------
+const handleUpdateNormal = () => { // user only changed the values without regimen
+  if (other.length > 0){
+    for (let i=0; i<other.length; i++){
+      if (other[i].isChanged == true && other[i].isNew == false){
+        updateOtherLocal(i);
+        onlineOtherDB(other[i].type, other[i].dose, other[i].time);
+        oldOnlineOtherDB(otherExtra[i].type, otherExtra[i].dose, otherExtra[i].time);
+      }
+    }
+  } 
+  if (pen.length > 0){
+    for (let i=0; i<pen.length; i++){
+      if (pen[i].isChanged == true && pen[i].isNew == false){
+        console.log('pen: '+pen[i].type+' / '+pen[i].halfFull);
+        console.log('Extra: '+penExtra[i].type+' / '+penExtra[i].halfFull);
+        updatePenLocal(i);
+        onlinePenDB(pen[i].type, pen[i].halfFull);
+        oldOnlinePenDB(penExtra[i].type, penExtra[i].halfFull);
+      }
+    } 
+  }
+  alert('updated!');
+  navigation.navigate('edit');
+}
+ const updateInsulinR = (val)=> {
+   setREGIMEN(val);
+   if (AccType == 'Patient Account'){
+    try {
+      console.log('in regimen');
+      db.transaction( (tx) => {
+          tx.executeSql(
+            'UPDATE patientprofile SET insulinRegimen=? WHERE UserID=? ',
+            [val, uID],
+            (tx, results) => {
+              console.log('Results', results.rowsAffected);
+           if (results.rowsAffected > 0) {
+           console.log('regimen Updated Succefully');
+                }
+            }   
+  ) 
+      
   
+  }  ) 
+  } catch (error) {
+     console.log(error);
+  }
+   } else {
+    try {
+      console.log('in regimen');
+      db.transaction( (tx) => {
+          tx.executeSql(
+            'UPDATE nonPatientprofile SET insulinRegimen=? WHERE UserID=? ',
+            [val, uID],
+            (tx, results) => {
+              console.log('Results', results.rowsAffected);
+           if (results.rowsAffected > 0) {
+           console.log('regimen Updated Succefully');
+                }
+            }   
+  ) 
+      
+  
+  }  ) 
+  } catch (error) {
+     console.log(error);
+  }
+   }
+  
+ }
+ const updatePenLocal = (i)=> {
+  try {
+    console.log('in pen2');
+    db.transaction( (tx) => {
+        tx.executeSql(
+          'UPDATE insulinPen SET halfORfull=? WHERE insulinID=? ',
+          [pen[i].halfFull, pen[i].id],
+          (tx, results) => {
+            console.log('Results', results.rowsAffected);
+         if (results.rowsAffected > 0) {
+         console.log('pen Updated Succefully');
+              }
+          }   
+) 
+    
 
+}  ) 
+} catch (error) {
+   console.log(error);
+}
+ }
+ const onlineOtherDB = (type, dose, time) => {
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/insulin_Other.php";   
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: onlinUserID,
+      insulinType: type,
+      iDose: dose,
+      iTime: time,
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+   }
+  
+}
+const oldOnlineOtherDB = (type, dose, time) => {
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/updateInsulinOther.php";   //API to  signup
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: onlinUserID,
+      insulinType: type,
+      iDose: dose,
+      iTime: time
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+    alert('Updated ' + response[0].Message+'fully');
+    navigation.navigate('edit');
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  
+}
+ const deletePenLocal = ()=> {
+  try {
+    console.log('in pen');
+    db.transaction( (tx) => {
+        tx.executeSql(
+          'DELETE FROM insulinPen WHERE UserID=? ',
+          [uID],
+          (tx, results) => {
+            console.log('Results', results.rowsAffected);
+         if (results.rowsAffected > 0) {
+         console.log('pen Updated Succefully');
+              }
+          }   
+) 
+    var temp = [];
+    setPen([...temp]);
+
+}  ) 
+} catch (error) {
+   console.log(error);
+}
+ }
+
+
+ const insertPenLocal = (type, pen) => {
+   console.log('in inseer');
+  try {
+    db.transaction( (tx) => {
+        tx.executeSql(
+         'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
+           [uID, type, pen]
+       );
+      
+      
+   })
+   
+} catch (error) {
+   console.log(error);
+}
+ }
+ const insertOtherLocal = (type, dose, time) => {
+  console.log('in inserrt');
+ try {
+   db.transaction( (tx) => {
+       tx.executeSql(
+        'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
+          [uID, type, dose, time]
+      );
+     
+     
+  })
+  
+} catch (error) {
+  console.log(error);
+}
+}
+
+const updateOtherLocal = (i)=> {
+    try {
+      console.log('in type');
+      db.transaction( (tx) => {
+          tx.executeSql(
+            'UPDATE insulinOther SET insulinType=?, iDose=?, iTime=?WHERE insulinID=? ',
+            [other[i].type, other[i].dose, other[i].time, other[i].id ],
+            (tx, results) => {
+              console.log('Results', results.rowsAffected);
+           if (results.rowsAffected > 0) {
+              console.log('other Updated Succefully');
+                }
+            }   
+  ) 
+      
+  
+  }  ) 
+  } catch (error) {
+     console.log(error);
+  }
+ }
+ const deleteOtherLocal = (id)=> {
+  try {
+    console.log('in other');
+    db.transaction( (tx) => {
+        tx.executeSql(
+          'DELETE FROM insulinOther WHERE insulinID=? ',
+          [id],
+          (tx, results) => {
+            console.log('Results', results.rowsAffected);
+         if (results.rowsAffected > 0) {
+         console.log('other deleted Succefully');
+              }
+          }   
+) 
+    
+
+}  ) 
+} catch (error) {
+   console.log(error);
+}
+ }
+ const showConfirmDialog = (val) => {
+  return Alert.alert(
+    "Are your sure?",
+    "Are you sure you want to change your Regimen? this will cuase some of your data to be changed",
+    [
+      // The "Yes" button
+      {
+        text: "Yes",
+        onPress: () => {
+          if (insulinREGIMEN=='Pen'){
+            updateInsulinR(val); // 
+            onlineInsulinRegDB();
+            deletePenLocal();
+            deleteOnlinePenDB;
+          }
+          updateInsulinR(val); // 
+          onlineInsulinRegDB();
+        },
+      },
+      // The "No" button
+      // Does nothing but dismiss the dialog when tapped
+      {
+        text: "No",
+      },
+    ]
+  );
+};
+const onlineInsulinRegDB = () => {
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/insulin_Regimen.php";   //API to  signup
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: onlinUserID,
+      insulinRegimen: insulinREGIMEN
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+ 
+}
+const onlinePenDB = (type, halfull) => {
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/insulin_Pen.php";   //API to  signup
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: onlinUserID,
+      insulinType: type,
+      halfOrFull: halfull
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+    alert('pen ' + response[0].Message);
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+ 
+}
+const oldOnlinePenDB = (type, halfull) => {
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/insulinPenUpdate.php";   //API to  signup
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: onlinUserID,
+      insulinType: type,
+      halfOrFull: halfull
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  
+}
+const deleteOnlinePenDB = () => {
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/deleteInsulinPen.php";   //API to  signup
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: onlinUserID,
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  
+}
     return (
       <View style={styles.container}>
       <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
@@ -417,267 +642,133 @@ const check = () => {
       </LinearGradient>
 
       <View style={styles.footer}>
-         <Text style={styles.title}>Insulin Information{'\n'}</Text>
-         {InsulinR =='0'?  showOnLoad2() : null}
-        <Text>{insulinREGIMEN}</Text>
-        <Text>{penFlag? 'pen' : null}</Text>
-        <Text>{otherFlag? 'other' : null}</Text>
-        <Text>{count}</Text>
-        <Text>{insulinPenT[0].id} d</Text> 
-        <Text>{insulinPenT[0].itype} d</Text>
-        <Text>{insulinPenT[0].half_Full} d</Text>
+      <Text style={styles.title}>Edit Insulin Information</Text> 
       <ScrollView>
-          <View style={styles.action}>
+      <View style={styles.action}>
               <Text style={styles.text_footer}>Insulin regimen</Text>
               <Picker
-              selectedValue={InsulinR}
-              onValueChange={(value) => setInsulinR(value)}
+              selectedValue={insulinREGIMEN+''}
+              onValueChange={(val) => showConfirmDialog(val)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Insulin regimen' value='0'></Picker.Item>
-            <Picker.Item label= 'Pump' value='Pump'></Picker.Item>
-            <Picker.Item label= 'Pen' value='Pen'></Picker.Item>
-            <Picker.Item label= 'Vials/Syringe' value='Vials/Syringe'></Picker.Item>
+            <Picker.Item label= 'Select Insulin regimen' value='0' color='black'></Picker.Item>
+            <Picker.Item label= 'Pump' value='Pump'color='black'></Picker.Item>
+            <Picker.Item label= 'Pen' value='Pen'color='black'></Picker.Item>
+            <Picker.Item label= 'Vials/Syringe' value='Vials/Syringe'color='black'></Picker.Item>
 
         </Picker>
       
 </View>
-
-
-<View style={styles.action}>
-              <Text style={styles.text_footer}>Insulin Type, dose, Time:{'\n'}</Text>
-             
-              {halfOrFull() ?  (<View style={styles.field} > 
-              <Text style={styles.text_footer}>Insulin Type</Text>
-              <Picker
-              selectedValue={penProvide}
-              onValueChange={(value) => setPen(value)}
-              mode="dropdown"
-              style={styles.picker}
-              >
-            <Picker.Item label= 'Half units' value='0'></Picker.Item>
-            <Picker.Item label= 'Full units' value='1'></Picker.Item>
-           
-
-        </Picker>
-
-    
-    </View> ) :  (<View style={styles.field} >
-              <Text style={styles.text_footer}>Insulin Type</Text>
-              <Picker
-              selectedValue={iType}
-              onValueChange={(value) => setiType(value)}
-              mode="dropdown"
-              style={styles.picker}
-              >
-            <Picker.Item label= 'Select Insulin type' value='0'></Picker.Item>
-            <Picker.Item label= 'Aspart' value='Aspart'></Picker.Item>
-            <Picker.Item label= 'Lispro ' value='Lispro'></Picker.Item>
-            <Picker.Item label= 'Glulisine ' value='Glulisine'></Picker.Item>
-            <Picker.Item label= 'NPH' value='ANPH'></Picker.Item>
-            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'></Picker.Item>
-            <Picker.Item label= 'Detemir' value='Detemir'></Picker.Item>
-            <Picker.Item label= 'Glargine' value='Glargine'></Picker.Item>
-            <Picker.Item label= 'Degludec' value='Degludec'></Picker.Item>
-            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'></Picker.Item>
-
-
-        </Picker>
-       
+      {pen.length > 0 || other.length > 0 ? null : (<ActivityIndicator animating={true} color={Colors.blue100} size={'large'} />)}
+     <View style={{ alignItems: 'center'}}>
+        <FlatList 
+        nestedScrollEnabled={true}
+          data={pen}
+          keyExtractor={(item, index) => index.toString()}
+          // extraData={selectedID}
+          renderItem={({ item, index }) => (
+            <View style={styles.outerContainer}>
+                <Text style={styles.innerTitle}>insulin Type: </Text>
+                <View style={styles.innerCotainer}>
+             <Text 
+             style={{fontSize: 17, color: 'grey', alignItems: 'flex-start'}} >
+                             {item.type}
+                             </Text> 
           
-        <Text style={styles.text_footer}>Insulin Dose</Text>
-        <TextInput
-            keyboardType="decimal-pad"
-            placeholder="00"
-            onChangeText= {(val)=>checkIDose(val)}
-            style={styles.actionN}></TextInput>  
-              
-              
-              <Text style={styles.text_footer}>Insulin Time</Text>
-        <TouchableOpacity onPress={showTimepicker} 
-    >
-<Text testID="dateTimePicker" style={styles.text_footerD} >
-                {moment.utc(date).format('h:mm a')}
-                </Text> 
-    </TouchableOpacity>
-      
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={mode}
-          is24Hour={false}
-          display="default"
-          onChange={onChange}
-        />
-      )} 
-    
-    </View> )}       
-</View>
-<View  style={styles.action}>
-          {shouldShow && halfOrFull1() ? (<View style={styles.field } >
-            <Text style={styles.text_footer}>Pen provided</Text>
+                             </View>
+                  <Text style={styles.innerTitle}>Pen provided:</Text>
+                <View style={styles.innerCotainer}>
               <Picker
-              selectedValue={penProvide1}
-              onValueChange={(value) => setPen1(value)}
+              selectedValue={item.halfFull+''}
+              onValueChange={(val) => changeFullHalf(val, index)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Half units' value='0'></Picker.Item>
-            <Picker.Item label= 'Full units' value='1'></Picker.Item>
+            <Picker.Item label= 'Half units' value='0' color='black'></Picker.Item>
+            <Picker.Item label= 'Full units' value='1' color='black'></Picker.Item>
            
 
         </Picker>
-
-    
-    </View> ) :  null }
-    </View>
-    <View  style={styles.action}>
-          {shouldShow && (halfOrFull1() == false)? (<View style={styles.field } >
-              <Text style={styles.text_footer}>Insulin Type</Text>
-              <Picker
-              selectedValue={iType1}
-              onValueChange={(value) => setiType1(value)}
-              mode="dropdown"
-              style={styles.picker}
-              >
-            <Picker.Item label= 'Select Insulin type' value='0'></Picker.Item>
-            <Picker.Item label= 'Aspart' value='Aspart'></Picker.Item>
-            <Picker.Item label= 'Lispro ' value='Lispro'></Picker.Item>
-            <Picker.Item label= 'Glulisine ' value='Glulisine'></Picker.Item>
-            <Picker.Item label= 'NPH' value='ANPH'></Picker.Item>
-            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'></Picker.Item>
-            <Picker.Item label= 'Detemir' value='Detemir'></Picker.Item>
-            <Picker.Item label= 'Glargine' value='Glargine'></Picker.Item>
-            <Picker.Item label= 'Degludec' value='Degludec'></Picker.Item>
-            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'></Picker.Item>
-
-
-        </Picker>
-        <Text style={styles.text_footer}>Insulin Dose</Text>
-        <TextInput
-            keyboardType="decimal-pad"
-            placeholder="00"
-            onChangeText= {(val)=>checkIDose1(val)}
-            style={styles.actionN}></TextInput>  
-              
-              
-              <Text style={styles.text_footer}>Insulin Time</Text>
-        <TouchableOpacity onPress={showTimepicker2} 
-    >
-<Text testID="dateTimePicker" style={styles.text_footerD} >
-                {moment.utc(date1).format('h:mm a')}
-                </Text> 
-    </TouchableOpacity>
-      
-      {show1 && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date1}
-          mode={mode}
-          is24Hour={false}
-          display="default"
-          onChange={onChange1}
-        />
-      )}
-     </View> ) : null }
-     </View>
-     <View  style={styles.action}>
-          {shouldShow2 && halfOrFull2() ? (<View style={styles.field } >
-            <Text style={styles.text_footer}>Insulin Type</Text>
-              <Picker
-              selectedValue={penProvide2}
-              onValueChange={(value) => setPen2(value)}
-              mode="dropdown"
-              style={styles.picker}
-              >
-            <Picker.Item label= 'Half units' value='0'></Picker.Item>
-            <Picker.Item label= 'Full units' value='1'></Picker.Item>
+          
+                             </View>   
+                 </View>
            
-
-        </Picker>
-
-    
-    </View> ) :  null }
-    </View>
-    <View  style={styles.action}>
-          {shouldShow2 && (halfOrFull2() == false)? (<View style={styles.field } >
-              <Text style={styles.text_footer}>Insulin Type</Text>
-              <Picker
-              selectedValue={iType2}
-              onValueChange={(value) => setiType2(value)}
-              mode="dropdown"
-              style={styles.picker}
-              >
-            <Picker.Item label= 'Select Insulin type' value='0'></Picker.Item>
-            <Picker.Item label= 'Aspart' value='Aspart'></Picker.Item>
-            <Picker.Item label= 'Lispro ' value='Lispro'></Picker.Item>
-            <Picker.Item label= 'Glulisine ' value='Glulisine'></Picker.Item>
-            <Picker.Item label= 'NPH' value='ANPH'></Picker.Item>
-            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'></Picker.Item>
-            <Picker.Item label= 'Detemir' value='Detemir'></Picker.Item>
-            <Picker.Item label= 'Glargine' value='Glargine'></Picker.Item>
-            <Picker.Item label= 'Degludec' value='Degludec'></Picker.Item>
-            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'></Picker.Item>
-
-
-        </Picker>
-        <Text style={styles.text_footer}>Insulin Dose</Text>
-        <TextInput
-            keyboardType="decimal-pad"
-            placeholder="00"
-            onChangeText= {(val)=>checkIDose2(val)}
-            style={styles.actionN}></TextInput>  
-              
-              
-              <Text style={styles.text_footer}>Insulin Time</Text>
-        <TouchableOpacity onPress={showTimepicker2} 
-    >
-<Text testID="dateTimePicker" style={styles.text_footerD} >
-                {moment.utc(date2).format('h:mm a')}
-                </Text> 
-    </TouchableOpacity>
-      
-      {show2 && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date2}
-          mode={mode}
-          is24Hour={false}
-          display="default"
-          onChange={onChange2}
+          )}
         />
-      )}
-     </View> ) : null }
-     </View>
-   <View>
-    <View style={styles.buttonV}> 
-        <TouchableOpacity onPress={()=>setShouldShowAll()}>
-                <LinearGradient
-                    colors={['#E7EFFA', '#AABED8']} style={styles.buttonRS}
-                >
-                    <Text style={styles.titleBS}>+ Add another insulin</Text>
+        </View>
+       <View style={{alignItems:'center'}}>
+        <FlatList
+        data={other}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => (
+          <View style={styles.outerContainer}>
+             <Text style={styles.innerTitle}>insulin Type: </Text>
+                <View style={styles.innerCotainer}>
+             <Text 
+             style={{fontSize: 17, color: 'grey', alignItems: 'flex-start'}} >
+                             {item.type}
+                             </Text> 
+          
+                             </View>
+                             <View style={styles.innerCotainer}>
+                    <View style={styles.innerView}>
+                    <Text style={styles.innerTitle}>Insulin Dose: </Text>
+                    <TextInput
+                    style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0}}
+                     keyboardType="decimal-pad"
+                     defaultValue={item.dose+''}
+                     onChangeText={(val) => changeDose(val, index)}
+                    />
+                    </View>
+                    </View>
+             <Text style={styles.innerTitle}>Time</Text>
+              <TouchableOpacity onPress={()=> combineF(item.id, index)} 
+              onPressOut={()=>setfalg1(true)}
+              style={styles.innerCotainer}
+               >
+           <Text testID="dateTimePicker"
+           style={{fontSize: 17, color: 'grey', alignItems: 'flex-start'}} >
+                           {moment(item.time).format('h:mm a')}
+                           </Text> 
+        
+               </TouchableOpacity>
+                 
+                 {show && (
+                   <DateTimePicker
+                     testID="dateTimePicker"
+                     value={item.time}
+                     mode={mode}
+                     is24Hour={false}
+                     display="default"
+                     onChange={(e, v) => {
+                      setShow(Platform.OS === "ios");
+                      onChangeFrom(e, v);
+                    }}
+                     
+                   />
+                 )}
+                   
                   
-                </LinearGradient>
-            </TouchableOpacity>
-            </View>
-   </View>
+          </View>
+        )}
+
+        />
+      </View>
    
 
           <View style={styles.buttonV}>
-        <TouchableOpacity onPress={()=>check()}>
+        <TouchableOpacity onPress={()=>handleUpdateNormal()}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={styles.titleB}>Continue</Text>
+                    <Text style={styles.titleB}>Update</Text>
                   
                 </LinearGradient>
             </TouchableOpacity>
             </View>
-            
+          
             </ScrollView>
-         
         </View>
      </View>
   
@@ -715,7 +806,7 @@ const styles = StyleSheet.create({
   
   logo: {
     width: height_logo,
-    height: height_logo+40,
+    height: height_logo+20,
 
   },
   header: {
@@ -875,6 +966,45 @@ buttonRS: {
 textD:{
 justifyContent: 'space-between',
 marginTop: 25
+},
+
+outerContainer: {
+  backgroundColor: 'lightgrey', 
+      margin: 10, 
+      alignItems: 'center', 
+      width: 300, 
+      borderRadius: 15,
+      shadowColor: "#000",
+      shadowOffset: {
+      width: 0,
+      height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+      paddingBottom: 10,
+      paddingTop: 10
+},
+innerCotainer: {
+  backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10,
+              shadowColor: "#000",
+              shadowOffset: {
+              width: 0,
+              height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+              width: 200
+},
+outerTitle: {
+  fontSize: 20, color: '#05375a', fontWeight:'bold'
+},
+innerTitle: {
+  fontSize: 15, color: '#05375a', fontWeight:'bold'
+},
+innerView: {
+  flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
 }
 });
 

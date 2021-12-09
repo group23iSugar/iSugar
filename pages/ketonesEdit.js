@@ -72,16 +72,25 @@ import {Picker} from '@react-native-picker/picker';
 const check = () => {
   if (monitor != '0'){
     updateGMonitorLocal();
-    onlineMonitorDB();
+    if (AccType == 'Patient Account'){
+      onlineMonitorDB();
+    }
+    
   }
   if (levelUnit != '0'){
-    onlineUnitDB();
+    if (AccType == 'Patient Account'){
+      onlineUnitDB();
+    }
+    
     updateGUnitLocal();
     
   }
   if (ketones != '0'){
+    if (AccType == 'Patient Account'){
+      onlineKetonesM();
+    }
     updateKetonesLocal();
-    onlineKetonesM();
+    
     
   } 
   if (BGFrom != 0 ){
@@ -90,14 +99,17 @@ const check = () => {
     if (BGTO != 0 ){
         updateToBGLocal();
        }
-  if (BGFrom != 0 && BGTO != 0 ){
-    onlineTargetBGDB1();
-  } else if (BGFrom != 0 && BGTO == 0 ){
-    onlineTargetBGDB2();
-  } else if (BGFrom == 0 && BGTO != 0 ){
-    onlineTargetBGDB3();
-  }
-
+       if (AccType == 'Patient Account'){
+        if (BGFrom != 0 && BGTO != 0 ){
+          onlineTargetBGDB1();
+        } else if (BGFrom != 0 && BGTO == 0 ){
+          onlineTargetBGDB2();
+        } else if (BGFrom == 0 && BGTO != 0 ){
+          onlineTargetBGDB3();
+        }
+       }
+  
+       navigation.navigate('edit');
 }
 const validateBGTo = (val) => {
     if (val > 999 && val <= 0){
@@ -131,113 +143,228 @@ glucoseUnit = levelUnit;
 ketonesMeasure = ketones;
 //--------------------------------------
      const updateGMonitorLocal = () => {
+      if (AccType == 'Patient Account'){
         try {
-            console.log('in monitor');
-            db.transaction( (tx) => {
-                tx.executeSql(
-                  'UPDATE patientprofile SET typeOfGlucoseM=? WHERE UserID=? ',
-                  [monitor, 238],
-                  (tx, results) => {
-                    console.log('Results', results.rowsAffected);
-                 if (results.rowsAffected > 0) {
-                 console.log('monitor updated seuccefully');
-                      }
-                  }   
-          ) 
-            
+          console.log('in monitor');
+          db.transaction( (tx) => {
+              tx.executeSql(
+                'UPDATE patientprofile SET typeOfGlucoseM=? WHERE UserID=? ',
+                [monitor, 238],
+                (tx, results) => {
+                  console.log('Results', results.rowsAffected);
+               if (results.rowsAffected > 0) {
+               console.log('monitor updated seuccefully');
+                    }
+                }   
+        ) 
           
-          }  ) 
-          } catch (error) {
-           console.log(error);
-          }
+        
+        }  ) 
+        } catch (error) {
+         console.log(error);
+        }
+      } else {
+        try {
+          console.log('in monitor');
+          db.transaction( (tx) => {
+              tx.executeSql(
+                'UPDATE nonPatientprofile SET typeOfGlucoseM=? WHERE UserID=? ',
+                [monitor, 238],
+                (tx, results) => {
+                  console.log('Results', results.rowsAffected);
+               if (results.rowsAffected > 0) {
+               console.log('monitor updated seuccefully');
+                    }
+                }   
+        ) 
+          
+        
+        }  ) 
+        } catch (error) {
+         console.log(error);
+        }
+      }
+      
         }
         const updateGUnitLocal = () => {
+          if (AccType == 'Patient Account'){
             try {
-                console.log('in unit');
-                db.transaction( (tx) => {
-                    tx.executeSql(
-                      'UPDATE patientprofile SET glucoseLevel_unit=? WHERE UserID=? ',
-                      [levelUnit, 238],
-                      (tx, results) => {
-                        console.log('Results', results.rowsAffected);
-                     if (results.rowsAffected > 0) {
-                     console.log('unit updated seuccefully');
-                          }
-                      }   
-              ) 
-                
+              console.log('in unit');
+              db.transaction( (tx) => {
+                  tx.executeSql(
+                    'UPDATE patientprofile SET glucoseLevel_unit=? WHERE UserID=? ',
+                    [levelUnit, 238],
+                    (tx, results) => {
+                      console.log('Results', results.rowsAffected);
+                   if (results.rowsAffected > 0) {
+                   console.log('unit updated seuccefully');
+                        }
+                    }   
+            ) 
               
-              }  ) 
-              } catch (error) {
-               console.log(error);
-              }
+            
+            }  ) 
+            } catch (error) {
+             console.log(error);
+            }
+          } else {
+            try {
+              console.log('in unit');
+              db.transaction( (tx) => {
+                  tx.executeSql(
+                    'UPDATE nonPatientprofile SET glucoseLevel_unit=? WHERE UserID=? ',
+                    [levelUnit, 238],
+                    (tx, results) => {
+                      console.log('Results', results.rowsAffected);
+                   if (results.rowsAffected > 0) {
+                   console.log('unit updated seuccefully');
+                        }
+                    }   
+            ) 
+              
+            
+            }  ) 
+            } catch (error) {
+             console.log(error);
+            }
+          }
+            
             }
             const updateKetonesLocal = () => {
+              if (AccType == 'Patient Account'){
                 try {
-                    console.log('in ketones');
-                    db.transaction( (tx) => {
-                        tx.executeSql(
-                          'UPDATE patientprofile SET ketonesMeasure=? WHERE UserID=? ',
-                          [ketones, 238],
-                          (tx, results) => {
-                            console.log('Results', results.rowsAffected);
-                         if (results.rowsAffected > 0) {
-                         console.log('unit updated seuccefully');
-                              }
-                          }   
-                  ) 
-                    
+                  console.log('in ketones');
+                  db.transaction( (tx) => {
+                      tx.executeSql(
+                        'UPDATE patientprofile SET ketonesMeasure=? WHERE UserID=? ',
+                        [ketones, 238],
+                        (tx, results) => {
+                          console.log('Results', results.rowsAffected);
+                       if (results.rowsAffected > 0) {
+                       console.log('unit updated seuccefully');
+                            }
+                        }   
+                ) 
                   
-                  }  ) 
-                  } catch (error) {
-                   console.log(error);
-                  }
+                
+                }  ) 
+                } catch (error) {
+                 console.log(error);
+                }
+              } else {
+                try {
+                  console.log('in ketones');
+                  db.transaction( (tx) => {
+                      tx.executeSql(
+                        'UPDATE nonPatientprofile SET ketonesMeasure=? WHERE UserID=? ',
+                        [ketones, 238],
+                        (tx, results) => {
+                          console.log('Results', results.rowsAffected);
+                       if (results.rowsAffected > 0) {
+                       console.log('unit updated seuccefully');
+                            }
+                        }   
+                ) 
+                  
+                
+                }  ) 
+                } catch (error) {
+                 console.log(error);
+                }
+              }
+                
                 }
                 const updateFromBGLocal = () => {
+                  if (AccType == 'Patient Account'){
                     try {
-                        console.log('in from');
-                        db.transaction( (tx) => {
-                            tx.executeSql(
-                              'UPDATE patientprofile SET fromBG=? WHERE UserID=? ',
-                              [BGFrom.BGFrom, 238],
-                              (tx, results) => {
-                                console.log('Results', results.rowsAffected);
-                             if (results.rowsAffected > 0) {
-                             console.log('from updated seuccefully');
-                                  }
-                              }   
-                      ) 
-                        
+                      console.log('in from');
+                      db.transaction( (tx) => {
+                          tx.executeSql(
+                            'UPDATE patientprofile SET fromBG=? WHERE UserID=? ',
+                            [BGFrom.BGFrom, 238],
+                            (tx, results) => {
+                              console.log('Results', results.rowsAffected);
+                           if (results.rowsAffected > 0) {
+                           console.log('from updated seuccefully');
+                                }
+                            }   
+                    ) 
                       
-                      }  ) 
-                      } catch (error) {
-                       console.log(error);
-                      }
+                    
+                    }  ) 
+                    } catch (error) {
+                     console.log(error);
+                    }
+                  } else {
+                    try {
+                      console.log('in from');
+                      db.transaction( (tx) => {
+                          tx.executeSql(
+                            'UPDATE nonPatientprofile SET fromBG=? WHERE UserID=? ',
+                            [BGFrom.BGFrom, 238],
+                            (tx, results) => {
+                              console.log('Results', results.rowsAffected);
+                           if (results.rowsAffected > 0) {
+                           console.log('from updated seuccefully');
+                                }
+                            }   
+                    ) 
+                      
+                    
+                    }  ) 
+                    } catch (error) {
+                     console.log(error);
+                    }
+                  }
+                   
                     }
                     const updateToBGLocal = () => {
+                      if (AccType == 'Patient Account'){
                         try {
-                            console.log('in to');
-                            db.transaction( (tx) => {
-                                tx.executeSql(
-                                  'UPDATE patientprofile SET toBG=? WHERE UserID=? ',
-                                  [BGTO.BGTO, 238],
-                                  (tx, results) => {
-                                    console.log('Results', results.rowsAffected);
-                                 if (results.rowsAffected > 0) {
-                                 console.log('to updated seuccefully');
-                                      }
-                                  }   
-                          ) 
-                            
+                          console.log('in to');
+                          db.transaction( (tx) => {
+                              tx.executeSql(
+                                'UPDATE patientprofile SET toBG=? WHERE UserID=? ',
+                                [BGTO.BGTO, 238],
+                                (tx, results) => {
+                                  console.log('Results', results.rowsAffected);
+                               if (results.rowsAffected > 0) {
+                               console.log('to updated seuccefully');
+                                    }
+                                }   
+                        ) 
                           
-                          }  ) 
-                          } catch (error) {
-                           console.log(error);
-                          }
+                        
+                        }  ) 
+                        } catch (error) {
+                         console.log(error);
+                        }
+                      } else {
+                        try {
+                          console.log('in to');
+                          db.transaction( (tx) => {
+                              tx.executeSql(
+                                'UPDATE nonPatientprofile SET toBG=? WHERE UserID=? ',
+                                [BGTO.BGTO, 238],
+                                (tx, results) => {
+                                  console.log('Results', results.rowsAffected);
+                               if (results.rowsAffected > 0) {
+                               console.log('to updated seuccefully');
+                                    }
+                                }   
+                        ) 
+                          
+                        
+                        }  ) 
+                        } catch (error) {
+                         console.log(error);
+                        }
+                      }
+                        
                         }
 
                         const onlineKetonesM = () => {
-                          var InsertAPIURL = "http://192.168.12.1/isugar/ketonesMeasurement.php";   //API to  signup
+                          var InsertAPIURL = "https://isugarserver.com/ketonesMeasurement.php";   //API to  signup
                         
                           var headers = {
                             'Accept': 'application/json',
@@ -265,7 +392,7 @@ ketonesMeasure = ketones;
                         }
                         //-------------------------------
                         const onlineUnitDB = () => {
-                          var InsertAPIURL = "http://192.168.12.1/isugar/GlucoseLevelUnit.php";   //API to  signup
+                          var InsertAPIURL = "https://isugarserver.com/GlucoseLevelUnit.php";   //API to  signup
                         
                           var headers = {
                             'Accept': 'application/json',
@@ -293,7 +420,7 @@ ketonesMeasure = ketones;
                         }
                         //-------------------------------
                         const onlineTargetBGDB1 = () => {
-                          var InsertAPIURL = "http://192.168.12.1/isugar/TargetBGPerDay%20.php";   //API to  signup
+                          var InsertAPIURL = "https://isugarserver.com/TargetBGPerDay%20.php";   //API to  signup
                         
                           var headers = {
                             'Accept': 'application/json',
@@ -322,7 +449,7 @@ ketonesMeasure = ketones;
                         }
                         //-------------------------------
                         const onlineTargetBGDB2 = () => {
-                          var InsertAPIURL = "http://192.168.12.1/isugar/TargetBGPerDay%20.php";   //API to  signup
+                          var InsertAPIURL = "https://isugarserver.com/TargetBGPerDay%20.php";   //API to  signup
                         
                           var headers = {
                             'Accept': 'application/json',
@@ -351,7 +478,7 @@ ketonesMeasure = ketones;
                         }
                         //-------------------------------
                         const onlineTargetBGDB3 = () => {
-                          var InsertAPIURL = "http://192.168.12.1/isugar/TargetBGPerDay%20.php";   //API to  signup
+                          var InsertAPIURL = "https://isugarserver.com/TargetBGPerDay%20.php";   //API to  signup
                         
                           var headers = {
                             'Accept': 'application/json',
@@ -380,7 +507,7 @@ ketonesMeasure = ketones;
                         }
                         //-------------------------------
                         const onlineMonitorDB = () => {
-                          var InsertAPIURL = "http://192.168.12.1/isugar/typeOfGlucoseMonitoring.php";   //API to  signup
+                          var InsertAPIURL = "https://isugarserver.com/typeOfGlucoseMonitoring.php";   //API to  signup
                         
                           var headers = {
                             'Accept': 'application/json',
@@ -430,9 +557,9 @@ ketonesMeasure = ketones;
               style={styles.picker}
               >
                   
-            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose'></Picker.Item>
-            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM'></Picker.Item>
-            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM'></Picker.Item>
+            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose' color='black'></Picker.Item>
+            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM' color='black'></Picker.Item>
+            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM' color='black'></Picker.Item>
 
         </Picker>
       
@@ -447,9 +574,9 @@ ketonesMeasure = ketones;
               style={styles.picker}
               >
             
-            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM'></Picker.Item>    
-            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose'></Picker.Item>
-            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM'></Picker.Item>
+            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM' color='black'></Picker.Item>    
+            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose'color='black'></Picker.Item>
+            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM' color='black'></Picker.Item>
 
         </Picker>
       
@@ -464,9 +591,9 @@ ketonesMeasure = ketones;
               style={styles.picker}
               >
             
-            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM'></Picker.Item>
-            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM'></Picker.Item>    
-            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose'></Picker.Item>
+            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM' color='black'></Picker.Item>
+            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM' color='black'></Picker.Item>    
+            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose' color='black'></Picker.Item>
 
         </Picker>
       
@@ -481,8 +608,8 @@ ketonesMeasure = ketones;
               style={styles.picker}
               >
                   
-            <Picker.Item label= 'mg/dl' value='mg/dl'></Picker.Item>
-            <Picker.Item label= 'mmol/L' value='mmol/L'></Picker.Item>
+            <Picker.Item label= 'mg/dl' value='mg/dl' color='black'></Picker.Item>
+            <Picker.Item label= 'mmol/L' value='mmol/L' color='black'></Picker.Item>
 
         </Picker>
       
@@ -496,8 +623,8 @@ ketonesMeasure = ketones;
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'mmol/L' value='mmol/L'></Picker.Item>   
-            <Picker.Item label= 'mg/dl' value='mg/dl'></Picker.Item>
+            <Picker.Item label= 'mmol/L' value='mmol/L' color='black'></Picker.Item>   
+            <Picker.Item label= 'mg/dl' value='mg/dl' color='black'></Picker.Item>
             
 
         </Picker>
@@ -513,8 +640,8 @@ ketonesMeasure = ketones;
               style={styles.picker}
               >
                   
-            <Picker.Item label= 'Blood' value='Blood'></Picker.Item>
-            <Picker.Item label= 'Urine' value='Urine'></Picker.Item>
+            <Picker.Item label= 'Blood' value='Blood' color='black'></Picker.Item>
+            <Picker.Item label= 'Urine' value='Urine' color='black'></Picker.Item>
 
         </Picker>
       
@@ -528,8 +655,8 @@ ketonesMeasure = ketones;
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Urine' value='Urine'></Picker.Item>    
-            <Picker.Item label= 'Blood' value='Blood'></Picker.Item>
+            <Picker.Item label= 'Urine' value='Urine'color='black'></Picker.Item>    
+            <Picker.Item label= 'Blood' value='Blood' color='black'></Picker.Item>
             
 
         </Picker>
@@ -545,11 +672,13 @@ ketonesMeasure = ketones;
               <Text style={styles.text_footer}>To:</Text>
               {(levelUnit=='mg/dl' || levelUnit=='0') && dbData.gUnit=='mg/dl'? 
             <TextInput
+            style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={dbData.tBG+''}
             onChangeText = {(val)=>validateBGTo(val)}
             style={styles.actionN}></TextInput> : 
             <TextInput
+            style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={(dbData.tBG/18).toFixed(2)+''}
             onChangeText = {(val)=>validateBGTo(val)}
@@ -562,11 +691,13 @@ ketonesMeasure = ketones;
               <Text style={styles.text_footer}>From:</Text>
               {(levelUnit=='mg/dl' || levelUnit=='0') && dbData.gUnit=='mg/dl' ? 
             <TextInput
+            style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={dbData.fBG+''}
             onChangeText = {(val)=>validateBGFrom(val)}
             style={styles.actionN}></TextInput> : 
             <TextInput
+            style={{color:'black'}}
             keyboardType="decimal-pad"
             onChangeText = {(val)=>validateBGFrom(val)}
             defaultValue={(dbData.fBG/18).toFixed(2)+''}
@@ -586,7 +717,7 @@ ketonesMeasure = ketones;
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={styles.titleB}>Continue</Text>
+                    <Text style={styles.titleB}>Update</Text>
                   
                 </LinearGradient>
             </TouchableOpacity>

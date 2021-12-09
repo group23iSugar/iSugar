@@ -42,14 +42,18 @@ const check = () => {
     return;
   } 
   if (BGFrom != 0 && BGTO !=0 ){
+    if (AccType == 'Patient Account'){
       onlineKetonesM();
       onlineUnitDB();
       onlineMonitorDB();
       onlineTargetBGDB();
-      navigation.navigate('insulin')
+    }
+      
+     
  
     
     }
+    navigation.navigate('insulin')
 
 }
 const validateBGTo = (val) => {
@@ -84,7 +88,8 @@ glucoseUnit = levelUnit;
 ketonesMeasure = ketones;
 //--------------------------------------
 const onlineKetonesM = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/ketonesMeasurement.php";   //API to  signup
+
+  var InsertAPIURL = "https://isugarserver.com/ketonesMeasurement.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -112,7 +117,7 @@ fetch(InsertAPIURL,{
 }
 //-------------------------------
 const onlineUnitDB = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/GlucoseLevelUnit.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/GlucoseLevelUnit.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -140,7 +145,7 @@ fetch(InsertAPIURL,{
 }
 //-------------------------------
 const onlineTargetBGDB = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/TargetBGPerDay%20.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/TargetBGPerDay%20.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -169,7 +174,7 @@ fetch(InsertAPIURL,{
 }
 //-------------------------------
 const onlineMonitorDB = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/typeOfGlucoseMonitoring.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/typeOfGlucoseMonitoring.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -220,10 +225,10 @@ fetch(InsertAPIURL,{
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Monitor' value='0'></Picker.Item>
-            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose'></Picker.Item>
+            <Picker.Item label= 'Select Monitor' value='0' color='black'></Picker.Item>
+            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose' color='black'></Picker.Item>
             <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM'></Picker.Item>
-            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM'></Picker.Item>
+            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM' color='black'></Picker.Item>
 
         </Picker>
       
@@ -236,9 +241,9 @@ fetch(InsertAPIURL,{
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select level unit' value='0'></Picker.Item>
-            <Picker.Item label= 'mg/dl' value='mg/dl'></Picker.Item>
-            <Picker.Item label= 'mmol/L' value='mmol/L'></Picker.Item>
+            <Picker.Item label= 'Select level unit' value='0' color='black'></Picker.Item>
+            <Picker.Item label= 'mg/dl' value='mg/dl' color='black'></Picker.Item>
+            <Picker.Item label= 'mmol/L' value='mmol/L' color='black'></Picker.Item>
 
         </Picker>
       
@@ -252,9 +257,9 @@ fetch(InsertAPIURL,{
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Ketones measurement' value='0'></Picker.Item>
-            <Picker.Item label= 'Blood' value='Blood'></Picker.Item>
-            <Picker.Item label= 'Urine' value='Urine'></Picker.Item>
+            <Picker.Item label= 'Select Ketones measurement' value='0' color='black'></Picker.Item>
+            <Picker.Item label= 'Blood' value='Blood' color='black'></Picker.Item>
+            <Picker.Item label= 'Urine' value='Urine' color='black'></Picker.Item>
 
         </Picker>
       
@@ -266,34 +271,25 @@ fetch(InsertAPIURL,{
               <View style={styles.field} >
               <View style={styles.actionB}>
               <Text style={styles.text_footer}>To:</Text>
-              {levelUnit=='mg/dl' ? 
+             
             <TextInput
+              style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000 mg/dl"
             onChangeText = {(val)=>validateBGTo(val)}
-            style={styles.actionN}></TextInput> : 
-            <TextInput
-            keyboardType="decimal-pad"
-            onChangeText = {(val)=>validateBGTo(val)}
-            placeholder="00 mmol/L"
-            style={styles.actionN}></TextInput>
-            }
+            style={styles.actionN}></TextInput> 
+      
 
 </View>
 <View style={styles.actionB}>
               <Text style={styles.text_footer}>From:</Text>
-              {levelUnit=='mg/dl' ? 
+             
             <TextInput
+              style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000 mg/dl"
             onChangeText = {(val)=>validateBGFrom(val)}
-            style={styles.actionN}></TextInput> : 
-            <TextInput
-            keyboardType="decimal-pad"
-            placeholder="00 mmol/L"
-            onChangeText = {(val)=>validateBGFrom(val)}
             style={styles.actionN}></TextInput>
-            }
 
 </View>
               </View>
@@ -306,7 +302,7 @@ fetch(InsertAPIURL,{
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={styles.titleB}>Update</Text>
+                    <Text style={styles.titleB}>Continue</Text>
                   
                 </LinearGradient>
             </TouchableOpacity>

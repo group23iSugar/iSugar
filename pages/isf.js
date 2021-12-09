@@ -185,8 +185,8 @@ const onChange6To = (event, selectedDate) => {
     setMode(currentMode);
   };
 //-------------------------------------------------
-  const showMode3TO = (currentMode) => {
-    setShow3To(true);
+  const showMode3To = (currentMode) => {
+    setShow3TO(true);
     setMode(currentMode);
   };  
 
@@ -216,8 +216,8 @@ setShow6From(true);
 setMode(currentMode);
 };
 //-------------------------------------------------
-const showMode6TO = (currentMode) => {
-setShow6To(true);
+const showMode6To = (currentMode) => {
+setShow6TO(true);
 setMode(currentMode);
 }; 
 //-------------------------------------------------
@@ -312,18 +312,6 @@ bgTarget = targetBG;
 bgStart= startBG;
 intervalISF =isfInterval;
 
-var time1F =  moment.utc(date1From).format('HH:mm');
-var time1T = moment.utc(date1TO).format('HH:mm');
-var time2F = moment.utc(date2From).format('HH:mm');
-var time2T = moment.utc(date2TO).format('HH:mm');
-var time3F =  moment.utc(date3From).format('HH:mm');
-var time3T = moment.utc(date3TO).format('HH:mm');
-var time4F = moment.utc(date4From).format('HH:mm');
-var time4T = moment.utc(date4TO).format('HH:mm');
-var time5F =  moment.utc(date5From).format('HH:mm');
-var time5T = moment.utc(date5TO).format('HH:mm');
-var time6F = moment.utc(date6From).format('HH:mm');
-var time6T = moment.utc(date6TO).format('HH:mm');
 const check = () =>{
     if (isfInterval == '0'){
       onlineISFDB();
@@ -332,12 +320,12 @@ const check = () =>{
       
     }
     if (isfInterval == '1'){
-      onlineInterISFDB(time1F, time1T, ISF1, bgTarget1, bgStart1);
+      onlineInterISFDB(date1From.toString(), date1TO.toString(), ISF1, bgTarget1, bgStart1);
       try {
         db.transaction( (tx) => {
             tx.executeSql(
               'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
-               [uID, date1From, date1TO, ISF1, bgTarget1, bgStart1 ]
+               [uID, date1From.toString(), date1TO.toString(), ISF1, bgTarget1, bgStart1 ]
            );
           
           
@@ -349,12 +337,12 @@ const check = () =>{
    
     } 
      if (isfInterval == '1' && shouldShow1 == true) {
-      onlineInterISFDB(time2F, time2T, ISF2, bgTarget2, bgStart2);
+      onlineInterISFDB(date2From.toString(), date2TO.toString(), ISF2, bgTarget2, bgStart2);
       try {
         db.transaction( (tx) => {
             tx.executeSql(
               'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
-               [uID, date2From, date2TO, ISF2, bgTarget2, bgStart2]
+               [uID, date2From.toString(), date2TO.toString(), ISF2, bgTarget2, bgStart2]
            );
           
           
@@ -365,12 +353,12 @@ const check = () =>{
    }
     }
     if (isfInterval == '1' && shouldShow2 == true) {
-      onlineInterISFDB(time3F, time3T, ISF3, bgTarget3, bgStart3);
+      onlineInterISFDB(date3From.toString(), date3TO.toString(), ISF3, bgTarget3, bgStart3);
       try {
         db.transaction( (tx) => {
             tx.executeSql(
               'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
-               [uID, date3From, date3TO, ISF3, bgTarget3, bgStart3]
+               [uID, date3From.toString(), date3TO.toString(), ISF3, bgTarget3, bgStart3]
            );
           
           
@@ -381,12 +369,12 @@ const check = () =>{
    }
     }
     if (isfInterval == '1' && shouldShow3 == true) {
-      onlineInterISFDB(time4F, time4T, ISF4, bgTarget4, bgStart4);
+      onlineInterISFDB(date4From.toString(), date4TO.toString(), ISF4, bgTarget4, bgStart4);
       try {
         db.transaction( (tx) => {
             tx.executeSql(
               'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
-               [uID, date4From, date4TO, ISF4, bgTarget4, bgStart4]
+               [uID, date4From.toString(), date4TO.toString(), ISF4, bgTarget4, bgStart4]
            );
           
           
@@ -397,12 +385,12 @@ const check = () =>{
    }
     }
     if (isfInterval == '1' && shouldShow4 == true) {
-      onlineInterISFDB(time5F, time5T, ISF5, bgTarget5, bgStart5);
+      onlineInterISFDB(date5From.toString(), date5TO.toString(), ISF5, bgTarget5, bgStart5);
       try {
         db.transaction( (tx) => {
             tx.executeSql(
               'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
-               [uID, date5From, date5TO, ISF5, bgTarget5, bgStart5]
+               [uID, date5From.toString(), date5TO.toString(), ISF5, bgTarget5, bgStart5]
            );
           
           
@@ -414,12 +402,12 @@ const check = () =>{
    console.log(date2From +' '+date2TO+' '+ISF5);
     }
     if (isfInterval == '1' && shouldShow5 == true) {
-      onlineInterISFDB(time6F, time6T, ISF6, bgTarget6, bgStart6);
+      onlineInterISFDB(date6From.toString(), date6TO.toString(), ISF6, bgTarget6, bgStart6);
       try {
         db.transaction( (tx) => {
             tx.executeSql(
              'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct) VALUES (?,?,?,?,?,?)',
-               [uID, date6From, date6TO, ISF6, bgTarget6, bgStart6]
+               [uID, date6From.toString(), date6TO.toString(), ISF6, bgTarget6, bgStart6]
            );
           
           
@@ -438,152 +426,162 @@ const check = () =>{
 } 
 //---------------------
 const onlineISFDB = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/ISF.php";   //API to  signup
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/ISF.php";   //API to  signup
 
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
-  
-  var Data ={
-    UserID: onlinUserID,
-    ISF: ISF
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
     
-  };
-
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-    method:'POST',
-    headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert('isf ' + response[0].Message);
-})
-.catch((error)=>{
-    alert("Error Occured" + error);
-})
+    var Data ={
+      UserID: onlinUserID,
+      ISF: ISF
+      
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  
 }
 //---------------------------
 const onlineTbgDB = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/targetBG_correct.php";   //API to  signup
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/targetBG_correct.php";   //API to  signup
 
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
-  
-  var Data ={
-    UserID: onlinUserID,
-    targetBG: targetBG
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
     
-  };
-
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-    method:'POST',
-    headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert('target ' + response[0].Message);
-})
-.catch((error)=>{
-    alert("Error Occured" + error);
-})
+    var Data ={
+      UserID: onlinUserID,
+      targetBG: targetBG
+      
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  
 }
 //---------------------------
 const onlineSbgDB = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/startBG_correct.php";   //API to  signup
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/startBG_correct.php";   //API to  signup
 
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
-  
-  var Data ={
-    UserID: onlinUserID,
-    startBG: startBG
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
     
-  };
-
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-    method:'POST',
-    headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert('start ' + response[0].Message);
-})
-.catch((error)=>{
-    alert("Error Occured" + error);
-})
+    var Data ={
+      UserID: onlinUserID,
+      startBG: startBG
+      
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+ 
 }
 //---------------------------
 const onlineInterISFDB = (fromT, toT, isf, bgT, bgS) => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/ISFInterval.php";   //API to  signup
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/ISFInterval.php";   //API to  signup
 
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
-  
-  var Data ={
-    UserID: onlinUserID,
-    fromTime: fromT,
-    toTime: toT,
-    ISF: isf,
-    targetBG: bgT,
-    startBG: bgS
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
     
-  };
+    var Data ={
+      UserID: onlinUserID,
+      fromTime: fromT,
+      toTime: toT,
+      ISF: isf,
+      targetBG: bgT,
+      startBG: bgS
+      
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
 
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-    method:'POST',
-    headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert('intervalss ' + response[0].Message);
-})
-.catch((error)=>{
-    alert("Error Occured" + error);
-})
 }
 //---------------------------
 const onlineIntervalDB = () => {
-  var InsertAPIURL = "http://192.168.12.1/isugar/ISFIntervals.php";   //API to  signup
+  if (AccType == 'Patient Account'){
+    var InsertAPIURL = "https://isugarserver.com/ISFIntervals.php";   //API to  signup
 
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
-  
-  var Data ={
-    UserID: onlinUserID,
-    ISFInter: isfInterval
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
     
-  };
-
-// FETCH func ------------------------------------
-fetch(InsertAPIURL,{
-    method:'POST',
-    headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
-})
-.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert('interval ' + response[0].Message);
-})
-.catch((error)=>{
-    alert("Error Occured" + error);
-})
+    var Data ={
+      UserID: onlinUserID,
+      ISFInter: isfInterval
+      
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  
 }
 //---------------------------
 
@@ -602,7 +600,7 @@ fetch(InsertAPIURL,{
       </LinearGradient>
 
       <View style={styles.footer}>
-        {'Patient Account' == 'Patient Account' ? <Text style={styles.title}>Step 6 of 7: Insulin Sensitivity Factor {'\n'}</Text>
+        {AccType == 'Patient Account' ? <Text style={styles.title}>Step 6 of 7: Insulin Sensitivity Factor {'\n'}</Text>
         : <Text style={styles.title}>Step 5 of 6: Insulin Sensitivity Factor {'\n'}</Text> }
       
          
@@ -627,6 +625,7 @@ fetch(InsertAPIURL,{
  <Text style={styles.text_footer}>Insulin Sensitivity 
  Factor{'\n'}(ISF):</Text>
  <TextInput
+   style={{color:'black'}}
              keyboardType="decimal-pad"
              placeholder="000"
              onChangeText={(val)=>setISFM(val)}
@@ -641,6 +640,7 @@ fetch(InsertAPIURL,{
 <Text style={styles.text_footer}>Target glucose level{'\n'}
 for correction:</Text>
 <TextInput
+  style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000"
             onChangeText={(val)=>setTargetBG(val)}
@@ -653,6 +653,7 @@ for correction:</Text>
 <Text style={styles.text_footer}>Glucose level to{'\n'}
 start correction:</Text>
 <TextInput
+  style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000"
             onChangeText={(val)=>setStartBG(val)}
@@ -711,6 +712,7 @@ start correction:</Text>
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:{'\n'}</Text>
                    <TextInput
+                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF1(val)}
@@ -720,6 +722,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget1(val)}
@@ -729,6 +732,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart1(val)}
@@ -783,6 +787,7 @@ start correction:</Text>
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
                    <TextInput
+                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF2(val)}
@@ -793,6 +798,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget2(val)}
@@ -802,6 +808,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart2(val)}
@@ -853,6 +860,7 @@ start correction:</Text>
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
                    <TextInput
+                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF3(val)}
@@ -863,6 +871,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget3(val)}
@@ -872,6 +881,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart3(val)}
@@ -924,6 +934,7 @@ start correction:</Text>
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
                    <TextInput
+                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF4(val)}
@@ -934,6 +945,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget4(val)}
@@ -943,6 +955,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart4(val)}
@@ -994,6 +1007,7 @@ start correction:</Text>
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
                    <TextInput
+                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF5(val)}
@@ -1004,6 +1018,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget5(val)}
@@ -1013,6 +1028,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart5(val)}
@@ -1064,6 +1080,7 @@ start correction:</Text>
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
                    <TextInput
+                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF6(val)}
@@ -1074,6 +1091,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget6(val)}
@@ -1083,6 +1101,7 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
                     <TextInput
+                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart6(val)}
