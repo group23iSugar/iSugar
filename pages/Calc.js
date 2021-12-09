@@ -16,10 +16,17 @@ import {
   Alert,
   Dimensions,
 } from 'react-native';
+import ModalDropdown from 'react-native-modal-dropdown';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import RNSearchablePicker from 'react-native-searchable-picker';
+import react from 'react';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+<<<<<<< HEAD
 import timeCompare from './timeCompare';
 import Entypo from 'react-native-vector-icons/Entypo';
 
@@ -27,6 +34,15 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 const Calc = ({navigation, route}) => {
   //const grams = route.params;
+=======
+import SQLite from 'react-native-sqlite-storage';
+import timeCompare from './timeCompare';
+
+//=========================Local DB===============================
+//=========================Local DB===============================
+
+const Calc = () => {
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
   const neeDed = () => {
     if(isIsfInterval == 1){
     checkISFIntervals(); //Retrives from DB
@@ -43,8 +59,13 @@ const Calc = ({navigation, route}) => {
     // }
 
     console.log(prevArr);
+<<<<<<< HEAD
     var a=0;
     var b=0;
+=======
+    var a;
+    var b;
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
     var c = 0;
     var IOB = 0;
     var adjustment;
@@ -113,8 +134,11 @@ const Calc = ({navigation, route}) => {
             console.log('is ICR?');
             checkICRIntervals();
             a = CHO / ICR;
+<<<<<<< HEAD
             console.log('a: '+a+ ' / cho: '+CHO);
             console.log('ReData1.startBG: '+ReData1.startBG);
+=======
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
             if (bgLevel > ReData1.startBG) {
               b = (bgLevel - ReData1.targetBG) / ReData1.ISF;
             } else {
@@ -194,8 +218,12 @@ const Calc = ({navigation, route}) => {
 
 
     if (halfOrFull==1){
+<<<<<<< HEAD
 	//c = Math.round(c);
 }
+=======
+	c = Math.round(c);}
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 else{//half-units
 	var r1 = Math.round((c * 10) / 10); // rounds to 1 decimal after point
 	var r1_whole = Math.trunc(r1); // the whole part of the number
@@ -212,6 +240,33 @@ else{//half-units
     setTotal(c);
     // navigation.navigate('result',{result: total, calcM: calcMethod, reasonD: reason, bg: bgLevel, cho: CHO})
     console.log(c + ' and:3  ' + total);
+<<<<<<< HEAD
+=======
+	  
+ //======================Save into DB========================
+
+    var currentTime2 = new Date();
+    var currentTimeHours1 = currentTime2.getHours(); //0-23
+    var currentTimeMin1 = currentTime2.getMinutes(); //0-59
+    var currentTimeDate_day1 = currentTime2.getDate(); //1-31
+    var currentTimeDate_month1 = currentTime2.getMonth(); //0-11
+    var currentTimeDate_year1 = currentTime2.getFullYear(); //2021
+
+      try {
+          db.transaction( (tx) => {
+              tx.executeSql(
+               'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Day, Dose_Date_Month, Dose_Date_Year) VALUES (?,?,?,?,?,?,?,?,?,?)',
+                 [uID, bgLevel, reason, CHO, total, currentTimeHours1, currentTimeMin1, currentTimeDate_day1, currentTimeDate_month1, currentTimeDate_year1]
+             );
+            
+         })
+         
+     } catch (error) {
+         console.log(error);
+     }
+
+    //==============================================
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
   };
 
   const IOBSwitch = (timePrevDose, PrevDose) => {
@@ -232,10 +287,17 @@ else{//half-units
     }
 
     console.log('num to IOB');
+<<<<<<< HEAD
 
     return num;
   };
 
+=======
+
+    return num;
+  };
+
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
   const PreExercise = () => {
     var adjNum = 1;
     var p = parseInt(preDuration);
@@ -443,6 +505,7 @@ else{//half-units
                     setTBGP(target);
                     var start = rows.item(i).startBG_correct;
                     setSBGP(start);
+<<<<<<< HEAD
 
                     setReData1({
                       startBG: start,
@@ -524,6 +587,89 @@ else{//half-units
                           console.log(tempArr[i].Rnages[j]);
                         }
 
+=======
+
+                    setReData1({
+                      startBG: start,
+                      targetBG: target,
+                      ISF: ISF_,
+                    });
+                  }
+                }
+              },
+            );
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+  };
+  //=========================ICR intervals
+  const secondretrieve = method => {
+    //calcM??
+    console.log('inside is: ' + method);
+    if (method == 'ICR') {
+      var tempArr = [...ICRarr]; // array of obj
+      try {
+        db.transaction(tx => {
+          tx.executeSql(
+            'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
+            [uID],
+            (tx, results) => {
+              var rows = results.rows;
+              for (let i = 0; i < rows.length; i++) {
+                console.log('hello?1?************8');
+                tempArr.push({
+                  id: rows.item(i).icrID,
+                  from: rows.item(i).fromTime,
+                  to: rows.item(i).toTime,
+                  icr: rows.item(i).ICR,
+                });
+              }
+              setICRarr([...tempArr]);
+              console.log(tempArr + 'This is icr arr');
+            },
+          );
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (method == 'Sliding Scale') {
+      console.log('hello Sliding');
+      var tempArr = [...SlidingScaleArr];
+      try {
+        db.transaction(tx => {
+          tx.executeSql(
+            'SELECT ssID, fromTime, toTime FROM ssInterval WHERE UserID=?',
+            [uID],
+            (tx, results) => {
+              var rows = results.rows;
+              for (let i = 0; i < rows.length; i++) {
+                tempArr.push({
+                  id: rows.item(i).ssID,
+                  from: rows.item(i).fromTime,
+                  to: rows.item(i).toTime,
+                  Rnages: [],
+                });
+                try {
+                  db.transaction(tx => {
+                    tx.executeSql(
+                      'SELECT bgID, fromBGLevel, toBGLevel, insulinDose FROM bgleveltoinsulin WHERE ssID=?',
+                      [tempArr[i].id],
+                      (tx, results) => {
+                        var rows2 = results.rows;
+                        for (let j = 0; j < rows2.length; j++) {
+                          tempArr[i].Rnages.push({
+                            id: rows2.item(j).bgID,
+                            BGFrom: rows2.item(j).fromBGLevel,
+                            BGTo: rows2.item(j).toBGLevel,
+                            insulin: rows2.item(j).insulinDose,
+                          });
+                          console.log(tempArr[i].Rnages[j]);
+                        }
+
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                         setSlidingScaleArr([...tempArr]);
                       },
                     );
@@ -751,6 +897,7 @@ else{//half-units
       }
     }
   };
+<<<<<<< HEAD
 
   //Choose SS based on current time
   const checkSSIntervals = () => {
@@ -773,6 +920,30 @@ else{//half-units
         console.log('found interval at: ' + index);
         console.log(SlidingScale);
 
+=======
+
+  //Choose SS based on current time
+  const checkSSIntervals = () => {
+    var index = -1;
+    for (let i = 0; i < SlidingScaleArr.length; i++) {
+      // icr: icr.length - ss: SlidingScale.length
+      console.log('i got called SS');
+      if (timeCompare(SlidingScaleArr[i].from, SlidingScaleArr[i].to)) {
+        // icr: (icr[i].from,icr[i].to) -  ss: (SlidingScale[i].from, SlidingScale[i].to )
+        for (let j = 0; j < SlidingScaleArr[i].Rnages.length; j++) {
+          if (
+            SlidingScaleArr[i].Rnages[j].BGFrom <= bgLevel &&
+            SlidingScaleArr[i].Rnages[j].BGTo >= bgLevel
+          ) {
+            setSlidingScale(SlidingScaleArr[i].Rnages[j].insulin);
+          }
+        }
+        console.log('index: ' + i);
+        index = i;
+        console.log('found interval at: ' + index);
+        console.log(SlidingScale);
+
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
         // setICR(ICRarr[index].icr);
 
         // console.log(ICR + '  Did u work?');
@@ -828,11 +999,16 @@ else{//half-units
 
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
+<<<<<<< HEAD
       <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
         <Image source={require('../images/logo.png')} style={styles.pic} />
         <TouchableOpacity onPress={()=>navigation.openDrawer()}>
          <Entypo name="menu" color="#05375a" size={35} />
          </TouchableOpacity>
+=======
+      <View style={{top: 10, alignItems: 'center'}}>
+        <Image source={require('./images/logo.png')} style={styles.pic} />
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -853,7 +1029,10 @@ else{//half-units
            style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000.00"
+<<<<<<< HEAD
             placeholderTextColor={'grey'}
+=======
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
             onChangeText={value => setbgLevel(value)}
             style={styles.inputT}
           />
@@ -1406,4 +1585,8 @@ const styles = StyleSheet.create({
   }
 });
 
+<<<<<<< HEAD
 export default Calc;
+=======
+export default Calc;
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6

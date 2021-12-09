@@ -36,6 +36,7 @@ var calcMethod = [
             caluMethod: value,
           });
       };
+<<<<<<< HEAD
 
 //====================SS===================
 const [outerCount, setOuterCount] = useState(0);
@@ -90,6 +91,59 @@ ICR[icrCount+1].flagC = true;
 
    }
    
+=======
+
+//====================SS===================
+const [outerCount, setOuterCount] = useState(0);
+const [innerCount, setInnerCount] = useState(0);
+const [innerCount1, setInnerCount1] = useState(0);
+  const [SlidingScale, setSlidingScale] = useState([{ id: 0, FromTime: new Date(), toTime: new Date(), flag: true, Rnages: [{id: 0, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+  }, { id: 1, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 6, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+  }, { id: 2, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 12, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+  }, { id: 3, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 18, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+  }, { id: 4, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 24, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+  }]); // this is how it should be initialized in order to display it in flat list
+  const [showFrom, setShowFrom] = useState(false);
+  const [showTo, setShowTo] = useState(false);
+  const [flag1, setfalg1] = useState(false);
+  const [flag2, setfalg2] = useState(false);
+  const [mode, setMode] = useState('date');
+  const [selectedID, setID] = useState(-1);
+  const [innerIndex, setIndex] = useState(-1);
+//================================================
+//===================ICR==========================
+const [ICR, setICR]= useState([{id: 0, from: new Date(), to: new Date(), icr: -1, flagC: true}]);
+const [icrCount, setIcrCount] = useState(0);
+
+const addICR = ()=> {
+setIcrCount(icrCount+1);
+var obj = {id: icrCount+1, from: new Date(), to: new Date(), icr: -1, flagC: false};
+ICR.push(obj);
+ICR[icrCount+1].flagC = true;
+}
+
+ const validation = () => {
+    // i think i should use onTextEdit or sum 
+ }
+ const handleOuterAdd = () => {
+      SlidingScale[outerCount+1].flag = true;
+      setOuterCount(outerCount+1);      
+ }
+
+ const handleInnerAdd = (i) => { 
+    console.log('Hello i am inner index: '+innerIndex);
+    setInnerCount(innerCount+1);
+    var obj = {id: innerCount+1, BGFrom:-1, BGTo:-1, insulin:-1, flagI: false};
+    SlidingScale[i].Rnages.push(obj);
+   if (innerCount1 < 5){
+    setInnerCount1(innerCount1+1);
+    SlidingScale[i].Rnages[innerIndex+1].flagI=true;
+   }else if (innerCount1 >= 5){
+    setInnerCount1(0);
+    SlidingScale[i].Rnages[0].flagI=true;
+   }
+
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
       
 }
 const changeICR = (val, index) =>{
@@ -115,7 +169,11 @@ setIndex(index);
                 SlidingScale[i].Rnages= [...tempArr]
                   return;
               } else if (type == 'i'){
+<<<<<<< HEAD
                  tempArr[j].insulin = val;
+=======
+                tempArr[j].insulin = val;
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                 SlidingScale[i].Rnages= [...tempArr]
                   return;
               }  
@@ -140,6 +198,7 @@ setIndex(index);
        }
      
   
+<<<<<<< HEAD
 };
 //============from icr==============
 const onChangeFromC = (event, selectedDate) => { 
@@ -178,6 +237,46 @@ const onChangeTo = (event, selectedDate) => {
        }
    }
 };
+=======
+};
+//============from icr==============
+const onChangeFromC = (event, selectedDate) => { 
+  setShowFrom(Platform.OS === 'ios');
+  if (flag1==false){
+    return;
+   }
+  const currentDate = selectedDate || ICR[icrCount].from;
+  const newArr = [...ICR];
+  
+  if (ICR[icrCount].id == selectedID && flag1==true){
+        setfalg1(false);
+        newArr[icrCount].from = currentDate;
+        setICR([...newArr]);
+        return;
+       }
+     
+  
+};
+//=======To time==========
+const onChangeTo = (event, selectedDate) => { 
+  setShowTo(Platform.OS === 'ios');
+  if (flag2==false){
+    return;
+   }
+  const currentDate = selectedDate || SlidingScale[outerCount].toTime;
+  const newArr = [...SlidingScale];
+   for (let i = 0; i< SlidingScale.length; i++){
+       if (SlidingScale[i].id == selectedID){
+         setfalg2(false);
+         console.log('selecte posT : '+i);
+           console.log('in if To: '+ selectedID);
+           newArr[i].toTime = currentDate;
+           setSlidingScale([...newArr]);
+           return;
+       }
+   }
+};
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 //==========icr to============
 const onChangeToC = (event, selectedDate) => { 
 setShowTo(Platform.OS === 'ios');
@@ -225,18 +324,27 @@ showTimepickerT();
 setID(id);
 }
 const localSSDB = async (callback) => {
+<<<<<<< HEAD
   insert();
   calcMOnline();
 for (let i =0; i< SlidingScale.length; i++){ // i.e. 5
   if (SlidingScale[i].flag){
     ssOnlineDB(i);
+=======
+for (let i =0; i< SlidingScale.length; i++){ // i.e. 5
+  if (SlidingScale[i].flag){
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
     try { 
       console.log('in if 1');
       db.transaction( (tx) => { 
           tx.executeSql(
            'INSERT INTO ssInterval (UserID, fromTime, toTime)' 
            +'VALUES (?,?,?)',
+<<<<<<< HEAD
              [uID, SlidingScale[i].FromTime, SlidingScale[i].toTime]
+=======
+             [234, SlidingScale[i].FromTime, SlidingScale[i].toTime]
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
          );
          callback(SlidingScale[i].FromTime, SlidingScale[i].toTime, i);
      })
@@ -247,8 +355,13 @@ for (let i =0; i< SlidingScale.length; i++){ // i.e. 5
  }
  
   }
+<<<<<<< HEAD
 }
 }
+=======
+}
+}
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 const getLocalssID = (from , to, index) => {
 var ssID = 0
 try {
@@ -263,7 +376,11 @@ try {
                   var ID = rows.item(i).UserID;
                   var f = rows.item(i).fromTime;
                   var t = rows.item(i).toTime;
+<<<<<<< HEAD
                   if (uID == ID && from.toString() == f.toString() && to.toString() == t.toString()){
+=======
+                  if (234 == ID && from.toString() == f.toString() && to.toString() == t.toString()){
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                     console.log('Horaaaayy '+ssID);
                     BGToLocal(ssID, index); 
                     return ssID;
@@ -290,7 +407,11 @@ for (let j=0; j<SlidingScale[i].Rnages.length; j++){
            +'VALUES (?,?,?,?)',
              [ssID, SlidingScale[i].Rnages[j].BGFrom, SlidingScale[i].Rnages[j].BGTo, SlidingScale[i].Rnages[j].insulin]
          );
+<<<<<<< HEAD
          bgtoIOnlineDb(i, j);
+=======
+         ssOnlineDB(i, j);
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
      })
      console.log(SlidingScale[i].Rnages[j].BGFrom+' / '+SlidingScale[i].Rnages[j].BGTo+' / '+ SlidingScale[i].Rnages[j].insulin);
     } catch (error) {
@@ -299,6 +420,7 @@ for (let j=0; j<SlidingScale[i].Rnages.length; j++){
   }
 }
 }
+<<<<<<< HEAD
 const bgtoIOnlineDb = (i, j) => {
   if (AccType == 'Patient Account'){
     //insulinCalcMethod
@@ -396,6 +518,41 @@ const ssOnlineDB = (i) =>{
 const localICR = () => {
   insert();
   calcMOnline();
+=======
+const ssOnlineDB = (i, j) =>{
+var InsertAPIURL = "http://192.168.12.1/isugar/SlideScaleInterval.php";  
+
+var headers = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json'
+};
+
+var Data ={
+  UserID: 116,
+  fromTime: SlidingScale[i].FromTime,
+  toTime: SlidingScale[i].toTime,
+  fromBGLevel: SlidingScale[i].Rnages[j].BGFrom,
+  toBGLevel: SlidingScale[i].Rnages[j].BGTo,
+  insulinDose: SlidingScale[i].Rnages[j].insulin
+};
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+  method:'POST',
+  headers:headers,
+  body: JSON.stringify(Data) //convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+alert('ss ' + response[0].Message2);
+})
+.catch((error)=>{
+  alert("Error Occured" + error);
+})
+}
+//=========icr local============
+const localICR = () => {
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 for (let i=0; i<ICR.length; i++){
   if (ICR[i].flagC){
     try {
@@ -403,13 +560,18 @@ for (let i=0; i<ICR.length; i++){
           tx.executeSql(
            'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
            +'VALUES (?,?,?,?)',
+<<<<<<< HEAD
              [uID, ICR[i].from, ICR[i].to, ICR[i].icr ]
+=======
+             [235, ICR[i].from, ICR[i].to, ICR[i].icr ]
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
          );
      })
      
     } catch (error) {
      console.log(error);
     }
+<<<<<<< HEAD
     if (AccType == 'Patient Account'){
       var InsertAPIURL = "https://isugarserver.com/ICRInterval.php";
     
@@ -478,6 +640,40 @@ try {
 }
 }
 navigation.navigate('home');
+=======
+    var InsertAPIURL = "http://192.168.12.1/isugar/ICRInterval.php";
+    
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    
+    var Data ={
+      UserID: 116,
+      fromTime: ICR[i].from,
+      toTime:  ICR[i].to,
+      ICR: ICR[i].icr
+      
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
+      method:'POST',
+      headers:headers,
+      body: JSON.stringify(Data) //convert data to JSON
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+    
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+  }
+  
+}
+
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 }
 
     return (
@@ -492,9 +688,14 @@ navigation.navigate('home');
       </LinearGradient>
 
       <View style={styles.footer}>
+<<<<<<< HEAD
       {AccType == 'Patient Account' ? <Text style={{fontSize: 20, fontWeight: 'bold', color: '#05375a', marginBottom: 0}}>Step 7 of 7: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>
         : <Text style={{fontSize: 20, fontWeight: 'bold', color: '#05375a', marginBottom: 0}}>Step 6 of 6: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>}
         <ScrollView>
+=======
+      {AccType == 'Patient Account' ? <Text style={styles.title}>Step 7 of 7: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>
+        : <Text style={styles.title}>Step 6 of 6: Insulin to Carbohydrate Ratio (ICR)  {'\n'}</Text>}
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
       <Text style={{fontSize: 20, color: '#05375a',}}>Choose your method for caculating meal insulin:{'\n'}--------------------------------</Text>
 <View style={styles.radioB}>
         <RadioForm
@@ -513,8 +714,12 @@ navigation.navigate('home');
     
         </View>
       {data.caluMethod !='ICR' ? (<View style={{ alignItems: 'center'}}>
+<<<<<<< HEAD
         <FlatList 
         nestedScrollEnabled={true}
+=======
+        <FlatList
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
           data={SlidingScale.slice(0, outerCount+1)}
           keyExtractor={item => item.id}
           // extraData={selectedID}
@@ -527,7 +732,11 @@ navigation.navigate('home');
                  >
              <Text testID="dateTimePicker"
              style={{fontSize: 17, color: 'grey', alignItems: 'flex-start'}} >
+<<<<<<< HEAD
                              {moment(item.FromTime).format('h:mm a')}
+=======
+                             {moment.utc(item.FromTime).format('h:mm a')}
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                              </Text> 
           
                  </TouchableOpacity>
@@ -553,7 +762,11 @@ navigation.navigate('home');
                  >
              <Text testID="dateTimePicker" 
              style={{fontSize: 17, color: 'grey'}} >
+<<<<<<< HEAD
                              {moment(item.toTime).format('h:mm a')}
+=======
+                             {moment.utc(item.toTime).format('h:mm a')}
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                              </Text> 
                  </TouchableOpacity>
                    
@@ -570,8 +783,12 @@ navigation.navigate('home');
                       }}
                      />
                    )} 
+<<<<<<< HEAD
                 <FlatList 
                 nestedScrollEnabled={true}
+=======
+                <FlatList
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                 data={SlidingScale[index].Rnages}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item, index}) => (
@@ -580,7 +797,11 @@ navigation.navigate('home');
                     <View style={styles.innerView}>
                     <Text style={styles.innerTitle}>From</Text>
                     <TextInput
+<<<<<<< HEAD
                     style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color: 'grey'}}
+=======
+                    style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0}}
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                      keyboardType="decimal-pad"
                      placeholder="000 mg/dl"
                      onChangeText={(val)=>changeV(val, item.id, 'f', index)}
@@ -589,7 +810,11 @@ navigation.navigate('home');
                     <View style={styles.innerView}>
                     <Text style={styles.innerTitle}>To</Text>
                     <TextInput
+<<<<<<< HEAD
                     style={{borderColor: 'grey', borderBottomWidth: 1, paddingBottom: 0, paddingTop:0, color: 'grey'}}
+=======
+                    style={{borderColor: 'grey', borderBottomWidth: 1, paddingBottom: 0, paddingTop:0}}
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                      keyboardType="decimal-pad"
                      placeholder="000 mg/dl"
                      onChangeText={(val)=>changeV(val, item.id, 't', index)}
@@ -598,7 +823,11 @@ navigation.navigate('home');
                     <View style={styles.innerView}>
                     <Text style={styles.innerTitle}>Insulin</Text>
                     <TextInput
+<<<<<<< HEAD
                     style={{borderColor: 'grey', borderBottomWidth: 1, paddingBottom: 0, paddingTop:0, color: 'grey'}}
+=======
+                    style={{borderColor: 'grey', borderBottomWidth: 1, paddingBottom: 0, paddingTop:0}}
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                      keyboardType="decimal-pad"
                      placeholder="00"
                      onChangeText={(val)=>changeV(val, item.id, 'i', index)}
@@ -614,6 +843,7 @@ navigation.navigate('home');
           )}
         />
         <TouchableOpacity onPress={()=>handleOuterAdd()}><Text>Add Interval</Text></TouchableOpacity>
+<<<<<<< HEAD
         <View style={styles.buttonV}>
         <TouchableOpacity onPress={()=>localSSDB()}>
                 <LinearGradient
@@ -624,6 +854,9 @@ navigation.navigate('home');
                 </LinearGradient>
             </TouchableOpacity>
             </View>
+=======
+        <TouchableOpacity onPress={()=>localSSDB(getLocalssID)}><Text>Done</Text></TouchableOpacity>
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
         </View>)
         :  (<View style={{alignItems:'center'}}>
         <FlatList
@@ -638,7 +871,11 @@ navigation.navigate('home');
                >
            <Text testID="dateTimePicker"
            style={{fontSize: 17, color: 'grey', alignItems: 'flex-start'}} >
+<<<<<<< HEAD
                            {moment(item.from).format('h:mm a')}
+=======
+                           {moment.utc(item.from).format('h:mm a')}
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                            </Text> 
         
                </TouchableOpacity>
@@ -664,7 +901,11 @@ navigation.navigate('home');
                  >
              <Text testID="dateTimePicker" 
              style={{fontSize: 17, color: 'grey'}} >
+<<<<<<< HEAD
                              {moment(item.to).format('h:mm a')}
+=======
+                             {moment.utc(item.to).format('h:mm a')}
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                              </Text> 
                  </TouchableOpacity>
                    
@@ -685,7 +926,11 @@ navigation.navigate('home');
                     <View style={styles.innerView}>
                     <Text style={styles.innerTitle}>ICR: </Text>
                     <TextInput
+<<<<<<< HEAD
                     style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color: 'grey'}}
+=======
+                    style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0}}
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                      keyboardType="decimal-pad"
                      placeholder="000"
                      onChangeText={(val) => changeICR(val, index)}
@@ -697,18 +942,34 @@ navigation.navigate('home');
 
         />
         <TouchableOpacity onPress={()=>addICR()}><Text>Add Interval</Text></TouchableOpacity>
+<<<<<<< HEAD
         <View style={styles.buttonV}>
         <TouchableOpacity onPress={()=>localICR()}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
                     <Text style={{fontSize: 20, fontWeight: 'bold'}}>Done</Text>
+=======
+        <TouchableOpacity onPress={()=>localICR()}><Text>Done</Text></TouchableOpacity>
+      </View>)  }
+       
+          <View style={styles.buttonV}>
+        <TouchableOpacity onPress={()=>insert()}>
+                <LinearGradient
+                    colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
+                >
+                    <Text>Done</Text>
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                   
                 </LinearGradient>
             </TouchableOpacity>
             </View>
+<<<<<<< HEAD
       </View>)  }
        
+=======
+
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
          
 
             </ScrollView>
@@ -871,5 +1132,7 @@ innerView: {
     flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
 }
 });
+
+
 
 

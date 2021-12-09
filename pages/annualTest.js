@@ -192,7 +192,11 @@ const [Finding, setFinding] = useState('0');
 const onlineDB = () => {
   console.log('in DB1');
   // eslint-disable-next-line quotes
+<<<<<<< HEAD
   var InsertAPIURL = "https://isugarserver.com/AnnualTest.php";   //API to  signup
+=======
+  var InsertAPIURL = "http://192.168.56.1/isugar/AnnualTest.php";   //API to  signup
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 
   var headers = {
     'Accept': 'application/json',
@@ -255,10 +259,13 @@ const StoreInOnline = () => {
     Alert.alert('only accounts of type (patient account) can store their information');
   }
   };
+<<<<<<< HEAD
 
   const showAlert = () => {
     Alert.alert('Your data has been save successfully');
   }
+=======
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 
   return (
     <View style={styles.container}>
@@ -641,8 +648,13 @@ const StoreInOnline = () => {
             <LinearGradient
               colors={['#f5f5f5', '#e9ebee', '#e9ebee']}
               style={styles.buttonR}>
+<<<<<<< HEAD
               <Text style={styles.titleB} onPress={showAlert}>
                 Save 
+=======
+              <Text style={styles.titleB}>
+                Save
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
               </Text>
             </LinearGradient>
           </TouchableOpacity>

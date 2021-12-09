@@ -18,8 +18,12 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
 
+<<<<<<< HEAD
 
 const home = ({ navigation }) => {
+=======
+const Home = () => {
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
   return (
     
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
@@ -198,4 +202,8 @@ const styles = StyleSheet.create({
 },
 });
 
+<<<<<<< HEAD
 export default home;
+=======
+export default Home;
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6

@@ -3,7 +3,11 @@ import moment from 'moment';
      const timeCompare = function(from, to) { 
          var currentTimeInsideInterval = false;
         //====== parsing FROM ========//
+<<<<<<< HEAD
          from = moment(from).format('h:mm a'); // delete this line if your format is h:mm a-------------
+=======
+        // from = moment(from).format('h:mm a'); // delete this line if your format is h:mm a-------------
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
         console.log(from+' ......');
         var fullFrom = from.split(' ');
         var getFromTime = fullFrom[0].split(':');
@@ -13,11 +17,16 @@ import moment from 'moment';
         if (getFromHour < 12 && (FromPeriod == 'pm' || FromPeriod == 'PM' )){
             getFromHour = getFromHour+12;
         }
+<<<<<<< HEAD
         if (getFromHour == 12 && (FromPeriod == 'am' || FromPeriod == 'AM' )){
             getFromHour = getFromHour-12;
         }
         //====== parsing TO ========//
          to = moment(to).format('h:mm a');  // delete this line if your format is h:mm a--------------------
+=======
+        //====== parsing TO ========//
+        // to = moment(to).format('h:mm a');  // delete this line if your format is h:mm a--------------------
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
         console.log(to+' ......');
         var fullTo = to.split(' ');
         var getToTime = fullTo[0].split(':');
@@ -35,12 +44,18 @@ import moment from 'moment';
         var getCurrentHour = parseInt(getCurrentTime[0]);
         var getCurrentMinutes = parseInt(getCurrentTime[1]);
         var CurrentPeriod = fullCurrent[1];
+<<<<<<< HEAD
         if (getCurrentHour < 12 && (getCurrentHour == 'pm' || CurrentPeriod == 'PM' )){
             getCurrentHour = getCurrentHour+12;
         }
         if (getCurrentHour == 12 && (getCurrentHour == 'am' || getCurrentHour == 'AM' )){
             getCurrentHour = getCurrentHour-12;
         }
+=======
+        if (getCurrentHour < 12 && (CurrentPeriod == 'pm' || CurrentPeriod == 'PM' )){
+            getCurrentHour = getCurrentHour+12;
+        }
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
         // ====== comparing =======//
 
                           if (getFromHour < getToHour){
@@ -89,4 +104,8 @@ import moment from 'moment';
         // return flagMinutes&&flagHours;
     }
     
+<<<<<<< HEAD
 export default timeCompare;
+=======
+export default timeCompare;
+>>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
