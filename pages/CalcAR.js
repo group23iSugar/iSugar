@@ -14,7 +14,6 @@ import {
   ActivityIndicator,
   Switch,
   Alert,
-<<<<<<< HEAD
   Dimensions,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -23,21 +22,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import timeCompare from './timeCompare';
 import Entypo from 'react-native-vector-icons/Entypo';
-=======
-} from 'react-native';
-import ModalDropdown from 'react-native-modal-dropdown';
-import LinearGradient from 'react-native-linear-gradient';
-import {Picker} from '@react-native-picker/picker';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import RNSearchablePicker from 'react-native-searchable-picker';
-import react from 'react';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import moment from 'moment';
-import SQLite from 'react-native-sqlite-storage';
-import timeCompare from './timeCompare';
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 
 //=========================Local DB===============================
 //=========================Local DB===============================
@@ -866,7 +850,6 @@ else{//half-units
 
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
-<<<<<<< HEAD
        <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
         <Image source={require('../images/logo.png')} style={styles.pic} />
         <TouchableOpacity onPress={()=>navigation.openDrawer()}>
@@ -874,11 +857,6 @@ else{//half-units
          </TouchableOpacity>
       </View>
 
-=======
-      <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
-      </View>
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
       <ScrollView style={styles.contView}>
         <Text
           style={{
@@ -895,10 +873,7 @@ else{//half-units
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>:مستوى سكر الدم الحالي</Text>
           <TextInput
-<<<<<<< HEAD
           style={{color: 'black'}}
-=======
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
             keyboardType="decimal-pad"
             placeholder="000.00"
             onChangeText={value => setbgLevel(value)}
@@ -914,7 +889,6 @@ else{//half-units
           onValueChange={value => setReason(value)}
           mode="dropdown"
           style={styles.picker}>
-<<<<<<< HEAD
           <Picker.Item label="قبل الفطور" value="0" testID="0" color='black'></Picker.Item>
           <Picker.Item label="قبل الغداء" value="1" testID="0" color='black'></Picker.Item>
           <Picker.Item label="قبل العشاء" value="2" testID="0" color='black'></Picker.Item>
@@ -930,38 +904,17 @@ else{//half-units
             label="للتصحيح فقط (لا توجد وجبة)"
             value="5"
             testID="1" color='black'></Picker.Item>
-=======
-          <Picker.Item label="قبل الفطور" value="0" testID="0"></Picker.Item>
-          <Picker.Item label="قبل الغداء" value="1" testID="0"></Picker.Item>
-          <Picker.Item label="قبل العشاء" value="2" testID="0"></Picker.Item>
-          <Picker.Item
-            label="قبل الوجبة الخفيفة النهارية"
-            value="3"
-            testID="0"></Picker.Item>
-          <Picker.Item
-            label="قبل الوجبة الخفيفة الليلية"
-            value="4"
-            testID="0"></Picker.Item>
-          <Picker.Item
-            label="للتصحيح فقط (لا توجد وجبة)"
-            value="5"
-            testID="1"></Picker.Item>
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
         </Picker>
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>محتوى الوجبة من الكاربوهايدرات </Text>
           <TextInput
-<<<<<<< HEAD
             style={{color: 'black'}}
-=======
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
             keyboardType="decimal-pad"
             placeholder="000.00 جم"
             onChangeText={value => setCHO(value)}
             style={styles.inputT}></TextInput>
         </View>
 
-<<<<<<< HEAD
         <TouchableOpacity style={styles.button}
         onPress={() => navigation.navigate('carbAR')}
         >
@@ -972,16 +925,6 @@ else{//half-units
             source={require('../images/carb.png')}
             style={{height: 30, width: 30}}
           /> 
-=======
-        <TouchableOpacity style={styles.button}>
-          <Text style={{fontSize: 18, textAlign: 'center'}}>
-            احسب محتوى الكاربوهايدرات لوجبة
-          </Text>
-          {/<Image
-            source={require('../images/carb.png')}
-            style={{height: 30, width: 30}}
-          /> }
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
         </TouchableOpacity>
 
         <Text style={styles.inpTxt}>
@@ -1006,7 +949,6 @@ else{//half-units
                 mode="dropdown"
                 style={styles.picker}>
                 
-<<<<<<< HEAD
                            <Picker.Item label="الجري" value="1" testID="0" color='black'></Picker.Item>
             <Picker.Item label="السباحة" value="2" testID="0" color='black'></Picker.Item>
             <Picker.Item label="المشي" value="3" testID="0" color='black'></Picker.Item>
@@ -1067,68 +1009,6 @@ else{//half-units
             <Picker.Item
               label="رياضة/تمارين غير هوائية اخرى"
               value="42" testID="1" color='black'></Picker.Item>
-=======
-                           <Picker.Item label="الجري" value="1" testID="0"></Picker.Item>
-            <Picker.Item label="السباحة" value="2" testID="0"></Picker.Item>
-            <Picker.Item label="المشي" value="3" testID="0"></Picker.Item>
-            <Picker.Item label="ركوب الدراجة الثابتة (الدوران السريع)" value="4" testID="0"></Picker.Item>
-            <Picker.Item label="تسلق الجبال" value="5" testID="0"></Picker.Item>
-            <Picker.Item label="الرقص" value="6" testID="0"></Picker.Item>
-            <Picker.Item label="الكيك بوكسينغ" value="7" testID="0"></Picker.Item>
-            <Picker.Item label="التزلج على الثلج" value="8" testID="0"></Picker.Item>
-            <Picker.Item label="تمارين القفز" value="9" testID="0"></Picker.Item>
-            <Picker.Item label="التجديف" value="10" testID="0"></Picker.Item>
-            <Picker.Item label="الفنون القتالية" value="11" testID="0"></Picker.Item>
-            <Picker.Item label="رقص الزومبا" value="12" testID="0"></Picker.Item>
-            <Picker.Item label="كرة السلة" value="13" testID="0"></Picker.Item>
-            <Picker.Item label="القفز على النطيطة" value="14" testID="0"></Picker.Item>
-            <Picker.Item
-              label="تمارين التقوية الهوائية المتتابعة"
-              value="15" testID="0"></Picker.Item>
-            <Picker.Item label="ركوب الدراجة" value="16" testID="0"></Picker.Item>
-            <Picker.Item label="الهرولة" value="17" testID="0"></Picker.Item>
-            <Picker.Item label="تمارين الكارديو/ أجهزة تمارين الكارديو" value="18" testID="0"></Picker.Item>
-            <Picker.Item
-              label="دروس التمارين الهوائية – تمارين الأيروبك"
-              value="19" testID="0"></Picker.Item>
-            <Picker.Item
-              label="القفز بحبل القفز "
-              value="20" testID="0"></Picker.Item>
-            <Picker.Item label="صعود الدرج (جهاز الدرج)" value="21" testID="0"></Picker.Item>
-            <Picker.Item
-              label="جهاز الاليبتكال"
-              value="22" testID="0"></Picker.Item>
-            <Picker.Item label="تمارين البليوميتركس" value="23" testID="0"></Picker.Item>
-            <Picker.Item label="Elliptical" value="24" testID="0"></Picker.Item>
-            <Picker.Item label="التزلج " value="25" testID="0"></Picker.Item>
-            <Picker.Item label="كرة المضرب" value="26" testID="0"></Picker.Item>
-            <Picker.Item label="كرة القدم" value="27" testID="0"></Picker.Item>
-            <Picker.Item label="الملاكمة" value="28" testID="0"></Picker.Item>
-            <Picker.Item label="اللعب بحلقة الهولا هوب" value="29" testID="0"></Picker.Item>
-            <Picker.Item
-              label="رياضة/تمارين هوائية أخرى"
-              value="30" testID="0"></Picker.Item>
-            <Picker.Item
-              label="HIIT (تمارين القوة العالية المتقطعة)"
-              value="31" testID="1"></Picker.Item>
-            <Picker.Item label="البيلاتس " value="32" testID="1"></Picker.Item>
-            <Picker.Item
-              label="تمارين التقوية اللاهوائية المتتابعة"
-              value="33" testID="1"></Picker.Item>
-            <Picker.Item label="الجري المتسارع" value="34" testID="1"></Picker.Item>
-            <Picker.Item label="تمارين المقاومة" value="35" testID="1"></Picker.Item>
-            <Picker.Item
-              label="التمارين المعتمدة على وزن الجسم (مثل تمارين الضغط، الرفع، القرفصاء)"
-              value="36" testID="1"></Picker.Item>
-            <Picker.Item label="رفع الأثقال" value="37" testID="1"></Picker.Item>
-            <Picker.Item label="اليوجا " value="38" testID="1"></Picker.Item>
-            <Picker.Item label="تمارين الكروس فيت" value="39" testID="1"></Picker.Item>
-            <Picker.Item label="تمارين الأيزوميتركس" value="40" testID="1"></Picker.Item>
-            <Picker.Item label="الجمباز" value="41" testID="1"></Picker.Item>
-            <Picker.Item
-              label="رياضة/تمارين غير هوائية اخرى"
-              value="42" testID="1"></Picker.Item>
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
          
               </Picker>
 
@@ -1138,19 +1018,11 @@ else{//half-units
                 onValueChange={value => setPreDuration(value)}
                 mode="dropdown"
                 style={styles.picker}>
-<<<<<<< HEAD
                <Picker.Item label="اقل من 15 دقيقة" value="14" color='black'></Picker.Item>
             <Picker.Item label="من 15 الى 29 دقيقة" value="16" color='black'></Picker.Item>
             <Picker.Item label="من 30 الى 45 دقيقة" value="31" color='black'></Picker.Item>
             <Picker.Item label="اكثر من 45 دقيقة" value="46" color='black'></Picker.Item>
             <Picker.Item label="غير معلوم" value="Unknown" color='black'></Picker.Item>
-=======
-               <Picker.Item label="اقل من 15 دقيقة" value="14"></Picker.Item>
-            <Picker.Item label="من 15 الى 29 دقيقة" value="16"></Picker.Item>
-            <Picker.Item label="من 30 الى 45 دقيقة" value="31"></Picker.Item>
-            <Picker.Item label="اكثر من 45 دقيقة" value="46"></Picker.Item>
-            <Picker.Item label="غير معلوم" value="Unknown"></Picker.Item>
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
               </Picker>
             </View>
           </View>
@@ -1175,7 +1047,6 @@ else{//half-units
               onValueChange={value => setPostTypeOfExercise(value)}
               mode="dropdown"
               style={styles.picker}>
-<<<<<<< HEAD
                 <Picker.Item label="الجري" value="1" testID="0" color='black'></Picker.Item>
             <Picker.Item label="السباحة" value="2" testID="0" color='black'></Picker.Item>
             <Picker.Item label="المشي" value="3" testID="0" color='black'></Picker.Item>
@@ -1239,71 +1110,6 @@ else{//half-units
             </Picker>
 
             <Text style={styles.inpTxt}>مدة التمرين </Text>
-=======
-                <Picker.Item label="الجري" value="1" testID="0"></Picker.Item>
-            <Picker.Item label="السباحة" value="2" testID="0"></Picker.Item>
-            <Picker.Item label="المشي" value="3" testID="0"></Picker.Item>
-            <Picker.Item label="ركوب الدراجة الثابتة (الدوران السريع)" value="4" testID="0"></Picker.Item>
-            <Picker.Item label="تسلق الجبال" value="5" testID="0"></Picker.Item>
-            <Picker.Item label="الرقص" value="6" testID="0"></Picker.Item>
-            <Picker.Item label="الكيك بوكسينغ" value="7" testID="0"></Picker.Item>
-            <Picker.Item label="التزلج على الثلج" value="8" testID="0"></Picker.Item>
-            <Picker.Item label="تمارين القفز" value="9" testID="0"></Picker.Item>
-            <Picker.Item label="التجديف" value="10" testID="0"></Picker.Item>
-            <Picker.Item label="الفنون القتالية" value="11" testID="0"></Picker.Item>
-            <Picker.Item label="رقص الزومبا" value="12" testID="0"></Picker.Item>
-            <Picker.Item label="كرة السلة" value="13" testID="0"></Picker.Item>
-            <Picker.Item label="القفز على النطيطة" value="14" testID="0"></Picker.Item>
-            <Picker.Item
-              label="تمارين التقوية الهوائية المتتابعة"
-              value="15" testID="0"></Picker.Item>
-            <Picker.Item label="ركوب الدراجة" value="16" testID="0"></Picker.Item>
-            <Picker.Item label="الهرولة" value="17" testID="0"></Picker.Item>
-            <Picker.Item label="تمارين الكارديو/ أجهزة تمارين الكارديو" value="18" testID="0"></Picker.Item>
-            <Picker.Item
-              label="دروس التمارين الهوائية – تمارين الأيروبك"
-              value="19" testID="0"></Picker.Item>
-            <Picker.Item
-              label="القفز بحبل القفز "
-              value="20" testID="0"></Picker.Item>
-            <Picker.Item label="صعود الدرج (جهاز الدرج)" value="21" testID="0"></Picker.Item>
-            <Picker.Item
-              label="جهاز الاليبتكال"
-              value="22" testID="0"></Picker.Item>
-            <Picker.Item label="تمارين البليوميتركس" value="23" testID="0"></Picker.Item>
-            <Picker.Item label="Elliptical" value="24" testID="0"></Picker.Item>
-            <Picker.Item label="التزلج " value="25" testID="0"></Picker.Item>
-            <Picker.Item label="كرة المضرب" value="26" testID="0"></Picker.Item>
-            <Picker.Item label="كرة القدم" value="27" testID="0"></Picker.Item>
-            <Picker.Item label="الملاكمة" value="28" testID="0"></Picker.Item>
-            <Picker.Item label="اللعب بحلقة الهولا هوب" value="29" testID="0"></Picker.Item>
-            <Picker.Item
-              label="رياضة/تمارين هوائية أخرى"
-              value="30" testID="0"></Picker.Item>
-            <Picker.Item
-              label="HIIT (تمارين القوة العالية المتقطعة)"
-              value="31" testID="1"></Picker.Item>
-            <Picker.Item label="البيلاتس " value="32" testID="1"></Picker.Item>
-            <Picker.Item
-              label="تمارين التقوية اللاهوائية المتتابعة"
-              value="33" testID="1"></Picker.Item>
-            <Picker.Item label="الجري المتسارع" value="34" testID="1"></Picker.Item>
-            <Picker.Item label="تمارين المقاومة" value="35" testID="1"></Picker.Item>
-            <Picker.Item
-              label="التمارين المعتمدة على وزن الجسم (مثل تمارين الضغط، الرفع، القرفصاء)"
-              value="36" testID="1"></Picker.Item>
-            <Picker.Item label="رفع الأثقال" value="37" testID="1"></Picker.Item>
-            <Picker.Item label="اليوجا " value="38" testID="1"></Picker.Item>
-            <Picker.Item label="تمارين الكروس فيت" value="39" testID="1"></Picker.Item>
-            <Picker.Item label="تمارين الأيزوميتركس" value="40" testID="1"></Picker.Item>
-            <Picker.Item label="الجمباز" value="41" testID="1"></Picker.Item>
-            <Picker.Item
-              label="رياضة/تمارين غير هوائية اخرى"
-              value="42" testID="1"></Picker.Item>
-            </Picker>
-
-            <Text style={styles.inpTxt}>Duration of exercise: </Text>
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
             <Picker
               selectedValue={postDuration}
               onValueChange={value => setPostDuration(value)}
@@ -1311,19 +1117,11 @@ else{//half-units
               style={styles.picker}>
               <Picker.Item
                 label="اقل من 30 دقيقه"
-<<<<<<< HEAD
                 value="14" color='black'></Picker.Item>
               <Picker.Item label="من 30 الى 45 دقيقه" value="31" color='black'></Picker.Item>
               <Picker.Item
                 label="اكثر من 45 دقيقه"
                 value="46" color='black'></Picker.Item>
-=======
-                value="14"></Picker.Item>
-              <Picker.Item label="من 30 الى 45 دقيقه" value="31"></Picker.Item>
-              <Picker.Item
-                label="اكثر من 45 دقيقه"
-                value="46"></Picker.Item>
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
             </Picker>
 
             <Text style={styles.inpTxt}>:وقت التمرين </Text>
@@ -1367,11 +1165,8 @@ else{//half-units
     </LinearGradient>
   );
 };
-<<<<<<< HEAD
 const {height} = Dimensions.get("screen");
 const height_logo = height * 0.15;
-=======
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 
 const styles = StyleSheet.create({
   container: {
@@ -1385,16 +1180,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   pic: {
-<<<<<<< HEAD
     width: height_logo,
     height: height_logo,
     marginRight: 10,
 },
-=======
-    width: 70,
-    height: 90,
-  },
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
   inputT: {
     //inputs field
 
@@ -1436,10 +1225,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 15,
     fontSize: 18,
-<<<<<<< HEAD
     color: 'grey'
-=======
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
   },
 
   vNext: {
@@ -1492,8 +1278,4 @@ const styles = StyleSheet.create({
   },
 });
 
-<<<<<<< HEAD
 export default CalcAR;
-=======
-export default CalcAR;
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6

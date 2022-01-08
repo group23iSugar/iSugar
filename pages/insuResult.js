@@ -14,17 +14,7 @@ import {
   ActivityIndicator,
   Switch,
 } from 'react-native';
-<<<<<<< HEAD
 import LinearGradient from 'react-native-linear-gradient';
-=======
-import ModalDropdown from 'react-native-modal-dropdown';
-import LinearGradient from 'react-native-linear-gradient';
-import {Picker} from '@react-native-picker/picker';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import moment from 'moment';
-
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 const insuResult = ({navigation, route}) => {
   
   
@@ -35,13 +25,8 @@ const insuResult = ({navigation, route}) => {
   var cho = route.params.cho;
   
   const [dose, setDose]=useState(0);
-<<<<<<< HEAD
   var cDate =  new Date();
   
-=======
-  var cDate =  var tO = new Date(t);
-  setDose(total);
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 
   const insertE = ()=>{
     try {
@@ -63,11 +48,7 @@ const insuResult = ({navigation, route}) => {
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-<<<<<<< HEAD
         <Image source={require('../images/logo.png')} style={styles.pic} />
-=======
-        <Image source={require('./images/logo.png')} style={styles.pic} />
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -132,11 +113,7 @@ const insuResult = ({navigation, route}) => {
 
       
         <View style={styles.vNext}>
-<<<<<<< HEAD
                   {/* <Image source={require('./images/info.png')} style={{height:45 , width:45}} /> */}
-=======
-                  <Image source={require('./images/info.png')} style={{height:45 , width:45}} />
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
                    <TouchableOpacity
                    onPress={()=>navigation.navigate('how',{ calcM: calcM, reasonD: reason, bg: bg, cho: cho})}
                    >
@@ -262,8 +239,4 @@ const styles = StyleSheet.create({
   },
 });
 
-<<<<<<< HEAD
 export default insuResult;
-=======
-export default insuResult;
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6

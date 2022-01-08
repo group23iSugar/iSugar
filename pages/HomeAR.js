@@ -16,24 +16,16 @@ import {
   Switch,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-<<<<<<< HEAD
 import Entypo from 'react-native-vector-icons/Entypo';
-=======
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
 
 const HomeAR = () => {
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
-<<<<<<< HEAD
       <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
         <Image source={require('../images/logo.png')} style={styles.pic} />
         <TouchableOpacity onPress={()=>navigation.openDrawer()}>
          <Entypo name="menu" color="#05375a" size={35} />
          </TouchableOpacity>
-=======
-      <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -59,10 +51,7 @@ const HomeAR = () => {
             alignSelf: 'center',
             borderColor: 'black',
             borderWidth: 1,
-<<<<<<< HEAD
             color: 'grey'
-=======
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
           }}
         /> }
 
@@ -73,27 +62,16 @@ const HomeAR = () => {
             margin: 30,
             borderColor: 'gray',
             borderWidth: 1,
-<<<<<<< HEAD
             color: 'grey'
-=======
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
           }}>
           + إضافة قراءة جديدة
         </Text>
 
-<<<<<<< HEAD
         <Text style={{textAlign: 'center', fontSize: 20, borderWidth: 1 , borderColor: 'gray', color: 'grey'}}>
           Percentage of time in last 7-days in target range: 95%
         </Text>
         <Text style={styles.inpTxt}>:المواعيد القادمة</Text>
         <Text style={{textAlign: 'center', fontSize: 20, borderWidth: 1 , borderColor: 'gray', paddingTop: 40, color: 'grey'}}>
-=======
-        <Text style={{textAlign: 'center', fontSize: 20, borderWidth: 1 , borderColor: 'gray'}}>
-          Percentage of time in last 7-days in target range: 95%
-        </Text>
-        <Text style={styles.inpTxt}>:المواعيد القادمة</Text>
-        <Text style={{textAlign: 'center', fontSize: 20, borderWidth: 1 , borderColor: 'gray', paddingTop: 40}}>
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
         
         </Text>
       </ScrollView>
@@ -107,14 +85,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-<<<<<<< HEAD
   pic: {
     width: height_logo,
     height: height_logo,
     marginRight: 10,
 },
-=======
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
   prefix: {
     backgroundColor: '#9c4',
   },
@@ -169,10 +144,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 15,
     fontSize: 18,
-<<<<<<< HEAD
     color: 'black'
-=======
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
   },
 
   vNext: {
@@ -225,8 +197,4 @@ const styles = StyleSheet.create({
   },
 });
 
-<<<<<<< HEAD
 export default HomeAR;
-=======
-export default HomeAR;
->>>>>>> 02d91af4584ffbad2b0fa06dde4607295acc5fa6
