@@ -108,7 +108,7 @@ const check = () => {
           onlineTargetBGDB3();
         }
        }
-  
+       alert('Updated');
        navigation.navigate('edit');
 }
 const validateBGTo = (val) => {
@@ -384,7 +384,6 @@ ketonesMeasure = ketones;
                         })
                         .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
                         .then((response)=>{
-                          alert('Measure ' + response[0].Message);
                         })
                         .catch((error)=>{
                             alert("Error Occured" + error);
@@ -412,7 +411,6 @@ ketonesMeasure = ketones;
                         })
                         .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
                         .then((response)=>{
-                          alert('Unit ' + response[0].Message);
                         })
                         .catch((error)=>{
                             alert("Error Occured" + error);
@@ -441,7 +439,6 @@ ketonesMeasure = ketones;
                         })
                         .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
                         .then((response)=>{
-                          alert('target ' + response[0].Message);
                         })
                         .catch((error)=>{
                             alert("Error Occured" + error);
@@ -470,7 +467,6 @@ ketonesMeasure = ketones;
                         })
                         .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
                         .then((response)=>{
-                          alert('target ' + response[0].Message);
                         })
                         .catch((error)=>{
                             alert("Error Occured" + error);
@@ -499,7 +495,6 @@ ketonesMeasure = ketones;
                         })
                         .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
                         .then((response)=>{
-                          alert('target ' + response[0].Message);
                         })
                         .catch((error)=>{
                             alert("Error Occured" + error);
@@ -527,7 +522,6 @@ ketonesMeasure = ketones;
                         })
                         .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
                         .then((response)=>{
-                          alert('Monitor ' + response[0].Message);
                         })
                         .catch((error)=>{
                             alert("Error Occured" + error);
@@ -551,15 +545,16 @@ ketonesMeasure = ketones;
           {dbData.glucoseMType == 'Fingerstick blood glucose' ? (<View style={styles.action}>
               <Text style={styles.text_footer}>Type of Glucose Monitoring</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={monitor}
               onValueChange={(value) => setMonitor(value)}
               mode="dropdown"
               style={styles.picker}
               >
                   
-            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose' color='black'></Picker.Item>
-            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM' color='black'></Picker.Item>
-            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM' color='black'></Picker.Item>
+            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose'   ></Picker.Item>
+            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM'   ></Picker.Item>
+            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM'   ></Picker.Item>
 
         </Picker>
       
@@ -568,15 +563,16 @@ ketonesMeasure = ketones;
            {dbData.glucoseMType == 'CGM' ? (<View style={styles.action}>
               <Text style={styles.text_footer}>Type of Glucose Monitoring</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={monitor}
               onValueChange={(value) => setMonitor(value)}
               mode="dropdown"
               style={styles.picker}
               >
             
-            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM' color='black'></Picker.Item>    
-            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose'color='black'></Picker.Item>
-            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM' color='black'></Picker.Item>
+            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM'   ></Picker.Item>    
+            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose'  ></Picker.Item>
+            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM'   ></Picker.Item>
 
         </Picker>
       
@@ -585,15 +581,16 @@ ketonesMeasure = ketones;
           {dbData.glucoseMType == 'isCGM' ? (<View style={styles.action}>
               <Text style={styles.text_footer}>Type of Glucose Monitoring</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={monitor}
               onValueChange={(value) => setMonitor(value)}
               mode="dropdown"
               style={styles.picker}
               >
             
-            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM' color='black'></Picker.Item>
-            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM' color='black'></Picker.Item>    
-            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose' color='black'></Picker.Item>
+            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM'   ></Picker.Item>
+            <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM'   ></Picker.Item>    
+            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose'   ></Picker.Item>
 
         </Picker>
       
@@ -602,14 +599,15 @@ ketonesMeasure = ketones;
                     {dbData.gUnit == 'mg/dl' ? (<View style={styles.action}>
               <Text style={styles.text_footer}>Blood glucose level unit in the glucometer:</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={levelUnit}
               onValueChange={(value) => setlevelUnit(value)}
               mode="dropdown"
               style={styles.picker}
               >
                   
-            <Picker.Item label= 'mg/dl' value='mg/dl' color='black'></Picker.Item>
-            <Picker.Item label= 'mmol/L' value='mmol/L' color='black'></Picker.Item>
+            <Picker.Item label= 'mg/dl' value='mg/dl'   ></Picker.Item>
+            <Picker.Item label= 'mmol/L' value='mmol/L'   ></Picker.Item>
 
         </Picker>
       
@@ -618,13 +616,14 @@ ketonesMeasure = ketones;
 {dbData.gUnit == 'mmol/L' ? (<View style={styles.action}>
               <Text style={styles.text_footer}>Blood glucose level unit in the glucometer:</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={levelUnit}
               onValueChange={(value) => setlevelUnit(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'mmol/L' value='mmol/L' color='black'></Picker.Item>   
-            <Picker.Item label= 'mg/dl' value='mg/dl' color='black'></Picker.Item>
+            <Picker.Item label= 'mmol/L' value='mmol/L'   ></Picker.Item>   
+            <Picker.Item label= 'mg/dl' value='mg/dl'   ></Picker.Item>
             
 
         </Picker>
@@ -634,14 +633,15 @@ ketonesMeasure = ketones;
 {dbData.kMeasure == 'Blood' ? (<View style={styles.action}>
               <Text style={styles.text_footer}>Type of Ketones measurement:</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={ketones}
               onValueChange={(value) => setketones(value)}
               mode="dropdown"
               style={styles.picker}
               >
                   
-            <Picker.Item label= 'Blood' value='Blood' color='black'></Picker.Item>
-            <Picker.Item label= 'Urine' value='Urine' color='black'></Picker.Item>
+            <Picker.Item label= 'Blood' value='Blood'   ></Picker.Item>
+            <Picker.Item label= 'Urine' value='Urine'   ></Picker.Item>
 
         </Picker>
       
@@ -650,13 +650,14 @@ ketonesMeasure = ketones;
 {dbData.kMeasure == 'Urine' ? (<View style={styles.action}>
               <Text style={styles.text_footer}>Type of Ketones measurement:</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={ketones}
               onValueChange={(value) => setketones(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Urine' value='Urine'color='black'></Picker.Item>    
-            <Picker.Item label= 'Blood' value='Blood' color='black'></Picker.Item>
+            <Picker.Item label= 'Urine' value='Urine'  ></Picker.Item>    
+            <Picker.Item label= 'Blood' value='Blood'   ></Picker.Item>
             
 
         </Picker>
@@ -672,13 +673,11 @@ ketonesMeasure = ketones;
               <Text style={styles.text_footer}>To:</Text>
               {(levelUnit=='mg/dl' || levelUnit=='0') && dbData.gUnit=='mg/dl'? 
             <TextInput
-            style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={dbData.tBG+''}
             onChangeText = {(val)=>validateBGTo(val)}
             style={styles.actionN}></TextInput> : 
             <TextInput
-            style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={(dbData.tBG/18).toFixed(2)+''}
             onChangeText = {(val)=>validateBGTo(val)}
@@ -691,13 +690,11 @@ ketonesMeasure = ketones;
               <Text style={styles.text_footer}>From:</Text>
               {(levelUnit=='mg/dl' || levelUnit=='0') && dbData.gUnit=='mg/dl' ? 
             <TextInput
-            style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={dbData.fBG+''}
             onChangeText = {(val)=>validateBGFrom(val)}
             style={styles.actionN}></TextInput> : 
-            <TextInput
-            style={{color:'black'}}
+            <TextInput 
             keyboardType="decimal-pad"
             onChangeText = {(val)=>validateBGFrom(val)}
             defaultValue={(dbData.fBG/18).toFixed(2)+''}
@@ -836,6 +833,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
+  color: 'grey'
     
 },
 pickerP: {
@@ -876,7 +874,7 @@ actionN: {
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#CACDD1',
-  
+    color: '#000'
 },
 actionP: {
   flex: 0,

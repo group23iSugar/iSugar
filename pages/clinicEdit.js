@@ -43,7 +43,7 @@ import moment from 'moment';
                       var rows = results.rows;
                       for (let i = 0; i < rows.length; i++) {           
                           var userID = rows.item(i).UserID;
-                          if (238 == userID){
+                          if (uID == userID){
                               setDbData({
                                   ...dbData,
                                   diagnosisdate: rows.item(i).diagnosis_date,
@@ -80,7 +80,7 @@ import moment from 'moment';
                   var rows = results.rows;
                   for (let i = 0; i < rows.length; i++) {           
                       var userID = rows.item(i).UserID;
-                      if (238 == userID){
+                      if (uID == userID){
                           setDbData2({
                               ...dbData2,
                               uMRN: rows.item(i).MRN
@@ -224,7 +224,7 @@ const check = () => {
           db.transaction( (tx) => {
               tx.executeSql(
                'INSERT INTO KSUMC (UserID, MRN) VALUES (?,?)',
-                 [238, mrn]
+                 [uID, mrn]
              );
             
              
@@ -247,6 +247,7 @@ const check = () => {
     updateDODLocal();
     onlineDBDOD();
   }
+  alert('Updated!');
   navigation.navigate('edit');
 }
 const updateMRNLocal = () => {
@@ -255,7 +256,7 @@ const updateMRNLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE KSUMC SET MRN=? WHERE UserID=? ',
-          [mrn, 238],
+          [mrn, uID],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -277,7 +278,7 @@ const updateCenterNameLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET center_name=? WHERE UserID=? ',
-          [other.centerName, 238],
+          [other.centerName, uID],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -300,7 +301,7 @@ const updateCenterCityLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET center_city=? WHERE UserID=? ',
-          [other.centerCity, 238],
+          [other.centerCity, uID],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -322,7 +323,7 @@ const updateCenterLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET diabetes_center=? WHERE UserID=? ',
-          [center, 238],
+          [center, uID],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -345,7 +346,7 @@ const deleteMRNLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'DELETE FROM KSUMC WHERE UserID=? ',
-          [238],
+          [uID],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -367,7 +368,7 @@ const deleteNameCityLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET center_city=? WHERE UserID=? ',
-          ['', 238],
+          ['', uID],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -387,7 +388,7 @@ try {
   db.transaction( (tx) => {
       tx.executeSql(
         'UPDATE patientprofile SET center_name=? WHERE UserID=? ',
-        ['', 238],
+        ['', uID],
         (tx, results) => {
           console.log('Results', results.rowsAffected);
        if (results.rowsAffected > 0) {
@@ -409,7 +410,7 @@ const updateDODLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET diagnosis_date=? WHERE UserID=? ',
-          [dateOfDiagnosis, 238],
+          [dateOfDiagnosis, uID],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -495,8 +496,7 @@ const deleteOnlineDB = () =>{
       body: JSON.stringify(Data) //convert data to JSON
   })
   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-  .then((response)=>{
-    alert(response[0].Message);       // If data is in JSON => Display alert msg
+  .then((response)=>{      // If data is in JSON => Display alert msg
   })
   .catch((error)=>{
       alert("Error Occured" + error);
@@ -522,8 +522,7 @@ const deleteOnlineDB = () =>{
       body: JSON.stringify(Data) //convert data to JSON
   })
   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-  .then((response)=>{
-    alert(response[0].Message);       // If data is in JSON => Display alert msg
+  .then((response)=>{     // If data is in JSON => Display alert msg
   })
   .catch((error)=>{
       alert("Error Occured" + error);
@@ -576,7 +575,6 @@ const deleteOnlineDB = () =>{
           
               <Text style={styles.text_footer}>Diabetes Center/Clinic</Text>
               <Picker
-              
               selectedValue={center}
               onLayout = {() => setCenter('1')}
               onValueChange={(value) => setCenter(value)}
@@ -584,8 +582,8 @@ const deleteOnlineDB = () =>{
               style={styles.picker}
               >
               
-            <Picker.Item label= 'King Saud University Medical City' value='1' color='black'></Picker.Item>
-            <Picker.Item label= 'Other' value='2' color='black'></Picker.Item>
+            <Picker.Item label= 'King Saud University Medical City' value='1'    ></Picker.Item>
+            <Picker.Item label= 'Other' value='2'    ></Picker.Item>
 
         </Picker>
       
@@ -593,7 +591,7 @@ const deleteOnlineDB = () =>{
 ( <View style={styles.action}>
   <Text style={styles.text_footer}>Diabetes Center/Clinic</Text>
   <Picker
-  
+  itemStyle={{color: 'black'}}
   selectedValue={center}
   onValueChange={(value) => setCenter(value)}
   mode="dropdown"
@@ -601,8 +599,8 @@ const deleteOnlineDB = () =>{
   >
   
 
-<Picker.Item label= 'Other' value='2' color='black'></Picker.Item>
-<Picker.Item label= 'King Saud University Medical City' value='1' color='black'></Picker.Item>
+<Picker.Item label= 'Other' value='2'    ></Picker.Item>
+<Picker.Item label= 'King Saud University Medical City' value='1'    ></Picker.Item>
 </Picker>
 
 </View>)}
@@ -797,6 +795,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
+  color: 'grey'
     
 },
 pickerP: {
@@ -873,6 +872,9 @@ buttonR: {
 textD:{
 justifyContent: 'space-between',
 marginTop: 25
+},
+picker: {
+  
 }
 });
 

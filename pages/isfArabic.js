@@ -618,6 +618,7 @@ const onlineIntervalDB = () => {
 <View style={styles.actionB}>
               <Text style={styles.text_footer}>وقت بداية {'\n'}التصحيح</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={isfInterval}
               onValueChange={(value) => setISF(value)}
               mode="dropdown"
@@ -634,7 +635,6 @@ const onlineIntervalDB = () => {
  <Text style={styles.text_footer}>معامل حساسية  
  الأنسولين{'\n'}(ISF):</Text>
  <TextInput
-   style={{color:'black'}}
              keyboardType="decimal-pad"
              placeholder="000"
              onChangeText={(val)=>setISFM(val)}
@@ -649,7 +649,6 @@ const onlineIntervalDB = () => {
 <Text style={styles.text_footer}>مستوى سكر الدم المرغوب  {'\n'}
   التصحيح إليه</Text>
 <TextInput
-  style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000"
             onChangeText={(val)=>setTargetBG(val)}
@@ -662,7 +661,6 @@ const onlineIntervalDB = () => {
 <Text style={styles.text_footer}>مستوى سكر الدم   {'\n'}
 لبدء التصحيح</Text>
 <TextInput
-  style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000"
             onChangeText={(val)=>setStartBG(val)}
@@ -732,7 +730,6 @@ const onlineIntervalDB = () => {
 مستوى سكر الدم المرغوب   {'\n'}
 التصحيح إليه  </Text>
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget1(val)}
@@ -742,7 +739,6 @@ const onlineIntervalDB = () => {
                     <Text style={styles.text_footer}>مستوى سكر الدم   {'\n'}
                     لبدء التصحيح</Text>
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart1(val)}
@@ -797,7 +793,6 @@ const onlineIntervalDB = () => {
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
                    <TextInput
-                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF2(val)}
@@ -810,7 +805,6 @@ const onlineIntervalDB = () => {
 التصحيح إليه  </Text>
                   
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget2(val)}
@@ -820,7 +814,6 @@ const onlineIntervalDB = () => {
                     <Text style={styles.text_footer}>مستوى سكر الدم   {'\n'}
                     لبدء التصحيح</Text>
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart2(val)}
@@ -872,7 +865,6 @@ const onlineIntervalDB = () => {
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
                    <TextInput
-                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF3(val)}
@@ -884,7 +876,6 @@ const onlineIntervalDB = () => {
 مستوى سكر الدم المرغوب   {'\n'}
 التصحيح إليه  </Text>
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget3(val)}
@@ -894,7 +885,6 @@ const onlineIntervalDB = () => {
                     <Text style={styles.text_footer}>مستوى سكر الدم   {'\n'}
                     لبدء التصحيح</Text>
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart3(val)}
@@ -946,8 +936,7 @@ const onlineIntervalDB = () => {
                    </View> 
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
-                   <TextInput
-                     style={{color:'black'}}
+                   <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF4(val)}
@@ -958,8 +947,7 @@ const onlineIntervalDB = () => {
                    <Text style={styles.text_footer}>
 مستوى سكر الدم المرغوب   {'\n'}
 التصحيح إليه  </Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget4(val)}
@@ -968,8 +956,7 @@ const onlineIntervalDB = () => {
                     <View style={styles.actionP}>
                     <Text style={styles.text_footer}>مستوى سكر الدم   {'\n'}
                     لبدء التصحيح</Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart4(val)}
@@ -1020,8 +1007,7 @@ const onlineIntervalDB = () => {
                    </View> 
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
-                   <TextInput
-                     style={{color:'black'}}
+                   <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF5(val)}
@@ -1032,8 +1018,7 @@ const onlineIntervalDB = () => {
                    <Text style={styles.text_footer}>
 مستوى سكر الدم المرغوب   {'\n'}
 التصحيح إليه  </Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget5(val)}
@@ -1042,8 +1027,7 @@ const onlineIntervalDB = () => {
                     <View style={styles.actionP}>
                     <Text style={styles.text_footer}>مستوى سكر الدم   {'\n'}
                     لبدء التصحيح</Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart5(val)}
@@ -1094,8 +1078,7 @@ const onlineIntervalDB = () => {
                    </View> 
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
-                   <TextInput
-                     style={{color:'black'}}
+                   <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF6(val)}
@@ -1106,8 +1089,7 @@ const onlineIntervalDB = () => {
                    <Text style={styles.text_footer}>
 مستوى سكر الدم المرغوب   {'\n'}
 التصحيح إليه  </Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget6(val)}
@@ -1116,8 +1098,7 @@ const onlineIntervalDB = () => {
                     <View style={styles.actionP}>
                     <Text style={styles.text_footer}>مستوى سكر الدم   {'\n'}
                     لبدء التصحيح</Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart6(val)}
@@ -1284,6 +1265,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
+  color: 'grey'
     
 },
 pickerP: {
@@ -1319,7 +1301,7 @@ action: {
   marginTop: 10,
   marginBottom: 10,
   paddingBottom: 25,
-  
+  color: 'grey'
 },
 actionN: {
     width: 180,

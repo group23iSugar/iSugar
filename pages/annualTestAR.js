@@ -803,5 +803,8 @@ titleB: {
   fontSize: 20,
   fontWeight: 'bold',
 },
+picker: {
+  color: 'grey'
+}
 });
 export default annual;

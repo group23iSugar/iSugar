@@ -6,6 +6,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {tabHome} from '../tabNav';
 import About from './About';
 import setting from './settings';
+import settingsAR from './settingsAR';
 import CustomDrawer from './CustomDrawer';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -44,6 +45,9 @@ const AuthStack = () => {
            drawerIcon: ({color}) => (
             <Feather name="settings" size={22} color={color}/>
            ),
+         }}/>
+         <Drawer.Screen name="s" component={settingsAR} options={{
+          
          }}/>
 
         </Drawer.Navigator>

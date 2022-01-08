@@ -459,15 +459,16 @@ const onlineInsulinRegDB = () => {
           <View style={styles.action}>
               <Text style={styles.text_footer}>Insulin regimen</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={InsulinR}
               onValueChange={(value) => setInsulinR(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Insulin regimen' value='0' color='black'></Picker.Item>
-            <Picker.Item label= 'Pump' value='Pump'color='black'></Picker.Item>
-            <Picker.Item label= 'Pen' value='Pen'color='black'></Picker.Item>
-            <Picker.Item label= 'Vials/Syringe' value='Vials/Syringe'color='black'></Picker.Item>
+            <Picker.Item label= 'Select Insulin regimen' value='0'    ></Picker.Item>
+            <Picker.Item label= 'Pump' value='Pump'   ></Picker.Item>
+            <Picker.Item label= 'Pen' value='Pen'   ></Picker.Item>
+            <Picker.Item label= 'Vials/Syringe' value='Vials/Syringe'   ></Picker.Item>
 
         </Picker>
       
@@ -480,13 +481,14 @@ const onlineInsulinRegDB = () => {
               {halfOrFull() ?  (<View style={styles.field} > 
               <Text style={styles.text_footer}>Insulin Type</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={penProvide}
               onValueChange={(value) => setPen(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Half units' value='0'  color='black'></Picker.Item>
-            <Picker.Item label= 'Full units' value='1' color='black'></Picker.Item>
+            <Picker.Item label= 'Half units' value='0'     ></Picker.Item>
+            <Picker.Item label= 'Full units' value='1'    ></Picker.Item>
            
 
         </Picker>
@@ -495,21 +497,22 @@ const onlineInsulinRegDB = () => {
     </View> ) :  (<View style={styles.field} >
               <Text style={styles.text_footer}>Insulin Type</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={iType}
               onValueChange={(value) => setiType(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Insulin type' value='0'color='black'></Picker.Item>
-            <Picker.Item label= 'Aspart' value='Aspart'color='black'></Picker.Item>
-            <Picker.Item label= 'Lispro ' value='Lispro'color='black'></Picker.Item>
-            <Picker.Item label= 'Glulisine ' value='Glulisine'color='black'></Picker.Item>
-            <Picker.Item label= 'NPH' value='ANPH'color='black'></Picker.Item>
-            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin' color='black'></Picker.Item>
-            <Picker.Item label= 'Detemir' value='Detemir'color='black'></Picker.Item>
-            <Picker.Item label= 'Glargine' value='Glargine'color='black'></Picker.Item>
-            <Picker.Item label= 'Degludec' value='Degludec'color='black'></Picker.Item>
-            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)' color='black'></Picker.Item>
+            <Picker.Item label= 'Select Insulin type' value='0'   ></Picker.Item>
+            <Picker.Item label= 'Aspart' value='Aspart'   ></Picker.Item>
+            <Picker.Item label= 'Lispro ' value='Lispro'   ></Picker.Item>
+            <Picker.Item label= 'Glulisine ' value='Glulisine'   ></Picker.Item>
+            <Picker.Item label= 'NPH' value='ANPH'   ></Picker.Item>
+            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'    ></Picker.Item>
+            <Picker.Item label= 'Detemir' value='Detemir'   ></Picker.Item>
+            <Picker.Item label= 'Glargine' value='Glargine'   ></Picker.Item>
+            <Picker.Item label= 'Degludec' value='Degludec'   ></Picker.Item>
+            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'    ></Picker.Item>
 
 
         </Picker>
@@ -517,7 +520,6 @@ const onlineInsulinRegDB = () => {
           
         <Text style={styles.text_footer}>Insulin Dose</Text>
         <TextInput
-        style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="00"
             onChangeText= {(val)=>checkIDose(val)}
@@ -549,6 +551,7 @@ const onlineInsulinRegDB = () => {
           {shouldShow && halfOrFull1() ? (<View style={styles.field } >
             <Text style={styles.text_footer}>Pen provided</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={penProvide1}
               onValueChange={(value) => setPen1(value)}
               mode="dropdown"
@@ -567,21 +570,22 @@ const onlineInsulinRegDB = () => {
           {shouldShow && (halfOrFull1() == false)? (<View style={styles.field } >
               <Text style={styles.text_footer}>Insulin Type</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={iType1}
               onValueChange={(value) => setiType1(value)}
               mode="dropdown"
               style={styles.picker}
               >
-         <Picker.Item label= 'Select Insulin type' value='0'color='black'></Picker.Item>
-            <Picker.Item label= 'Aspart' value='Aspart'color='black'></Picker.Item>
-            <Picker.Item label= 'Lispro ' value='Lispro'color='black'></Picker.Item>
-            <Picker.Item label= 'Glulisine ' value='Glulisine'color='black'></Picker.Item>
-            <Picker.Item label= 'NPH' value='ANPH'color='black'></Picker.Item>
-            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin' color='black'></Picker.Item>
-            <Picker.Item label= 'Detemir' value='Detemir'color='black'></Picker.Item>
-            <Picker.Item label= 'Glargine' value='Glargine'color='black'></Picker.Item>
-            <Picker.Item label= 'Degludec' value='Degludec'color='black'></Picker.Item>
-            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)' color='black'></Picker.Item>
+         <Picker.Item label= 'Select Insulin type' value='0'   ></Picker.Item>
+            <Picker.Item label= 'Aspart' value='Aspart'   ></Picker.Item>
+            <Picker.Item label= 'Lispro ' value='Lispro'   ></Picker.Item>
+            <Picker.Item label= 'Glulisine ' value='Glulisine'   ></Picker.Item>
+            <Picker.Item label= 'NPH' value='ANPH'   ></Picker.Item>
+            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'    ></Picker.Item>
+            <Picker.Item label= 'Detemir' value='Detemir'   ></Picker.Item>
+            <Picker.Item label= 'Glargine' value='Glargine'   ></Picker.Item>
+            <Picker.Item label= 'Degludec' value='Degludec'   ></Picker.Item>
+            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'    ></Picker.Item>
 
 
         </Picker>
@@ -618,6 +622,7 @@ const onlineInsulinRegDB = () => {
           {shouldShow2 && halfOrFull2() ? (<View style={styles.field } >
             <Text style={styles.text_footer}>Insulin Type</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={penProvide2}
               onValueChange={(value) => setPen2(value)}
               mode="dropdown"
@@ -636,21 +641,23 @@ const onlineInsulinRegDB = () => {
           {shouldShow2 && (halfOrFull2() == false)? (<View style={styles.field } >
               <Text style={styles.text_footer}>Insulin Type</Text>
               <Picker
+               itemStyle={{color: '#000'}}
+              itemStyle={{color: '#000'}}
               selectedValue={iType2}
               onValueChange={(value) => setiType2(value)}
               mode="dropdown"
               style={styles.picker}
               >
-         <Picker.Item label= 'Select Insulin type' value='0'color='black'></Picker.Item>
-            <Picker.Item label= 'Aspart' value='Aspart'color='black'></Picker.Item>
-            <Picker.Item label= 'Lispro ' value='Lispro'color='black'></Picker.Item>
-            <Picker.Item label= 'Glulisine ' value='Glulisine'color='black'></Picker.Item>
-            <Picker.Item label= 'NPH' value='ANPH'color='black'></Picker.Item>
-            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin' color='black'></Picker.Item>
-            <Picker.Item label= 'Detemir' value='Detemir'color='black'></Picker.Item>
-            <Picker.Item label= 'Glargine' value='Glargine'color='black'></Picker.Item>
-            <Picker.Item label= 'Degludec' value='Degludec'color='black'></Picker.Item>
-            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)' color='black'></Picker.Item>
+         <Picker.Item label= 'Select Insulin type' value='0'   ></Picker.Item>
+            <Picker.Item label= 'Aspart' value='Aspart'   ></Picker.Item>
+            <Picker.Item label= 'Lispro ' value='Lispro'   ></Picker.Item>
+            <Picker.Item label= 'Glulisine ' value='Glulisine'   ></Picker.Item>
+            <Picker.Item label= 'NPH' value='ANPH'   ></Picker.Item>
+            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'    ></Picker.Item>
+            <Picker.Item label= 'Detemir' value='Detemir'   ></Picker.Item>
+            <Picker.Item label= 'Glargine' value='Glargine'   ></Picker.Item>
+            <Picker.Item label= 'Degludec' value='Degludec'   ></Picker.Item>
+            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'    ></Picker.Item>
 
         </Picker>
         <Text style={styles.text_footer}>Insulin Dose</Text>
@@ -826,6 +833,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
+  color: 'grey'
     
 },
 pickerP: {
@@ -865,6 +873,7 @@ actionN: {
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#CACDD1',
+    color: '#000'
   
 },
 actionP: {

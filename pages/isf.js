@@ -593,9 +593,6 @@ const onlineIntervalDB = () => {
          <Image source={require('../images/logo.png')}
          style={styles.logo}
          resizeMode='stretch'/>
-           <TouchableOpacity onPress={()=>navigation.navigate('clinic')}>
-         <MaterialIcons name="arrow-back" size={25} color="#FF6B6B"  />
-         </TouchableOpacity>
          </View>
       </LinearGradient>
 
@@ -609,6 +606,7 @@ const onlineIntervalDB = () => {
 <View style={styles.actionB}>
               <Text style={styles.text_footer}>Time to start{'\n'}correction</Text>
               <Picker
+              itemStyle={{color: '#000'}}
               selectedValue={isfInterval}
               onValueChange={(value) => setISF(value)}
               mode="dropdown"
@@ -625,7 +623,6 @@ const onlineIntervalDB = () => {
  <Text style={styles.text_footer}>Insulin Sensitivity 
  Factor{'\n'}(ISF):</Text>
  <TextInput
-   style={{color:'black'}}
              keyboardType="decimal-pad"
              placeholder="000"
              onChangeText={(val)=>setISFM(val)}
@@ -640,7 +637,6 @@ const onlineIntervalDB = () => {
 <Text style={styles.text_footer}>Target glucose level{'\n'}
 for correction:</Text>
 <TextInput
-  style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000"
             onChangeText={(val)=>setTargetBG(val)}
@@ -653,7 +649,6 @@ for correction:</Text>
 <Text style={styles.text_footer}>Glucose level to{'\n'}
 start correction:</Text>
 <TextInput
-  style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000"
             onChangeText={(val)=>setStartBG(val)}
@@ -712,7 +707,6 @@ start correction:</Text>
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:{'\n'}</Text>
                    <TextInput
-                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF1(val)}
@@ -722,7 +716,6 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget1(val)}
@@ -732,7 +725,6 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart1(val)}
@@ -787,7 +779,6 @@ start correction:</Text>
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
                    <TextInput
-                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF2(val)}
@@ -798,7 +789,6 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget2(val)}
@@ -808,7 +798,6 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart2(val)}
@@ -860,7 +849,6 @@ start correction:</Text>
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
                    <TextInput
-                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF3(val)}
@@ -871,7 +859,6 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget3(val)}
@@ -881,7 +868,6 @@ start correction:</Text>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
                     <TextInput
-                      style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart3(val)}
@@ -934,7 +920,6 @@ start correction:</Text>
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
                    <TextInput
-                     style={{color:'black'}}
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF4(val)}
@@ -944,8 +929,7 @@ start correction:</Text>
                    <View style={styles.actionP}>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget4(val)}
@@ -954,8 +938,7 @@ start correction:</Text>
                     <View style={styles.actionP}>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart4(val)}
@@ -1006,8 +989,7 @@ start correction:</Text>
                    </View> 
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
-                   <TextInput
-                     style={{color:'black'}}
+                   <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF5(val)}
@@ -1017,8 +999,7 @@ start correction:</Text>
                    <View style={styles.actionP}>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget5(val)}
@@ -1027,8 +1008,7 @@ start correction:</Text>
                     <View style={styles.actionP}>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart5(val)}
@@ -1079,8 +1059,7 @@ start correction:</Text>
                    </View> 
                    <View style={styles.actionP}>
                    <Text style={styles.text_footer}>ISF:</Text>
-                   <TextInput
-                     style={{color:'black'}}
+                   <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setISF6(val)}
@@ -1090,8 +1069,7 @@ start correction:</Text>
                    <View style={styles.actionP}>
                     <Text style={styles.text_footer}>Target glucose level{'\n'}
                     for correction:</Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgTarget6(val)}
@@ -1100,8 +1078,7 @@ start correction:</Text>
                     <View style={styles.actionP}>
                     <Text style={styles.text_footer}>Glucose level to{'\n'}
                     start correction:</Text>
-                    <TextInput
-                      style={{color:'black'}}
+                    <TextInput 
                                keyboardType="decimal-pad"
                                placeholder="000"
                                onChangeText={(val)=>setbgStart6(val)}
@@ -1262,6 +1239,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
+  color: 'grey'
     
 },
 pickerP: {
@@ -1297,14 +1275,14 @@ action: {
   marginTop: 10,
   marginBottom: 10,
   paddingBottom: 25,
-  
+  color: 'grey'
 },
 actionN: {
     width: 180,
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#CACDD1',
-  
+    color: '#000'
 },
 actionP: {
   width: 350,

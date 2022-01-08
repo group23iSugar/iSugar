@@ -207,7 +207,7 @@ const validEmail = (val) => {
    }
            
          } else if (data.isValidPassword == false){
-          alert('Password most contain at least on capital litter and a special character!');
+          alert('Password must contain at least on capital litter and a special character!');
          }
            else {
            

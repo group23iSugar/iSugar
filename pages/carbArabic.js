@@ -90,7 +90,7 @@ const CHOcontent = () => {
     dish = g * quantity(dummyList[index].selectedQ, dummyList[index].selectedW);
     setTtoal(totalCHO+dish);
   } else {
-    alert('Please Select a value');
+    alert('اختر قيمة ');
     return;
   }
     //chpTotal = total+q
@@ -124,7 +124,7 @@ const search = () => {
 console.log('i index: '+index);
 const increment = () => {
   if (counter >= 20){
-    alert('You have reach your limit');
+    alert('لقد وصلت للحد الاعلى من الأطباق');
     return;
   } else {
     setCounter(counter+1);
@@ -191,6 +191,7 @@ const renderProductList = () => {
             <View style={styles.innerCotainer}>
               <Text style={{fontSize: 17, color: 'grey'}}> الغذاء </Text>
             <Picker
+             itemStyle={{color: 'black'}}
         selectedValue={item.pokemon}
         onValueChange={(val) => {setPokemon(val, index)}}
         style={{ 
@@ -207,6 +208,7 @@ const renderProductList = () => {
         <Text style={{fontSize: 15, color: 'grey'}}>الكمية</Text>
           <View style={styles.innerView}>
           <Picker
+           itemStyle={{color: 'black'}}
         selectedValue={item.selectedQ}
         onValueChange={(val) => setQ(val, index)}
         style={{ width: 90,
@@ -233,6 +235,7 @@ const renderProductList = () => {
       </Picker>
       <Text style={{fontSize: 15, color: 'grey', paddingTop: 20}}>و</Text>
       <Picker
+       itemStyle={{color: 'black'}}
         selectedValue={item.selectedW}
         onValueChange={(val) => setW(val, index)}
         style={{ width: 115,

@@ -597,7 +597,6 @@ fetch(InsertAPIURL,{
 })
 .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
 .then((response)=>{
-alert('ss ' + response[0].Message2);
 })
 .catch((error)=>{
   alert("Error Occured" + error);
@@ -858,13 +857,13 @@ resizeMode='stretch'/>
                 )}
                 
                 />
-                <TouchableOpacity onPress={()=>handleInnerAdd(index)}><Text>Add Range</Text></TouchableOpacity>
+                <TouchableOpacity onPress={()=>handleInnerAdd(index)}><Text style={{color:'#000'}}>Add Range</Text></TouchableOpacity>
             </View>
             </View>
           )}
         />
-        <TouchableOpacity onPress={()=>handleOuterAdd()}><Text>Add Interval</Text></TouchableOpacity>
-        <TouchableOpacity onPress={()=>handleSSUpdate()}><Text>Update</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>handleOuterAdd()}><Text style={{color:'#000'}}>Add Interval</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>handleSSUpdate()}><Text style={{color:'#000'}}>Update</Text></TouchableOpacity>
         </View>
        )
         : ICR.length> 0 ? (<View style={{alignItems:'center'}}>
@@ -939,8 +938,8 @@ resizeMode='stretch'/>
         )}
 
         />
-        <TouchableOpacity onPress={()=>addICR()}><Text>Add Interval</Text></TouchableOpacity>
-        <TouchableOpacity onPress={()=>handleICRUpdate()}><Text>Update</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>addICR()}><Text style={{color:'#000'}}>Add Interval</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>handleICRUpdate()}><Text style={{color:'#000'}}>Update</Text></TouchableOpacity>
       </View>)
         
         : <ActivityIndicator animating={true} color={Colors.blue100} size={'large'} />  : <ActivityIndicator animating={true} color={Colors.blue100} size={'large'} /> }
@@ -956,7 +955,7 @@ resizeMode='stretch'/>
 
 
 const {height} = Dimensions.get("screen");
-const height_logo = height * 0.05;
+const height_logo = height * 0.15;
 
 export default icr;
 

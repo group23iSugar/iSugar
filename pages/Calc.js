@@ -22,6 +22,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import timeCompare from './timeCompare';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { black } from 'react-native-paper/lib/typescript/styles/colors';
 
 //=========================Local DB===============================
 
@@ -850,10 +851,8 @@ else{//half-units
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>Current BG levet: </Text>
           <TextInput
-           style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000.00"
-            placeholderTextColor={'grey'}
             onChangeText={value => setbgLevel(value)}
             style={styles.inputT}
           />
@@ -865,28 +864,28 @@ else{//half-units
         <Picker
           selectedValue={reason}
           onValueChange={value => setReason(value)}
+          itemStyle={{color: 'black'}}
           mode="dropdown"
           style={styles.picker}>
-          <Picker.Item label="Pre-Breakfast" value="0" testID="0" color='black'></Picker.Item>
-          <Picker.Item label="Pre-Lunch" value="1" testID="0" color='black'></Picker.Item>
-          <Picker.Item label="Pre-Dinner" value="2" testID="0" color='black'></Picker.Item>
+          <Picker.Item label="Pre-Breakfast" value="0" testID="0"  ></Picker.Item>
+          <Picker.Item label="Pre-Lunch" value="1" testID="0"  ></Picker.Item>
+          <Picker.Item label="Pre-Dinner" value="2" testID="0"  ></Picker.Item>
           <Picker.Item
             label="Pre-Daytime snack"
             value="3"
-            testID="0" color='black'></Picker.Item>
+            testID="0"  ></Picker.Item>
           <Picker.Item
             label="Pre-Bedtime snack"
             value="4"
-            testID="0" color='black'></Picker.Item>
+            testID="0"  ></Picker.Item>
           <Picker.Item
             label="No meal only for correction"
             value="5"
-            testID="1" color='black'></Picker.Item>
+            testID="1"  ></Picker.Item>
         </Picker>
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>Meal carbohydrate content: </Text>
           <TextInput
-           style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="00.00"
             onChangeText={value => setCHO(value)}
@@ -922,170 +921,172 @@ else{//half-units
             <View>
               <Text style={styles.inpTxt}>Type of exercise: </Text>
               <Picker
+              itemStyle={{color: 'black'}}
                 selectedValue={preTypeOfExercise}
                 onValueChange={value => setPreTypeOfExercise(value)}
                 mode="dropdown"
                 style={styles.picker}>
-                <Picker.Item label="Select" value="0" testID="2" color='black'></Picker.Item>
-                <Picker.Item label="Running" value="1" testID="0" color='black'></Picker.Item>
+                <Picker.Item label="Select" value="0" testID="2"  ></Picker.Item>
+                <Picker.Item label="Running" value="1" testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Swimming"
                   value="2"
                   testID="0"></Picker.Item>
-                <Picker.Item label="Walking" value="3" testID="0" color='black'></Picker.Item>
+                <Picker.Item label="Walking" value="3" testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Spinning"
                   value="4"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Mountain Climbing"
                   value="5"
                   testID="0"></Picker.Item>
-                <Picker.Item label="Dancing" value="6" testID="0"color='black' color='black'></Picker.Item>
+                <Picker.Item label="Dancing" value="6" testID="0"   ></Picker.Item>
                 <Picker.Item
                   label="Kickboxing"
                   value="7"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Cross country skiing"
                   value="8"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Jumping jacks"
                   value="9"
-                  testID="0" color='black'></Picker.Item>
-                <Picker.Item label="Rowing" value="10" testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
+                <Picker.Item label="Rowing" value="10" testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Martial arts"
                   value="11"
-                  testID="0" color='black'></Picker.Item>
-                <Picker.Item label="Zumba" value="12" testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
+                <Picker.Item label="Zumba" value="12" testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Basketball"
                   value="13"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Trampoline-ing"
                   value="14"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Aerobic strength circuit"
                   value="15"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Cycling"
                   value="16"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Jogging"
                   value="17"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Dancing"
                   value="18"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Cardio exercises/ machines"
                   value="19"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Aerobic exercise classes"
                   value="20"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Skipping/ Jump rope"
                   value="21"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Stair mill /Stair stepper"
                   value="22"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Stationary bike"
                   value="23"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Elliptical"
                   value="24"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Skating"
                   value="25"
-                  testID="0" color='black'></Picker.Item>
-                <Picker.Item label="Tennis" value="26" testID="0" color='black'></Picker.Item>
-                <Picker.Item label="Soccer" value="27" testID="0" color='black'></Picker.Item>
-                <Picker.Item label="Boxing" value="28" testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
+                <Picker.Item label="Tennis" value="26" testID="0"  ></Picker.Item>
+                <Picker.Item label="Soccer" value="27" testID="0"  ></Picker.Item>
+                <Picker.Item label="Boxing" value="28" testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Hula-hooping"
                   value="29"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="Other aerobic exercise"
                   value="30"
-                  testID="0" color='black'></Picker.Item>
+                  testID="0"  ></Picker.Item>
                 <Picker.Item
                   label="HIIT (High Intensity Interval Training)"
                   value="31"
-                  testID="1" color='black'></Picker.Item>
+                  testID="1"  ></Picker.Item>
                 <Picker.Item
                   label="Pilates"
                   value="32"
-                  testID="1" color='black'></Picker.Item>
+                  testID="1"  ></Picker.Item>
                 <Picker.Item
                   label="Anaerobic Circuit training"
                   value="33"
-                  testID="1" color='black'></Picker.Item>
+                  testID="1"  ></Picker.Item>
                 <Picker.Item
                   label="Sprinting"
                   value="34"
-                  testID="1" color='black'></Picker.Item>
+                  testID="1"  ></Picker.Item>
                 <Picker.Item
                   label="Resistance exercises"
                   value="35"
-                  testID="1" color='black'></Picker.Item>
+                  testID="1"  ></Picker.Item>
                 <Picker.Item
                   label="Bodyweight exercise (e.g. push-ups, pull-ups, squats, lunges)"
                   value="36"
-                  testID="1" color='black'></Picker.Item>
+                  testID="1"  ></Picker.Item>
                 <Picker.Item
                   label="Weight lifting"
                   value="37"
-                  testID="1" color='black'></Picker.Item>
+                  testID="1"  ></Picker.Item>
                 <Picker.Item label="Yoga" value="38" testID="1"></Picker.Item>
                 <Picker.Item
                   label="Cross-fit"
                   value="39"
-                  testID="1" color='black'></Picker.Item>
+                  testID="1"  ></Picker.Item>
                 <Picker.Item
                   label="Isometrics"
                   value="40"
-                  testID="1" color='black'></Picker.Item>
+                  testID="1"  ></Picker.Item>
                 <Picker.Item
                   label="Gymnastics"
                   value="41"
-                  testID="1" color='black'></Picker.Item>
+                  testID="1"  ></Picker.Item>
                 <Picker.Item
                   label="Other anaerobic exercise"
                   value="42"
-                  testID="1" color='black'></Picker.Item>
+                  testID="1"  ></Picker.Item>
               </Picker>
 
               <Text style={styles.inpTxt}>Duration of exercise: </Text>
               <Picker
+              itemStyle={{color: 'black'}}
                 selectedValue={preDuration}
                 onValueChange={value => setPreDuration(value)}
                 mode="dropdown"
                 style={styles.picker}>
-                <Picker.Item label="Select" value="0" color='black'></Picker.Item>
+                <Picker.Item label="Select" value="0"  ></Picker.Item>
                 <Picker.Item
                   label="Less than 15 minutes"
-                  value="14" color='black'></Picker.Item>
-                <Picker.Item label="15 to 29 minutes" value="16" color='black'></Picker.Item>
-                <Picker.Item label="30 to 45 minutes" value="31" color='black'></Picker.Item>
+                  value="14"  ></Picker.Item>
+                <Picker.Item label="15 to 29 minutes" value="16"  ></Picker.Item>
+                <Picker.Item label="30 to 45 minutes" value="31"  ></Picker.Item>
                 <Picker.Item
                   label="More than 45 minutes"
                   value="46"></Picker.Item>
-                <Picker.Item label="Unknown" value="Unknown" color='black'></Picker.Item>
+                <Picker.Item label="Unknown" value="Unknown"  ></Picker.Item>
               </Picker>
             </View>
           </View>
@@ -1106,147 +1107,149 @@ else{//half-units
           <View style={{backgroundColor: '#c3d4e0', marginTop: 20}}>
             <Text style={styles.inpTxt}>Type of exercise: </Text>
             <Picker
+            itemStyle={{color: 'black'}}
               selectedValue={postTypeOfExercise}
               onValueChange={value => setPostTypeOfExercise(value)}
               mode="dropdown"
               style={styles.picker}>
-              <Picker.Item label="Select" value="0" testID="2" color='black'></Picker.Item>
-              <Picker.Item label="Running" value="1" testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Swimming" value="2" testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Walking" value="3" testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Spinning" value="4" testID="0" color='black'></Picker.Item>
+              <Picker.Item label="Select" value="0" testID="2"  ></Picker.Item>
+              <Picker.Item label="Running" value="1" testID="0"  ></Picker.Item>
+              <Picker.Item label="Swimming" value="2" testID="0"  ></Picker.Item>
+              <Picker.Item label="Walking" value="3" testID="0"  ></Picker.Item>
+              <Picker.Item label="Spinning" value="4" testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Mountain Climbing"
                 value="5"
-                testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Dancing" value="6" testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
+              <Picker.Item label="Dancing" value="6" testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Kickboxing"
                 value="7"
-                testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Cross country skiing"
                 value="8"
-                testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Jumping jacks"
                 value="9"
-                testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Rowing" value="10" testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
+              <Picker.Item label="Rowing" value="10" testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Martial arts"
                 value="11"
-                testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Zumba" value="12" testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
+              <Picker.Item label="Zumba" value="12" testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Basketball"
                 value="13"
-                testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Trampoline-ing"
                 value="14"
-                testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Aerobic strength circuit"
                 value="15"
-                testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Cycling" value="16" testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Jogging" value="17" testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Dancing" value="18" testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
+              <Picker.Item label="Cycling" value="16" testID="0"  ></Picker.Item>
+              <Picker.Item label="Jogging" value="17" testID="0"  ></Picker.Item>
+              <Picker.Item label="Dancing" value="18" testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Cardio exercises/ machines"
                 value="19"
-                testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Aerobic exercise classes"
                 value="20"
-                testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Skipping/ Jump rope"
                 value="21"
-                testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Stair mill /Stair stepper"
                 value="22"
-                testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Stationary bike"
                 value="23"
-                testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Elliptical"
                 value="24"
-                testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Skating" value="25" testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Tennis" value="26" testID="0" color='black'></Picker.Item>
-              <Picker.Item label="Soccer" value="27" testID="0"color='black'> </Picker.Item>
-              <Picker.Item label="Boxing" value="28" testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
+              <Picker.Item label="Skating" value="25" testID="0"  ></Picker.Item>
+              <Picker.Item label="Tennis" value="26" testID="0"  ></Picker.Item>
+              <Picker.Item label="Soccer" value="27" testID="0" > </Picker.Item>
+              <Picker.Item label="Boxing" value="28" testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Hula-hooping"
                 value="29"
-                testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
               <Picker.Item
                 label="Other aerobic exercise"
                 value="30"
-                testID="0" color='black'></Picker.Item>
+                testID="0"  ></Picker.Item>
               <Picker.Item
                 label="HIIT (High Intensity Interval Training)"
                 value="31"
-                testID="1" color='black'></Picker.Item>
+                testID="1"  ></Picker.Item>
               <Picker.Item label="Pilates" value="32" testID="1"></Picker.Item>
               <Picker.Item
                 label="Anaerobic Circuit training"
                 value="33"
-                testID="1" color='black'></Picker.Item>
+                testID="1"  ></Picker.Item>
               <Picker.Item
                 label="Sprinting"
                 value="34"
-                testID="1" color='black'></Picker.Item>
+                testID="1"  ></Picker.Item>
               <Picker.Item
                 label="Resistance exercises"
                 value="35"
-                testID="1" color='black'></Picker.Item>
+                testID="1"  ></Picker.Item>
               <Picker.Item
                 label="Bodyweight exercise (e.g. push-ups, pull-ups, squats, lunges)"
                 value="36"
-                testID="1" color='black'></Picker.Item>
+                testID="1"  ></Picker.Item>
               <Picker.Item
                 label="Weight lifting"
                 value="37"
-                testID="1" color='black'></Picker.Item>
-              <Picker.Item label="Yoga" value="38" testID="1" color='black'></Picker.Item>
+                testID="1"  ></Picker.Item>
+              <Picker.Item label="Yoga" value="38" testID="1"  ></Picker.Item>
               <Picker.Item
                 label="Cross-fit"
                 value="39"
-                testID="1" color='black'></Picker.Item>
+                testID="1"  ></Picker.Item>
               <Picker.Item
                 label="Isometrics"
                 value="40"
-                testID="1" color='black'></Picker.Item>
+                testID="1"  ></Picker.Item>
               <Picker.Item
                 label="Gymnastics"
                 value="41"
-                testID="1" color='black'></Picker.Item>
+                testID="1"  ></Picker.Item>
               <Picker.Item
                 label="Other anaerobic exercise"
                 value="42"
-                testID="1" color='black'></Picker.Item>
+                testID="1"  ></Picker.Item>
             </Picker>
 
             <Text style={styles.inpTxt}>Duration of exercise: </Text>
             <Picker
+            itemStyle={{color: 'black'}}
               selectedValue={postDuration}
               onValueChange={value => setPostDuration(value)}
               mode="dropdown"
               style={styles.picker}>
-              <Picker.Item label="Select" value="0" color='black'></Picker.Item>
+              <Picker.Item label="Select" value="0"  ></Picker.Item>
               <Picker.Item
                 label="Less than 30 minutes"
-                value="14" color='black'> </Picker.Item>
-              <Picker.Item label="30 to 45 minutes" value="31" color='black'></Picker.Item>
+                value="14"  > </Picker.Item>
+              <Picker.Item label="30 to 45 minutes" value="31"  ></Picker.Item>
               <Picker.Item
                 label="More than 45 minutes"
-                value="46" color='black'></Picker.Item>
+                value="46"  ></Picker.Item>
             </Picker>
 
             <Text style={styles.inpTxt}>Time of exersice: </Text>
@@ -1311,7 +1314,7 @@ const styles = StyleSheet.create({
 },
   inputT: {
     //inputs field
-
+    color: '#000',
     width: 110,
     fontSize: 16,
     shadowColor: '#000',

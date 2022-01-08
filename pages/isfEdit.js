@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import {  StyleSheet, 
   View,
@@ -416,7 +417,7 @@ const handleISFUpdate =()=>{
       localISF();
     }
   }
-  alert('success');
+  alert('Updated!');
   navigation.navigate('edit');
 }
 const combineF = (id, index) => {
@@ -570,7 +571,6 @@ const changeV = (val, id, type, i) => {
       })
       .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
       .then((response)=>{
-        alert('target ' + response[0].Message);
       })
       .catch((error)=>{
           alert("Error Occured" + error);
@@ -602,7 +602,6 @@ const changeV = (val, id, type, i) => {
       })
       .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
       .then((response)=>{
-        alert('start ' + response[0].Message);
       })
       .catch((error)=>{
           alert("Error Occured" + error);
@@ -822,7 +821,7 @@ start correction:</Text>
                       <View style={styles.innerView}>
                       <Text style={styles.innerTitle}>ISF: {index} </Text>
                       <TextInput
-                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0}}
+                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color:'#000'}}
                        keyboardType="decimal-pad"
                        defaultValue={item.isf+''}
                        onChangeText={(val) => changeV(val, item.id, 'isf', index)}
@@ -831,7 +830,7 @@ start correction:</Text>
                       <View style={styles.innerView}>
                       <Text style={styles.innerTitle}>Target: </Text>
                       <TextInput
-                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0}}
+                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color:'#000'}}
                        keyboardType="decimal-pad"
                        defaultValue={item.tBG+''}
                        onChangeText={(val) => changeV(val, item.id, 'bgt', index)}
@@ -840,7 +839,7 @@ start correction:</Text>
                       <View style={styles.innerView}>
                       <Text style={styles.innerTitle}>Start: </Text>
                       <TextInput
-                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0}}
+                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color:'#000'}}
                        keyboardType="decimal-pad"
                        defaultValue={item.sBG+''}
                        onChangeText={(val) => changeV(val, item.id, 'bgs', index)}
@@ -1051,6 +1050,7 @@ actionN: {
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#CACDD1',
+    color: '#000'
   
 },
 actionP: {
@@ -1132,4 +1132,4 @@ innerTitle: {
 innerView: {
   flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
 }
-});
+})

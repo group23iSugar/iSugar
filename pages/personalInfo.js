@@ -266,8 +266,7 @@ fetch(InsertAPIURL2,{
     body: JSON.stringify(Data) //convert data to JSON
 })
 .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert(response[0].Message);
+.then((response)=>{ 
 })
 .catch((error)=>{
     alert("Error Occured" + error);
@@ -363,9 +362,6 @@ fetch(InsertAPIURL,{
          <Image source={require('../images/logo.png')}
          style={styles.logo}
          resizeMode='stretch'/>
-           <TouchableOpacity onPress={()=>navigation.navigate('clinic')}>
-         <MaterialIcons name="arrow-back" size={25} color="#FF6B6B"  />
-         </TouchableOpacity>
          </View>
       </LinearGradient>
 
@@ -408,8 +404,7 @@ fetch(InsertAPIURL,{
 
 <View style={styles.actionB}>
 <Text style={styles.text_footer}>Weight:</Text>
-<TextInput
-style={{color:'black'}}
+<TextInput 
             keyboardType="decimal-pad"
             placeholder="000.00 Kg"
             onChangeText = {(val)=> changeWeight(val)}
@@ -421,8 +416,7 @@ style={{color:'black'}}
 (<View style={styles.actionB}>
 
 <Text style={styles.text_footer}>Heigt:</Text>
-<TextInput
-style={{color:'black'}}
+<TextInput 
             keyboardType="decimal-pad"
             placeholder="000.00 cm"
             onChangeText = {(val)=> changeHeight(val)}
@@ -439,8 +433,7 @@ style={{color:'black'}}
 
 <View style={styles.actionB}>
 <Text style={styles.text_footer}>Latest HB1AC:</Text>
-<TextInput
-style={{color:'black'}}
+<TextInput 
             keyboardType="decimal-pad"
             placeholder="00.00 %"
             onChangeText = {(val)=> changeHB1AC(val)}
@@ -649,7 +642,7 @@ width: 100,
   borderRightWidth: 1,
   borderBottomWidth: 1,
   borderColor: '#CACDD1',
-  
+  color:'#000'
 },
 actionP: {
   flexDirection: 'row',

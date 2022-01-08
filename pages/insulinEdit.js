@@ -564,7 +564,6 @@ const onlinePenDB = (type, halfull) => {
   })
   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
   .then((response)=>{
-    alert('pen ' + response[0].Message);
   })
   .catch((error)=>{
       alert("Error Occured" + error);
@@ -652,10 +651,10 @@ const deleteOnlinePenDB = () => {
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Insulin regimen' value='0' color='black'></Picker.Item>
-            <Picker.Item label= 'Pump' value='Pump'color='black'></Picker.Item>
-            <Picker.Item label= 'Pen' value='Pen'color='black'></Picker.Item>
-            <Picker.Item label= 'Vials/Syringe' value='Vials/Syringe'color='black'></Picker.Item>
+            <Picker.Item label= 'Select Insulin regimen' value='0'   ></Picker.Item>
+            <Picker.Item label= 'Pump' value='Pump'  ></Picker.Item>
+            <Picker.Item label= 'Pen' value='Pen'  ></Picker.Item>
+            <Picker.Item label= 'Vials/Syringe' value='Vials/Syringe'  ></Picker.Item>
 
         </Picker>
       
@@ -685,8 +684,8 @@ const deleteOnlinePenDB = () => {
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Half units' value='0' color='black'></Picker.Item>
-            <Picker.Item label= 'Full units' value='1' color='black'></Picker.Item>
+            <Picker.Item label= 'Half units' value='0'   ></Picker.Item>
+            <Picker.Item label= 'Full units' value='1'   ></Picker.Item>
            
 
         </Picker>
@@ -886,6 +885,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
+  color: 'grey'
     
 },
 pickerP: {
@@ -925,7 +925,7 @@ actionN: {
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#CACDD1',
-  
+    color: '#000'
 },
 actionP: {
   flex: 0,

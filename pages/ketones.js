@@ -109,7 +109,6 @@ fetch(InsertAPIURL,{
 })
 .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
 .then((response)=>{
-  alert('Measure ' + response[0].Message);
 })
 .catch((error)=>{
     alert("Error Occured" + error);
@@ -137,7 +136,6 @@ fetch(InsertAPIURL,{
 })
 .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
 .then((response)=>{
-  alert('Unit ' + response[0].Message);
 })
 .catch((error)=>{
     alert("Error Occured" + error);
@@ -166,7 +164,6 @@ fetch(InsertAPIURL,{
 })
 .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
 .then((response)=>{
-  alert('target ' + response[0].Message);
 })
 .catch((error)=>{
     alert("Error Occured" + error);
@@ -194,7 +191,6 @@ fetch(InsertAPIURL,{
 })
 .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
 .then((response)=>{
-  alert('Monitor ' + response[0].Message);
 })
 .catch((error)=>{
     alert("Error Occured" + error);
@@ -220,15 +216,16 @@ fetch(InsertAPIURL,{
           <View style={styles.action}>
               <Text style={styles.text_footer}>Type of Glucose Monitoring</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={monitor}
               onValueChange={(value) => setMonitor(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Monitor' value='0' color='black'></Picker.Item>
-            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose' color='black'></Picker.Item>
+            <Picker.Item label= 'Select Monitor' value='0'   ></Picker.Item>
+            <Picker.Item label= 'Fingerstick blood glucose' value='Fingerstick blood glucose'   ></Picker.Item>
             <Picker.Item label= 'Continuous Glucose Monitor (CGM)' value='CGM'></Picker.Item>
-            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM' color='black'></Picker.Item>
+            <Picker.Item label= 'Intermittently scanned Continuous Glucose Monitor (isCGM)' value='isCGM'   ></Picker.Item>
 
         </Picker>
       
@@ -236,14 +233,15 @@ fetch(InsertAPIURL,{
 <View style={styles.action}>
               <Text style={styles.text_footer}>Blood glucose level unit in the glucometer:</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={levelUnit}
               onValueChange={(value) => setlevelUnit(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select level unit' value='0' color='black'></Picker.Item>
-            <Picker.Item label= 'mg/dl' value='mg/dl' color='black'></Picker.Item>
-            <Picker.Item label= 'mmol/L' value='mmol/L' color='black'></Picker.Item>
+            <Picker.Item label= 'Select level unit' value='0'   ></Picker.Item>
+            <Picker.Item label= 'mg/dl' value='mg/dl'   ></Picker.Item>
+            <Picker.Item label= 'mmol/L' value='mmol/L'   ></Picker.Item>
 
         </Picker>
       
@@ -252,14 +250,15 @@ fetch(InsertAPIURL,{
 <View style={styles.action}>
               <Text style={styles.text_footer}>Type of Ketones measurement:</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={ketones}
               onValueChange={(value) => setketones(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select Ketones measurement' value='0' color='black'></Picker.Item>
-            <Picker.Item label= 'Blood' value='Blood' color='black'></Picker.Item>
-            <Picker.Item label= 'Urine' value='Urine' color='black'></Picker.Item>
+            <Picker.Item label= 'Select Ketones measurement' value='0'   ></Picker.Item>
+            <Picker.Item label= 'Blood' value='Blood'   ></Picker.Item>
+            <Picker.Item label= 'Urine' value='Urine'   ></Picker.Item>
 
         </Picker>
       
@@ -272,8 +271,7 @@ fetch(InsertAPIURL,{
               <View style={styles.actionB}>
               <Text style={styles.text_footer}>To:</Text>
              
-            <TextInput
-              style={{color:'black'}}
+            <TextInput 
             keyboardType="decimal-pad"
             placeholder="000 mg/dl"
             onChangeText = {(val)=>validateBGTo(val)}
@@ -284,8 +282,7 @@ fetch(InsertAPIURL,{
 <View style={styles.actionB}>
               <Text style={styles.text_footer}>From:</Text>
              
-            <TextInput
-              style={{color:'black'}}
+            <TextInput 
             keyboardType="decimal-pad"
             placeholder="000 mg/dl"
             onChangeText = {(val)=>validateBGFrom(val)}
@@ -421,6 +418,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
+  color: 'grey'
     
 },
 pickerP: {
@@ -461,6 +459,7 @@ actionN: {
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#CACDD1',
+    color: '#000'
   
 },
 actionP: {

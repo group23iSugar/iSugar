@@ -200,9 +200,9 @@ console.log(uID);
        
           } else {
             if (isValidAge == false) {
-                alert('Please enter a valid Date of Birth');
+                alert('ادخل قيم صحيحة');
             } else {
-                alert('Please fill all the fields correctly');
+                alert('ادخل قيم صحيحة');
             }
         }
     }
@@ -211,9 +211,9 @@ console.log(uID);
             navigation.navigate('ketoAR')
         } else {
             if (isValidAge == false) {
-                alert('Please enter a valid Date of Birth');
+                alert('ادخل قيم صحيحة');
             } else {
-                alert('Please fill all the fields correctly');
+                alert('ادخل قيم صحيحة');
             }
         }
     }
@@ -266,8 +266,7 @@ fetch(InsertAPIURL2,{
     body: JSON.stringify(Data) //convert data to JSON
 })
 .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-.then((response)=>{
-  alert(response[0].Message);
+.then((response)=>{ 
 })
 .catch((error)=>{
     alert("Error Occured" + error);
@@ -406,8 +405,7 @@ fetch(InsertAPIURL,{
 
 <View style={styles.actionB}>
 <Text style={styles.text_footer}>الوزن</Text>
-<TextInput
-style={{color:'black'}}
+<TextInput 
             keyboardType="decimal-pad"
             placeholder="000.00 كجم"
             onChangeText = {(val)=> changeWeight(val)}
@@ -419,8 +417,7 @@ style={{color:'black'}}
 (<View style={styles.actionB}>
 
 <Text style={styles.text_footer}>الطول</Text>
-<TextInput
-style={{color:'black'}}
+<TextInput 
             keyboardType="decimal-pad"
             placeholder="000.00 سم"
             onChangeText = {(val)=> changeHeight(val)}
@@ -437,8 +434,7 @@ style={{color:'black'}}
 
 <View style={styles.actionB}>
 <Text style={styles.text_footer}>آخر معدل للسكر التراكمي </Text>
-<TextInput
-style={{color:'black'}}
+<TextInput 
             keyboardType="decimal-pad"
             placeholder="00.00 %"
             onChangeText = {(val)=> changeHB1AC(val)}
@@ -647,7 +643,7 @@ width: 100,
   borderRightWidth: 1,
   borderBottomWidth: 1,
   borderColor: '#CACDD1',
-  
+  color: '#000'
 },
 actionP: {
   flexDirection: 'row',

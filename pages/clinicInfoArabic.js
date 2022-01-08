@@ -228,14 +228,15 @@ const onlineDBOther = () => {
           <View style={styles.action}>
           <Text style={styles.text_footer}>مركز/عيادة السكري </Text>
               <Picker
+              itemStyle={{color: 'black'}}
               selectedValue={center}
               onValueChange={(value) => setCenter(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'اختر عيادة' value='0' color='black'></Picker.Item>
-            <Picker.Item label= 'المدينة الطبية بجامعة الملك سعود' value='1' color='black'></Picker.Item>
-            <Picker.Item label= 'آخرى' value='2' color='black'></Picker.Item>
+            <Picker.Item label= 'اختر عيادة' value='0'    ></Picker.Item>
+            <Picker.Item label= 'المدينة الطبية بجامعة الملك سعود' value='1'    ></Picker.Item>
+            <Picker.Item label= 'آخرى' value='2'    ></Picker.Item>
 
         </Picker>
       
@@ -428,7 +429,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
-    
+  color: 'grey'
 },
 pickerP: {
   width: 90,

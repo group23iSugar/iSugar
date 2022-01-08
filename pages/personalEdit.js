@@ -44,7 +44,7 @@ import react from 'react';
                     var rows = results.rows;
                     for (let i = 0; i < rows.length; i++) {           
                         var userID = rows.item(i).UserID;
-                        if (238 == userID){
+                        if (uID == userID){
                             setDbData({
                                 ...dbData,
                                 dateBirth: rows.item(i).DOB,
@@ -295,6 +295,7 @@ try {
                 alert('Please fill all the fields correctly');
             }
         }
+        alert('Updated');
         navigation.navigate('edit');
     }
     const checkNonPatientAccount = () => { // validating non patient entries
@@ -315,7 +316,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET weightKG=? WHERE UserID=? ',
-                  [data.weight, 238],
+                  [data.weight, uID],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -358,7 +359,7 @@ try {
           db.transaction( (tx) => {
               tx.executeSql(
                 'UPDATE patientprofile SET height=? WHERE UserID=? ',
-                [data.height, 238],
+                [data.height, uID],
                 (tx, results) => {
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
@@ -380,7 +381,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET latest_HP1AC=? WHERE UserID=? ',
-                  [data.latestHB1AC, 238],
+                  [data.latestHB1AC, uID],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -423,7 +424,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET DOB=? WHERE UserID=? ',
-                  [DOB, 238],
+                  [DOB, uID],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -469,7 +470,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET latest_HP1AC_date=? WHERE UserID=? ',
-                  [dateOfLatestHB1AC, 238],
+                  [dateOfLatestHB1AC, uID],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -517,7 +518,7 @@ try {
           'Content-Type': 'application/json'
         };
         var Data ={
-          UserID: 119,
+          UserID: onlinUserID,
           weight_KG: weightKG
         };
       
@@ -544,7 +545,7 @@ try {
           'Content-Type': 'application/json'
         };
         var Data ={
-          UserID: 119,
+          UserID: onlinUserID,
           heightM: heightCM
         };
       
@@ -555,8 +556,7 @@ try {
           body: JSON.stringify(Data) //convert data to JSON
       })
       .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-      .then((response)=>{
-        alert(response[0].Message);
+      .then((response)=>{ 
       })
       .catch((error)=>{
           alert("Error Occured" + error);
@@ -571,7 +571,7 @@ try {
           'Content-Type': 'application/json'
         };
         var Data ={
-          UserID: 119,
+          UserID: onlinUserID,
           DOP: DOB,
         };
       
@@ -599,7 +599,7 @@ try {
           'Content-Type': 'application/json'
         };
         var Data ={
-          UserID: 119,
+          UserID: onlinUserID,
           latest_HP1AC: latestHB1AC_
         };
       
@@ -625,7 +625,7 @@ try {
           'Content-Type': 'application/json'
         };
         var Data ={
-          UserID: 119,
+          UserID: onlinUserID,
           latest_HP1AC_date: dateOfLatestHB1AC
         };
       
@@ -652,9 +652,6 @@ try {
          <Image source={require('../images/logo.png')}
          style={styles.logo}
          resizeMode='stretch'/>
-           <TouchableOpacity onPress={()=>navigation.navigate('clinic')}>
-         <MaterialIcons name="arrow-back" size={25} color="#FF6B6B"  />
-         </TouchableOpacity>
          </View>
       </LinearGradient>
 

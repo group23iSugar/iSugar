@@ -857,13 +857,13 @@ resizeMode='stretch'/>
                 )}
                 
                 />
-                <TouchableOpacity onPress={()=>handleInnerAdd(index)}><Text>اضف نطاق اخر</Text></TouchableOpacity>
+                <TouchableOpacity onPress={()=>handleInnerAdd(index)}><Text style={{color:'#000'}}>اضف نطاق اخر</Text></TouchableOpacity>
             </View>
             </View>
           )}
         />
-        <TouchableOpacity onPress={()=>handleOuterAdd()}><Text>أضف مدة</Text></TouchableOpacity>
-        <TouchableOpacity onPress={()=>handleSSUpdate()}><Text>تحديث</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>handleOuterAdd()}><Text style={{color:'#000'}}>أضف مدة</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>handleSSUpdate()}><Text style={{color:'#000'}}>تحديث</Text></TouchableOpacity>
         </View>
        )
         : ICR.length> 0 ? (<View style={{alignItems:'center'}}>
@@ -938,8 +938,8 @@ resizeMode='stretch'/>
         )}
 
         />
-        <TouchableOpacity onPress={()=>addICR()}><Text>أضف مدة</Text></TouchableOpacity>
-        <TouchableOpacity onPress={()=>handleICRUpdate()}><Text>تحديث</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>addICR()}><Text style={{color:'#000'}}>أضف مدة</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>handleICRUpdate()}><Text style={{color:'#000'}}>تحديث</Text></TouchableOpacity>
       </View>)
         
         : <ActivityIndicator animating={true} color={Colors.blue100} size={'large'} />  : <ActivityIndicator animating={true} color={Colors.blue100} size={'large'} /> }
@@ -955,7 +955,7 @@ resizeMode='stretch'/>
 
 
 const {height} = Dimensions.get("screen");
-const height_logo = height * 0.05;
+const height_logo = height * 0.15;
 
 export default icrARE;
 

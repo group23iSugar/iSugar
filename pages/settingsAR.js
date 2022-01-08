@@ -18,9 +18,9 @@ import SQLite from 'react-native-sqlite-storage';
 
 //======Local Database======//
 global.onlinUserID = '';
-global.uID = '162';
+global.uID = '';
 
-const Setting = ({navigation}) => {
+const SettingAR = ({navigation}) => {
 
   var Language  = [
     {label: 'English', value: 'English', valueIndex: 0},
@@ -290,7 +290,7 @@ const SelectUsers = () => {
 ///////////////////////////////METHOD FOR DELETE QUERIES////////////////////////////////////////////
 const allOperation = () => {
   //navigation.navigate('l');
-  navigation.navigate('lo');
+  navigation.navigate('logoAR');
   //deleteUserAccount();
   DeleteAll();
   console.log('hello');
@@ -817,4 +817,4 @@ const styles = StyleSheet.create({
       color: 'black',
     },
 });
-  export default Setting;
+  export default SettingAR;

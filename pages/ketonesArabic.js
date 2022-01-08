@@ -216,15 +216,16 @@ fetch(InsertAPIURL,{
           <View style={styles.action}>
           <Text style={styles.text_footer}> كيفية قياس مستوى السكر بالدم </Text>
               <Picker
+              itemStyle={{color: '#000'}}
               selectedValue={monitor}
               onValueChange={(value) => setMonitor(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'اختر' value='0' color='black'></Picker.Item>
-            <Picker.Item label= ' (isCGM) المراقبة المستمرة بمستشعر الفلاش' value='isCGM' color='black'></Picker.Item>
-            <Picker.Item label= 'وخز الأصبع لكل قياس ' value='Fingerstick blood glucose' color='black'></Picker.Item>
-            <Picker.Item label= '(CGM) المراقبة المستمرة ' value='CGM' color='black'></Picker.Item>
+            <Picker.Item label= 'اختر' value='0'   ></Picker.Item>
+            <Picker.Item label= ' (isCGM) المراقبة المستمرة بمستشعر الفلاش' value='isCGM'   ></Picker.Item>
+            <Picker.Item label= 'وخز الأصبع لكل قياس ' value='Fingerstick blood glucose'   ></Picker.Item>
+            <Picker.Item label= '(CGM) المراقبة المستمرة ' value='CGM'   ></Picker.Item>
 
         </Picker>
       
@@ -232,14 +233,15 @@ fetch(InsertAPIURL,{
 <View style={styles.action}>
 <Text style={styles.text_footer}>وحدة قياس مستوى السكر</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={levelUnit}
               onValueChange={(value) => setlevelUnit(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'اختر' value='0' color='black'></Picker.Item>
-            <Picker.Item label= 'ميليمول/لتر ' value='mmol/L' color='black'></Picker.Item>
-           <Picker.Item label= 'ميليجرام/ديسيلتر ' value='mg/dl' color='black'></Picker.Item>
+            <Picker.Item label= 'اختر' value='0'   ></Picker.Item>
+            <Picker.Item label= 'ميليمول/لتر ' value='mmol/L'   ></Picker.Item>
+           <Picker.Item label= 'ميليجرام/ديسيلتر ' value='mg/dl'   ></Picker.Item>
 
         </Picker>
       
@@ -248,14 +250,15 @@ fetch(InsertAPIURL,{
 <View style={styles.action}>
               <Text style={styles.text_footer}>نوع قياس الكيتونات</Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={ketones}
               onValueChange={(value) => setketones(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'اختر' value='0' color='black'></Picker.Item>
-            <Picker.Item label= 'البول' value='Urine' color='black'></Picker.Item>  
-           <Picker.Item label= 'الدم ' value='Blood' color='black'></Picker.Item>
+            <Picker.Item label= 'اختر' value='0'   ></Picker.Item>
+            <Picker.Item label= 'البول' value='Urine'   ></Picker.Item>  
+           <Picker.Item label= 'الدم ' value='Blood'   ></Picker.Item>
 
         </Picker>
       
@@ -269,7 +272,6 @@ fetch(InsertAPIURL,{
               <Text style={styles.text_footer}>الى:</Text>
              
             <TextInput
-            style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000 mg/dl"
             onChangeText = {(val)=>validateBGTo(val)}
@@ -281,7 +283,6 @@ fetch(InsertAPIURL,{
               <Text style={styles.text_footer}>من:</Text>
              
             <TextInput
-            style={{color:'black'}}
             keyboardType="decimal-pad"
             placeholder="000 mg/dl"
             onChangeText = {(val)=>validateBGFrom(val)}
@@ -417,6 +418,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
+  color: 'grey'
     
 },
 pickerP: {
@@ -457,7 +459,7 @@ actionN: {
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#CACDD1',
-  
+    color: '##000'
 },
 actionP: {
   flex: 0,

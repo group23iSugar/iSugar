@@ -575,7 +575,7 @@ const deleteOnlineDB = () =>{
           
               <Text style={styles.text_footer}>مركز/عيادة السكري </Text>
               <Picker
-              
+              itemStyle={{color: 'black'}}
               selectedValue={center}
               onLayout = {() => setCenter('1')}
               onValueChange={(value) => setCenter(value)}
@@ -592,7 +592,7 @@ const deleteOnlineDB = () =>{
 ( <View style={styles.action}>
   <Text style={styles.text_footer}>مركز/عيادة السكري </Text>
   <Picker
-  
+  itemStyle={{color: 'black'}}
   selectedValue={center}
   onValueChange={(value) => setCenter(value)}
   mode="dropdown"
@@ -796,6 +796,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
+  color: 'grey'
     
 },
 pickerP: {

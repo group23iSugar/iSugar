@@ -873,7 +873,6 @@ else{//half-units
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>:مستوى سكر الدم الحالي</Text>
           <TextInput
-          style={{color: 'black'}}
             keyboardType="decimal-pad"
             placeholder="000.00"
             onChangeText={value => setbgLevel(value)}
@@ -885,6 +884,7 @@ else{//half-units
         <Text style={styles.inpTxt}>سبب أخذ جرعة الانسولين </Text>
 
         <Picker
+        itemStyle={{color: 'black'}}
           selectedValue={reason}
           onValueChange={value => setReason(value)}
           mode="dropdown"
@@ -908,7 +908,6 @@ else{//half-units
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>محتوى الوجبة من الكاربوهايدرات </Text>
           <TextInput
-            style={{color: 'black'}}
             keyboardType="decimal-pad"
             placeholder="000.00 جم"
             onChangeText={value => setCHO(value)}
@@ -944,6 +943,7 @@ else{//half-units
             <View>
               <Text style={styles.inpTxt}>:نوع التمرين </Text>
               <Picker
+              itemStyle={{color: 'black'}}
                 selectedValue={preTypeOfExercise}
                 onValueChange={value => setPreTypeOfExercise(value)}
                 mode="dropdown"
@@ -1014,6 +1014,7 @@ else{//half-units
 
               <Text style={styles.inpTxt}>مدة التمرين </Text>
               <Picker
+              itemStyle={{color: 'black'}}
                 selectedValue={preDuration}
                 onValueChange={value => setPreDuration(value)}
                 mode="dropdown"
@@ -1111,6 +1112,7 @@ else{//half-units
 
             <Text style={styles.inpTxt}>مدة التمرين </Text>
             <Picker
+            itemStyle={{color: 'black'}}
               selectedValue={postDuration}
               onValueChange={value => setPostDuration(value)}
               mode="dropdown"
@@ -1186,7 +1188,7 @@ const styles = StyleSheet.create({
 },
   inputT: {
     //inputs field
-
+    color: '#000',
     width: 110,
     fontSize: 16,
     shadowColor: '#000',

@@ -216,9 +216,6 @@ const onlineDBOther = () => {
       <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
 
          <View style={styles.header}>
-           <TouchableOpacity onPress={()=>navigation.navigate('accinfo')}>
-         <MaterialIcons name="arrow-back" size={25} color="#FF6B6B"  />
-         </TouchableOpacity>
          <Image source={require('../images/logo.png')}
          style={styles.logo}
          resizeMode='stretch'/>
@@ -231,14 +228,15 @@ const onlineDBOther = () => {
           <View style={styles.action}>
               <Text style={styles.text_footer}>Diabetes Center/Clinic</Text>
               <Picker
+              itemStyle={{color: 'black'}}
               selectedValue={center}
               onValueChange={(value) => setCenter(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'Select a center' value='0'  color='black'></Picker.Item>
-            <Picker.Item label= 'King Saud University Medical City' value='1' color='black'></Picker.Item>
-            <Picker.Item label= 'Other' value='2' color='black'></Picker.Item>
+            <Picker.Item label= 'Select a center' value='0'     ></Picker.Item>
+            <Picker.Item label= 'King Saud University Medical City' value='1'    ></Picker.Item>
+            <Picker.Item label= 'Other' value='2'    ></Picker.Item>
 
         </Picker>
       
@@ -430,7 +428,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
-    
+  color: 'grey'
 },
 pickerP: {
   width: 90,

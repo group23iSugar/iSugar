@@ -1,3 +1,4 @@
+
 import React, { useCallback, useState, useEffect } from 'react';
 import {  StyleSheet, 
   View,
@@ -462,15 +463,16 @@ const onlineInsulinRegDB = () => {
           <View style={styles.action}>
               <Text style={styles.text_footer}>كيفية أخذ الأنسولين </Text>
               <Picker
+               itemStyle={{color: '#000'}}
               selectedValue={InsulinR}
               onValueChange={(value) => setInsulinR(value)}
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'اختر' value='0' color='black'></Picker.Item>
-            <Picker.Item label= 'مضخة أنسولين' value='Pump'  color='black'></Picker.Item>
-            <Picker.Item label= 'قلم أنسولين' value='Pen' color='black'></Picker.Item>
-            <Picker.Item label= 'زجاجة الأنسولين/ والإبر ' value='Vials/Syringe'color='black' ></Picker.Item>
+            <Picker.Item label= 'اختر' value='0'  ></Picker.Item>
+            <Picker.Item label= 'مضخة أنسولين' value='Pump'   ></Picker.Item>
+            <Picker.Item label= 'قلم أنسولين' value='Pen'  ></Picker.Item>
+            <Picker.Item label= 'زجاجة الأنسولين/ والإبر ' value='Vials/Syringe'  ></Picker.Item>
 
         </Picker>
       
@@ -503,16 +505,16 @@ const onlineInsulinRegDB = () => {
               mode="dropdown"
               style={styles.picker}
               >
-           <Picker.Item label= 'اختر نوع الانسولين' value='0'color='black'></Picker.Item>
-            <Picker.Item label= 'أسبارت(نوفورابد أو نوفولوج)' value='Aspart'color='black'></Picker.Item>
-            <Picker.Item label= 'ليسبرو(هيومالوج)' value='Lispro'color='black'></Picker.Item>
-            <Picker.Item label= 'غلوليزين(أبيدرا)' value='Glulisine'color='black'></Picker.Item>
-            <Picker.Item label= 'الأنسولين العكر - NPH(هيومولين أو نوفولين)' value='ANPH'color='black'></Picker.Item>
+           <Picker.Item label= 'اختر نوع الانسولين' value='0' ></Picker.Item>
+            <Picker.Item label= 'أسبارت(نوفورابد أو نوفولوج)' value='Aspart' ></Picker.Item>
+            <Picker.Item label= 'ليسبرو(هيومالوج)' value='Lispro' ></Picker.Item>
+            <Picker.Item label= 'غلوليزين(أبيدرا)' value='Glulisine' ></Picker.Item>
+            <Picker.Item label= 'الأنسولين العكر - NPH(هيومولين أو نوفولين)' value='ANPH' ></Picker.Item>
             <Picker.Item label= 'أنسولين المخلوط- سريع ومتوسط المفعول(نوفومكس، نوفولوج مكس، هيومالوج مكس)' value='Mixed Rapid and intermediate insulin'></Picker.Item>
-            <Picker.Item label= 'ديتيمير(ليفيمير)' value='Detemir'color='black'>'</Picker.Item>
-            <Picker.Item label= 'جلارجين(لانتوس، باسجلار، توجيو)' value='Glargine'color='black'></Picker.Item>
-            <Picker.Item label= 'ديجلوديك(تريسيبا)' value='Degludec'color='black'></Picker.Item>
-            <Picker.Item label= 'مخلوط الديجلوديك+ الأسبارت(ريزوديج)' value='Degludec + Aspart mix (Ryzodeg)' color='black'></Picker.Item>
+            <Picker.Item label= 'ديتيمير(ليفيمير)' value='Detemir' >'</Picker.Item>
+            <Picker.Item label= 'جلارجين(لانتوس، باسجلار، توجيو)' value='Glargine' ></Picker.Item>
+            <Picker.Item label= 'ديجلوديك(تريسيبا)' value='Degludec' ></Picker.Item>
+            <Picker.Item label= 'مخلوط الديجلوديك+ الأسبارت(ريزوديج)' value='Degludec + Aspart mix (Ryzodeg)'  ></Picker.Item>
 
 
         </Picker>
@@ -575,16 +577,16 @@ const onlineInsulinRegDB = () => {
               mode="dropdown"
               style={styles.picker}
               >
-              <Picker.Item label= 'اختر نوع الانسولين' value='0'color='black'></Picker.Item>
-            <Picker.Item label= 'أسبارت(نوفورابد أو نوفولوج)' value='Aspart'color='black'></Picker.Item>
-            <Picker.Item label= 'ليسبرو(هيومالوج)' value='Lispro'color='black'></Picker.Item>
-            <Picker.Item label= 'غلوليزين(أبيدرا)' value='Glulisine'color='black'></Picker.Item>
-            <Picker.Item label= 'الأنسولين العكر - NPH(هيومولين أو نوفولين)' value='ANPH'color='black'></Picker.Item>
+              <Picker.Item label= 'اختر نوع الانسولين' value='0' ></Picker.Item>
+            <Picker.Item label= 'أسبارت(نوفورابد أو نوفولوج)' value='Aspart' ></Picker.Item>
+            <Picker.Item label= 'ليسبرو(هيومالوج)' value='Lispro' ></Picker.Item>
+            <Picker.Item label= 'غلوليزين(أبيدرا)' value='Glulisine' ></Picker.Item>
+            <Picker.Item label= 'الأنسولين العكر - NPH(هيومولين أو نوفولين)' value='ANPH' ></Picker.Item>
             <Picker.Item label= 'أنسولين المخلوط- سريع ومتوسط المفعول(نوفومكس، نوفولوج مكس، هيومالوج مكس)' value='Mixed Rapid and intermediate insulin'></Picker.Item>
-            <Picker.Item label= 'ديتيمير(ليفيمير)' value='Detemir'color='black'>'</Picker.Item>
-            <Picker.Item label= 'جلارجين(لانتوس، باسجلار، توجيو)' value='Glargine'color='black'></Picker.Item>
-            <Picker.Item label= 'ديجلوديك(تريسيبا)' value='Degludec'color='black'></Picker.Item>
-            <Picker.Item label= 'مخلوط الديجلوديك+ الأسبارت(ريزوديج)' value='Degludec + Aspart mix (Ryzodeg)' color='black'></Picker.Item>
+            <Picker.Item label= 'ديتيمير(ليفيمير)' value='Detemir' >'</Picker.Item>
+            <Picker.Item label= 'جلارجين(لانتوس، باسجلار، توجيو)' value='Glargine' ></Picker.Item>
+            <Picker.Item label= 'ديجلوديك(تريسيبا)' value='Degludec' ></Picker.Item>
+            <Picker.Item label= 'مخلوط الديجلوديك+ الأسبارت(ريزوديج)' value='Degludec + Aspart mix (Ryzodeg)'  ></Picker.Item>
 
         </Picker>
         <Text style={styles.text_footer}>جرعة الأنسولين</Text>
@@ -643,16 +645,16 @@ const onlineInsulinRegDB = () => {
               mode="dropdown"
               style={styles.picker}
               >
-             <Picker.Item label= 'اختر نوع الانسولين' value='0'color='black'></Picker.Item>
-            <Picker.Item label= 'أسبارت(نوفورابد أو نوفولوج)' value='Aspart'color='black'></Picker.Item>
-            <Picker.Item label= 'ليسبرو(هيومالوج)' value='Lispro'color='black'></Picker.Item>
-            <Picker.Item label= 'غلوليزين(أبيدرا)' value='Glulisine'color='black'></Picker.Item>
-            <Picker.Item label= 'الأنسولين العكر - NPH(هيومولين أو نوفولين)' value='ANPH'color='black'></Picker.Item>
+             <Picker.Item label= 'اختر نوع الانسولين' value='0' ></Picker.Item>
+            <Picker.Item label= 'أسبارت(نوفورابد أو نوفولوج)' value='Aspart' ></Picker.Item>
+            <Picker.Item label= 'ليسبرو(هيومالوج)' value='Lispro' ></Picker.Item>
+            <Picker.Item label= 'غلوليزين(أبيدرا)' value='Glulisine' ></Picker.Item>
+            <Picker.Item label= 'الأنسولين العكر - NPH(هيومولين أو نوفولين)' value='ANPH' ></Picker.Item>
             <Picker.Item label= 'أنسولين المخلوط- سريع ومتوسط المفعول(نوفومكس، نوفولوج مكس، هيومالوج مكس)' value='Mixed Rapid and intermediate insulin'></Picker.Item>
-            <Picker.Item label= 'ديتيمير(ليفيمير)' value='Detemir'color='black'>'</Picker.Item>
-            <Picker.Item label= 'جلارجين(لانتوس، باسجلار، توجيو)' value='Glargine'color='black'></Picker.Item>
-            <Picker.Item label= 'ديجلوديك(تريسيبا)' value='Degludec'color='black'></Picker.Item>
-            <Picker.Item label= 'مخلوط الديجلوديك+ الأسبارت(ريزوديج)' value='Degludec + Aspart mix (Ryzodeg)' color='black'></Picker.Item>
+            <Picker.Item label= 'ديتيمير(ليفيمير)' value='Detemir' >'</Picker.Item>
+            <Picker.Item label= 'جلارجين(لانتوس، باسجلار، توجيو)' value='Glargine' ></Picker.Item>
+            <Picker.Item label= 'ديجلوديك(تريسيبا)' value='Degludec' ></Picker.Item>
+            <Picker.Item label= 'مخلوط الديجلوديك+ الأسبارت(ريزوديج)' value='Degludec + Aspart mix (Ryzodeg)'  ></Picker.Item>
 
 
         </Picker>
@@ -829,6 +831,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
+  color: 'grey'
     
 },
 pickerP: {
@@ -868,7 +871,7 @@ actionN: {
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#CACDD1',
-  
+    color: '#000'
 },
 actionP: {
   flex: 0,

@@ -26,22 +26,22 @@ const AuthStackAR = () => {
         drawerActiveTintColor:'#fff',
         drawerInactiveTintColor: '#05375a',
          drawerLabelStyle: {marginLeft: -25, fontFamily: 'Roboto-Medium', fontSize: 15}}}>
-            <Drawer.Screen name="الصفحة الرئيسية" component={tabHomeAR}options={{
+            <Drawer.Screen name="tabHomeAR" component={tabHomeAR}options={{
            drawerIcon: ({color}) => (
             <Ionicons name="home-outline" size={22} color={color}/>
            ),
          }}/>
-         <Drawer.Screen name="الفحوصات السنوية" component={annualTestAR}options={{
+         <Drawer.Screen name="annualTestAR" component={annualTestAR}options={{
            drawerIcon: ({color}) => (
             <MaterialIcons name="list-alt" size={22} color={color}/>
            ),
          }}/>
-         <Drawer.Screen name="حول التطبيق" component={About} options={{
+         <Drawer.Screen name="AboutAR" component={About} options={{
            drawerIcon: ({color}) => (
             <AntDesign name="infocirlceo" size={22} color={color}/>
            ),
          }}/>
-         <Drawer.Screen name="الإعدادات" component={settingsAR} options={{
+         <Drawer.Screen name="settingsAR" component={settingsAR} options={{
            drawerIcon: ({color}) => (
             <Feather name="settings" size={22} color={color}/>
            ),

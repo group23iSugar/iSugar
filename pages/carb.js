@@ -151,7 +151,7 @@ const setW = (val, index) => {
 
 const renderProductList = () => {
   return cho.map((ch) => {
-    return <Picker.Item key= {ch.id+''} label={ch.foodEnglishName+' - '+ch.unit+'         '} value={ch.id+''} color='black' />
+    return <Picker.Item key= {ch.id+''} label={ch.foodEnglishName+' - '+ch.unit+'         '} value={ch.id+''}    />
   })
 } 
 
@@ -188,6 +188,7 @@ const renderProductList = () => {
             <View style={styles.innerCotainer}>
               <Text style={{fontSize: 17, color: 'grey'}}>Food Item: </Text>
             <Picker
+            itemStyle={{color: 'black'}}
         selectedValue={item.pokemon}
         onValueChange={(val) => {setPokemon(val, index)}}
         style={{ 
@@ -196,7 +197,7 @@ const renderProductList = () => {
         fontSize: 17,
       color: '#05375a'}}
         mode={'dropdown'}>
-           <Picker.Item label='Select ...' value='Unknown' color='black' />
+           <Picker.Item label='Select ...' value='Unknown'    />
            {renderProductList()}
       </Picker>
       </View>
@@ -204,6 +205,7 @@ const renderProductList = () => {
         <Text style={{fontSize: 15, color: 'grey'}}>Quantity:</Text>
           <View style={styles.innerView}>
           <Picker
+           itemStyle={{color: 'black'}}
         selectedValue={item.selectedQ}
         onValueChange={(val) => setQ(val, index)}
         style={{ width: 90,
@@ -214,22 +216,23 @@ const renderProductList = () => {
         fontSize: 17,
       color: '#05375a'}}
         mode={'dropdown'}>
-          <Picker.Item label= 'Select' value='-1' color='black'></Picker.Item>
-           <Picker.Item label= '0  ' value='0' color='black'></Picker.Item>
-            <Picker.Item label= '1  ' value='1' color='black'></Picker.Item>
-            <Picker.Item label= '2  ' value='2' color='black'></Picker.Item>
-            <Picker.Item label= '3  ' value='3' color='black'></Picker.Item>
-            <Picker.Item label= '4  ' value='4' color='black'></Picker.Item>
-            <Picker.Item label= '5  ' value='5' color='black'></Picker.Item>
-            <Picker.Item label= '6  ' value='6' color='black'></Picker.Item>
-            <Picker.Item label= '7  ' value='7' color='black'></Picker.Item>
-            <Picker.Item label= '8  ' value='8' color='black'></Picker.Item>
-            <Picker.Item label= '9  ' value='9' color='black'></Picker.Item>
-            <Picker.Item label= '10  ' value='10' color='black'></Picker.Item>
+          <Picker.Item label= 'Select' value='-1'   ></Picker.Item>
+           <Picker.Item label= '0  ' value='0'   ></Picker.Item>
+            <Picker.Item label= '1  ' value='1'   ></Picker.Item>
+            <Picker.Item label= '2  ' value='2'   ></Picker.Item>
+            <Picker.Item label= '3  ' value='3'   ></Picker.Item>
+            <Picker.Item label= '4  ' value='4'   ></Picker.Item>
+            <Picker.Item label= '5  ' value='5'   ></Picker.Item>
+            <Picker.Item label= '6  ' value='6'   ></Picker.Item>
+            <Picker.Item label= '7  ' value='7'   ></Picker.Item>
+            <Picker.Item label= '8  ' value='8'   ></Picker.Item>
+            <Picker.Item label= '9  ' value='9'   ></Picker.Item>
+            <Picker.Item label= '10  ' value='10'   ></Picker.Item>
 
       </Picker>
       <Text style={{fontSize: 15, color: 'grey', paddingTop: 20}}>And</Text>
       <Picker
+       itemStyle={{color: 'black'}}
         selectedValue={item.selectedW}
         onValueChange={(val) => setW(val, index)}
         style={{ width: 115,
@@ -240,12 +243,12 @@ const renderProductList = () => {
         paddingRight: 5,
       color: '#05375a'}}
         mode={'dropdown'}>
-           <Picker.Item label= '0  ' value='0' color='black'></Picker.Item>
-            <Picker.Item label= '1/4  ' value='0.25' color='black'></Picker.Item>
-            <Picker.Item label= '1/3  ' value='0.333' color='black'></Picker.Item>
-            <Picker.Item label= '1/2  ' value='0.5' color='black'></Picker.Item>
-            <Picker.Item label= '2/3  ' value='0.666' color='black'></Picker.Item>
-            <Picker.Item label= '3/4  ' value='0.75' color='black'></Picker.Item>
+           <Picker.Item label= '0  ' value='0'   ></Picker.Item>
+            <Picker.Item label= '1/4  ' value='0.25'   ></Picker.Item>
+            <Picker.Item label= '1/3  ' value='0.333'   ></Picker.Item>
+            <Picker.Item label= '1/2  ' value='0.5'   ></Picker.Item>
+            <Picker.Item label= '2/3  ' value='0.666'   ></Picker.Item>
+            <Picker.Item label= '3/4  ' value='0.75'   ></Picker.Item>
 
       </Picker>
      
@@ -521,6 +524,9 @@ inpTxt: {
   paddingTop: 15,
   fontSize: 18,
 },
+picker: {
+  color: 'grey'
+}
 
 });
 

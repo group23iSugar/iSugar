@@ -109,7 +109,7 @@ const check = () => {
         }
        }
   
-
+       alert('تم التحديث');
        navigation.navigate('editProAR');
 }
 const validateBGTo = (val) => {
@@ -546,6 +546,7 @@ ketonesMeasure = ketones;
           {dbData.glucoseMType == 'Fingerstick blood glucose' ? (<View style={styles.action}>
               <Text style={styles.text_footer}> كيفية قياس مستوى السكر بالدم </Text>
               <Picker
+              itemStyle={{color: '#000'}}
               selectedValue={monitor}
               onValueChange={(value) => setMonitor(value)}
               mode="dropdown"
@@ -563,6 +564,7 @@ ketonesMeasure = ketones;
            {dbData.glucoseMType == 'CGM' ? (<View style={styles.action}>
             <Text style={styles.text_footer}> كيفية قياس مستوى السكر بالدم </Text>
               <Picker
+              itemStyle={{color: '#000'}}
               selectedValue={monitor}
               onValueChange={(value) => setMonitor(value)}
               mode="dropdown"
@@ -580,6 +582,7 @@ ketonesMeasure = ketones;
           {dbData.glucoseMType == 'isCGM' ? (<View style={styles.action}>
             <Text style={styles.text_footer}> كيفية قياس مستوى السكر بالدم </Text>
               <Picker
+              itemStyle={{color: '#000'}}
               selectedValue={monitor}
               onValueChange={(value) => setMonitor(value)}
               mode="dropdown"
@@ -597,6 +600,7 @@ ketonesMeasure = ketones;
                     {dbData.gUnit == 'mg/dl' ? (<View style={styles.action}>
               <Text style={styles.text_footer}>وحدة قياس مستوى السكر</Text>
               <Picker
+              itemStyle={{color: '#000'}}
               selectedValue={levelUnit}
               onValueChange={(value) => setlevelUnit(value)}
               mode="dropdown"
@@ -613,6 +617,7 @@ ketonesMeasure = ketones;
 {dbData.gUnit == 'mmol/L' ? (<View style={styles.action}>
              <Text style={styles.text_footer}>وحدة قياس مستوى السكر</Text>
               <Picker
+              itemStyle={{color: '#000'}}
               selectedValue={levelUnit}
               onValueChange={(value) => setlevelUnit(value)}
               mode="dropdown"
@@ -629,6 +634,7 @@ ketonesMeasure = ketones;
 {dbData.kMeasure == 'Blood' ? (<View style={styles.action}>
               <Text style={styles.text_footer}> مصدر قياس مستوى الكيتون </Text>
               <Picker
+              itemStyle={{color: '#000'}}
               selectedValue={ketones}
               onValueChange={(value) => setketones(value)}
               mode="dropdown"
@@ -645,6 +651,7 @@ ketonesMeasure = ketones;
 {dbData.kMeasure == 'Urine' ? (<View style={styles.action}>
     <Text style={styles.text_footer}> مصدر قياس مستوى الكيتون </Text>
               <Picker
+              itemStyle={{color: '#000'}}
               selectedValue={ketones}
               onValueChange={(value) => setketones(value)}
               mode="dropdown"
@@ -827,6 +834,7 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
+  color: 'grey'
     
 },
 pickerP: {
@@ -867,7 +875,7 @@ actionN: {
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#CACDD1',
-  
+  color: '#000'
 },
 actionP: {
   flex: 0,

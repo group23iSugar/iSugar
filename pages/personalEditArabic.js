@@ -44,7 +44,7 @@ import react from 'react';
                     var rows = results.rows;
                     for (let i = 0; i < rows.length; i++) {           
                         var userID = rows.item(i).UserID;
-                        if (238 == userID){
+                        if (uID == userID){
                             setDbData({
                                 ...dbData,
                                 dateBirth: rows.item(i).DOB,
@@ -76,7 +76,7 @@ try {
                     var rows = results.rows;
                     for (let i = 0; i < rows.length; i++) {           
                         var userID = rows.item(i).UserID;
-                        if (uID == userID){
+                        if (onlinUserID == userID){
                             setDbData({
                                 ...dbData,
                                 dateBirth: rows.item(i).DOB,
@@ -295,6 +295,7 @@ try {
                 alert('فضلا ادخل قيم صحيحة');
             }
         }
+        alert('تم التحديث');
         navigation.navigate('editProAR');
     }
     const checkNonPatientAccount = () => { // validating non patient entries
@@ -315,7 +316,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET weightKG=? WHERE UserID=? ',
-                  [data.weight, 238],
+                  [data.weight, uID],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -335,7 +336,7 @@ try {
                 db.transaction( (tx) => {
                     tx.executeSql(
                       'UPDATE nonPatientprofile SET weightKG=? WHERE UserID=? ',
-                      [data.weight, uID],
+                      [data.weight, onlinUserID],
                       (tx, results) => {
                         console.log('Results', results.rowsAffected);
                      if (results.rowsAffected > 0) {
@@ -358,7 +359,7 @@ try {
           db.transaction( (tx) => {
               tx.executeSql(
                 'UPDATE patientprofile SET height=? WHERE UserID=? ',
-                [data.height, 238],
+                [data.height, uID],
                 (tx, results) => {
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
@@ -380,7 +381,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET latest_HP1AC=? WHERE UserID=? ',
-                  [data.latestHB1AC, 238],
+                  [data.latestHB1AC, uID],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -400,7 +401,7 @@ try {
         db.transaction( (tx) => {
             tx.executeSql(
               'UPDATE nonPatientprofile SET latest_HP1AC=? WHERE UserID=? ',
-              [data.latestHB1AC, uID],
+              [data.latestHB1AC, onlinUserID],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
              if (results.rowsAffected > 0) {
@@ -423,7 +424,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET DOB=? WHERE UserID=? ',
-                  [DOB, 238],
+                  [DOB, uID],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -443,7 +444,7 @@ try {
         db.transaction( (tx) => {
             tx.executeSql(
               'UPDATE nonPatientprofile SET DOB=? WHERE UserID=? ',
-              [DOB, uID],
+              [DOB, onlinUserID],
               (tx, results) => {
                 console.log('Results', results.rowsAffected);
              if (results.rowsAffected > 0) {
@@ -469,7 +470,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET latest_HP1AC_date=? WHERE UserID=? ',
-                  [dateOfLatestHB1AC, 238],
+                  [dateOfLatestHB1AC, uID],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -489,7 +490,7 @@ try {
                 db.transaction( (tx) => {
                     tx.executeSql(
                       'UPDATE nonPatientprofile SET latest_HP1AC_date=? WHERE UserID=? ',
-                      [dateOfLatestHB1AC, uID],
+                      [dateOfLatestHB1AC, onlinUserID],
                       (tx, results) => {
                         console.log('Results', results.rowsAffected);
                      if (results.rowsAffected > 0) {
@@ -517,7 +518,7 @@ try {
           'Content-Type': 'application/json'
         };
         var Data ={
-          UserID: 119,
+          UserID: onlinUserID,
           weight_KG: weightKG
         };
       
@@ -544,7 +545,7 @@ try {
           'Content-Type': 'application/json'
         };
         var Data ={
-          UserID: 119,
+          UserID: onlinUserID,
           heightM: heightCM
         };
       
@@ -570,7 +571,7 @@ try {
           'Content-Type': 'application/json'
         };
         var Data ={
-          UserID: 119,
+          UserID: onlinUserID,
           DOP: DOB,
         };
       
@@ -598,7 +599,7 @@ try {
           'Content-Type': 'application/json'
         };
         var Data ={
-          UserID: 119,
+          UserID: onlinUserID,
           latest_HP1AC: latestHB1AC_
         };
       
@@ -624,7 +625,7 @@ try {
           'Content-Type': 'application/json'
         };
         var Data ={
-          UserID: 119,
+          UserID: onlinUserID,
           latest_HP1AC_date: dateOfLatestHB1AC
         };
       
@@ -697,7 +698,6 @@ try {
 <View style={styles.actionB}>
 <Text style={styles.text_footer}>الوزن</Text>
 <TextInput
-style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={dbData.weigh+''}
             onChangeText = {(val)=> changeWeight(val)}
@@ -710,7 +710,6 @@ style={{color:'black'}}
 
 <Text style={styles.text_footer}>الطول</Text>
 <TextInput
-style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={dbData.heigh+''}
             onChangeText = {(val)=> changeHeight(val)}
@@ -728,7 +727,6 @@ style={{color:'black'}}
 <View style={styles.actionB}>
 <Text style={styles.text_footer}>آخر معدل للسكر التراكمي</Text>
 <TextInput
-style={{color:'black'}}
             keyboardType="decimal-pad"
             defaultValue={dbData.lh1+''}
             onChangeText = {(val)=> changeHB1AC(val)}
@@ -938,7 +936,7 @@ width: 100,
   borderRightWidth: 1,
   borderBottomWidth: 1,
   borderColor: '#CACDD1',
-  
+  color: '#000'
 },
 actionP: {
   flexDirection: 'row',

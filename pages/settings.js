@@ -19,7 +19,7 @@ import SQLite from 'react-native-sqlite-storage';
 //======Local Database======//
 
 global.onlinUserID = '';
-global.uID = '162';
+global.uID = '';
 
 const Setting = ({navigation}) => {
 
@@ -40,7 +40,7 @@ Alert.alert(
       onPress: () => {
        // navigation.navigate('settingAR');
       console.log('OK pressed');
-      //navigation.navigate('settingAR');
+      navigation.navigate('s');
       //allOperation();
       },
     },

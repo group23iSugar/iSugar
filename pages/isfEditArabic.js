@@ -378,7 +378,7 @@ const handleAllDayUpdate = ()=> {
     
   }
         
-
+  alert('تم التحديث');
   navigation.navigate('editProAR');
 }
 
@@ -820,7 +820,7 @@ const changeV = (val, id, type, i) => {
                       <View style={styles.innerView}>
                       <Text style={styles.innerTitle}>ISF: {index} </Text>
                       <TextInput
-                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0}}
+                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color:'#000'}}
                        keyboardType="decimal-pad"
                        defaultValue={item.isf+''}
                        onChangeText={(val) => changeV(val, item.id, 'isf', index)}
@@ -829,7 +829,7 @@ const changeV = (val, id, type, i) => {
                       <View style={styles.innerView}>
                       <Text style={styles.innerTitle}>المرغوب فيها: </Text>
                       <TextInput
-                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0}}
+                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0,color:'#000'}}
                        keyboardType="decimal-pad"
                        defaultValue={item.tBG+''}
                        onChangeText={(val) => changeV(val, item.id, 'bgt', index)}
@@ -838,7 +838,7 @@ const changeV = (val, id, type, i) => {
                       <View style={styles.innerView}>
                       <Text style={styles.innerTitle}>البداية: </Text>
                       <TextInput
-                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0}}
+                      style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color:'#000'}}
                        keyboardType="decimal-pad"
                        defaultValue={item.sBG+''}
                        onChangeText={(val) => changeV(val, item.id, 'bgs', index)}
@@ -1049,6 +1049,7 @@ actionN: {
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#CACDD1',
+    color:'#000'
   
 },
 actionP: {
