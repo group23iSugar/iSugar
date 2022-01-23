@@ -28,27 +28,41 @@ import { black } from 'react-native-paper/lib/typescript/styles/colors';
 
 const Calc = ({navigation, route}) => {
   //const grams = route.params;
-  const neeDed = () => {
-    if(isIsfInterval == 1){
-    checkISFIntervals(); //Retrives from DB
-    }
+const neeDed = async () => {
+ 
+  await insuCalc();
+  await alert(howText); 
   };
 
-  const insuCalc = () => {
+ const insuCalc = async () => {
 
-    // for(let x =0; x<prevArr.length; x++){
-    //   console.log('=================================');
-    //   console.log(prevArr[x].time);
-    //   console.log(prevArr[x].dose);
-    //   console.log('=================================');
-    // }
+    await FirstRetrieve();
+    await retrieve();
+    await secondretrieve();
+    await retrieve3();
+    await retrieve4();
+
+
+
+
+    if(isIsfInterval == 1){
+    await checkISFIntervals(); //Retrives from DB
+    }
+
+    for(let x =0; x<prevArr.length; x++){
+      console.log('=================================');
+      console.log(prevArr[x].time);
+      console.log(prevArr[x].dose);
+      console.log('=================================');
+    }
 
     console.log(prevArr);
-    var a=0;
-    var b=0;
+    var a;
+    var b;
     var c = 0;
     var IOB = 0;
     var adjustment;
+    var txt1 = '';
 
     if (
       (insulinReg == 'Pen' || insulinReg == 'pen') &&
@@ -56,31 +70,35 @@ const Calc = ({navigation, route}) => {
         ReData2.insulinType == 'Lispro' ||
         ReData2.insulinType == 'Glulisine')
     ) {
-      console.log('1-  ' + c);
+      //console.log('1-  ' + c);
       if (bgLevel > 70) {
-        console.log('2-  ' + c);
+        //console.log('2-  ' + c);
         if (reason == '5') {
           //5 is the value for correction lable
-          console.log('3-  ' + c);
+          //console.log('3-  ' + c);
           if (bgLevel > ReData1.startBG) {
-            console.log(
-              'BG: ' +
-                bgLevel +
-                ' Start BG: ' +
-                ReData1.startBG +
-                ' ISF: ' +
-                ReData1.ISF,
-            );
-            console.log('4-  ' + c);
+            // console.log(
+            //   'BG: ' +
+            //     bgLevel +
+            //     ' Start BG: ' +
+            //     ReData1.startBG +
+            //     ' ISF: ' +
+            //     ReData1.ISF,
+            // );
+            //console.log('4-  ' + c);
+
+            txt1 = txt1 + 'since the reason is correction Then: \n * Total = (current BG - Target BG)/ISF';
+
             a = 0;
             b = (bgLevel - ReData1.targetBG) / ReData1.ISF;
             c = a + b;
-            console.log('5-  ' + c);
+           // console.log('5-  ' + c);
 
             //prevArr
             console.log('THA LENGTH:    '+ prevArr.length);
             if (prevArr.length == 0){
               	IOB = 0;} else {
+                   txt1 = txt1 + '\nsince you took insulin dose in the previous 4 hours Then: \n* Total = Total - IOB';
 
                   for (let i = 0; i < prevArr.length; i++){
                     console.log('DoubleCheckaaaaa');
@@ -94,15 +112,19 @@ const Calc = ({navigation, route}) => {
               console.log('6-  ' + c);
               console.log('7-  ' + IOB);
               c = c - IOB;
+             
             // }
             if (isPreEnabled == true) {
               adjustment = PreExercise();
               c = c - adjustment * c;
 
+              txt1 = txt1 + '\nsince you have prepared to an exercise Then: \n* Total = Total - (exercise adjustment * Total)';
+
               // return (total);
             } else if (isPostEnabled == true) {
               adjustment = PostExercise();
               c = c - adjustment * c;
+              txt1 = txt1 + '\nsince you have previously exercised Then: \n* Total = Total - (exercise adjustment * Total)';
 
               // return (total);
             }
@@ -112,12 +134,12 @@ const Calc = ({navigation, route}) => {
         } else {
           if (calcMethod == 'ICR') {
             console.log('is ICR?');
-            checkICRIntervals();
+            await checkICRIntervals();
+            txt1 = txt1 + '\nsince you are using ICR and the reason for the dose is a meal Then: \n* Total = CHO / ICR';
             a = CHO / ICR;
-            console.log('a: '+a+ ' / cho: '+CHO);
-            console.log('ReData1.startBG: '+ReData1.startBG);
             if (bgLevel > ReData1.startBG) {
               b = (bgLevel - ReData1.targetBG) / ReData1.ISF;
+               txt1 = txt1 + '\nsince the current BG is greater than the start BG Then: \n* Total = Total + ((current BG - Target BG) / ISF) ';
             } else {
               b = 0;
             }
@@ -125,6 +147,7 @@ const Calc = ({navigation, route}) => {
 
           if (prevArr.length == 0){
               	IOB = 0;} else {
+                   txt1 = txt1 + '\nsince you took insulin dose in the previous 4 hours Then: \n* Total = Total - IOB';
 
                   for (let i = 0; i < prevArr.length; i++){
                     console.log('DoubleCheckaaaaa');
@@ -133,10 +156,13 @@ const Calc = ({navigation, route}) => {
                    }
                 }
             c = c - IOB;
+            
 
             if (isPreEnabled == true) {
               adjustment = PreExercise();
               c = c - adjustment * c;
+
+              txt1 = txt1 + '\nsince you have prepared to an exercise Then: \n* Total = Total - (exercise adjustment * Total)';
 
               // return (total);
             } else if (isPostEnabled == true) {
@@ -144,18 +170,22 @@ const Calc = ({navigation, route}) => {
                 adjustment = PostExercise();
                 c = c - adjustment * c;
 
+                txt1 = txt1 + '\nsince you have previously exercised Then: \n* Total = Total - (exercise adjustment * Total)';
+
                 //  return (total);
               }
             }
           } else {
             
-            checkSSIntervals();
+            await checkSSIntervals();
             console.log('is Sliding?');
             c = SlidingScale; // from database
+            txt1 = txt1 + '\nsince you are using sliding scale Then: \n* Total = SlidingScale based on the current time';
             console.log('this is c: ' + c + ' And Sliding: ' + SlidingScale);
             console.log(c + '  This is tt');
                 if (prevArr.length == 0){
               	IOB = 0;} else {
+                  txt1 = txt1 + '\nsince you took insulin dose in the previous 4 hours Then: \n* Total = Total - IOB';
 
                   for (let i = 0; i < prevArr.length; i++){
                     console.log('DoubleCheckaaaaa');
@@ -165,17 +195,22 @@ const Calc = ({navigation, route}) => {
                 }
             console.log('This is c: ' + c);
             c = c - IOB;
+             
             console.log(IOB + '  This is IOB and c after IOB: ' + c);
 
             if (isPreEnabled == true) {
               adjustment = PreExercise();
               c = c - adjustment * c;
 
+               txt1 = txt1 + '\nsince you have prepared to an exercise Then: \n* Total = Total - (exercise adjustment * Total)';
+
               //  return (total);
             } else if (isPostEnabled == true) {
             if (differ <= 4 && differ >= 0) {
                 adjustment = PostExercise();
                 c = c - adjustment * c;
+
+                 txt1 = txt1 + '\nsince you have previously exercised Then: \n* Total = Total - (exercise adjustment * Total)';
 
                 //  return (total);
               }
@@ -195,8 +230,7 @@ const Calc = ({navigation, route}) => {
 
 
     if (halfOrFull==1){
-	//c = Math.round(c);
-}
+	c = Math.round(c);}
 else{//half-units
 	var r1 = Math.round((c * 10) / 10); // rounds to 1 decimal after point
 	var r1_whole = Math.trunc(r1); // the whole part of the number
@@ -211,9 +245,30 @@ else{//half-units
 	c = r1_whole + roundedFraction}
 
     setTotal(c);
+    setHowText(txt1);
     // navigation.navigate('result',{result: total, calcM: calcMethod, reasonD: reason, bg: bgLevel, cho: CHO})
     console.log(c + ' and:3  ' + total);
-  };
+    //======================Save into DB========================
+
+    var currentTime2 = new Date();
+    var currentTimeHours1 = currentTime2.getHours(); //0-23
+    var currentTimeMin1 = currentTime2.getMinutes(); //0-59
+    var currentTimeDate_day1 = currentTime2.getDate(); //1-31
+    var currentTimeDate_month1 = currentTime2.getMonth(); //0-11
+    var currentTimeDate_year1 = currentTime2.getFullYear(); //2021
+
+      try {
+          db.transaction( (tx) => {
+              tx.executeSql(
+               'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Day, Dose_Date_Month, Dose_Date_Year) VALUES (?,?,?,?,?,?,?,?,?,?)',
+                 [uID, bgLevel, reason, CHO, total, currentTimeHours1, currentTimeMin1, currentTimeDate_day1, currentTimeDate_month1, currentTimeDate_year1]
+             );
+            
+         })
+         
+     } catch (error) {
+         console.log(error);
+     } };
 
   const IOBSwitch = (timePrevDose, PrevDose) => {
     var num = 0;
@@ -309,12 +364,12 @@ else{//half-units
   });
   const [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    FirstRetrieve(retrieve, secondretrieve);
-    //if(insulinReg=='Pen'){
-    retrieve3();//}
-    retrieve4();
-  }, []);
+  //    useEffect(() => {
+  //    FirstRetrieve(retrieve, secondretrieve);
+  //    //if(insulinReg=='Pen'){
+  //   retrieve3();//}
+  //   retrieve4();
+  //  }, []);
 
   // ====== ISF ========== //
   const [fromTime, setFromTime] = useState([]);
@@ -348,7 +403,7 @@ else{//half-units
     call1();
     call2();
   };
-  const FirstRetrieve = (callback, callback2) => {
+  const FirstRetrieve = () => {
     var interval = -1;
     console.log('in first');
     try {
@@ -361,7 +416,7 @@ else{//half-units
             var rows = results.rows;
             for (let i = 0; i < rows.length; i++) {
               var UID = rows.item(i).UserID;
-              if (UID == uID) {
+              if (UID == 222) {
                 console.log('in if (user is found)');
                 interval = rows.item(i).ISFIntervals; //boolean 0 or 1
                 console.log(interval);
@@ -375,8 +430,8 @@ else{//half-units
                 //----------------
                 //  console.log(interval+' intervals before calling');
                 //   console.log(calcM+' method for calc');
-                callback(interval);
-                callback2(calcM);
+                // callback(interval);
+                // callback2(calcM);
                 return;
               }
             }
@@ -388,12 +443,12 @@ else{//half-units
     }
   };
 
-  const retrieve = interval => {
+  const retrieve = () => {
     //interval is wither the user is using isf intervals or not ( 1 or 0)
     console.log('in second');
-    console.log(interval);
-    if (interval != -1) {
-      if (interval == 1) {
+    console.log(isIsfInterval);
+    if (isIsfInterval != -1) {
+      if (isIsfInterval == 1) {
         // specific hours
         try {
           db.transaction(tx => {
@@ -404,7 +459,7 @@ else{//half-units
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == uID) {
+                  if (UID == 222) {
                     //user id
                     var from = rows.item(i).fromTime;
                     setFromTime(fromTime => [...fromTime, from]);
@@ -425,7 +480,7 @@ else{//half-units
         } catch (error) {
           console.log(error);
         }
-      } else if (interval == 0) {
+      } else if (isIsfInterval == 0) {
         // All day
         try {
           db.transaction(tx => {
@@ -436,7 +491,7 @@ else{//half-units
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == uID) {
+                  if (UID == 222) {
                     //***************************************FIXIXIXIX */
                     var ISF_ = rows.item(i).ISF;
                     setISFP(ISF_);
@@ -462,16 +517,16 @@ else{//half-units
     }
   };
   //=========================ICR intervals
-  const secondretrieve = method => {
+  const secondretrieve = () => {
     //calcM??
-    console.log('inside is: ' + method);
-    if (method == 'ICR') {
+    console.log('inside is: ' + calcMethod);
+    if (calcMethod == 'ICR') {
       var tempArr = [...ICRarr]; // array of obj
       try {
         db.transaction(tx => {
           tx.executeSql(
             'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
-            [uID],
+            [222],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
@@ -491,14 +546,14 @@ else{//half-units
       } catch (error) {
         console.log(error);
       }
-    } else if (method == 'Sliding Scale') {
+    } else if (calcMethod == 'Sliding Scale') {
       console.log('hello Sliding');
       var tempArr = [...SlidingScaleArr];
       try {
         db.transaction(tx => {
           tx.executeSql(
             'SELECT ssID, fromTime, toTime FROM ssInterval WHERE UserID=?',
-            [uID],
+            [222],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
@@ -555,7 +610,7 @@ else{//half-units
             for (let i = 0; i < rows.length; i++) {
               var userid = rows.item(i).UserID;
 
-              if (userid == uID) {
+              if (userid == 222) {
                 setReData2({
                   ...ReData2,
                   insulinType: rows.item(i).insulinType,
@@ -816,7 +871,7 @@ else{//half-units
   const togglePostSwitch = () =>
     setIsPostEnabled(previousState => !previousState);
   //=================================================================================
-
+  const [howText, setHowText] = useState('-'); //How was the insulin calculated
   const [reason, setReason] = useState('0'); //ReasonForInsulin
   const [preDuration, setPreDuration] = useState('14'); //Duration of pre exersize
   const [preTypeOfExercise, setPreTypeOfExercise] = useState('1'); //reason of pre exercize
@@ -826,14 +881,12 @@ else{//half-units
   const [CHO, setCHO] = useState(0);
   var isValidBG = true;
   var isValidCHO = true;
+  // const retrievePromises = [retrieve1(), retrieve2(), retrieve3(), retrieve4()];
 
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
-      <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
-        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
-         <Entypo name="menu" color="#05375a" size={35} />
-         </TouchableOpacity>
+      <View style={{top: 10, alignItems: 'center'}}>
+        <Image source={require('./images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -864,44 +917,41 @@ else{//half-units
         <Picker
           selectedValue={reason}
           onValueChange={value => setReason(value)}
-          itemStyle={{color: 'black'}}
           mode="dropdown"
           style={styles.picker}>
-          <Picker.Item label="Pre-Breakfast" value="0" testID="0"  ></Picker.Item>
-          <Picker.Item label="Pre-Lunch" value="1" testID="0"  ></Picker.Item>
-          <Picker.Item label="Pre-Dinner" value="2" testID="0"  ></Picker.Item>
+          <Picker.Item label="Pre-Breakfast" value="0" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Lunch" value="1" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Dinner" value="2" testID="0"></Picker.Item>
           <Picker.Item
             label="Pre-Daytime snack"
             value="3"
-            testID="0"  ></Picker.Item>
+            testID="0"></Picker.Item>
           <Picker.Item
             label="Pre-Bedtime snack"
             value="4"
-            testID="0"  ></Picker.Item>
+            testID="0"></Picker.Item>
           <Picker.Item
             label="No meal only for correction"
             value="5"
-            testID="1"  ></Picker.Item>
+            testID="1"></Picker.Item>
         </Picker>
         <View style={styles.vNext}>
           <Text style={styles.inpTxt}>Meal carbohydrate content: </Text>
           <TextInput
             keyboardType="decimal-pad"
-            placeholder="00.00"
+            placeholder="000.00 g"
             onChangeText={value => setCHO(value)}
             style={styles.inputT}></TextInput>
         </View>
 
-        <TouchableOpacity style={styles.button}
-        onPress={() => navigation.navigate('carb')}
-        >
+        <TouchableOpacity style={styles.button}>
           <Text style={{fontSize: 18, textAlign: 'center'}}>
             Calculate carbohydrate in a meal
           </Text>
-           <Image
-            source={require('../images/carb.png')}
+          {/* <Image
+            source={require('./images/carb.png')}
             style={{height: 30, width: 30}}
-          /> 
+          /> */}
         </TouchableOpacity>
 
         <Text style={styles.inpTxt}>
@@ -921,172 +971,170 @@ else{//half-units
             <View>
               <Text style={styles.inpTxt}>Type of exercise: </Text>
               <Picker
-              itemStyle={{color: 'black'}}
                 selectedValue={preTypeOfExercise}
                 onValueChange={value => setPreTypeOfExercise(value)}
                 mode="dropdown"
                 style={styles.picker}>
-                <Picker.Item label="Select" value="0" testID="2"  ></Picker.Item>
-                <Picker.Item label="Running" value="1" testID="0"  ></Picker.Item>
+                <Picker.Item label="Select" value="0" testID="2"></Picker.Item>
+                <Picker.Item label="Running" value="1" testID="0"></Picker.Item>
                 <Picker.Item
                   label="Swimming"
                   value="2"
                   testID="0"></Picker.Item>
-                <Picker.Item label="Walking" value="3" testID="0"  ></Picker.Item>
+                <Picker.Item label="Walking" value="3" testID="0"></Picker.Item>
                 <Picker.Item
                   label="Spinning"
                   value="4"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Mountain Climbing"
                   value="5"
                   testID="0"></Picker.Item>
-                <Picker.Item label="Dancing" value="6" testID="0"   ></Picker.Item>
+                <Picker.Item label="Dancing" value="6" testID="0"></Picker.Item>
                 <Picker.Item
                   label="Kickboxing"
                   value="7"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Cross country skiing"
                   value="8"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Jumping jacks"
                   value="9"
-                  testID="0"  ></Picker.Item>
-                <Picker.Item label="Rowing" value="10" testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
+                <Picker.Item label="Rowing" value="10" testID="0"></Picker.Item>
                 <Picker.Item
                   label="Martial arts"
                   value="11"
-                  testID="0"  ></Picker.Item>
-                <Picker.Item label="Zumba" value="12" testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
+                <Picker.Item label="Zumba" value="12" testID="0"></Picker.Item>
                 <Picker.Item
                   label="Basketball"
                   value="13"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Trampoline-ing"
                   value="14"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Aerobic strength circuit"
                   value="15"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Cycling"
                   value="16"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Jogging"
                   value="17"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Dancing"
                   value="18"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Cardio exercises/ machines"
                   value="19"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Aerobic exercise classes"
                   value="20"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Skipping/ Jump rope"
                   value="21"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Stair mill /Stair stepper"
                   value="22"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Stationary bike"
                   value="23"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Elliptical"
                   value="24"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Skating"
                   value="25"
-                  testID="0"  ></Picker.Item>
-                <Picker.Item label="Tennis" value="26" testID="0"  ></Picker.Item>
-                <Picker.Item label="Soccer" value="27" testID="0"  ></Picker.Item>
-                <Picker.Item label="Boxing" value="28" testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
+                <Picker.Item label="Tennis" value="26" testID="0"></Picker.Item>
+                <Picker.Item label="Soccer" value="27" testID="0"></Picker.Item>
+                <Picker.Item label="Boxing" value="28" testID="0"></Picker.Item>
                 <Picker.Item
                   label="Hula-hooping"
                   value="29"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="Other aerobic exercise"
                   value="30"
-                  testID="0"  ></Picker.Item>
+                  testID="0"></Picker.Item>
                 <Picker.Item
                   label="HIIT (High Intensity Interval Training)"
                   value="31"
-                  testID="1"  ></Picker.Item>
+                  testID="1"></Picker.Item>
                 <Picker.Item
                   label="Pilates"
                   value="32"
-                  testID="1"  ></Picker.Item>
+                  testID="1"></Picker.Item>
                 <Picker.Item
                   label="Anaerobic Circuit training"
                   value="33"
-                  testID="1"  ></Picker.Item>
+                  testID="1"></Picker.Item>
                 <Picker.Item
                   label="Sprinting"
                   value="34"
-                  testID="1"  ></Picker.Item>
+                  testID="1"></Picker.Item>
                 <Picker.Item
                   label="Resistance exercises"
                   value="35"
-                  testID="1"  ></Picker.Item>
+                  testID="1"></Picker.Item>
                 <Picker.Item
                   label="Bodyweight exercise (e.g. push-ups, pull-ups, squats, lunges)"
                   value="36"
-                  testID="1"  ></Picker.Item>
+                  testID="1"></Picker.Item>
                 <Picker.Item
                   label="Weight lifting"
                   value="37"
-                  testID="1"  ></Picker.Item>
+                  testID="1"></Picker.Item>
                 <Picker.Item label="Yoga" value="38" testID="1"></Picker.Item>
                 <Picker.Item
                   label="Cross-fit"
                   value="39"
-                  testID="1"  ></Picker.Item>
+                  testID="1"></Picker.Item>
                 <Picker.Item
                   label="Isometrics"
                   value="40"
-                  testID="1"  ></Picker.Item>
+                  testID="1"></Picker.Item>
                 <Picker.Item
                   label="Gymnastics"
                   value="41"
-                  testID="1"  ></Picker.Item>
+                  testID="1"></Picker.Item>
                 <Picker.Item
                   label="Other anaerobic exercise"
                   value="42"
-                  testID="1"  ></Picker.Item>
+                  testID="1"></Picker.Item>
               </Picker>
 
               <Text style={styles.inpTxt}>Duration of exercise: </Text>
               <Picker
-              itemStyle={{color: 'black'}}
                 selectedValue={preDuration}
                 onValueChange={value => setPreDuration(value)}
                 mode="dropdown"
                 style={styles.picker}>
-                <Picker.Item label="Select" value="0"  ></Picker.Item>
+                <Picker.Item label="Select" value="0"></Picker.Item>
                 <Picker.Item
                   label="Less than 15 minutes"
-                  value="14"  ></Picker.Item>
-                <Picker.Item label="15 to 29 minutes" value="16"  ></Picker.Item>
-                <Picker.Item label="30 to 45 minutes" value="31"  ></Picker.Item>
+                  value="14"></Picker.Item>
+                <Picker.Item label="15 to 29 minutes" value="16"></Picker.Item>
+                <Picker.Item label="30 to 45 minutes" value="31"></Picker.Item>
                 <Picker.Item
                   label="More than 45 minutes"
                   value="46"></Picker.Item>
-                <Picker.Item label="Unknown" value="Unknown"  ></Picker.Item>
+                <Picker.Item label="Unknown" value="Unknown"></Picker.Item>
               </Picker>
             </View>
           </View>
@@ -1107,149 +1155,147 @@ else{//half-units
           <View style={{backgroundColor: '#c3d4e0', marginTop: 20}}>
             <Text style={styles.inpTxt}>Type of exercise: </Text>
             <Picker
-            itemStyle={{color: 'black'}}
               selectedValue={postTypeOfExercise}
               onValueChange={value => setPostTypeOfExercise(value)}
               mode="dropdown"
               style={styles.picker}>
-              <Picker.Item label="Select" value="0" testID="2"  ></Picker.Item>
-              <Picker.Item label="Running" value="1" testID="0"  ></Picker.Item>
-              <Picker.Item label="Swimming" value="2" testID="0"  ></Picker.Item>
-              <Picker.Item label="Walking" value="3" testID="0"  ></Picker.Item>
-              <Picker.Item label="Spinning" value="4" testID="0"  ></Picker.Item>
+              <Picker.Item label="Select" value="0" testID="2"></Picker.Item>
+              <Picker.Item label="Running" value="1" testID="0"></Picker.Item>
+              <Picker.Item label="Swimming" value="2" testID="0"></Picker.Item>
+              <Picker.Item label="Walking" value="3" testID="0"></Picker.Item>
+              <Picker.Item label="Spinning" value="4" testID="0"></Picker.Item>
               <Picker.Item
                 label="Mountain Climbing"
                 value="5"
-                testID="0"  ></Picker.Item>
-              <Picker.Item label="Dancing" value="6" testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
+              <Picker.Item label="Dancing" value="6" testID="0"></Picker.Item>
               <Picker.Item
                 label="Kickboxing"
                 value="7"
-                testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
               <Picker.Item
                 label="Cross country skiing"
                 value="8"
-                testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
               <Picker.Item
                 label="Jumping jacks"
                 value="9"
-                testID="0"  ></Picker.Item>
-              <Picker.Item label="Rowing" value="10" testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
+              <Picker.Item label="Rowing" value="10" testID="0"></Picker.Item>
               <Picker.Item
                 label="Martial arts"
                 value="11"
-                testID="0"  ></Picker.Item>
-              <Picker.Item label="Zumba" value="12" testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
+              <Picker.Item label="Zumba" value="12" testID="0"></Picker.Item>
               <Picker.Item
                 label="Basketball"
                 value="13"
-                testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
               <Picker.Item
                 label="Trampoline-ing"
                 value="14"
-                testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
               <Picker.Item
                 label="Aerobic strength circuit"
                 value="15"
-                testID="0"  ></Picker.Item>
-              <Picker.Item label="Cycling" value="16" testID="0"  ></Picker.Item>
-              <Picker.Item label="Jogging" value="17" testID="0"  ></Picker.Item>
-              <Picker.Item label="Dancing" value="18" testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
+              <Picker.Item label="Cycling" value="16" testID="0"></Picker.Item>
+              <Picker.Item label="Jogging" value="17" testID="0"></Picker.Item>
+              <Picker.Item label="Dancing" value="18" testID="0"></Picker.Item>
               <Picker.Item
                 label="Cardio exercises/ machines"
                 value="19"
-                testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
               <Picker.Item
                 label="Aerobic exercise classes"
                 value="20"
-                testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
               <Picker.Item
                 label="Skipping/ Jump rope"
                 value="21"
-                testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
               <Picker.Item
                 label="Stair mill /Stair stepper"
                 value="22"
-                testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
               <Picker.Item
                 label="Stationary bike"
                 value="23"
-                testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
               <Picker.Item
                 label="Elliptical"
                 value="24"
-                testID="0"  ></Picker.Item>
-              <Picker.Item label="Skating" value="25" testID="0"  ></Picker.Item>
-              <Picker.Item label="Tennis" value="26" testID="0"  ></Picker.Item>
-              <Picker.Item label="Soccer" value="27" testID="0" > </Picker.Item>
-              <Picker.Item label="Boxing" value="28" testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
+              <Picker.Item label="Skating" value="25" testID="0"></Picker.Item>
+              <Picker.Item label="Tennis" value="26" testID="0"></Picker.Item>
+              <Picker.Item label="Soccer" value="27" testID="0"></Picker.Item>
+              <Picker.Item label="Boxing" value="28" testID="0"></Picker.Item>
               <Picker.Item
                 label="Hula-hooping"
                 value="29"
-                testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
               <Picker.Item
                 label="Other aerobic exercise"
                 value="30"
-                testID="0"  ></Picker.Item>
+                testID="0"></Picker.Item>
               <Picker.Item
                 label="HIIT (High Intensity Interval Training)"
                 value="31"
-                testID="1"  ></Picker.Item>
+                testID="1"></Picker.Item>
               <Picker.Item label="Pilates" value="32" testID="1"></Picker.Item>
               <Picker.Item
                 label="Anaerobic Circuit training"
                 value="33"
-                testID="1"  ></Picker.Item>
+                testID="1"></Picker.Item>
               <Picker.Item
                 label="Sprinting"
                 value="34"
-                testID="1"  ></Picker.Item>
+                testID="1"></Picker.Item>
               <Picker.Item
                 label="Resistance exercises"
                 value="35"
-                testID="1"  ></Picker.Item>
+                testID="1"></Picker.Item>
               <Picker.Item
                 label="Bodyweight exercise (e.g. push-ups, pull-ups, squats, lunges)"
                 value="36"
-                testID="1"  ></Picker.Item>
+                testID="1"></Picker.Item>
               <Picker.Item
                 label="Weight lifting"
                 value="37"
-                testID="1"  ></Picker.Item>
-              <Picker.Item label="Yoga" value="38" testID="1"  ></Picker.Item>
+                testID="1"></Picker.Item>
+              <Picker.Item label="Yoga" value="38" testID="1"></Picker.Item>
               <Picker.Item
                 label="Cross-fit"
                 value="39"
-                testID="1"  ></Picker.Item>
+                testID="1"></Picker.Item>
               <Picker.Item
                 label="Isometrics"
                 value="40"
-                testID="1"  ></Picker.Item>
+                testID="1"></Picker.Item>
               <Picker.Item
                 label="Gymnastics"
                 value="41"
-                testID="1"  ></Picker.Item>
+                testID="1"></Picker.Item>
               <Picker.Item
                 label="Other anaerobic exercise"
                 value="42"
-                testID="1"  ></Picker.Item>
+                testID="1"></Picker.Item>
             </Picker>
 
             <Text style={styles.inpTxt}>Duration of exercise: </Text>
             <Picker
-            itemStyle={{color: 'black'}}
               selectedValue={postDuration}
               onValueChange={value => setPostDuration(value)}
               mode="dropdown"
               style={styles.picker}>
-              <Picker.Item label="Select" value="0"  ></Picker.Item>
+              <Picker.Item label="Select" value="0"></Picker.Item>
               <Picker.Item
                 label="Less than 30 minutes"
-                value="14"  > </Picker.Item>
-              <Picker.Item label="30 to 45 minutes" value="31"  ></Picker.Item>
+                value="14"></Picker.Item>
+              <Picker.Item label="30 to 45 minutes" value="31"></Picker.Item>
               <Picker.Item
                 label="More than 45 minutes"
-                value="46"  ></Picker.Item>
+                value="46"></Picker.Item>
             </Picker>
 
             <Text style={styles.inpTxt}>Time of exersice: </Text>
@@ -1284,7 +1330,7 @@ else{//half-units
             paddingBottom: 30,
             backgroundColor: '#6496d7',
           }}
-          onPress={() => calcA(neeDed, insuCalc)}>
+          onPress={neeDed}>
           <Text style={{fontSize: 18, textAlign: 'center'}}>Calculate</Text>
         </TouchableOpacity>
 
@@ -1293,6 +1339,7 @@ else{//half-units
     </LinearGradient>
   );
 };
+
 const {height} = Dimensions.get("screen");
 const height_logo = height * 0.15;
 
