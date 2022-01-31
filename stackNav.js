@@ -199,6 +199,45 @@ try {
      console.log(error);
     }
      //======//
+    
+    //======/
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS hypoRecord (dateTime TEXT NOT NULL, UserID INTEGER NOT NULL, glucaFlag INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+    //====/
+
+    
+    //======/
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS reCheckRecord (dateTime TEXT NOT NULL, UserID INTEGER NOT NULL,reason TEXT , glucaFlag INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+    //====/
+
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS reCheckReminder (dateTime TEXT NOT NULL, UserID INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+    //====/
      try {
       db.transaction( (tx) => {
           tx.executeSql(
