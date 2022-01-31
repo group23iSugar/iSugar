@@ -36,7 +36,7 @@ import LinearGradient from 'react-native-linear-gradient';
       db.transaction(tx => {
         tx.executeSql(
           'SELECT DOB, weightKG FROM patientprofile WHERE UserID=?',
-          [222],
+          [userID],
           (tx, results) => {
             var rows = results.rows;
              for (let i = 0; i < rows.length; i++) {
@@ -44,7 +44,7 @@ import LinearGradient from 'react-native-linear-gradient';
            weight = rows.item(i).weightKG;
 
         var currentDate = new Date();
-        var birthDay = new Date('12/11/2011');//Change it to dateOfB !!!!!!!!!!!!!!!!!!!!!!!!!!!!IMPORTANT
+        var birthDay = new Date(dateOfB);//Change it to dateOfB !!!!!!!!!!!!!!!!!!!!!!!!!!!!IMPORTANT
         var age2 = currentDate.getFullYear() - birthDay.getFullYear();
         console.log('getFullYear:  '+birthDay.getFullYear());
         var mon = currentDate.getMonth() - birthDay.getMonth();
