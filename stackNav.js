@@ -299,6 +299,70 @@ try {
 }
 
 
+//----------BGLevel----------
+try {
+  db.transaction( (tx) => {
+      tx.executeSql(
+       'CREATE TABLE IF NOT EXISTS BGLevel (UserID INTEGER NOT NULL UNIQUE, BGLevel REAL NOT NULL, BGLevelDate TEXT NOT NULL, BGLevelTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+      []
+     );
+ })
+} catch (error) {
+ console.log(error);
+}
+
+//----------Flags----------
+try {
+  db.transaction( (tx) => {
+      tx.executeSql(
+       'CREATE TABLE IF NOT EXISTS Flags (UserID INTEGER NOT NULL UNIQUE, eMsgFlag TEXT NOT NULL, eMsgFlagDate TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+      []
+     );
+ })
+} catch (error) {
+ console.log(error);
+}
+
+//----------exercise record----------
+try {
+  db.transaction( (tx) => {
+      tx.executeSql(
+       'CREATE TABLE IF NOT EXISTS exerciseRecords (UserID INTEGER NOT NULL UNIQUE, recordDate TEXT NOT NULL, recordTime TEXT NOT NULL, exerciseType TEXT NOT NULL, suggestedCorrectionDose INTEGER NOT NULL, ketonesLevel TEXT NOT NULL, ketonesSource TEXT NOT NULL, suggestCarbs TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+      []
+     );
+ })
+} catch (error) {
+ console.log(error);
+}
+
+
+//----------recheck record----------
+try {
+  db.transaction( (tx) => {
+      tx.executeSql(
+       'CREATE TABLE IF NOT EXISTS exRecheckRecords (UserID INTEGER NOT NULL UNIQUE, recordDate TEXT NOT NULL, recordTime TEXT NOT NULL, exerciseType TEXT NOT NULL, suggestedCorrectionDose INTEGER NOT NULL, ketonesLevel TEXT NOT NULL, ketonesSource TEXT NOT NULL, suggestCarbs TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+      []
+     );
+ })
+} catch (error) {
+ console.log(error);
+}
+
+
+//----------recheck notification----------
+try {
+  db.transaction( (tx) => {
+      tx.executeSql(
+       'CREATE TABLE IF NOT EXISTS exRecheckNotification (UserID INTEGER NOT NULL UNIQUE, recheckDate TEXT NOT NULL, recheckTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+      []
+     );
+ })
+} catch (error) {
+ console.log(error);
+}
+
+
+
 global.uID='';
 global.onlinUserID = 0;
 global.AccType = '';
