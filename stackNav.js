@@ -59,6 +59,10 @@ import hypoConscious from './pages/hypoConscious';
 import hypo from './pages/hypo';
 import reNoHypo from './pages/reNoHypo';
 import notMealTime from './pages/notMealTime';
+import checkFirst from './pages/checkFirst';
+import exercise from './pages/exercise';
+import exercise3 from './pages/exercise3';
+import recheckExercise from './pages/recheckExercise';
 
 
 
@@ -468,7 +472,10 @@ const mainStack = () => {
         <Stack.Screen name="notMealTime" component={notMealTime}  />
         <Stack.Screen name="reNoHypo" component={reNoHypo}  />
      //=========================================================
-
+        <Stack.Screen name="check" component={checkFirst}  />
+        <Stack.Screen name="exercise" component={exercise}  />
+        <Stack.Screen name="exercise3" component={exercise3}  />
+        <Stack.Screen name="recheckExercise" component={recheckExercise}  />
 
       </Stack.Navigator>
     </NavigationContainer>
