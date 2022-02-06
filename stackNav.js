@@ -52,6 +52,14 @@ import logInAR from './pages/logInAR';
 import personalInfoAR from './pages/personalInfoArabic';
 import AuthStackAR from './pages/AuthStackAR';
 import CalcAR from './pages/CalcAR';
+import notConscious from './pages/notConscious';
+import isConPop from './pages/isConPop';
+import normBGfirst from './pages/normBGfirst';
+import hypoConscious from './pages/hypoConscious';
+import hypo from './pages/hypo';
+import reNoHypo from './pages/reNoHypo';
+import notMealTime from './pages/notMealTime';
+
 
 
 
@@ -248,6 +256,19 @@ try {
     } catch (error) {
      console.log(error);
     }
+    
+    //===Hypo local table===
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS hypoglycemiaRecords(UserID INTEGER NOT NULL, DateTime TEXT, BGlevel DOUBLE, GlucagonFlag INTEGER, Reason TEXT, Other TEXT, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+    //===Hypo local table===
      //======//
      try {
       db.transaction( (tx) => {
@@ -301,6 +322,15 @@ global.InsulinSF = 0;
 global.intervalISF = '';
 global.insulinCalcMethod = '';
 global.glucoseMonitor = '';
+//============Hypo Global vars================
+global.weight = 0;
+global.age = 0;
+global.recheckCounter = 0;
+global.isRecheck = false;
+global.ageFour = false;
+global.hBGlevel =0;
+global.glucaFlag = 0;// 0 is false 1 is true
+//============================================
 
 const Stack = createNativeStackNavigator();
 const mainStack = () => {
@@ -364,6 +394,16 @@ const mainStack = () => {
         <Stack.Screen name="personalAR" component={personalInfoAR}  />
         <Stack.Screen name="HomeAR" component={AuthStackAR} />
         <Stack.Screen name="isfEditAR" component={isfEditAR} />
+          
+     //================Hypo Navigations========================
+        <Stack.Screen name="hypo" component={hypo}  />
+        <Stack.Screen name="isConPop" component={isConPop}  />
+        <Stack.Screen name="notConscious" component={notConscious}  />
+        <Stack.Screen name="normBGfirst" component={normBGfirst}  />
+        <Stack.Screen name="hypoConscious" component={hypoConscious}  />
+        <Stack.Screen name="notMealTime" component={notMealTime}  />
+        <Stack.Screen name="reNoHypo" component={reNoHypo}  />
+     //=========================================================
 
 
       </Stack.Navigator>
