@@ -81,7 +81,7 @@ const reNoHypoAR = ({navigation}) => {
         db.transaction(tx => {
           tx.executeSql(
             'INSERT INTO hypoglycemiaRecords (UserID, DateTime, BGlevel, Reason, Other) VALUES (?,?,?,?,?)',
-            [222, timeString, hBGlevel, hypoReason, hypoReasonText],
+            [uID, timeString, hBGlevel, hypoReason, hypoReasonText],
           );
           console.log('inserted!!');
         });
