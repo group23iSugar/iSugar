@@ -14,6 +14,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import { tabHomeAR } from '../tabNavAR';
 import annualTestAR from './annualTestAR';
+import hypoAR from './hypoAR';
 
 
 const Drawer = createDrawerNavigator();
@@ -31,21 +32,29 @@ const AuthStackAR = () => {
             <Ionicons name="home-outline" size={22} color={color}/>
            ),
          }}/>
-         <Drawer.Screen name="annualTestAR" component={annualTestAR}options={{
+         <Drawer.Screen name="التحليل السنوي" component={annualTestAR}options={{
            drawerIcon: ({color}) => (
             <MaterialIcons name="list-alt" size={22} color={color}/>
            ),
          }}/>
-         <Drawer.Screen name="AboutAR" component={About} options={{
+         <Drawer.Screen name="عن التطبيق" component={About} options={{
            drawerIcon: ({color}) => (
             <AntDesign name="infocirlceo" size={22} color={color}/>
            ),
          }}/>
-         <Drawer.Screen name="settingsAR" component={settingsAR} options={{
+         <Drawer.Screen name="الإعدادات" component={settingsAR} options={{
            drawerIcon: ({color}) => (
             <Feather name="settings" size={22} color={color}/>
            ),
          }}/>
+         
+        <Drawer.Screen name="انخفاض سكر الدم" component={hypoAR} options={{
+           drawerIcon: ({color}) => (
+            <AntDesign name="infocirlceo" size={22} color={color}/>
+           ),
+         }}/>
+
+
 
         </Drawer.Navigator>
      
