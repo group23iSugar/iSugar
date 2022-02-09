@@ -130,7 +130,7 @@ const updateFlag = () => {
         db.transaction(tx => {
           tx.executeSql(
             'INSERT INTO hypoglycemiaRecords (UserID, DateTime, BGlevel) VALUES (?,?,?)',
-            [222, timeString, hBGlevel],
+            [uID, timeString, hBGlevel],
           );
           console.log('inserted!!');
         });
