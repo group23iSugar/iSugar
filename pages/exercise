@@ -104,7 +104,7 @@ const exercise = ({navigation}) => {
          if (response[0].flag == 'true' && response[0].flag2 == 'true'){
           // if (onlinUserID != '0'){
               console.log(response[0].userID);
-              checkCase1 = 'true';
+              checkCase1 = '1';
                 console.log('inside hypo: ');
          //}
          console.log(onlinUserID + '-' + response[0].flag + '-' + response[0].flag2);
@@ -149,7 +149,7 @@ const exercise = ({navigation}) => {
               BGlevel = response[0].bglevel;
               console.log(response[0].bglevel);
                 console.log('inside bg level: ');
-                checkCase2 = 'true';
+                checkCase2 = '1';
          //}
          console.log(onlinUserID + ' - bg level in past 48h: ' + BGlevel);
          }
