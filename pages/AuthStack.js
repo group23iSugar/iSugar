@@ -13,6 +13,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import AnnualTest from './annualTest';
+import hypo from './hypo';
 
 
 
@@ -48,6 +49,12 @@ const AuthStack = () => {
          }}/>
          <Drawer.Screen name="s" component={settingsAR} options={{
           
+         }}/>
+
+        <Drawer.Screen name="Hypoglycemia" component={hypo} options={{
+           drawerIcon: ({color}) => (
+            <AntDesign name="infocirlceo" size={22} color={color}/>
+           ),
          }}/>
 
         </Drawer.Navigator>
