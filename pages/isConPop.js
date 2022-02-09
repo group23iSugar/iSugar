@@ -85,7 +85,7 @@ import PushNotification from "react-native-push-notification";
       db.transaction(tx => {
         tx.executeSql(
           'SELECT DOB, weightKG FROM patientprofile WHERE UserID=?',
-          [222],
+          [uID],
           (tx, results) => {
             var rows = results.rows;
              for (let i = 0; i < rows.length; i++) {
@@ -93,7 +93,7 @@ import PushNotification from "react-native-push-notification";
            weight = rows.item(i).weightKG;
 
         var currentDate = new Date();
-        var birthDay = new Date('12/11/2011');//Change it to dateOfB !!!!!!!!!!!!!!!!!!!!!!!!!!!!IMPORTANT
+        var birthDay = new Date(dateOfB);
         var age2 = currentDate.getFullYear() - birthDay.getFullYear();
         console.log('getFullYear:  '+birthDay.getFullYear());
         var mon = currentDate.getMonth() - birthDay.getMonth();
