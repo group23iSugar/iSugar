@@ -87,18 +87,19 @@ const neeDed = async () => {
             // );
             //console.log('4-  ' + c);
 
-            txt1 = txt1 + 'since the reason is correction Then: \n * Total = (current BG - Target BG)/ISF';
+            
 
             a = 0;
             b = (bgLevel - ReData1.targetBG) / ReData1.ISF;
             c = a + b;
            // console.log('5-  ' + c);
+                txt1 = txt1 + 'since the reason is correction Then: \n * Total = (current BG - Target BG)/ISF \n'+ c +'='+a+'+'+b;
 
             //prevArr
             console.log('THA LENGTH:    '+ prevArr.length);
             if (prevArr.length == 0){
               	IOB = 0;} else {
-                   txt1 = txt1 + '\nsince you took insulin dose in the previous 4 hours Then: \n* Total = Total - IOB';
+                   txt1 = txt1 + '\nsince you took insulin dose in the previous 4 hours Then: \n* Total = Total - IOB \n';
 
                   for (let i = 0; i < prevArr.length; i++){
                     console.log('DoubleCheckaaaaa');
@@ -106,12 +107,14 @@ const neeDed = async () => {
                     // var w = parseInt(prevArr[i].dose);
 		               IOB = IOB + IOBSwitch(prevArr[i].time, prevArr[i].dose); 
                    }
+			 txt1=txt1+''+c+'='+c+'-'+IOB;
                 }
 
             // if (timePrevDose <= 4) {
               console.log('6-  ' + c);
               console.log('7-  ' + IOB);
               c = c - IOB;
+		  
              
             // }
             if (isPreEnabled == true) {
@@ -119,12 +122,14 @@ const neeDed = async () => {
               c = c - adjustment * c;
 
               txt1 = txt1 + '\nsince you have prepared to an exercise Then: \n* Total = Total - (exercise adjustment * Total)';
+		     txt1=txt1+''+c+'='+c+'-'+adjustment+'*'+c;
 
               // return (total);
             } else if (isPostEnabled == true) {
               adjustment = PostExercise();
               c = c - adjustment * c;
               txt1 = txt1 + '\nsince you have previously exercised Then: \n* Total = Total - (exercise adjustment * Total)';
+		     txt1=txt1+''+c+'='+c+'-'+adjustment+'*'+c;
 
               // return (total);
             }
@@ -135,11 +140,13 @@ const neeDed = async () => {
           if (calcMethod == 'ICR') {
             console.log('is ICR?');
             await checkICRIntervals();
-            txt1 = txt1 + '\nsince you are using ICR and the reason for the dose is a meal Then: \n* Total = CHO / ICR';
+            txt1 = txt1 + '\nsince you are using ICR and the reason for the dose is a meal Then: \n* Insulin A = CHO / ICR';
             a = CHO / ICR;
+		   txt1=txt1+''+c+'='+CHO+'/'+ICR;
             if (bgLevel > ReData1.startBG) {
               b = (bgLevel - ReData1.targetBG) / ReData1.ISF;
                txt1 = txt1 + '\nsince the current BG is greater than the start BG Then: \n* Total = Total + ((current BG - Target BG) / ISF) ';
+		    txt1=txt1+''+c+'='+c+'+(('+bgLevel+'-'+ReData1.targetBG+')/'+ReData1.ISF;
             } else {
               b = 0;
             }
@@ -154,8 +161,10 @@ const neeDed = async () => {
                     console.log('DoubleCheck: '+prevArr[i].time +' '+ prevArr[i].dose);
 		               IOB = IOB + IOBSwitch(prevArr[i].time, prevArr[i].dose); 
                    }
+			 txt1=txt1+''+c+'='+c+'-'+IOB;
                 }
             c = c - IOB;
+		
             
 
             if (isPreEnabled == true) {
@@ -163,6 +172,7 @@ const neeDed = async () => {
               c = c - adjustment * c;
 
               txt1 = txt1 + '\nsince you have prepared to an exercise Then: \n* Total = Total - (exercise adjustment * Total)';
+		     txt1=txt1+''+c+'='+c+'-'+adjustment+'*'+c;
 
               // return (total);
             } else if (isPostEnabled == true) {
@@ -171,6 +181,7 @@ const neeDed = async () => {
                 c = c - adjustment * c;
 
                 txt1 = txt1 + '\nsince you have previously exercised Then: \n* Total = Total - (exercise adjustment * Total)';
+		       txt1=txt1+''+c+'='+c+'-'+adjustment+'*'+c;
 
                 //  return (total);
               }
@@ -181,6 +192,7 @@ const neeDed = async () => {
             console.log('is Sliding?');
             c = SlidingScale; // from database
             txt1 = txt1 + '\nsince you are using sliding scale Then: \n* Total = SlidingScale based on the current time';
+		  txt1= txt1+'Total ='+c;
             console.log('this is c: ' + c + ' And Sliding: ' + SlidingScale);
             console.log(c + '  This is tt');
                 if (prevArr.length == 0){
@@ -192,9 +204,11 @@ const neeDed = async () => {
                     console.log('DoubleCheck: '+prevArr[i].time +' '+ prevArr[i].dose);
 		               IOB = IOB + IOBSwitch(prevArr[i].time, prevArr[i].dose); 
                    }
+			 txt1=txt1+''+c+'='+c+'-'+IOB;
                 }
             console.log('This is c: ' + c);
             c = c - IOB;
+		  
              
             console.log(IOB + '  This is IOB and c after IOB: ' + c);
 
@@ -203,6 +217,7 @@ const neeDed = async () => {
               c = c - adjustment * c;
 
                txt1 = txt1 + '\nsince you have prepared to an exercise Then: \n* Total = Total - (exercise adjustment * Total)';
+		    txt1=txt1+''+c+'='+c+'-'+adjustment+'*'+c;
 
               //  return (total);
             } else if (isPostEnabled == true) {
@@ -211,6 +226,7 @@ const neeDed = async () => {
                 c = c - adjustment * c;
 
                  txt1 = txt1 + '\nsince you have previously exercised Then: \n* Total = Total - (exercise adjustment * Total)';
+		    txt1=txt1+''+c+'='+c+'-'+adjustment+'*'+c;
 
                 //  return (total);
               }
@@ -220,7 +236,7 @@ const neeDed = async () => {
           }
         }
       } else {
-        alert('Your blood sugar is low!');
+       navigation.navigate('Calc');
       }
     } else {
       alert(
