@@ -52,13 +52,22 @@ import logInAR from './pages/logInAR';
 import personalInfoAR from './pages/personalInfoArabic';
 import AuthStackAR from './pages/AuthStackAR';
 import CalcAR from './pages/CalcAR';
+//===========Hypo Pages=============
 import notConscious from './pages/notConscious';
+import notConsciousAR from './pages/notConsciousAR';
 import isConPop from './pages/isConPop';
+import isConPopAR from './pages/isConPopAR';
 import normBGfirst from './pages/normBGfirst';
+import normBGfirstAR from './pages/normBGfirstAR';
 import hypoConscious from './pages/hypoConscious';
+import hypoConsciousAR from './pages/hypoConsciousAR';
 import hypo from './pages/hypo';
+import hypoAR from './pages/hypoAR';
 import reNoHypo from './pages/reNoHypo';
+import reNoHypoAR from './pages/reNoHypoAR';
 import notMealTime from './pages/notMealTime';
+import notMealTimeAR from './pages/notMealTimeAR';
+//==================================
 import checkFirst from './pages/checkFirst';
 import exercise from './pages/exercise';
 import exercise3 from './pages/exercise3';
@@ -464,13 +473,20 @@ const mainStack = () => {
         <Stack.Screen name="isfEditAR" component={isfEditAR} />
           
      //================Hypo Navigations========================
+        <Stack.Screen name="hypoAR" component={hypoAR}  />
+        <Stack.Screen name="notConsciousAR" component={notConsciousAR}  />
         <Stack.Screen name="hypo" component={hypo}  />
         <Stack.Screen name="isConPop" component={isConPop}  />
+        <Stack.Screen name="isConPopAR" component={isConPopAR}  />
         <Stack.Screen name="notConscious" component={notConscious}  />
         <Stack.Screen name="normBGfirst" component={normBGfirst}  />
+        <Stack.Screen name="normBGfirstAR" component={normBGfirstAR}  />
         <Stack.Screen name="hypoConscious" component={hypoConscious}  />
+        <Stack.Screen name="hypoConsciousAR" component={hypoConsciousAR}  />
         <Stack.Screen name="notMealTime" component={notMealTime}  />
+        <Stack.Screen name="notMealTimeAR" component={notMealTimeAR}  />
         <Stack.Screen name="reNoHypo" component={reNoHypo}  />
+        <Stack.Screen name="reNoHypoAR" component={reNoHypoAR}  />
      //=========================================================
         <Stack.Screen name="check" component={checkFirst}  />
         <Stack.Screen name="exercise" component={exercise}  />
