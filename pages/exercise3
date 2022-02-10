@@ -27,6 +27,22 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {Picker} from '@react-native-picker/picker';
 import moment from 'moment';
 import PushNotification from 'react-native-push-notification';
+import SQLite from 'react-native-sqlite-storage';
+
+
+global.db = SQLite.openDatabase(
+  {
+    name: 'iSugar.db',
+    location: 'Library',
+  },
+  () => {
+    console.log('Success');
+  },
+  error => {
+    console.log('ERROR: ' + error);
+  },
+);
+
 
 const exercise3 = ({navigation}) => {
 
@@ -53,9 +69,38 @@ const exercise3 = ({navigation}) => {
   var sum = '';
   var level = '';
 
+  const [ReData1, setReData1] = useState({
+    interval: 0,
+    startBG: 0,
+    targetBG: 0,
+    ISF: 0,
+  });
+
+  const [ReData2, setReData2] = useState({
+    insulinType: '',
+    insulinReg: '',
+  });
+
+  const [ReData3, setReData3] = useState({
+    dose: '',
+    hours: '',
+  });
+
+  var curHour = new Date().getHours();//current
+  var IOB = 0;
+  var IOBTimeRange = 4;
+
+  useEffect(() => {
+    FirstRetrieve();
+    insulinB();
+    calculateIOB();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
+
   const checkExercise = () => {
     checkIsPlanned();
 
+//    Calc.checkISFIntervals();
 if (TypeOfExercise == '0'){
   Alert.alert('Select your exercise type');
 
@@ -133,13 +178,37 @@ if (takenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
   handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 30);
 } else if (currentBG >= 250) {
   console.log('greater than 250');
-
   if ( blood > 0.6 || urine == 'Small' || urine == 'Moderate' || urine == 'Large'){
     console.log('option 1');
     setInstruction2('Don’t exercise & take extra insulin to clear the ketones');
           } else if (blood < 0.6 || urine == 'Negative' || urine == 'Trace'){
       console.log('option 2');
-      setInstruction2('Take ?? units of ?? insulin (correction dose “Insulin B’ - IOB) & Don’t start exercise now & You can start exercise in 3-4 hours once your blood glucose level is corrected.');
+      if (ReData2.insulinReg == 'Pen' && (ReData2.insulinType == 'Aspart' ||
+      ReData2.insulinType == 'Lispro' ||
+      ReData2.insulinType == 'Glulisine')) {
+        if (currentBG > ReData1.startBG){
+        console.log('insulin B = ' + ((currentBG - ReData1.targetBG) / ReData1.ISF));
+      }}
+      var diff = curHour - ReData3.hours;
+      if (diff <= IOBTimeRange) {
+        var num = 0;
+        console.log('check1');
+        if (diff < 1) {
+          num = 1 * ReData3.dose;
+           console.log('check2');
+        } else if (diff >= 1 && diff < 2) {
+          num = 0.75 * ReData3.dose;
+           console.log('check3');
+        } else if (diff >= 2 && diff < 3) {
+          num = 0.5 * ReData3.dose;
+           console.log('check4');
+        } else if (diff >= 3 && diff <= 4) {
+          num = 0.25 * ReData3.dose;
+           console.log('check5');
+      }
+      correction = ((currentBG - ReData1.targetBG) / ReData1.ISF) - num;
+    }
+      setInstruction2('Take' + correction + ' units of ' +  ReData2.insulinType  + ' insulin & Don’t start exercise now & You can start exercise in 3-4 hours once your blood glucose level is corrected.');
    }
 }//end all cureent BG cases
 }//end aerobic
@@ -188,9 +257,34 @@ else {
       console.log('option 1');
       setInstruction2('Don’t exercise & take extra insulin to clear the ketones');
             } else if (blood < 0.6 || urine == 'Negative' || urine == 'Trace'){
-        console.log('option 2');
-        setInstruction2('Take ?? units of ?? insulin (correction dose “Insulin B’ - IOB) & Don’t start exercise now & You can start exercise in 3-4 hours once your blood glucose level is corrected.');
-     }
+              console.log('option 2');
+              if (ReData2.insulinReg == 'Pen' && (ReData2.insulinType == 'Aspart' ||
+              ReData2.insulinType == 'Lispro' ||
+              ReData2.insulinType == 'Glulisine')) {
+                if (currentBG > ReData1.startBG){
+                console.log('insulin B = ' + ((currentBG - ReData1.targetBG) / ReData1.ISF));
+              }}
+              var diff = curHour - ReData3.hours;
+              if (diff <= IOBTimeRange) {
+                var num = 0;
+                console.log('check1');
+                if (diff < 1) {
+                  num = 1 * ReData3.dose;
+                   console.log('check2');
+                } else if (diff >= 1 && diff < 2) {
+                  num = 0.75 * ReData3.dose;
+                   console.log('check3');
+                } else if (diff >= 2 && diff < 3) {
+                  num = 0.5 * ReData3.dose;
+                   console.log('check4');
+                } else if (diff >= 3 && diff <= 4) {
+                  num = 0.25 * ReData3.dose;
+                   console.log('check5');
+              }
+              correction = ((currentBG - ReData1.targetBG) / ReData1.ISF) - num;
+            }
+              setInstruction2('Take' + correction + ' units of ' +  ReData2.insulinType  + ' insulin & Don’t start exercise now & You can start exercise in 3-4 hours once your blood glucose level is corrected.');
+           }
   }//end all cureent BG cases
 }//end Anaerobic
 if (blood != '-1'){
@@ -216,6 +310,46 @@ const handleScheduleNotification = (title, message, time) => {
       allowWhileIdle: true,
   });
   };
+
+  const FirstRetrieve = () => {
+    var interval = -1;
+    console.log('in first');
+    try {
+      db.transaction(tx => {
+        // insulinRegimen, ISFIntervals, insulinCalcMethod Retrive
+        tx.executeSql(
+          'SELECT UserID, insulinRegimen, ISFIntervals FROM patientprofile',
+          [],
+          // eslint-disable-next-line no-shadow
+          (tx, results) => {
+            var rows = results.rows;
+            console.log('YES');
+            for (let i = 0; i < rows.length; i++) {
+              var UID = rows.item(i).UserID;
+              if (UID == 3) {
+                console.log('in if (user is found)');
+                interval = rows.item(i).ISFIntervals; //boolean 0 or 1
+                console.log('interval is: ' + interval);
+                setInterval(interval);
+                var insulinR = rows.item(i).insulinRegimen; // pen , pump , etc..
+                console.log(insulinR);
+                setReg(insulinR);
+                //----------------
+                //  console.log(interval+' intervals before calling');
+                //   console.log(calcM+' method for calc');
+                // callback(interval);
+                // callback2(calcM);
+                return;
+              }
+            }
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 //-----------------------------DATABASE----------------------------------------------------
 const checkIsPlanned = () => {
   console.log('in DB of taken insulin and planned exercise');
@@ -370,6 +504,93 @@ fetch(InsertAPIURL,{
 })
 }
 
+const insulinB = () => {
+  console.log('in DB to find insulin B');
+  // eslint-disable-next-line quotes
+  var InsertAPIURL = "http://192.168.56.1/isugar/checkInsuB.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  };
+  var Data = {
+    UserID: onlinUserID,
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data),//convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  onlinUserID = response[0].userID;
+     console.log(response[0].flag);
+     console.log(response[0].flag2);
+
+ if (response[0].flag == 'true' && response[0].flag2 == 'true'){
+   ReData2.insulinReg = response[0].insulinReg;
+   console.log('Regimen: ' + response[0].insulinReg);
+   ReData2.insulinType = response[0].insulinType;
+   console.log('Type: ' + response[0].insulinType);
+   ReData1.interval = response[0].isfInterval;
+   console.log('ISF interval: ' + response[0].isfInterval);
+      ReData1.ISF = response[0].isf;
+      console.log('ISF: ' + response[0].isf);
+      ReData1.startBG = response[0].startBG;
+      console.log('startBG: ' + response[0].startBG);
+      ReData1.targetBG = response[0].targetBG;
+      console.log('targetBG: ' + response[0].targetBG);
+
+        console.log('inside recheck: ');
+ }
+ console.log('inside onlineDB: ');
+})
+.catch((error)=>{
+    alert('Error Occured' + error);
+})
+
+}
+
+const calculateIOB = () => {
+  console.log('in DB to find IOB');
+  // eslint-disable-next-line quotes
+  var InsertAPIURL = "http://192.168.56.1/isugar/checkIOB.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  };
+  var Data = {
+    UserID: onlinUserID,
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data),//convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  onlinUserID = response[0].userID;
+     console.log(response[0].flag);
+
+ if (response[0].flag == 'true'){
+   ReData3.hours = response[0].hours;
+   console.log('Hours: ' + response[0].hours);
+   ReData3.dose = response[0].dose;
+   console.log('dose: ' + response[0].dose);
+        console.log('inside IOB: ');
+ }
+ console.log('inside onlineDB: ');
+})
+.catch((error)=>{
+    alert('Error Occured' + error);
+})
+
+}
 //---insert users-----========================= Withtin-APP DATABASE ***********************
 
 const insert = async () => {
