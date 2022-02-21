@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Image,
@@ -7,27 +7,194 @@ import {
   StatusBar,
   Text,
   View,
-  Dimensions,
   AppRegistry,
   Navigator,
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
   Switch,
+  Dimensions,
 } from 'react-native';
+import ModalDropdown from 'react-native-modal-dropdown';
 import LinearGradient from 'react-native-linear-gradient';
-import Entypo from 'react-native-vector-icons/Entypo';
+import {Picker} from '@react-native-picker/picker';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {PieChart} from 'react-native-chart-kit';
+import moment from 'moment';
+//import { ActivityIndicator, Colors } from 'react-native-paper';
+//import dashDB from './dashDB';
 
+const Home = ({navigation}) => {
+  useEffect(() => {
+    dashBoard();
+  },[]);
 
-const home = ({ navigation }) => {
+  const [flag, setFlag] = useState(false);
+  const [within, setWitin] = useState(0);
+  const [above, setAbove] = useState(0);
+  const [under, setUnder] = useState(0);
+  const [bgArr, setBgArr] = useState([]);
+  const [lastBG, setLastBG] = useState(0);
+  const [lastBGtime, setLastBGtime] = useState('');
+
+  //===========================Functions===============
+
+  const dashBoard = async() => {
+
+    await retrieveDash2();
+    
+    var w =0;
+    var a=0;
+    var u=0;
+    
+
+    for (let i = 0; i < bgArr.length; i++) {
+      if (bgArr[i] >= fromBGHome && bgArr[i] <= toBGHome){
+        w++;
+      } else if (bgArr[i] > toBGHome){
+        a++;
+      }else if (bgArr[i] < fromBGHome){
+        u++;
+      }
+    }
+
+    var total = w + a + u;
+    var m = (a/total)*100;
+    if (m >= 50){
+      setFlag(true);
+    }else{
+      setFlag(false);
+    }
+
+    setWitin(w);
+    setAbove(a);
+    setUnder(u);
+
+  };
+  //==================================================
+  //===========================RETRIVE================
+  const retrieveDash = () => {
+    // insulinPen table
+    try {
+      db.transaction(tx => {
+        tx.executeSql(
+          'SELECT UserID, fromBG, toBG FROM patientprofile',
+          [],
+          (tx, results) => {
+            var rows = results.rows;
+
+            for (let i = 0; i < rows.length; i++) {
+              var userid = rows.item(i).UserID;
+
+              if (userid == 222) {
+                fromBGHome = rows.item(i).fromBG;
+                toBGHome = rows.item(i).toBG;
+
+              
+
+                return;
+              }
+            }
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //==================================================
+  const retrieveDash2 = async() => {
+    await retrieveDash();
+    var time = new Date(); // Mon Jan 31 2022 23:07:59 GMT+0300 (+03)
+    var bgArr1 = [];
+    // insulinPen table
+    try {
+      db.transaction(tx => {
+        tx.executeSql(
+          'SELECT UserID, BGlevel, DateTime FROM BGLevel',
+          [],
+          (tx, results) => {
+            var rows = results.rows;
+            var lastString = rows.item(rows.length-1).DateTime;
+            var d = new Date(lastString);
+            var momFormat = moment(d).format('yyyy/MM/DD  hh:mm a');
+
+            setLastBGtime(momFormat);
+            setLastBG(rows.item(rows.length-1).BGlevel);
+
+            for (let i = 0; i < rows.length; i++) {
+              var timeString = rows.item(i).DateTime;
+              var toObj = new Date(timeString);
+              var bgHome = rows.item(i).BGlevel;
+              var userid = rows.item(i).UserID;
+              console.log((time - toObj) / (1000 * 60 * 60));
+
+              if ((time - toObj) / (1000 * 60 * 60) <= 168) {
+                //168 is the last 7 days in hours
+
+                bgArr1.push(bgHome);
+              }
+            }
+            setBgArr(bgArr1);
+            console.log(bgArr1 + '   This is bg array');
+            console.log(
+              fromBGHome + '  ' + toBGHome + '   This is from and to',
+            );
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //==================================================
+  const widthScreen = Dimensions.get('window').width;
+  const heightScreen = Dimensions.get('window').height;
+  const data = [
+    {
+      name: 'Under Target',
+      population: under,
+      color: '#9286FF',
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+    },
+    {
+      name: 'Above Target',
+      population: above,
+      color: '#FF8686',
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+    },
+    {
+      name: 'Within Target',
+      population: within,
+      color: '#86FF9E',
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+    },
+  ];
+
+  const chartConfig = {
+    backgroundGradientFrom: '#1E2923',
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: '#08130D',
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => 'rgba(26, 255, 146)',
+    barPercentage: 0.5,
+  };
+
   return (
+
+      //dashBoard(),
+
+
     
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
-      <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
-        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
-         <Entypo name="menu" color="#05375a" size={35} />
-         </TouchableOpacity>
+      <View style={{top: 10, alignItems: 'center'}}>
+        <Image source={require('./images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -42,45 +209,39 @@ const home = ({ navigation }) => {
           Home
         </Text>
 
-        <Text style={styles.inpTxt}>Glucose level in the last 7 days:</Text>
+        <Text style={styles.inpTxt}>Last BG level Read: {lastBG+'\n'}Time: {lastBGtime}</Text>
 
-        {/* <Image
-          source={require('./images/chart.png')}
+        <Text style={styles.inpTxt}>Time in target for the last 7 days:</Text>
+                <TouchableOpacity
           style={{
-            margin: 10,
-            height: 200,
-            width: 270,
-            alignSelf: 'center',
-            borderColor: 'black',
-            borderWidth: 1,
+            marginLeft: 350,
           }}
-        /> */}
+          onPress={dashBoard}>
+          <Image source={require('./images/upd.png')} style={{height: 25, width: 25,}} />
+        </TouchableOpacity>
 
-        <Text
-          style={{
-            fontWeight: 'bold',
-            textAlign: 'center',
-            margin: 30,
-            borderColor: 'gray',
-            borderWidth: 1,
-            color: 'grey'
-          }}>
-          + Add Glucose reading
-        </Text>
+        {((bgArr.length > 0)&&(within>0||above>0||under>0)) ? (
+          <PieChart
+            data={data}
+            width={widthScreen}
+            height={150}
+            chartConfig={chartConfig}
+            accessor={'population'}
+            backgroundColor={'#ECECEC'}
 
-        <Text style={{textAlign: 'center', fontSize: 20, borderWidth: 1 , borderColor: 'gray', color: 'grey'}}>
-          Percentage of time in last 7-days in target range: 95%
-        </Text>
-        <Text style={styles.inpTxt}>Upcoming appontments:</Text>
-        <Text style={{textAlign: 'center', fontSize: 20, borderWidth: 1 , borderColor: 'gray', paddingTop: 40}}>
-        
-        </Text>
+            //absolute
+          />
+        ) : (
+          <ActivityIndicator size="large" />
+        )}
+        {flag? <Text style={styles.msg}>contact diabetes center as you are above target 50% of times</Text> :null}
+        <Text>{'\n\n'}</Text>
+      
+
       </ScrollView>
     </LinearGradient>
   );
 };
-const {height} = Dimensions.get("screen");
-const height_logo = height * 0.15;
 
 const styles = StyleSheet.create({
   container: {
@@ -94,10 +255,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   pic: {
-    width: height_logo,
-    height: height_logo,
-    marginRight: 10,
-},
+    width: 70,
+    height: 90,
+  },
   inputT: {
     //inputs field
 
@@ -120,7 +280,8 @@ const styles = StyleSheet.create({
     //Conten's view
     backgroundColor: '#fff',
     height: 550,
-    width: 360,
+    width: Dimensions.get('window').width,
+    //Dimensions.get("window").width} 360
     alignSelf: 'center',
     top: 20,
     shadowColor: '#000',
@@ -137,16 +298,23 @@ const styles = StyleSheet.create({
   inpTxt: {
     //lables
     paddingLeft: 20,
+    fontSize: 18,
+    color: 'gray',
+  },
+    msg: {
+    //lables
+    paddingLeft: 20,
     paddingTop: 15,
     fontSize: 18,
-    color: 'black'
+    color: 'red',
   },
+
 
   vNext: {
     // to make items next to each other
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingTop: 30,
+    paddingTop: 10,
   },
 
   button: {
@@ -190,12 +358,6 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: '#f5f5f5',
   },
-  pic: {
-
-    width: height_logo,
-    height: height_logo,
-    marginRight: 10,
-},
 });
 
-export default home;
+export default Home;
