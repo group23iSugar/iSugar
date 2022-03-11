@@ -2,13 +2,15 @@
 /* eslint-disable semi */
 /* eslint-disable no-undef */
 /* eslint-disable eqeqeq */
+//import {useState} from 'react';
 import moment from 'moment';
 import PushNotification from 'react-native-push-notification';
 import SQLite from 'react-native-sqlite-storage';
+import timeDiffrence from './timeDiffrence';
 
 global.db = SQLite.openDatabase(
   {
-    name: 'iSugar.db',
+    name: 'iSugear.db',
     location: 'Library',
   },
   () => {
@@ -22,9 +24,13 @@ global.db = SQLite.openDatabase(
 var uID = 15;
 var curDate = moment().format('YYYY-MM-DD');
 var curTime = moment().format('HH:mm:ss');
+var cTime = new Date();
 var currentBG = '';
 var ketones = '';
 var level = '';
+global.flag = '';
+
+//const [finalFlag, setFinalFlag] = useState('false');
 
 //==============for notification=============================
 const handleScheduleNotification = (title, message, time) => {
@@ -44,9 +50,55 @@ const tableukgCopy = function(BG, ketonesSource, ketonesLevel){
    var recommendation = '';
    var caseNO = '';
 
-   if (currentBG < 70 && currentBG > 0){
+//    flag =  retrieveCheck();
+
+console.log('recheck if user had notification');
+try {
+  db.transaction(tx => {
+    tx.executeSql(
+      'SELECT UserID, recheckDate, recheckTime FROM SDRecheckNotification',
+      [],
+      // eslint-disable-next-line no-shadow
+      (tx, results) => {
+        var rows = results.rows;
+        for (let i = 0; i < rows.length; i++) {
+            var userid = rows.item(i).UserID;
+          if (userid == 168) {
+            var lastString = rows.item(i).recheckDate;
+            var d = new Date(lastString);
+            var momFormat = moment(d).format('yyyy-MM-DD');
+            console.log('mom:' + momFormat);
+         var timeString = rows.item(i).recheckTime;
+         var t = new Date(timeString);
+            if (curDate == momFormat){
+                    console.log('Time: ' + timeDiffrence(t));
+                    if (timeDiffrence(t) <= 2){
+                      flag = 'true';
+
+                    }
+                   else {
+                      flag = 'false';
+
+                   }
+            } else {
+              flag = 'false';
+            }
+          }
+        }
+      },
+    );
+  });
+} catch (error) {
+  console.log(error);
+}
+
+
+    if (currentBG < 70 && currentBG > 0){
+        console.log('flag now is-: ' + flag);
        recommendation = 'Re-check your blood glucose in 30 minutes & If your unwell or have persistent vomiting, go to ER';
-       handleScheduleNotification('iSugar','Time to Re-check your blood glucose level.', 1);//30
+       if (flag != 'true'){
+       handleScheduleNotification('iSugar','Time to Re-check your blood glucose level.', 30);//30
+       }
     }//Case1 below 70
 
     if (currentBG >= 70 && currentBG < 90 && ketones == 'blood'){
@@ -99,32 +151,41 @@ const tableukgCopy = function(BG, ketonesSource, ketonesLevel){
         console.log('11');
     }
 
+
     if (caseNO == '2'){
 switch (caseNO == '2'){
     case level < 0.6:
         console.log('A');
         recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+        if (flag != 'true'){
+        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        }
         break;
 
     case level >= 0.6 && level <= 0.9:
         console.log('B');
         recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+        if (flag != 'true'){
+        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        }
         // there is a clalculation for insulin A
         break;
 
     case level >= 1 && level <= 1.4:
         console.log('C');
         recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+        if (flag != 'true'){
+        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        }
         // there is a clalculation for insulin A
         break;
 
     case level >= 1.5 && level <= 2.9:
         console.log('D');
         recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+        if (flag != 'true'){
+        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        }
         // there is a clalculation for insulin A
         break;
 
@@ -135,29 +196,37 @@ switch (caseNO == '2'){
 }//Case 2 between 70-90
     }
 
-if (caseNO == '3'){
+    if (caseNO == '3'){
 switch (caseNO == '3'){
     case level == 'Negative':
         console.log('A2');
         recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+        if (flag != 'true'){
+        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        }
         break;
     case level == 'Trace':
         console.log('B2');
         recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+        if (flag != 'true'){
+        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        }
         // there is a clalculation for insulin A
         break;
     case level == 'Small':
         console.log('C2');
         recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+        if (flag != 'true'){
+        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        }
         // there is a clalculation for insulin A
         break;
     case level == 'Moderate':
         console.log('D2');
         recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+        if (flag != 'true'){
+        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        }
         // there is a clalculation for insulin A
         break;
     case level == 'Large':
@@ -165,31 +234,39 @@ switch (caseNO == '3'){
         recommendation = 'High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack';
         break;
 }//Case 2 between 70-90
-}
+    }
 
-if (caseNO == '4'){
+    if (caseNO == '4'){
     switch (caseNO == '4'){
         case level < 0.6:
             console.log('F');
             recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms';
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 3);//180
+            if (flag != 'true'){
+            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            }
             break;
         case level >= 0.6 && level <= 0.9:
             console.log('G');
             recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 3);//180
+            if (flag != 'true'){
+            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            }
             // there is a clalculation for insulin A
             break;
         case level >= 1 && level <= 1.4:
             console.log('H');
             recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 3);//180
+            if (flag != 'true'){
+            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            }
             // there is a clalculation for insulin A
             break;
         case level >= 1.5 && level <= 2.9:
             console.log('I');
             recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+            if (flag != 'true'){
+            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+            }
             // there is a clalculation for insulin A
             break;
         case level >= 3:
@@ -197,31 +274,39 @@ if (caseNO == '4'){
             recommendation = 'High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack';
             break;
     }//Case 4 between 90-180
-        }
+    }
 
     if (caseNO == '5'){
     switch (caseNO == '5'){
         case level == 'Negative':
             console.log('F2');
             recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms';
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 3);//180
+            if (flag != 'true'){
+            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            }
             break;
         case level == 'Trace':
             console.log('G2');
             recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 3);//180
+            if (flag != 'true'){
+            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            }
             // there is a clalculation for insulin A
             break;
         case level == 'Small':
             console.log('H2');
             recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 3);//180
+            if (flag != 'true'){
+            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            }
             // there is a clalculation for insulin A
             break;
         case level == 'Moderate':
             console.log('I2');
             recommendation = 'Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+            if (flag != 'true'){
+            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+            }
             // there is a clalculation for insulin A
             break;
         case level == 'Large':
@@ -236,138 +321,178 @@ if (caseNO == '4'){
             case level < 0.6:
                 console.log('K');
                 recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours If you have vomiting & it is persistent, go to ER';
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                if (flag != 'true'){
+                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                }
                 break;
             case level >= 0.6 && level <= 0.9:
                 console.log('L');
                 recommendation = 'Encourage sugar - containing fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours &If you have vomiting & it is persistent, go to ER';
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                if (flag != 'true'){
+                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                }
                 break;
             case level >= 1 && level <= 1.4:
                 console.log('M');
                 recommendation = 'Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                if (flag != 'true'){
+                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                }
                 break;
             case level >= 1.5 && level <= 2.9:
                 console.log('N');
                 recommendation = 'Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 4 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                if (flag != 'true'){
+                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                }
                 break;
             case level >= 3:
                 console.log('P');
                 recommendation = 'High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack';
                 break;
         }//Case 6 between 180-250
-            }
+    }
 
-        if (caseNO == '7'){
+    if (caseNO == '7'){
         switch (caseNO == '7'){
             case level == 'Negative':
                 console.log('K2');
                 recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours If you have vomiting & it is persistent, go to ER';
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                if (flag != 'true'){
+                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                }
                 break;
             case level == 'Trace':
                 console.log('L2');
                 recommendation = 'Encourage sugar - containing fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours &If you have vomiting & it is persistent, go to ER';
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                if (flag != 'true'){
+                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                }
                 break;
             case level == 'Small':
                 console.log('M2');
                 recommendation = 'Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                if (flag != 'true'){
+                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                }
                 break;
             case level == 'Moderate':
                 console.log('N2');
                 recommendation = 'Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 4 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                if (flag != 'true'){
+                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                }
                 break;
             case level == 'Large':
                 console.log('P2');
                 recommendation = 'High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack';
                 break;
         }//Case 7 between 180-250
-        }
+    }
 
-        if (caseNO == '8'){
+    if (caseNO == '8'){
             switch (caseNO == '8'){
                 case level < 0.6:
                     console.log('O');
                     recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours If you have vomiting & it is persistent, go to ER';
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                    if (flag != 'true'){
+                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    }
                     break;
                 case level >= 0.6 && level <= 0.9:
                     console.log('Q');
                     recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                    if (flag != 'true'){
+                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    }
                     break;
                 case level >= 1 && level <= 1.4:
                     console.log('R');
                     recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & If you have vomiting & it is persistent, go to ER';
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+                    if (flag != 'true'){
+                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    }
                     break;
                 case level >= 1.5 && level <= 2.9:
                     console.log('S');
                     recommendation = '-Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+                    if (flag != 'true'){
+                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    }
                     break;
                 case level >= 3:
                     console.log('T');
                     recommendation = 'High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-free fluids intake (At least 100ml every hour)';
                     break;
             }//Case 8 between 250-400
-                }
+    }
 
-            if (caseNO == '9'){
+    if (caseNO == '9'){
             switch (caseNO == '9'){
                 case level == 'Negative':
                     console.log('O2');
                     recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours If you have vomiting & it is persistent, go to ER';
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                    if (flag != 'true'){
+                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    }
                     break;
                 case level == 'Trace':
                     console.log('Q2');
                     recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                    if (flag != 'true'){
+                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    }
                     break;
                 case level == 'Small':
                     console.log('R2');
                     recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & If you have vomiting & it is persistent, go to ER';
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+                    if (flag != 'true'){
+                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    }
                     break;
                 case level == 'Moderate':
                     console.log('S2');
                     recommendation = '-Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+                    if (flag != 'true'){
+                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    }
                     break;
                 case level == 'Large':
                     console.log('T2');
                     recommendation = 'High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-free fluids intake (At least 100ml every hour)';
                     break;
             }//Case 9 between 250-400
-            }
+    }
 
-            if (caseNO == '10'){
+    if (caseNO == '10'){
                 switch (caseNO == '10'){
                     case level < 0.6:
                         console.log('U');
                         recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                        if (flag != 'true'){
+                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                        }
                         break;
                     case level >= 0.6 && level <= 0.9:
                         console.log('V');
                         recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 3 hours & If you have vomiting & it is persistent, go to ER';
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 3);//180
+                        if (flag != 'true'){
+                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+                        }
                         break;
                     case level >= 1 && level <= 1.4:
                         console.log('W');
                         recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & If you have vomiting & it is persistent, go to ER';
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+                        if (flag != 'true'){
+                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        }
                         break;
                     case level >= 1.5 && level <= 2.9:
                         console.log('X');
                         recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+                        if (flag != 'true'){
+                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        }
                         break;
                     case level >= 3:
                         console.log('W');
@@ -375,47 +500,106 @@ if (caseNO == '4'){
                         break;
                 }//Case 10 between 400
                     }
-                if (caseNO == '11'){
+    if (caseNO == '11'){
                 switch (caseNO == '11'){
                     case level == 'Negative':
                         console.log('U2');
                         recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 4);//240
+                        if (flag != 'true'){
+                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                        }
                         break;
                     case level == 'Trace':
                         console.log('V2');
                         recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 3 hours & If you have vomiting & it is persistent, go to ER';
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 3);//180
+                        if (flag != 'true'){
+                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+                        }
                         break;
                     case level == 'Small':
                         console.log('W2');
                         recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & If you have vomiting & it is persistent, go to ER';
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+                        if (flag != 'true'){
+                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        }
                         break;
                     case level == 'Moderate':
                         console.log('X2');
                         recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 2);//120
+                        if (flag != 'true'){
+                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        }
                         break;
                     case level == 'Large':
                         console.log('Y2');
                         recommendation = 'High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-free fluids intake (At least 100ml every hour)';
                         break;
                 }//Case 11 between 400
-                }
-insert();
+    }
+
+    insert();
     return recommendation;
 };
 
  //============== Withtin-APP DATABASE ***********************
+
+ //const retrieveCheck = () => {
+
+//   console.log('recheck if user had notification');
+//   try {
+//     db.transaction(tx => {
+//       tx.executeSql(
+//         'SELECT UserID, recheckDate, recheckTime FROM SDRecheckNotification',
+//         [],
+//         // eslint-disable-next-line no-shadow
+//         (tx, results) => {
+//           var rows = results.rows;
+//           for (let i = 0; i < rows.length; i++) {
+//               var userid = rows.item(i).UserID;
+//             if (userid == 168) {
+//               var lastString = rows.item(i).recheckDate;
+//               var d = new Date(lastString);
+//               var momFormat = moment(d).format('yyyy-MM-DD');
+//               console.log('mom:' + momFormat);
+//            var timeString = rows.item(i).recheckTime;
+//            var t = new Date(timeString);
+//           //  var form = moment(t).format('yyyy/MM/DD  hh:mm a');
+//           //  var f = t.getHours();
+//           //  console.log('-' + f);
+//               if (curDate == momFormat){
+//                       console.log('Time: ' + timeDiffrence(t));
+//                       if (timeDiffrence(t) <= 2){
+//                         flag = 'true';
+
+//                       }
+//                      else {
+//                         flag = 'false';
+
+//                      }
+//               } else {
+//                 flag = 'false';
+//               }
+//             }
+//           }
+//           return flag;
+//         },
+//       );
+//     });
+//     return flag;
+//   } catch (error) {
+//     console.log(error);
+//   }
+
+  //};
  const insert = async () => {
-    console.log('in tableukg ' + uID + ' - ' + curDate + ' - ' + curTime);
+    console.log('in tableukg ' + uID + ' - ' + curDate + ' - ' + cTime);
     try {
      db.transaction( (tx) => {
          tx.executeSql(
           'INSERT INTO SDRecheckNotification (UserID, recheckDate, recheckTime) VALUES (?,?,?)',
             [uID, curDate, curTime]
         );
+        console.log('in tab ' + uID + ' - ' + curDate + ' - ' + cTime);
     })
   } catch (error) {
     console.log(error);
