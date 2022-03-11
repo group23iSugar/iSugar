@@ -29,7 +29,7 @@ import tableukgCopy from './tableukgCopy';
 
 global.db = SQLite.openDatabase(
   {
-    name: 'iSugar.db',
+    name: 'iSugear.db',
     location: 'Library',
   },
   () => {
@@ -75,13 +75,12 @@ const sickDay = ({ navigation }) => {
       const [flag, setFlag] = useState('false');
       const [recom, setRecom] = useState('0');//recommendations
       const [level, setLevel] = useState('0');//either it's blood or urine ketones source
-      //#var level = '';
+      const [table, setTable] = useState('');//for current BG level
       const [extraInsulin, setExtraInsulin] = useState('0');//for extra insulin
       const [TDD, setTDD] = useState(0);//for extra insulin
       const [tableThree, setTableThree] = useState('No');//for extra insulin
       var recommendation = '';
-      //var takeTDD = 'false';
-      //var lessThanTwo = 'false';
+      global.T = '';
       global.Total = '';
       global.ketonesLevel = '';
       useEffect(() => {
@@ -99,7 +98,6 @@ const sickDay = ({ navigation }) => {
                     if (ReData1.weightInSixMonth == 'true' && (ReData2.insulinType == 'Aspart' || ReData2.insulinType == 'Lispro' || ReData2.insulinType == 'Glulisine')){
                         //table 1
                            if (blood != '0'){
-                             console.log('NICE TO MEET U');
                             setLevel(blood);
                              console.log('k : ' + ketones);
                             recommendation = tableukgCopy(currentBG, ketones, blood);
@@ -111,6 +109,9 @@ const sickDay = ({ navigation }) => {
                              }
                            }
                         console.log('The recommendation is : ' + recommendation);
+                        T = 'T1';
+                        setTable(T);
+                        console.log('Table name: ' + T);
                         //only we calculate the extra insulin dose in this two situations
                         if ( (ReData3.lessThanTwo == 'true' && ReData3.takeTDD == 'false') ||
                         ReData3.lessThanTwo == 'false'){
@@ -464,12 +465,12 @@ const sickDay = ({ navigation }) => {
    //----------------Sick day RECORD------------------
    if (blood > 0.0){
     ketonesLevel = blood;
-    console.log(uID + ' - ' + curDate + ' - ' + curTime + ' - ' + ketones + ' - ' + blood + ' - ' + meal + ' - ' + mealTime + ' - ' + carb + ' - ' + Total);
+    console.log(uID + ' - ' + curDate + ' - ' + curTime + ' - ' + ketones + ' - ' + blood + ' - ' + meal + ' - ' + mealTime + ' - ' + carb + ' - ' + Total + ' - ' + T);
     try {
      db.transaction( (tx) => {
          tx.executeSql(
-          'INSERT INTO sickDayRecords (UserID, recordDate, recordTime, KetonesSource, KetonesLevel, isMeal, mealTime, Carbs, TDD) VALUES (?,?,?,?,?,?,?,?,?)',
-            [uID, curDate, curTime, ketones, blood, meal, mealTime, carb, Total]
+          'INSERT INTO sickDayRecords (UserID, recordDate, recordTime, KetonesSource, KetonesLevel, isMeal, mealTime, Carbs, TDD, tableName) VALUES (?,?,?,?,?,?,?,?,?,?)',
+            [uID, curDate, curTime, ketones, blood, meal, mealTime, carb, Total, T]
         );
         
       })
@@ -482,12 +483,12 @@ const sickDay = ({ navigation }) => {
    else {
      if (urine == 'Negative' || urine == 'Trace' || urine == 'Small' || urine == 'Moderate' || urine == 'Large'){
       ketonesLevel = urine;
-      console.log(uID + ' - ' + curDate + ' - ' + curTime + ' - ' + ketones + ' - ' + urine + ' - ' + meal + ' - ' + mealTime + ' - ' + carb + ' - ' + Total);
+      console.log(uID + ' - ' + curDate + ' - ' + curTime + ' - ' + ketones + ' - ' + urine + ' - ' + meal + ' - ' + mealTime + ' - ' + carb + ' - ' + Total + ' - ' + T);
       try {
        db.transaction( (tx) => {
            tx.executeSql(
-            'INSERT INTO sickDayRecords (UserID, recordDate, recordTime, KetonesSource, KetonesLevel, isMeal, mealTime, Carbs, TDD) VALUES (?,?,?,?,?,?,?,?,?)',
-              [uID, curDate, curTime, ketones, urine, meal, mealTime, carb, Total]
+            'INSERT INTO sickDayRecords (UserID, recordDate, recordTime, KetonesSource, KetonesLevel, isMeal, mealTime, Carbs, TDD, tableName) VALUES (?,?,?,?,?,?,?,?,?,?)',
+              [uID, curDate, curTime, ketones, urine, meal, mealTime, carb, Total, T]
           );
           
         })
@@ -520,6 +521,7 @@ const saveInfo = () => {
         Carbs: carb,
         TDD: Total,
         takeExtraInsulin: ReData3.takeTDD,	
+        tableName: T,
     };
 
   // FETCH func ------------------------------------
