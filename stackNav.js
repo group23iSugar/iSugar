@@ -26,7 +26,6 @@ import insulinEdit from './pages/insulinEdit';
 import isfEdit from './pages/isfEdit';
 import icrEdit from './pages/icrEdit';
 import carb from './pages/carb';
-import insuResult from './pages/insuResult';
 import signUpAR from './pages/signUpArabic';
 import AccInfoAR from './pages/AccInfoArabic';
 import AccInfoAREdit from './pages/AccInfoEditArabic';
@@ -51,7 +50,6 @@ import AuthStack from './pages/AuthStack';
 import logInAR from './pages/logInAR';
 import personalInfoAR from './pages/personalInfoArabic';
 import AuthStackAR from './pages/AuthStackAR';
-import CalcAR from './pages/CalcAR';
 //===========Hypo Pages=============
 import notConscious from './pages/notConscious';
 import notConsciousAR from './pages/notConsciousAR';
@@ -67,6 +65,13 @@ import reNoHypo from './pages/reNoHypo';
 import reNoHypoAR from './pages/reNoHypoAR';
 import notMealTime from './pages/notMealTime';
 import notMealTimeAR from './pages/notMealTimeAR';
+//==================================
+//=======Appointments Pages=========
+import Home from './pages/Home';
+import appointments from './pages/appointments';
+import CalcAR from './pages/CalcAR';
+import insuResult from './pages/insuResult';
+import howCalc from './pages/howCalc'
 //==================================
 import checkFirst from './pages/checkFirst';
 import exercise from './pages/exercise';
@@ -316,7 +321,19 @@ try {
 try {
   db.transaction( (tx) => {
       tx.executeSql(
-       'CREATE TABLE IF NOT EXISTS BGLevel (UserID INTEGER NOT NULL UNIQUE, BGLevel REAL NOT NULL, BGLevelDate TEXT NOT NULL, BGLevelTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+       'CREATE TABLE IF NOT EXISTS BGLevel (UserID INTEGER, BGLevel REAL NOT NULL, DateTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+      []
+     );
+ })
+} catch (error) {
+ console.log(error);
+}
+
+//----------Appointments----------
+try {
+  db.transaction( (tx) => {
+      tx.executeSql(
+       'CREATE TABLE IF NOT EXISTS appointments (UserID INTEGER, appID PRIMARY KEY AUTOINCREMENT, appointmentDate TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
       []
      );
  })
@@ -408,6 +425,49 @@ global.ageFour = false;
 global.hBGlevel =0;
 global.glucaFlag = 0;// 0 is false 1 is true
 //============================================
+//============Home Global vars================
+global.fromBGHome = -1;
+global.toBGHome = -1;
+//============================================
+//===========Calcs Global vars================
+global.totalInulin = 0;
+global.howText = '-';//const [howText, setHowText] = useState('-'); //How was the insulin calculated
+global.bgLevelDB=0;
+global.reasonDB='';
+global.choDB='';
+//==========================
+
+  // ====== ISF intervals ========== //
+  global.ISFfromTimes = []; //const [fromTime, setFromTime] = useState([]);
+  global.ISFtoTimes = []; //const [toTime, setToTime] = useState([]);
+  global.ISFs = [];//const [isf, setISF] = useState([]);
+  global.ISFsTragetBG = [];//const [tBG, setTBG] = useState([]);
+  global.ISFsStartBG = [];// const [sBG, setSBG] = useState([]);
+  //======== ICR AND SS========= //
+  global.ICRarr = [];//const [ICRarr, setICRarr] = useState([]);
+  global.ICR=0;//const [ICR, setICR] = useState(0);
+  global.SlidingScaleArr = [];//const [SlidingScaleArr, setSlidingScaleArr] = useState([]);
+  global.SlidingScale=0;//const [SlidingScale, setSlidingScale] = useState(0);
+
+  
+
+  // ======= Patient Profile ===== //
+  global.calcMethod = '';//const [calcMethod, setCalcM] = useState('');
+  global.isIsfInterval = -1;//const [isIsfInterval, setInterval] = useState(-1);
+  global.insulinReg = '';//const [insulinReg, setReg] = useState('');
+  global.insulinType = '';//const [insulinType, setType] = useState('');
+  global.halfOrFull = -1;//const [halfOrFull, sethalfOrFull]= useState(-1);
+  global.isfP = -1;//const [isfP, setISFP] = useState(-1);
+  global.tBGP = -1;//const [tBGP, setTBGP] = useState(-1);
+  global.sBGP = -1;//const [sBGP, setSBGP] = useState(-1);
+  // p indicates patient ;) these values won't be retreived unless isf interval = 0: All day
+ 
+  //======= Previous Dose==========//
+  global.prevArr =[];
+
+
+
+//============================================
 
 const Stack = createNativeStackNavigator();
 const mainStack = () => {
@@ -438,8 +498,6 @@ const mainStack = () => {
         <Stack.Screen name="pass" component={passEdit}  />
         <Stack.Screen name="insulinEdit" component={insulinEdit}  />
         <Stack.Screen name="carb" component={carb}  />
-        <Stack.Screen name="calc" component={Calc} />
-        <Stack.Screen name="result" component={insuResult} />
         <Stack.Screen name="edit" component={editProfile}  />
         <Stack.Screen name="icrEdit" component={icrEdit}  />
         <Stack.Screen name="isfEdit" component={isfEdit}  />
@@ -487,6 +545,13 @@ const mainStack = () => {
         <Stack.Screen name="notMealTimeAR" component={notMealTimeAR}  />
         <Stack.Screen name="reNoHypo" component={reNoHypo}  />
         <Stack.Screen name="reNoHypoAR" component={reNoHypoAR}  />
+     //=========================================================
+     //================Home&Calc Navigations====================  
+        <Stack.Screen name="Homee" component={Home}  />
+        <Stack.Screen name="appointments" component={appointments}  />  
+        <Stack.Screen name="Calc" component={Calc} />
+        <Stack.Screen name="insuResult" component={insuResult} />
+        <Stack.Screen name="howCalc" component={howCalc}  /> 
      //=========================================================
         <Stack.Screen name="check" component={checkFirst}  />
         <Stack.Screen name="exercise" component={exercise}  />
