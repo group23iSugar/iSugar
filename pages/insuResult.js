@@ -14,77 +14,72 @@ import {
   ActivityIndicator,
   Switch,
 } from 'react-native';
+import ModalDropdown from 'react-native-modal-dropdown';
 import LinearGradient from 'react-native-linear-gradient';
+import {Picker} from '@react-native-picker/picker';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import moment from 'moment';
+
 const insuResult = ({navigation, route}) => {
   
   
-  var total = route.params.result;
-  var calcM = route.params.calcM;
-  var reason= route.params.reasonD;
-  var bg =  route.params.bg;
-  var cho = route.params.cho;
+
   
-  const [dose, setDose]=useState(0);
-  var cDate =  new Date();
+  const [dose, setDose]=useState(totalInulin);
+  var cDate = new Date();
   
 
   const insertE = ()=>{
-    try {
+    var uID=222;
+    //======================Save into DB========================
+
+    var currentTime2 = new Date();
+    var currentTimeHours1 = currentTime2.getHours(); //0-23
+    var currentTimeMin1 = currentTime2.getMinutes(); //0-59
+    var currentTimeDate_day1 = currentTime2.getDate(); //1-31
+    var currentTimeDate_month1 = currentTime2.getMonth(); //0-11
+    var currentTimeDate_year1 = currentTime2.getFullYear(); //2021
+
+      try {
           db.transaction( (tx) => {
               tx.executeSql(
-               'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time, Dose_date) VALUES (?,?,?,?,?,?,?)',
-                 [uID, bg, reason, cho, total, cDate, cDate]
+               'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Day, Dose_Date_Month, Dose_Date_Year) VALUES (?,?,?,?,?,?,?,?,?,?)',
+                 [uID, bgLevelDB, reasonDB, choDB, dose, currentTimeHours1, currentTimeMin1, currentTimeDate_day1, currentTimeDate_month1, currentTimeDate_year1]
              );
             
-            //  getData();
          })
+
+         console.log('INSERTEDDDDD!!!');
          
      } catch (error) {
          console.log(error);
-     }
+     } 
+
+     navigation.navigate('Calc');
 
   }
 
   return (
-    <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
+    <View style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
+        <Image source={require('./images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
         <Text
-          style={{
-            color: '#000',
-            fontSize: 25,
-            textAlign: 'left',
-            paddingTop: 20,
-            marginTop: 90,
-            paddingLeft: 15,
-            fontWeight: 'bold',
-          }}>
-          Your suggested insulin dose:
+          style={styles.textBody}>
+          Your suggested insulin dose:  {totalInulin}
         </Text>
 
-                <Text
-          style={{
-            color: '#000',
-            fontSize: 30,
-            textAlign: 'center',
-            paddingTop: 20,
-            marginTop: 10,
-            paddingLeft: 15,
-            fontWeight: 'bold',
-          }}>
-          {total}
-        </Text>
+
+        <View style={styles.innerCotainer2}>
+
+                
+
 
         
           <Text
-            style={{
-              paddingLeft: 12,
-              
-              textAlign: 'center',
-              fontSize: 20,
-            }}>
+            style={styles.textBody2}>
             Please inter the insulin dose amount that you will take:
             
 
@@ -92,151 +87,181 @@ const insuResult = ({navigation, route}) => {
 
           <TextInput
             keyboardType="decimal-pad"
-            defaultValue={''+total}
+            defaultValue={''+totalInulin}
 
             onChangeText={value => setDose(value)}
             style={styles.inputT}></TextInput>
+
+
+
+<View style={styles.buttonV}>
+        <TouchableOpacity style={styles.buttonR} onPress={insertE} > 
+                    <Text style={{fontSize: 18, textAlign: 'center', color: 'white'}}>Confirm</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.buttonR} onPress={()=>navigation.navigate('Calc')} > 
+                    <Text style={{fontSize: 18, textAlign: 'center', color: 'white'}}>Cancel</Text>
+            </TouchableOpacity>
+
+
+            </View>
         
-        
-
-              <Text
-            style={{
-              paddingLeft: 12,
-              marginTop: 20,
-              textAlign: 'center',
-              fontSize: 20,
-            }}>
-           Enter 0 if you are not taking any
-            
-
-          </Text>
-
       
         <View style={styles.vNext}>
-                  {/* <Image source={require('./images/info.png')} style={{height:45 , width:45}} /> */}
+                  <Image source={require('./images/info.png')} style={{height:45 , width:45}} />
                    <TouchableOpacity
-                   onPress={()=>navigation.navigate('how',{ calcM: calcM, reasonD: reason, bg: bg, cho: cho})}
+                   onPress={()=>navigation.navigate('howCalc')}
                    >
           <Text style={{fontSize: 18, textAlign: 'center'}}>
             How did we calculate the dose?
           </Text>
 
         </TouchableOpacity>
+        </View>
       </View>
       </ScrollView>
-    </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  prefix: {
-    backgroundColor: '#9c4',
-  },
-  text: {
-    color: '#000',
-    fontSize: 30,
-  },
+
   pic: {
     width: 70,
     height: 90,
   },
-  inputT: {
-    //inputs field
-    alignSelf:'center',
 
-    width: 150,
-    fontSize: 25,
-    shadowColor: '#000',
-    height: 70,
+
+//====================newStyle========================
+container: {
+    flex: 1,
+    backgroundColor: '#EEF0F2',
+  },
+//   pic: {
+//     width: height_logo,
+//     height: height_logo,
+//     marginRight: 10,
+// },
+
+body: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50,
+    marginBottom: 20,
+
+},
+textBody:{
+
+  margin:25,
+    
+    fontSize: 30,
+    color: '#05375a', 
     textAlign: 'center',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 0.62,
-
-    elevation: 2,
-  },
-
-  contView: {
-    //Conten's view
-    backgroundColor: '#fff',
-    height: 550,
-    width: 360,
-    alignSelf: 'center',
-    top: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-
-    elevation: 7,
-  },
-
-  inpTxt: {
-    //lables
-    paddingLeft: 20,
-    paddingTop: 15,
-    fontSize: 18,
-  },
-
-  vNext: {
-    // to make items next to each other
-    flexDirection: 'row',
+    fontWeight: 'bold',
+ }, 
+ textBody2:{
+   padding: 10,
+  fontSize: 20,
+  color: '#053720',
+  textAlign: 'center',
+}, 
+ innerCotainer: {
+  backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 5, width: 380,
+       flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 80,
-    marginLeft:25,
-
-  },
-
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    padding: 10,
-    width: 300,
     alignSelf: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    paddingLeft: 30,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 0.9,
+              shadowColor: "#000",
+              shadowOffset: {
+              width: 0,
+              height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+},
+innerCotainer2: {
+  
+  textAlign: 'left',
+  backgroundColor: 'white',
+  borderRadius: 15,
+  marginBottom: 50,
+  width: 380,
+  alignSelf: 'center',
+              shadowColor: "#000",
+              shadowOffset: {
+              width: 0,
+              height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+},
+vNext: {
+  // to make items next to each other
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  margin: 20,
+  marginLeft:25,
 
-    elevation: 3,
+},
+
+buttonV: {
+  flex: 1,
+  flexDirection: 'row',
+  marginHorizontal: 50,
+  marginTop: 45,
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  
+},
+inputT: {
+  //inputs field
+  color: '#000',
+  width: 110,
+  fontSize: 16,
+  shadowColor: '#000',
+  height: 50,
+  alignSelf: 'center',
+  alignItems:'center',
+  textAlign: 'center',
+  shadowOffset: {
+    width: 0,
+    height: 1,
   },
+  shadowOpacity: 0.23,
+  shadowRadius: 0.62,
 
-  ddown: {
-    //drop down list style
+  elevation: 2,
+},
 
-    paddingLeft: 0,
-    paddingTop: 13,
-    shadowColor: '#000',
 
-    height: 40,
-    width: 160,
+buttonR: {
 
-    alignItems: 'center',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 0.62,
+  backgroundColor: '#05375a',
+  alignItems: 'center',
+  alignSelf: 'center',
+  width: 100,
+  height: 45,
+  marginTop:10,
+  marginBottom:10,
+  justifyContent: 'center',
+  borderRadius: 15,
+  flexDirection: 'row',
+  shadowColor: "#000",
+              shadowOffset: {
+              width: 0,
+              height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+  
+  
+},
 
-    elevation: 2,
-    backgroundColor: '#f5f5f5',
-  },
+
+//====================newStyle========================
 });
+
 
 export default insuResult;
