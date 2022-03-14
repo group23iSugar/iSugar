@@ -66,12 +66,15 @@ import reNoHypoAR from './pages/reNoHypoAR';
 import notMealTime from './pages/notMealTime';
 import notMealTimeAR from './pages/notMealTimeAR';
 //==================================
-//=======Appointments Pages=========
+//=======Appointments and Calcs Pages=========
 import Home from './pages/Home';
 import appointments from './pages/appointments';
+import Calc from './pages/Calc';
 import CalcAR from './pages/CalcAR';
 import insuResult from './pages/insuResult';
+import insuResultAR from './pages/insuResultAR';
 import howCalc from './pages/howCalc'
+import howCalcAR from './pages/howCalcAR'
 //==================================
 import checkFirst from './pages/checkFirst';
 import exercise from './pages/exercise';
@@ -552,6 +555,9 @@ const mainStack = () => {
         <Stack.Screen name="Calc" component={Calc} />
         <Stack.Screen name="insuResult" component={insuResult} />
         <Stack.Screen name="howCalc" component={howCalc}  /> 
+        <Stack.Screen name="CalcAR" component={CalcAR} />
+        <Stack.Screen name="insuResultAR" component={insuResultAR} />
+        <Stack.Screen name="howCalcAR" component={howCalcAR}  /> 
      //=========================================================
         <Stack.Screen name="check" component={checkFirst}  />
         <Stack.Screen name="exercise" component={exercise}  />
