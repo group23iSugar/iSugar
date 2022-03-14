@@ -67,10 +67,6 @@ const Calc = ({navigation, route}) => {
       if (bgLevel > 70) {
         if (reason == '5') {
           if (bgLevel > sBGP) {
-
-
-            
-
             a = 0;
             b = (bgLevel - tBGP) / isfP;
             c = a + b;
@@ -901,6 +897,7 @@ else{//half-units
             testID="1"></Picker.Item>
         </Picker>
         </View>
+        { (reason !== '5' && calcMethod == 'ICR') ? (
         <View style={styles.innerCotainer}>
           <Text style={styles.textBody}>Meal carbohydrate content: </Text>
           <TextInput
@@ -908,17 +905,19 @@ else{//half-units
             placeholder="000.00 g"
             onChangeText={value => setCHO(value)}
             style={styles.inputT}></TextInput>
-        </View>
+        
 
-        <TouchableOpacity style={styles.buttonR}>
+        <TouchableOpacity onPress={()=>navigation.navigate('carb')} style={styles.buttonR}>
           <Text style={{fontSize: 18, textAlign: 'center', color: 'white',}}>
-            Calculate carbohydrate in a meal
+            Carbohydrate Calculator
           </Text>
           {/* <Image
             source={require('./images/carb.png')}
             style={{height: 30, width: 30}}
           /> */}
         </TouchableOpacity>
+        </View>
+        ) : null}
 
         <View style={styles.innerCotainer3}>
       
@@ -1367,6 +1366,7 @@ textBody:{
        flexDirection: 'row',
     flexWrap: 'wrap',
     alignSelf: 'center',
+    marginBottom: 5,
               shadowColor: "#000",
               shadowOffset: {
               width: 0,
@@ -1400,6 +1400,7 @@ innerCotainer3: {
   borderRadius: 15,
   paddingBottom: 15,
   marginBottom: 10,
+  marginTop: 15,
   width: 380,
   alignSelf: 'center',
               shadowColor: "#000",
