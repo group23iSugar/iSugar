@@ -113,6 +113,7 @@ const Calc = ({navigation, route}) => {
             }
           } else {
             alert('No correction required');
+            return;
           }
         } else {
           if (calcMethod == 'ICR') {
@@ -220,6 +221,7 @@ const Calc = ({navigation, route}) => {
       alert(
         'Your Insulin type is not supported in this application. Please contact your Diabetes center for instruction & recommendations for insulin bolus calculation & dose determination',
       );
+      return;
     }
 
 
@@ -897,7 +899,7 @@ else{//half-units
             testID="1"></Picker.Item>
         </Picker>
         </View>
-        { (reason !== '5' && calcMethod == 'ICR') ? (
+        { (reason == '5' || calcMethod == 'Sliding Scale') ? null : (
         <View style={styles.innerCotainer}>
           <Text style={styles.textBody}>Meal carbohydrate content: </Text>
           <TextInput
@@ -917,7 +919,7 @@ else{//half-units
           /> */}
         </TouchableOpacity>
         </View>
-        ) : null}
+        )}
 
         <View style={styles.innerCotainer3}>
       
@@ -943,7 +945,7 @@ else{//half-units
                 onValueChange={value => setPreTypeOfExercise(value)}
                 mode="dropdown"
                 style={styles.picker}>
-                <Picker.Item label="Select" value="0" testID="2"></Picker.Item>
+                
                 <Picker.Item label="Running" value="1" testID="0"></Picker.Item>
                 <Picker.Item
                   label="Swimming"
@@ -1093,7 +1095,7 @@ else{//half-units
                 onValueChange={value => setPreDuration(value)}
                 mode="dropdown"
                 style={styles.picker}>
-                <Picker.Item label="Select" value="0"></Picker.Item>
+               
                 <Picker.Item
                   label="Less than 15 minutes"
                   value="14"></Picker.Item>
@@ -1130,7 +1132,7 @@ else{//half-units
               onValueChange={value => setPostTypeOfExercise(value)}
               mode="dropdown"
               style={styles.picker}>
-              <Picker.Item label="Select" value="0" testID="2"></Picker.Item>
+              
               <Picker.Item label="Running" value="1" testID="0"></Picker.Item>
               <Picker.Item label="Swimming" value="2" testID="0"></Picker.Item>
               <Picker.Item label="Walking" value="3" testID="0"></Picker.Item>
@@ -1259,7 +1261,7 @@ else{//half-units
               onValueChange={value => setPostDuration(value)}
               mode="dropdown"
               style={styles.picker}>
-              <Picker.Item label="Select" value="0"></Picker.Item>
+             
               <Picker.Item
                 label="Less than 30 minutes"
                 value="14"></Picker.Item>
@@ -1531,7 +1533,7 @@ ddown2: {
   backgroundColor: '#f5f5f5',
 },
 picker: {
-  color: 'grey'
+  color: '#032136',
 },
  msg: {
     //lables
