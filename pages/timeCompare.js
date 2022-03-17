@@ -3,7 +3,7 @@ import moment from 'moment';
      const timeCompare = function(from, to) { 
          var currentTimeInsideInterval = false;
         //====== parsing FROM ========//
-         from = moment(from).format('h:mm a'); // delete this line if your format is h:mm a-------------
+        // from = moment(from).format('h:mm a'); // delete this line if your format is h:mm a-------------
         console.log(from+' ......');
         var fullFrom = from.split(' ');
         var getFromTime = fullFrom[0].split(':');
@@ -13,11 +13,8 @@ import moment from 'moment';
         if (getFromHour < 12 && (FromPeriod == 'pm' || FromPeriod == 'PM' )){
             getFromHour = getFromHour+12;
         }
-        if (getFromHour == 12 && (FromPeriod == 'am' || FromPeriod == 'AM' )){
-            getFromHour = getFromHour-12;
-        }
         //====== parsing TO ========//
-         to = moment(to).format('h:mm a');  // delete this line if your format is h:mm a--------------------
+        // to = moment(to).format('h:mm a');  // delete this line if your format is h:mm a--------------------
         console.log(to+' ......');
         var fullTo = to.split(' ');
         var getToTime = fullTo[0].split(':');
@@ -35,11 +32,8 @@ import moment from 'moment';
         var getCurrentHour = parseInt(getCurrentTime[0]);
         var getCurrentMinutes = parseInt(getCurrentTime[1]);
         var CurrentPeriod = fullCurrent[1];
-        if (getCurrentHour < 12 && (getCurrentHour == 'pm' || CurrentPeriod == 'PM' )){
+        if (getCurrentHour < 12 && (CurrentPeriod == 'pm' || CurrentPeriod == 'PM' )){
             getCurrentHour = getCurrentHour+12;
-        }
-        if (getCurrentHour == 12 && (getCurrentHour == 'am' || getCurrentHour == 'AM' )){
-            getCurrentHour = getCurrentHour-12;
         }
         // ====== comparing =======//
 
@@ -66,27 +60,6 @@ import moment from 'moment';
                   		currentTimeInsideInterval = false;}
                   }
                   return currentTimeInsideInterval;
-        // var flagHours = false;
-        // var flagMinutes = true;
-        // if (getCurrentHour >= getFromHour && getCurrentHour <= getToHour){
-        //     flagHours = true;
-        // }
-        // if (flagHours){
-        //     if (getCurrentHour == getFromHour || getCurrentHour ==  getToHour){
-        //         if (getCurrentMinutes >= getFromMinutes){
-        //             flagMinutes = true;
-        //         } else {
-        //             flagMinutes = false;
-        //         }
-        //         if (getCurrentMinutes <= getToMinutes){
-        //             flagMinutes = true;
-        //         } else {
-        //             flagMinutes= false;
-        //         }
-
-        //     }
-        // }
-        // return flagMinutes&&flagHours;
     }
     
 export default timeCompare;
