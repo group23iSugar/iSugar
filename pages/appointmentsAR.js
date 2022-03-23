@@ -28,22 +28,22 @@ import PushNotification from "react-native-push-notification";
 //import { ActivityIndicator, Colors } from 'react-native-paper';
 //import dashDB from './dashDB';
 
-const appoinments = ({navigation}) => {
+const appoinmentsAR = ({navigation}) => {
+
+  
+    //==Notification==
+    const handleNotification = ()=>{
+      PushNotification.localNotificationSchedule({
+        channelId: 'test',
+        title: 'لديك موعد هذا الاسبوع!',
+        message: 'لا تنسى موعدك هذا الاسبوع!',
+        date: new Date(appointmentTime-(60*60*24*7*1000)),//add validation to check if date of notification is valid
+        allowWhileIdle: true,
 
 
-      //==Notification==
-      const handleNotification = ()=>{
-        PushNotification.localNotificationSchedule({
-          channelId: 'test',
-          title: 'Do not forget your appointment this week!',
-          message: 'Do not forget your appointment this week!',
-          date: new Date(appointmentTime-(60*60*24*7*1000)),
-          allowWhileIdle: true,
-  
-  
-        });
-      }
-      //================
+      });
+    }
+    //================
 //===============================Online DB===========================
 const updateFlag = () => {
 
@@ -110,15 +110,15 @@ const updateFlag = () => {
       console.log(error);
     }
 
+
     //if ((appointmentTime-cDate)/(1000 * 60 * 60 *24) > 7){
-      handleNotification(); //}
+    handleNotification(); //}
 
     
 
-
     alert('You have an appointment at the diabetes Center  on '+appointmentToString+'. If you are scheduled to have your annual lab work please don’t forget to do them.');
-    navigation.navigate('Home');
-  } else {alert('Invalid date! \nPlease try again')}
+    navigation.navigate('HomeAR');
+  } else {alert('التاريخ المدخل غير صحيح! \nحاول مجدداً')}
  }
  
  
@@ -138,21 +138,21 @@ const updateFlag = () => {
             fontSize: 25,
             textAlign: 'center',
             paddingTop: 20,
-            paddingLeft: 15,
+            paddingRight: 15,
             fontWeight: 'bold',
           }}>
-          New Appointment
+          إضافة موعد جديد
         </Text>
 
          <View style={styles.innerCotainer}>
 
-        <Text style={styles.textBody}>Enter the upcoming appointment date:{'\n\n'}</Text>
+        <Text style={styles.textBody}>أدخل تاريخ الموعد الجديد:{'\n\n'}</Text>
 
         <View>
 
                   <TouchableOpacity
                   style={{
-            marginLeft: 80,
+            marginRight: 80,
             width: 200,
             alignSelf: 'center',
             alignItems: 'center',
@@ -163,7 +163,7 @@ const updateFlag = () => {
                     
           
               
-              <Text style={styles.textBody2}>Set Date</Text>
+              <Text style={styles.textBody2}>اختيار التاريخ</Text>
             
           </TouchableOpacity>
 
@@ -172,7 +172,7 @@ const updateFlag = () => {
 
             <Text
               style={styles.textBody}>
-              The selected date for your upcoming appointment is:  {showTime}
+              التاريخ المختار هو:  {showTime}
             </Text>
 
             {showAppointmentTime && (
@@ -194,7 +194,7 @@ const updateFlag = () => {
             <LinearGradient
               colors={['#E7EFFA', '#AABED8', '#AABED8']}
               style={styles.buttonR}>
-              <Text style={styles.titleB}>Add</Text>
+              <Text style={styles.titleB}>إضافة</Text>
             </LinearGradient>
           </TouchableOpacity>
         
@@ -380,7 +380,7 @@ ddown2: {
 
 
   marginTop: 20,
-  marginLeft: 10,
+  marginRight: 10,
   shadowColor: '#000',
 
   width: 100,
@@ -401,7 +401,7 @@ ddown2: {
 
 
   marginTop: 20,
-  marginLeft: 10,
+  marginRight: 10,
   shadowColor: '#000',
 
   width: 130,
@@ -419,7 +419,7 @@ ddown2: {
 },
 inpTxt: {
   //lables
-  paddingLeft: 20,
+  paddingRight: 20,
   paddingTop: 15,
   fontSize: 18,
 },
@@ -429,4 +429,4 @@ picker: {
 //====================newStyle========================
 });
 
-export default appoinments;
+export default appoinmentsAR;

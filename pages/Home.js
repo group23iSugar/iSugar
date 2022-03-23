@@ -31,7 +31,7 @@ const Home = ({navigation}) => {
     dashBoard();
     ret3();
     //ret4();
-  }, []);
+  }, [appointments]);
 
   const [flag, setFlag] = useState(false);
   const [within, setWitin] = useState(0);
@@ -227,7 +227,7 @@ const Home = ({navigation}) => {
                  var momFormatd = moment(toObjd).format('dddd yyyy/MM/DD');
                  var weeksNum =  (toObjd-currentD)/(1000 * 60 * 60 *24*7);
                  var weeksNum2= Math.floor(weeksNum);
-                 if((toObjd-currentD)/(1000 * 60 * 60 *24) > 0){
+                 if((toObjd-currentD)/(1000 * 60 * 60 *24) > 0){ //check if it's new
                    
                   //aaa.push(momFormatd+'\n');
                   aaa.push({key: counter, name: momFormatd, weeks: weeksNum2});
