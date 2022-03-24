@@ -33,7 +33,7 @@ global.InsulinSFF = 0;
 global.intervalISFF = '';
 global.insulinCalcMethodF = '';
 global.glucoseMonitorF = '';
-
+global.nameG = '';
 //==========ICR Fasting========
 global.ICRFasting = [];
 
@@ -63,7 +63,7 @@ global.previousExerciseFasting = [];
 const fasting = ({ navigation }) => {
     const [yesFlag, setYes] = useState(false); 
     const [noFlag, setNo] = useState(false);
-
+    const [typeFlag, setType] = useState(false);
     // const msgShow = () => {
     //     if (noFlag){
     //         var curDate = new Date();
@@ -316,7 +316,10 @@ const fasting = ({ navigation }) => {
                           iDose: rows.item(i).iDose,
                           iTime: rows.item(i).iTime,
                       });
-      
+                      if (rows.item(i).insulinType == 'NPH' || rows.item(i).insulinType == 'mixed rapid+ intermediate' || rows.item(i).insulinType == 'Deguldec+Aspart Mix'){
+                            setType(true);
+                            nameG = rows.item(i).insulinType;
+                      }
                       return;
                     }
                   }
@@ -649,7 +652,16 @@ const fasting = ({ navigation }) => {
              )}
          
       
-           
+           {typeFlag ? (<View>
+            <View style={styles.innerCotainer}>
+          <Text style={styles.textAlert}>Fasting recommendations for users who take {nameG} insulin is not supported in this application. Please contact your Diabetes center for required insulin adjustments during fasting.</Text>
+          
+          </View>
+           </View>) : (
+             <View>
+               
+             </View>
+           )}
         <TouchableOpacity onPress={()=>{navigation.navigate('fastingProfile'); }}>
             <LinearGradient style={styles.outer}
             colors={['#a8dadc', '#457b9d']}>
