@@ -272,6 +272,18 @@ try {
      console.log(error);
     }
     //======//
+     //=====//
+     try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS fasting (UserID INTEGER NOT NULL, recordDate TEXT NOT NULL, recordTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+    //=====//
     //======//
     try {
       db.transaction( (tx) => {
