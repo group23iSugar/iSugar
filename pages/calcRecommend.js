@@ -15,7 +15,7 @@ import insulin from './insulin';
 
 
 
-const fastingProfile = ({ navigation }) => {
+const calcRecommend = ({ navigation }) => {
     const [notFlag, setNot] = useState(false);
     const [insType, setInsT] = useState('');
     const [dose, setDose] = useState(0);
@@ -132,7 +132,7 @@ const fastingProfile = ({ navigation }) => {
 const {height} = Dimensions.get("screen");
 const height_logo = height * 0.28;
 
-export default fastingProfile;
+export default calcRecommend;
 
 const styles = StyleSheet.create({
     container: {
@@ -419,5 +419,6 @@ const styles = StyleSheet.create({
     }
  
 });
+
 
 
