@@ -615,7 +615,7 @@ const mainStack = () => {
         <Stack.Screen name="insulin" component={insulin} />
         <Stack.Screen name="isf" component={isf} />
         <Stack.Screen name="icr" component={icr} />
-        <Stack.Screen name="home" component={AuthStack} />
+        //<Stack.Screen name="home" component={AuthStack} />
         <Stack.Screen name="sliding" component={sliding} />
         <Stack.Screen name="pass" component={passEdit}  />
         <Stack.Screen name="insulinEdit" component={insulinEdit}  />
@@ -669,7 +669,7 @@ const mainStack = () => {
         <Stack.Screen name="reNoHypoAR" component={reNoHypoAR}  />
      //=========================================================
      //================Home&Calc Navigations====================  
-        <Stack.Screen name="Homee" component={Home}  />
+        <Stack.Screen name="Home" component={Home}  />
         <Stack.Screen name="appointments" component={appointments}  />  
         <Stack.Screen name="Calc" component={Calc} />
         <Stack.Screen name="insuResult" component={insuResult} />
