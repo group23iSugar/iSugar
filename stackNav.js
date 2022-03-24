@@ -127,6 +127,16 @@ try {
     } catch (error) {
      console.log(error);
     }
+        try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS patientprofileFasting (UserID INTEGER NOT NULL UNIQUE, DOB TEXT NOT NULL, weightKG REAL NOT NULL, latest_HP1AC REAL NOT NULL, latest_HP1AC_date TEXT NOT NULL, typeOfGlucoseM TEXT NOT NULL, glucoseLevel_unit TEXT NOT NULL, ketonesMeasure TEXT NOT NULL, insulinRegimen TEXT NOT NULL, ISF INTEGER, targetBG_correct INTEGER, startBG_correct INTEGER, ISFIntervals INTEGER NOT NULL, insulinCalcMethod TEXT NOT NULL, fromBG INTEGER NOT NULL, toBG INTEGER NOT NULL, height REAL NOT NULL, diabetes_center TEXT NOT NULL, diagnosis_date TEXT NOT NULL, center_name TEXT, center_city TEXT, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
     //========//
     try {
       db.transaction( (tx) => {
@@ -153,7 +163,29 @@ try {
     try {
       db.transaction( (tx) => {
           tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS icrIntervalFasting (icrID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, fromTime TEXT NOT NULL, toTime TEXT NOT NULL, ICR INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+    //====//
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
            'CREATE TABLE IF NOT EXISTS isfInterval (isfID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, fromTime TEXT NOT NULL, toTime TEXT NOT NULL, ISF INTEGER NOT NULL, targetBG_correct INTEGER NOT NULL, startBG_correct INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+    //======/
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS isfIntervalFasting (isfID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, fromTime TEXT NOT NULL, toTime TEXT NOT NULL, ISF INTEGER NOT NULL, targetBG_correct INTEGER NOT NULL, startBG_correct INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
           []
          );
      })
@@ -171,6 +203,17 @@ try {
     } catch (error) {
      console.log(error);
     }
+    //======/
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS insulinPenFasting (insulinID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, insulinType TEXT NOT NULL, halfORfull INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
     //====/
     try {
       db.transaction( (tx) => {
@@ -182,11 +225,35 @@ try {
     } catch (error) {
      console.log(error);
     }
+    
     //=====//
+      //====/
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS insulinOtherFasting (insulinID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, insulinType TEXT NOT NULL, iDose REAL NOT NULL, iTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+      
     try {
       db.transaction( (tx) => {
           tx.executeSql(
            'CREATE TABLE IF NOT EXISTS ssInterval (ssID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, fromTime TEXT NOT NULL, toTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+    //======//
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS ssIntervalFasting (ssID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, fromTime TEXT NOT NULL, toTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
           []
          );
      })
@@ -205,10 +272,32 @@ try {
      console.log(error);
     }
     //======//
+    //======//
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS bgleveltoinsulinFasting (bgID INTEGER PRIMARY KEY AUTOINCREMENT, ssID INTEGER NOT NULL, fromTime TEXT NOT NULL, toTime TEXT NOT NULL, FOREIGN KEY("ssID") REFERENCES "ssInterval"("ssID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
     try {
       db.transaction( (tx) => {
           tx.executeSql(
            'CREATE TABLE IF NOT EXISTS takenInsulinDose (takenInsulinID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, BG_level REAL NOT NULL, ReasonForInsulin TEXT NOT NULL, CHO REAL NOT NULL, insulinDose INTEGER NOT NULL, Dose_time_hours INTEGER NOT NULL, Dose_time_minutes	INTEGER NOT NULL, Dose_Date_Month INTEGER NOT NULL, Dose_Date_Day INTEGER NOT NULL, Dose_Date_Year INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+    //====/
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS takenInsulinDoseFasting (takenInsulinID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, BG_level REAL NOT NULL, ReasonForInsulin TEXT NOT NULL, CHO REAL NOT NULL, insulinDose INTEGER NOT NULL, Dose_time_hours INTEGER NOT NULL, Dose_time_minutes	INTEGER NOT NULL, Dose_Date_Month INTEGER NOT NULL, Dose_Date_Day INTEGER NOT NULL, Dose_Date_Year INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
           []
          );
      })
@@ -228,8 +317,38 @@ try {
      console.log(error);
     }
      //======//
-    
-    //======/
+     try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS plannedExerciseFasting (takenInsulinID INTEGER NOT NULL, type TEXT NOT NULL, duration	INTEGER NOT NULL,  FOREIGN KEY("takenInsulinID") REFERENCES "takenInsulinDose"("takenInsulinID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+     //======//
+     try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS prevoiusExercise (takenInsulinID INTEGER NOT NULL, type TEXT NOT NULL, duration	INTEGER NOT NULL, Time	TEXT NOT NULL,  FOREIGN KEY("takenInsulinID") REFERENCES "takenInsulinDose"("takenInsulinID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+     //======//
+     try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS prevoiusExerciseFasting (takenInsulinID INTEGER NOT NULL, type TEXT NOT NULL, duration	INTEGER NOT NULL, Time	TEXT NOT NULL,  FOREIGN KEY("takenInsulinID") REFERENCES "takenInsulinDose"("takenInsulinID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
     try {
       db.transaction( (tx) => {
           tx.executeSql(
