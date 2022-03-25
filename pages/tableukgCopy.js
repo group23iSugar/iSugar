@@ -2,11 +2,9 @@
 /* eslint-disable semi */
 /* eslint-disable no-undef */
 /* eslint-disable eqeqeq */
-//import {useState} from 'react';
 import moment from 'moment';
 import PushNotification from 'react-native-push-notification';
 import SQLite from 'react-native-sqlite-storage';
-import timeDiffrence from './timeDiffrence';
 
 global.db = SQLite.openDatabase(
   {
@@ -21,16 +19,13 @@ global.db = SQLite.openDatabase(
   },
 );
 
-var uID = 15;
+var uID = 222;
 var curDate = moment().format('YYYY-MM-DD');
-var curTime = moment().format('HH:mm:ss');
 var cTime = new Date();
 var currentBG = '';
 var ketones = '';
 var level = '';
-global.flag = '';
-
-//const [finalFlag, setFinalFlag] = useState('false');
+var flag = '';
 
 //==============for notification=============================
 const handleScheduleNotification = (title, message, time) => {
@@ -43,58 +38,16 @@ const handleScheduleNotification = (title, message, time) => {
     });
     };
 
-const tableukgCopy = function(BG, ketonesSource, ketonesLevel){
+const tableukgCopy = function(BG, ketonesSource, ketonesLevel, flags){
    currentBG = BG;
    ketones = ketonesSource;
    level = ketonesLevel;
+   flag = flags;
    var recommendation = '';
    var caseNO = '';
 
-//    flag =  retrieveCheck();
-
-console.log('recheck if user had notification');
-try {
-  db.transaction(tx => {
-    tx.executeSql(
-      'SELECT UserID, recheckDate, recheckTime FROM SDRecheckNotification',
-      [],
-      // eslint-disable-next-line no-shadow
-      (tx, results) => {
-        var rows = results.rows;
-        for (let i = 0; i < rows.length; i++) {
-            var userid = rows.item(i).UserID;
-          if (userid == 168) {
-            var lastString = rows.item(i).recheckDate;
-            var d = new Date(lastString);
-            var momFormat = moment(d).format('yyyy-MM-DD');
-            console.log('mom:' + momFormat);
-         var timeString = rows.item(i).recheckTime;
-         var t = new Date(timeString);
-            if (curDate == momFormat){
-                    console.log('Time: ' + timeDiffrence(t));
-                    if (timeDiffrence(t) <= 2){
-                      flag = 'true';
-
-                    }
-                   else {
-                      flag = 'false';
-
-                   }
-            } else {
-              flag = 'false';
-            }
-          }
-        }
-      },
-    );
-  });
-} catch (error) {
-  console.log(error);
-}
-
-
+console.log('flag now is-: ' + flag);
     if (currentBG < 70 && currentBG > 0){
-        console.log('flag now is-: ' + flag);
        recommendation = 'Re-check your blood glucose in 30 minutes & If your unwell or have persistent vomiting, go to ER';
        if (flag != 'true'){
        handleScheduleNotification('iSugar','Time to Re-check your blood glucose level.', 30);//30
@@ -105,47 +58,38 @@ try {
         caseNO = '2';
         console.log('2');
     }
-
     if (currentBG >= 70 && currentBG < 90 && ketones == 'urine'){
         caseNO = '3';
         console.log('3');
     }
-
     if (currentBG >= 90 && currentBG < 180 && ketones == 'blood'){
         caseNO = '4';
         console.log('4');
     }
-
     if (currentBG >= 90 && currentBG < 180 && ketones == 'urine'){
         caseNO = '5';
         console.log('5');
     }
-
     if (currentBG >= 180 && currentBG < 250 && ketones == 'blood'){
         caseNO = '6';
         console.log('6');
     }
-
     if (currentBG >= 180 && currentBG < 250 && ketones == 'urine'){
         caseNO = '7';
         console.log('7');
     }
-
     if (currentBG >= 250 && currentBG < 400 && ketones == 'blood'){
         caseNO = '8';
         console.log('8');
     }
-
     if (currentBG >= 250 && currentBG < 400 && ketones == 'urine'){
         caseNO = '9';
         console.log('9');
     }
-
     if (currentBG >= 400 && ketones == 'blood'){
         caseNO = '10';
         console.log('10');
     }
-
     if (currentBG >= 400 && ketones == 'urine'){
         caseNO = '11';
         console.log('11');
@@ -195,7 +139,6 @@ switch (caseNO == '2'){
         break;
 }//Case 2 between 70-90
     }
-
     if (caseNO == '3'){
 switch (caseNO == '3'){
     case level == 'Negative':
@@ -275,7 +218,6 @@ switch (caseNO == '3'){
             break;
     }//Case 4 between 90-180
     }
-
     if (caseNO == '5'){
     switch (caseNO == '5'){
         case level == 'Negative':
@@ -352,7 +294,6 @@ switch (caseNO == '3'){
                 break;
         }//Case 6 between 180-250
     }
-
     if (caseNO == '7'){
         switch (caseNO == '7'){
             case level == 'Negative':
@@ -426,7 +367,6 @@ switch (caseNO == '3'){
                     break;
             }//Case 8 between 250-400
     }
-
     if (caseNO == '9'){
             switch (caseNO == '9'){
                 case level == 'Negative':
@@ -499,7 +439,7 @@ switch (caseNO == '3'){
                         recommendation = 'High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-free fluids intake (At least 100ml every hour)';
                         break;
                 }//Case 10 between 400
-                    }
+    }
     if (caseNO == '11'){
                 switch (caseNO == '11'){
                     case level == 'Negative':
@@ -541,63 +481,13 @@ switch (caseNO == '3'){
     return recommendation;
 };
 
- //============== Withtin-APP DATABASE ***********************
-
- //const retrieveCheck = () => {
-
-//   console.log('recheck if user had notification');
-//   try {
-//     db.transaction(tx => {
-//       tx.executeSql(
-//         'SELECT UserID, recheckDate, recheckTime FROM SDRecheckNotification',
-//         [],
-//         // eslint-disable-next-line no-shadow
-//         (tx, results) => {
-//           var rows = results.rows;
-//           for (let i = 0; i < rows.length; i++) {
-//               var userid = rows.item(i).UserID;
-//             if (userid == 168) {
-//               var lastString = rows.item(i).recheckDate;
-//               var d = new Date(lastString);
-//               var momFormat = moment(d).format('yyyy-MM-DD');
-//               console.log('mom:' + momFormat);
-//            var timeString = rows.item(i).recheckTime;
-//            var t = new Date(timeString);
-//           //  var form = moment(t).format('yyyy/MM/DD  hh:mm a');
-//           //  var f = t.getHours();
-//           //  console.log('-' + f);
-//               if (curDate == momFormat){
-//                       console.log('Time: ' + timeDiffrence(t));
-//                       if (timeDiffrence(t) <= 2){
-//                         flag = 'true';
-
-//                       }
-//                      else {
-//                         flag = 'false';
-
-//                      }
-//               } else {
-//                 flag = 'false';
-//               }
-//             }
-//           }
-//           return flag;
-//         },
-//       );
-//     });
-//     return flag;
-//   } catch (error) {
-//     console.log(error);
-//   }
-
-  //};
  const insert = async () => {
     console.log('in tableukg ' + uID + ' - ' + curDate + ' - ' + cTime);
     try {
      db.transaction( (tx) => {
          tx.executeSql(
           'INSERT INTO SDRecheckNotification (UserID, recheckDate, recheckTime) VALUES (?,?,?)',
-            [uID, curDate, curTime]
+            [uID, curDate, cTime]
         );
         console.log('in tab ' + uID + ' - ' + curDate + ' - ' + cTime);
     })
