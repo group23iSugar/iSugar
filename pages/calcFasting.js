@@ -148,7 +148,7 @@ const Calc = ({navigation, route}) => {
             }
           } else {
             alert('No correction required');
-            return;
+            return;s
           }
         } else {
           if (calcMethodF == 'ICR') {
@@ -156,7 +156,7 @@ const Calc = ({navigation, route}) => {
             checkICRIntervals();
             txt1 = txt1 + '\nsince you are using ICR and the reason for the dose is a meal Then: \n* Insulin A = CHO / ICR \n';
             a = CHO / ICRF;
-		   txt1=txt1+' Total '+'='+CHO+'/'+ICR+'\n';
+		   txt1=txt1+' Total '+'='+CHO+'/'+ICRF+'\n';
             if (bgLevel > sBGPF) {
               b = (bgLevel - tBGPF) / isfPF;
                txt1 = txt1 + '\nsince the current BG is greater than the start BG Then: \n* Total = Total + ((current BG - Target BG) / ISF) \n';
@@ -386,7 +386,7 @@ else{//half-units
             var rows = results.rows;
             for (let i = 0; i < rows.length; i++) {
               var UID = rows.item(i).UserID;
-              if (UID == 222) {
+              if (UID == uID) {
                 console.log('in if (user is found)');
                 interval = rows.item(i).ISFIntervals; //boolean 0 or 1
                 console.log(interval);
@@ -437,10 +437,10 @@ else{//half-units
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == 222) {
+                  if (UID == uID) {
                     //user id
                     var from = rows.item(i).fromTime;
-                    ISFfromtimesTemp.push(from);
+                    ISFfromTimesTemp.push(from);
     
                     var to = rows.item(i).toTime;
                     ISFtoTimesTemp.push(to);
@@ -478,7 +478,7 @@ else{//half-units
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == 222) {
+                  if (UID == uID) {
                     var ISF_ = rows.item(i).ISF;
                     isfPF=ISF_;
 
@@ -508,7 +508,7 @@ else{//half-units
         db.transaction(tx => {
           tx.executeSql(
             'SELECT icrID, fromTime, toTime, ICR FROM icrIntervalFasting WHERE UserID=?',
-            [222],
+            [uID],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
@@ -535,7 +535,7 @@ else{//half-units
         db.transaction(tx => {
           tx.executeSql(
             'SELECT ssID, fromTime, toTime FROM ssIntervalFasting WHERE UserID=?',
-            [222],
+            [uID],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
@@ -593,8 +593,8 @@ else{//half-units
 
             for (let i = 0; i < rows.length; i++) {
               var userid = rows.item(i).UserID;
-
-              if (userid == 222) {
+              console.log('Type:  '+rows.item(i).insulinType+' halfOrFullF :  '+rows.item(i).halfORfull);
+              if (userid == uID) {
                 insulinTypeF=rows.item(i).insulinType;
                 halfOrFullF=rows.item(i).halfORfull;
                
@@ -783,7 +783,7 @@ else{//half-units
 
         ICRF=ICRarrF[index].icr;
 
-        console.log(ICR + '  Did u work?');
+        console.log(ICRF + '  Did u work?');
         // return index;
       } else {
         console.log('not found interval');
@@ -883,7 +883,7 @@ else{//half-units
     //ret(),
     <View style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
+        <Image source={require('../images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView>
         <Text
