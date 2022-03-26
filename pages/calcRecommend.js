@@ -34,16 +34,19 @@ const calcRecommend = ({ navigation }) => {
                     var rows = results.rows;
                     for (let i = 0; i < rows.length; i++) {           
                         var userID = rows.item(i).UserID;
-                        if (uID == userID){
+                        if (userID == uID){
+                          console.log(rows.item(i).latest_HP1AC_date);
+                          console.log(rows.item(i).latest_HP1AC);
                         if (((curDate - rows.item(i).latest_HP1AC_date)  / (1000 * 60 * 60) > 2920) || (rows.item(i).latest_HP1AC > 8)){
                             setNot(true);
+                            return;
                            }
                           // if ((curDate - DOLatestHB1ACF)  / (1000 * 60 * 60) <= 2190){ //past 3 months of hb1ac
                             //             if(latestHB1AC_F>=10) {
                             //                 setYes(true);
                             //                 setNo(false);
                             //             }
-                          return;
+                        
                         }
                       }
                   }   
@@ -64,8 +67,8 @@ const calcRecommend = ({ navigation }) => {
                     var rows = results.rows;
                     for (let i = 0; i < rows.length; i++) {           
                         var userID = rows.item(i).UserID;
-                        if (uID == userID){
-                      
+                       if (userID == uID) {
+                      console.log(rows.item(i).insulinType);
                        if ( rows.item(i).insulinType == 'Detemir' || rows.item(i).insulinType == 'Glargine' || rows.item(i).insulinType == 'Degludec' ){
                             setInsT(rows.item(i).insulinType);
                             setDose( rows.item(i).iDose);
@@ -107,9 +110,9 @@ const calcRecommend = ({ navigation }) => {
           </View>) : (
                 <View style={styles.innerCotainer}>
           <Text style={styles.textHeader}>1- If long acting insulin in profile </Text>
-          <Text style={styles.textBody}>- Take {insulin} Insulin at Maghrib time OR after Taraweeh prayer.</Text>
-          <Text style={styles.textBody}>- The {insulin} insulin dose is recommended to be reduced during Ramadan fasting by 20-30% from your original dose before Ramadan.</Text>
-          <Text style={styles.textBody}>- 20-30% reduction of your original {insulin} insulin dose makes your starting Ramadan fasting dose of {dose} insulin range from {(dose) - (dose*0.20)} to {(dose) - (dose*0.30)} units. </Text>
+          <Text style={styles.textBody}>- Take {insType} Insulin at Maghrib time OR after Taraweeh prayer.</Text>
+          <Text style={styles.textBody}>- The {insType} insulin dose is recommended to be reduced during Ramadan fasting by 20-30% from your original dose before Ramadan.</Text>
+          <Text style={styles.textBody}>- 20-30% reduction of your original {insType} insulin dose makes your starting Ramadan fasting dose of {dose} insulin range from {(dose) - (dose*0.20)} to {(dose) - (dose*0.30)} units. </Text>
  
           <Text style={styles.textHeader}>2- If pump user in profile page:</Text>
           <Text style={styles.textBody}>- It is recommended to decrease your basal rate during fasting hours by 20%.</Text>
@@ -419,6 +422,5 @@ const styles = StyleSheet.create({
     }
  
 });
-
 
 
