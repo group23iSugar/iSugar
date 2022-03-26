@@ -117,6 +117,7 @@ const fasting = ({ navigation }) => {
               console.log(UID);
               if (UID == uID) {
                 DODF = rows.item(i).diagnosis_date;
+                console.log(DODF+' heya');
                 centNameF = rows.item(i).center_name;
                 centCityF = rows.item(i).center_city;
                 DiabetescenterF = rows.item(i).diabetes_center;
@@ -140,7 +141,7 @@ const fasting = ({ navigation }) => {
                 glucoseMonitorF = rows.item(i).typeOfGlucoseM;
                 //=============================================
                 
-                callback(interval);
+                callback(intervalISFF);
                 callback3();
                 callback4();
                 callback2(calcM);
@@ -161,6 +162,7 @@ const fasting = ({ navigation }) => {
         console.log(interval);
         if (interval != -1) {
           if (interval == 1) {
+            console.log('in instervalsssss');
             // specific hours
             try {
               db.transaction(tx => {
@@ -180,6 +182,7 @@ const fasting = ({ navigation }) => {
                             target: rows.item(i).targetBG_correct,
                             start: rows.item(i).startBG_correct
                         });
+                        console.log(ISFFasting[i]);
                       }
                     }
                   },
@@ -211,11 +214,14 @@ const fasting = ({ navigation }) => {
                       to: rows.item(i).toTime,
                       icr: rows.item(i).ICR,
                     });
+                    
+                  console.log(ICRFasting[i].from + ' This is icr arr');
                   }
-                  console.log(ICRFasting + ' This is icr arr');
+                  inserts();
                 },
+                
               );
-              inserts();
+              
             });
           } catch (error) {
             console.log(error);
@@ -288,7 +294,8 @@ const fasting = ({ navigation }) => {
                         insulinType: rows.item(i).insulinType,
                         halfORfull: rows.item(i).halfORfull,
                     });
-    
+                    
+                  console.log(penFating[i] + ' This is pennn arr');
                     return;
                   }
                 }
@@ -316,6 +323,7 @@ const fasting = ({ navigation }) => {
                           iDose: rows.item(i).iDose,
                           iTime: rows.item(i).iTime,
                       });
+                      console.log(otherFasting[i] + ' This is pennn arr');
                       if (rows.item(i).insulinType == 'NPH' || rows.item(i).insulinType == 'mixed rapid+ intermediate' || rows.item(i).insulinType == 'Deguldec+Aspart Mix'){
                             setType(true);
                             nameG = rows.item(i).insulinType;
@@ -422,6 +430,7 @@ const fasting = ({ navigation }) => {
       };
 
       const inserts = () =>{
+        console.log('in inserts');
         try {
             db.transaction( (tx) => {
                 tx.executeSql(
@@ -430,15 +439,31 @@ const fasting = ({ navigation }) => {
                    [uID, DOBirthF, weightKGF, latestHB1AC_F, DOLatestHB1ACF, glucoseMonitorF, glucoseUnitF, ketonesMeasureF, insulinRegF, InsulinSFF, bgTargetF, bgStartF, intervalISFF, insulinCalcMethodF, fromBGF, toBGF, heightCMF, DiabetescenterF, DODF, centNameF, centCityF ]
                );
            })
-       
+           try {
+            db.transaction(tx => {
+              tx.executeSql(
+                'SELECT UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date, typeOfGlucoseM, glucoseLevel_unit, ketonesMeasure, insulinRegimen, ISF, targetBG_correct, startBG_correct, ISFIntervals, insulinCalcMethod, fromBG, toBG, height, diabetes_center, diagnosis_date, center_name, center_city FROM patientprofileFasting',
+                [],
+                (tx, results) => {
+                  var rows = results.rows;
+                  for (let i = 0; i < rows.length; i++) {
+                    var UID = rows.item(i).UserID;
+                    console.log(UID);
+                    console.log(rows.item(i).DOB);
+                  }
+                },
+              );
+            });
+          } catch (error) {
+            console.log(error);
+          }
        } catch (error) {
            console.log(error);
        }  
        //===============icr==========
        if (insulinCalcMethodF == 'ICR'){
            if (ICRFasting.length > 0){
-            for (let i=0; i<ICRFasting.length; i++){
-                if (ICRFasting[i].flagC){
+
                   try {
                     db.transaction( (tx) => {
                         tx.executeSql(
@@ -447,18 +472,33 @@ const fasting = ({ navigation }) => {
                            [uID, ICRFasting[i].from, ICRFasting[i].to, ICRFasting[i].icr ]
                        );
                    })
-                   
+                   try {
+                    db.transaction(tx => {
+                      tx.executeSql(
+                        'SELECT UserID, fromTime FROM icrIntervalFasting',
+                        [],
+                        (tx, results) => {
+                          var rows = results.rows;
+                          for (let i = 0; i < rows.length; i++) {
+                            var UID = rows.item(i).UserID;
+                            console.log(UID);
+                            console.log(rows.item(i).fromTime+ ' after insert');
+                          }
+                        },
+                      );
+                    });
+                  } catch (error) {
+                    console.log(error);
+                  }
                   } catch (error) {
                    console.log(error);
                   }
-                }
-            }
+                
+            
            }
         
        } else {
            if (SSFasting.length  >0){
-            for (let i =0; i< SSFasting.length; i++){ // i.e. 5
-                if (SSFasting[i].flag){
                   try { 
                     console.log('in if 1');
                     db.transaction( (tx) => { 
@@ -491,15 +531,14 @@ const fasting = ({ navigation }) => {
                    console.log(error);
                }
                
-                }
-              }
+                
+              
            }
        
        }
      //==========ISF==============
      if (intervalISFF == 1){
         if (ISFFasting.length > 0){
-            for (let i=0; i<ISFFasting.length; i++){
              
                   try {
                     db.transaction( (tx) => {
@@ -509,16 +548,32 @@ const fasting = ({ navigation }) => {
                            [uID, ISFFasting[i].from, ISFFasting[i].to, ISFFasting[i].ISF_, ISFFasting[i].target, ISFFasting[i].start ]
                        );
                    })
-                   
+                   try {
+                    db.transaction(tx => {
+                      tx.executeSql(
+                        'SELECT UserID, fromTime FROM isfIntervalFasting',
+                        [],
+                        (tx, results) => {
+                          var rows = results.rows;
+                          for (let i = 0; i < rows.length; i++) {
+                            var UID = rows.item(i).UserID;
+                            console.log(UID);
+                            console.log(rows.item(i).fromTime+ ' after isffffffff');
+                          }
+                        },
+                      );
+                    });
+                  } catch (error) {
+                    console.log(error);
+                  }
                   } catch (error) {
                    console.log(error);
                   }
-                }
+                
                 }
                 }
      //================Taken Insulin========
      if (takenInsulinDoseFasting.length > 0){
-        for (let i=0; i<takenInsulinDoseFasting.length; i++){
          
               try {
                 db.transaction( (tx) => {
@@ -532,11 +587,10 @@ const fasting = ({ navigation }) => {
               } catch (error) {
                console.log(error);
               }
-            }
+            
             }
     //================planned===============
     if (plannedExerciseFasting.length > 0){
-        for (let i=0; i<plannedExerciseFasting.length; i++){
          
               try {
                 db.transaction( (tx) => {
@@ -550,12 +604,11 @@ const fasting = ({ navigation }) => {
               } catch (error) {
                console.log(error);
               }
-            }
+            
             }
     
     //================previous==============
     if (previousExerciseFasting.length > 0){
-        for (let i=0; i<previousExerciseFasting.length; i++){
          
               try {
                 db.transaction( (tx) => {
@@ -569,17 +622,34 @@ const fasting = ({ navigation }) => {
               } catch (error) {
                console.log(error);
               }
-            }
+            
             }
             try {
                 db.transaction( (tx) => {
                     tx.executeSql(
-                     'INSERT INTO fasting (UserID, recordDate, recordTime)' 
-                     +'VALUES (?,?,?)',
-                       [uID, new Date(), moment(new Date()).format('h:mm a')]
+                     'INSERT INTO fasting (UserID, recordDate, recordTime, profileEntry)' 
+                     +'VALUES (?,?,?,?)',
+                       [uID, new Date(), moment(new Date()).format('h:mm a'), 'false']
                    );
                })
-               
+               try {
+                db.transaction(tx => {
+                  tx.executeSql(
+                    'SELECT UserID, profileEntry FROM fasting',
+                    [],
+                    (tx, results) => {
+                      var rows = results.rows;
+                      for (let i = 0; i < rows.length; i++) {
+                        var UID = rows.item(i).UserID;
+                        console.log(UID);
+                        console.log(rows.item(i).profileEntry+ ' after fasting========');
+                      }
+                    },
+                  );
+                });
+              } catch (error) {
+                console.log(error);
+              }
               } catch (error) {
                console.log(error);
               }
