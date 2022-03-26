@@ -92,39 +92,6 @@ global.totalAvgInsulin = 0;
 
 const sickDay = ({ navigation }) => {
 
-//----------BGLevel----------
-try {
-  db.transaction( (tx) => {
-      tx.executeSql(
-       'CREATE TABLE IF NOT EXISTS BGLevel (UserID INTEGER, BGLevel REAL NOT NULL, DateTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
-      []
-     );
- })
-} catch (error) {
- console.log(error);
-}
-//----------recheck notification for Sick day----------
-try {
-  db.transaction( (tx) => {
-      tx.executeSql(
-       'CREATE TABLE IF NOT EXISTS SDRecheckNotification (UserID INTEGER NOT NULL, recheckDate TEXT NOT NULL, recheckTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
-      []
-     );
- })
-} catch (error) {
- console.log(error);
-}
-// ----------SickDay record----------
-try {
-  db.transaction( (tx) => {
-      tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS sickDayRecords (UserID INTEGER NOT NULL, recordDate TEXT NOT NULL, recordTime TEXT NOT NULL, KetonesSource TEXT NOT NULL, KetonesLevel TEXT NOT NULL, isMeal TEXT NOT NULL, mealTime TEXT NULL, Carbs REAL NULL, TDD REAL NULL, tableName TEXT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
-      []
-     );
- })
-} catch (error) {
- console.log(error);
-}
       //variables
       var onlinUserID = 15;//54 is the user for table 3
       var uID = 222;
@@ -1339,7 +1306,7 @@ try {
                 index = i;
                 ICR = ICRarr[index].icr;
                 console.log(ICR + '  Did u work?');
-                // return index;
+                return index;
               } else {
                 console.log('not found interval');
               }
@@ -1639,74 +1606,6 @@ try {
         })
         
         }
-//           const insert2 = async () => {
-
-//             //------------ BG LEVEL -------------------
-// //           'CREATE TABLE IF NOT EXISTS takenInsulinDose (
-// //UserID INTEGER NOT NULL, BG_level REAL NOT NULL, ReasonForInsulin TEXT NOT NULL, CHO REAL NOT NULL, 
-// //insulinDose INTEGER NOT NULL, Dose_time_hours INTEGER NOT NULL, Dose_time_minutes	INTEGER NOT NULL, 
-// //Dose_Date_Month INTEGER NOT NULL, Dose_Date_Day INTEGER NOT NULL, Dose_Date_Year INTEGER NOT NULL,',
-
-//               console.log(222 + ' *-* ' + 110 + ' - ' + 'Sun Mar 20 2022 19:30:00 GMT+0300 (+03)');
-//               try {
-//                 db.transaction( (tx) => {
-//                     tx.executeSql(
-//                       'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Month, Dose_Date_Day, Dose_Date_Year) VALUES (?,?,?,?,?,?,?,?,?,?)',
-//                       [222, 200, 'Correction', 210, 50, 7, 24, 3, 22, 2022],
-//                       (tx, results) => {
-//                         console.log('Results: ' + results.rowsAffected);
-//                         if (results.rowsAffected > 0){
-//                           console.log('Perfect');
-//                         }  
-//                       },
-//                   )
-                
-//               })
-
-//           } catch (error) {
-//               console.log(error);
-//           }
-//           console.log(222 + ' *-* ' + 370 + ' - ' + 'Sun Mar 20 2022 12:30:00 GMT+0300 (+03)');
-//           try {
-//             db.transaction( (tx) => {
-//                 tx.executeSql(
-//                   'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Month, Dose_Date_Day, Dose_Date_Year) VALUES (?,?,?,?,?,?,?,?,?,?)',
-//                   [222, 150, 'Meal', 400, 23, 7, 26, 3, 22, 2022],
-//                   (tx, results) => {
-//                     console.log('Results: ' + results.rowsAffected);
-//                     if (results.rowsAffected > 0){
-//                       console.log('Perfect');
-//                     }  
-//                   },
-//               )
-            
-//           })
-
-//       } catch (error) {
-//           console.log(error);
-//       }
-
-//       console.log(222 + ' *-* ' + 80 + ' - ' + 'Sun Mar 20 2022 19:30:00 GMT+0300 (+03)');
-//       try {
-//         db.transaction( (tx) => {
-//             tx.executeSql(
-//               'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Month, Dose_Date_Day, Dose_Date_Year) VALUES (?,?,?,?,?,?,?,?,?,?)',
-//                       [222, 340, 'Meal', 110, 15, 7, 32, 3, 22, 2022],
-//               (tx, results) => {
-//                 console.log('Results: ' + results.rowsAffected);
-//                 if (results.rowsAffected > 0){
-//                   console.log('Perfect');
-//                 }  
-//               },
-//           )
-        
-//       })
-
-//   } catch (error) {
-//       console.log(error);
-//   }
-//         }
-
   return (
     <View style={styles.container}>
      <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
@@ -1978,4 +1877,3 @@ inputT: {
   },
 
 });
-
