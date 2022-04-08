@@ -467,7 +467,7 @@ try {
 try {
   db.transaction( (tx) => {
       tx.executeSql(
-       'CREATE TABLE IF NOT EXISTS appointments (UserID INTEGER, appID PRIMARY KEY AUTOINCREMENT, appointmentDate TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+       'CREATE TABLE IF NOT EXISTS appointments (UserID INTEGER, appID PRIMARY KEY AUTOINCREMENT, appointmentDate TEXT NOT NULL,note TEXT, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
       []
      );
  })
