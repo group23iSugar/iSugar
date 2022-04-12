@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-unused-vars */
+/* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -12,8 +12,6 @@ import {
   TextInput,
   Platform,
   TouchableOpacity,
-  Image,
-  Dimensions,
   alert,
   Alert,
 } from 'react-native';
@@ -22,14 +20,18 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
-import react from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {ActivityIndicator, Colors} from 'react-native-paper';
 
-let onlinUserID = 13;
+let onlinUserID = 15;
 var AccType = 'Patient Account';
 
 const annual = ({navigation}) => {
+  global.hasRecord = false;
+  useEffect(() => {
+    first();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 //const
   const [ThroidDate, setThroidDate] = useState(new Date());
   const [AdrenalDate, setAdrenalDate] = useState(new Date());
@@ -188,11 +190,72 @@ const [BPreading, setBPreading] = useState('0');
 const [Finding, setFinding] = useState('0');
 //------------------------------------------------------------------------------
 
+const first = () => {
+  console.log('in DB1');
+  // eslint-disable-next-line quotes
+  var InsertAPIURL = "http://192.168.56.1/isugar/AnnualTestCheck.php";   //API to  signup
+
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  };
+  var Data = {
+    UserID: onlinUserID,
+  };
+
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data),//convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+  onlinUserID = response[0].userID;
+  global.hasRecord = response[0].flag;
+  console.log('has a record ? ' + global.hasRecord);
+if (response[0].flag == 'true'){
+  setThroidDate(response[0].thyroid);
+  setAnti_TPO(response[0].antiTPO);
+  setTSH(response[0].tsh);
+  setFT4(response[0].ft4);
+  setAdrenalDate(response[0].adrenal);
+  setCortisol(response[0].cortisol);
+  setNA(response[0].na);
+  setK(response[0].k);
+  setCeliacDate(response[0].celiac);
+  setIgA(response[0].IgA);
+  set_tTG_IgA(response[0].tTG_IgA);
+  set_tTG_IgG(response[0].tTG_IgG);
+  setDeamidatedGliadinIgA(response[0].DeamidatedGliadinIgA);
+  setDeamidatedGliadinIgG(response[0].DeamidatedGliadinIgG);
+  setRenalDate(response[0].Renal);
+  setACR(response[0].ACR);
+  setLipidsDate(response[0].lipids);
+  setTG(response[0].TG);
+  setLDL(response[0].LDL);
+  setHDL(response[0].HDL);
+  setCholesterol(response[0].cholesterol);
+  setBPDate(response[0].BloodPressureDate);
+  setBPreading(response[0].BP_Reading);
+  setEyesDate(response[0].eyes);
+  setFinding(response[0].finding);
+  setLastFluVaccineDate(response[0].LastFluVaccine);
+  setLastDentalVisitDate(response[0].LastDentalVisit);
+      console.log(onlinUserID + '-' + ThroidDate + '-' + anti_TPO + '-' + TSH + '-' + FT4 + '-' + AdrenalDate + '-' + cortisol );
+}
+console.log('inside onlineDB: ');
+})
+.catch((error)=>{
+    alert('Error Occured' + error);
+// eslint-disable-next-line semi
+})
+};
 //-----------------------------
 const onlineDB = () => {
   console.log('in DB1');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "https://isugarserver.com/AnnualTest.php";   //API to  signup
+  var InsertAPIURL = "http://192.168.56.1/isugar/AnnualTest.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -237,44 +300,72 @@ fetch(InsertAPIURL,{
 })
 .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
 .then((response)=>{
-  alert(response[0].Message);
+ //alert(response[0].Message);
     // If data is in JSON => Display alert msg
 })
 .catch((error)=>{
     alert('Error Occured' + error);
 // eslint-disable-next-line semi
 })
-// eslint-disable-next-line semi
-}
+};
+
+const saveAlert = () => {
+  Alert.alert(
+    //Title
+    '',
+    //body
+    'Are you sure you want to save all the information?',
+    [
+      {
+        text: 'Yes',
+        onPress: () => {
+        console.log('Yes pressed');
+        StoreInOnline();
+        },
+      },
+      {
+        text: 'No',
+        onPress: () => {
+        console.log('No pressed');
+        },
+      },
+    ]
+
+  );
+  };//end saveAlert
 
 const StoreInOnline = () => {
-  // eslint-disable-next-line eqeqeq
   if (AccType == 'Patient Account'){
     onlineDB();
   } else {
-    Alert.alert('only accounts of type (patient account) can store their information');
+    Alert.alert('only accounts of type (patient account) can store their annual test information');
   }
   };
 
-  const showAlert = () => {
-    Alert.alert('Your data has been save successfully');
-  }
-
   return (
     <View style={styles.container}>
-        <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
-        <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
+     <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
         <TouchableOpacity onPress={()=>navigation.openDrawer()}>
          <Entypo name="menu" color="#05375a" size={35} />
          </TouchableOpacity>
+         <View style={{alignItems: 'center', marginRight: 130, paddingTop: -10, paddingEnd: 15}}>
+         <Text
+          style={{
+            color: '#05375a',
+            fontSize: 18,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            paddingLeft: 30,
+          }}>
+          Annual Screeing Test
+        </Text>
+         </View>
       </View>
-
-       <Text style={styles.Annual}>Annual screening test</Text>
         <View style={styles.footer}>
           <View>
           <ScrollView>
-            <View style={styles.action}>
+            {global.hasRecord == true || global.hasRecord == false ? (<View>
+              <View style={styles.action}>
               <View><Text style={styles.internalText}>Throid Date: </Text></View>
               <View style={styles.dateB}>
                 <TouchableOpacity onPress={showDatePicker} style={styles.dateB}>
@@ -297,9 +388,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>Anti TPO</Text>
               <TextInput
-              style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="000.00"
+                defaultValue={anti_TPO + ''}
                 onChangeText={(val)=>setAnti_TPO(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}>IU/ml </Text>
@@ -307,9 +397,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>TSH</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="00.00"
+                defaultValue={TSH + ''}
                 onChangeText={(val)=>setTSH(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> mIU/L</Text>
@@ -317,9 +406,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>FT4</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="00.00"
+                defaultValue={FT4 + ''}
                 onChangeText={(val)=>setFT4(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> pmol/L </Text>
@@ -347,9 +435,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>Morning cortisol</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="000.00"
+                defaultValue={cortisol + ''}
                 onChangeText={(val)=>setCortisol(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}>nmol/L </Text>
@@ -357,9 +444,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>NA</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="000.00"
+                defaultValue={NA + ''}
                 onChangeText={(val)=>setNA(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> mmol/L</Text>
@@ -367,9 +453,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>K</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="0.00"
+                defaultValue={K + ''}
                 onChangeText={(val)=>setK(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> mmol/L </Text>
@@ -397,9 +482,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>IgA</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="000.00"
+                defaultValue={IgA + ''}
                 onChangeText={(val)=>setIgA(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> gm/L </Text>
@@ -407,9 +491,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>tTG IgA</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="00.00"
+                defaultValue={tTG_IgA + ''}
                 onChangeText={(val)=>set_tTG_IgA(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> U/mL</Text>
@@ -417,9 +500,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>tTG IgG</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="00.00"
+                defaultValue={tTG_IgG + ''}
                 onChangeText={(val)=>set_tTG_IgG(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> U/mL</Text>
@@ -427,9 +509,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>Deamidated gliadin IgA</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="00.00"
+                defaultValue={DeamidatedGliadinIgA + ''}
                 onChangeText={(val)=>setDeamidatedGliadinIgA(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> U/mL </Text>
@@ -437,9 +518,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>Deamidated gliadin IgG</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="00.00"
+                defaultValue={DeamidatedGliadinIgG + ''}
                 onChangeText={(val)=>setDeamidatedGliadinIgG(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> U/mL </Text>
@@ -467,9 +547,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>ACR</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="00.00"
+                defaultValue={ACR + ''}
                 onChangeText={(val)=>setACR(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}>mg/g </Text>
@@ -497,9 +576,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>TG</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="00.00"
+                defaultValue={TG + ''}
                 onChangeText={(val)=>setTG(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> mmol/L </Text>
@@ -507,9 +585,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>LDL</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="00.00"
+                defaultValue={LDL + ''}
                 onChangeText={(val)=>setLDL(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> mmol/L </Text>
@@ -517,9 +594,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>HDL</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="00.00"
+                defaultValue={HDL + ''}
                 onChangeText={(val)=>setHDL(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> mmol/L </Text>
@@ -527,9 +603,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>Cholesterol</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="00.00"
+                defaultValue={Cholesterol + ''}
                 onChangeText={(val)=>setCholesterol(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> mmol/L </Text>
@@ -557,9 +632,8 @@ const StoreInOnline = () => {
             <View style={styles.vNext}>
               <Text style={styles.inpTxt}>BP reading</Text>
               <TextInput
-               style={{color:'black'}}
                 keyboardType="decimal-pad"
-                placeholder="000.00"
+                defaultValue={BPreading + ''}
                 onChangeText={(val)=>setBPreading(val)}
                 style={styles.inputT} />
               <Text style={{fontSize: 15, paddingTop: 15}}> mmHg </Text>
@@ -588,6 +662,7 @@ const StoreInOnline = () => {
               <Text style={styles.inpTxt}>Findings</Text>
               <Picker
                selectedValue= {Finding}
+               defaultValue={Finding + ''}
                onValueChange={(value) => setFinding(value)}
                mode= "dropdown"
                style= {styles.picker}
@@ -637,37 +712,29 @@ const StoreInOnline = () => {
               )}
             </View>
             <View style={styles.buttonV}>
-          <TouchableOpacity onPress={StoreInOnline}>
+          <TouchableOpacity onPress={saveAlert}>
             <LinearGradient
               colors={['#f5f5f5', '#e9ebee', '#e9ebee']}
               style={styles.buttonR}>
-              <Text style={styles.titleB} onPress={showAlert}>
-                Save 
+              <Text style={styles.titleB}>
+                Save
               </Text>
             </LinearGradient>
           </TouchableOpacity>
           </View>
+            </View>) :  <ActivityIndicator animating={true} color={Colors.blue100} size={'large'} />  }
             </ScrollView>
           </View>
         </View>
-        </LinearGradient>
     </View>
   );
 };
 
-const {height} = Dimensions.get('screen');
-const height_logo = height * 0.15;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#f5f5f5',
-    },
-    pic: {
-
-      width: height_logo,
-      height: height_logo,
-      marginRight: 10,
+  container: {
+    flex: 1,
+    backgroundColor: '#EEF0F2',
   },
   text: {
     fontSize: 15,
@@ -712,10 +779,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 15,
     fontSize: 16,
-  },
-  logo: {
-    width: height_logo,
-    height: height_logo ,
   },
   inputT: {
     //inputs field
@@ -794,8 +857,5 @@ titleB: {
   fontSize: 20,
   fontWeight: 'bold',
 },
-picker: {
-  color: 'grey'
-}
 });
 export default annual;
