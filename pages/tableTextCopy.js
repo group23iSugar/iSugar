@@ -40,53 +40,15 @@ const handleScheduleNotification = (title, message, time) => {
         var level = ketonesLevel;
         var recommendation = '';
         flag = flags;
-        var ifMealTime = 'Take your insulin dose as usual for your meal/snack and for correction if needed based on your current blood glucose reading.'; //displayes message if its a meal time.
+        var ifMealTime = 'Take your insulin dose as usual for your meal/snack' + '\n' + '• for correction if needed based on your current blood glucose reading.'; //displayes message if its a meal time.
         var notMealTime = 'Take your insulin dose as usual for corrections if needed based on your current blood glucose reading.';//displayes message if its not a meal time.
         var finalRecommendation = '';
         var caseNO = '';
         console.log('is meal time? ' + isMeal);
-// try {
-//   db.transaction(tx => {
-//     tx.executeSql(
-//       'SELECT UserID, recheckDate, recheckTime FROM SDRecheckNotification',
-//       [],
-//       // eslint-disable-next-line no-shadow
-//       (tx, results) => {
-//         var rows = results.rows;
-//         for (let i = 0; i < rows.length; i++) {
-//             var userid = rows.item(i).UserID;
-//           if (userid == 168) {
-//             var lastString = rows.item(i).recheckDate;
-//             var d = new Date(lastString);
-//             var momFormat = moment(d).format('yyyy-MM-DD');
-//             console.log('mom:' + momFormat);
-//          var timeString = rows.item(i).recheckTime;
-//          var t = new Date(timeString);
-//             if (curDate == momFormat){
-//                     console.log('Time: ' + timeDiffrence(t));
-//                     if (timeDiffrence(t) <= 2){
-//                       flag = 'true';
-
-//                     }
-//                    else {
-//                       flag = 'false';
-
-//                    }
-//             } else {
-//               flag = 'false';
-//             }
-//           }
-//         }
-//       },
-//     );
-//   });
-// } catch (error) {
-//   console.log(error);
-// }
 
     if (currentBG < 70 && currentBG > 0){
         console.log('flag now is-: ' + flag);
-       recommendation = 'Re-check your blood glucose in 30 minutes & If your unwell or have persistent vomiting, go to ER';
+       recommendation = '• Re-check your blood glucose in 30 minutes' + '\n' + '• If your unwell or have persistent vomiting, go to ER';
        if (isMeal == 'Yes'){
            finalRecommendation = ifMealTime + recommendation;
        }
@@ -153,7 +115,7 @@ const handleScheduleNotification = (title, message, time) => {
 switch (caseNO == '2'){
     case level < 0.6:
         console.log('A');
-        recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
+        recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms' + '\n' + '• If you have vomiting & it is persistent, go to ER';
              if (isMeal == 'Yes'){
                  finalRecommendation = ifMealTime + recommendation;
              }
@@ -167,7 +129,7 @@ switch (caseNO == '2'){
 
     case level >= 0.6 && level <= 0.9:
         console.log('B');
-        recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
+        recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms' + '\n' + '• If you have vomiting & it is persistent, go to ER';
         if (isMeal == 'Yes'){
            finalRecommendation = ifMealTime + recommendation;
        }
@@ -182,7 +144,7 @@ switch (caseNO == '2'){
 
     case level >= 1 && level <= 1.4:
         console.log('C');
-        recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
+        recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms' + '\n' + '• If you have vomiting & it is persistent, go to ER';
         if (isMeal == 'Yes'){
                 finalRecommendation = ifMealTime + recommendation;
             }
@@ -197,7 +159,7 @@ switch (caseNO == '2'){
 
     case level >= 1.5 && level <= 2.9:
         console.log('D');
-        recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
+        recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), close monitoring required' + '\n' + '• If you have vomiting & it is persistent, go to ER';
         if (isMeal == 'Yes'){
                 finalRecommendation = ifMealTime + recommendation;
             }
@@ -212,7 +174,7 @@ switch (caseNO == '2'){
 
     case level >= 3:
         console.log('E');
-        recommendation = 'No extra insulin required for illness at this time & High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack';
+        recommendation = '• No extra insulin required for illness at this time' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), go to ER' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack';
         if (isMeal == 'Yes'){
                 finalRecommendation = ifMealTime + recommendation;
             }
@@ -227,7 +189,7 @@ switch (caseNO == '2'){
 switch (caseNO == '3'){
     case level == 'Negative':
         console.log('A2');
-        recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
+        recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms' + '\n' + '• If you have vomiting & it is persistent, go to ER';
         if (isMeal == 'Yes'){
                  finalRecommendation = ifMealTime + recommendation;
              }
@@ -240,7 +202,7 @@ switch (caseNO == '3'){
         break;
     case level == 'Trace':
         console.log('B2');
-        recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
+        recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms' + '\n' + '• If you have vomiting & it is persistent, go to ER';
         if (isMeal == 'Yes'){
            finalRecommendation = ifMealTime + recommendation;
        }
@@ -254,7 +216,7 @@ switch (caseNO == '3'){
         break;
     case level == 'Small':
         console.log('C2');
-        recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
+        recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms' + '\n' + '• If you have vomiting & it is persistent, go to ER';
         if (isMeal == 'Yes'){
                 finalRecommendation = ifMealTime + recommendation;
             }
@@ -268,7 +230,7 @@ switch (caseNO == '3'){
         break;
     case level == 'Moderate':
         console.log('D2');
-        recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
+        recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), close monitoring required' + '\n' + '• If you have vomiting & it is persistent, go to ER';
         if (isMeal == 'Yes'){
                 finalRecommendation = ifMealTime + recommendation;
             }
@@ -282,7 +244,7 @@ switch (caseNO == '3'){
         break;
     case level == 'Large':
         console.log('E2');
-        recommendation = 'No extra insulin required for illness at this time & High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack';
+        recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours & or sooner if you have hypoglycemia symptoms' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), close monitoring required' + '\n' + '• If you have vomiting & it is persistent, go to ER';
         if (isMeal == 'Yes'){
                 finalRecommendation = ifMealTime + recommendation;
             }
@@ -297,7 +259,7 @@ switch (caseNO == '3'){
     switch (caseNO == '4'){
         case level < 0.6:
             console.log('F');
-            recommendation = 'No extra insulin required for illness at this time & Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms';
+            recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms';
             if (isMeal == 'Yes'){
                     finalRecommendation = ifMealTime + recommendation;
                 }
@@ -310,7 +272,7 @@ switch (caseNO == '3'){
             break;
         case level >= 0.6 && level <= 0.9:
             console.log('G');
-            recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
+            recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms' + '\n' + '• If you have vomiting & it is persistent, go to ER';
             if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -324,7 +286,7 @@ switch (caseNO == '3'){
             break;
         case level >= 1 && level <= 1.4:
             console.log('H');
-            recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
+            recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms' + '\n' + '• If you have vomiting & it is persistent, go to ER';
             if (isMeal == 'Yes'){
                     finalRecommendation = ifMealTime + recommendation;
                 }
@@ -338,7 +300,7 @@ switch (caseNO == '3'){
             break;
         case level >= 1.5 && level <= 2.9:
             console.log('I');
-            recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
+            recommendation = '• Take an extra insulin dose calculated as 5% of your Total Daily Dose' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), close monitoring required' + '\n' + '• If you have vomiting & it is persistent, go to ER';
             if (isMeal == 'Yes'){
                finalRecommendation = ifMealTime + recommendation;
            }
@@ -352,7 +314,7 @@ switch (caseNO == '3'){
             break;
         case level >= 3:
             console.log('J');
-            recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack';
+            recommendation = '• Take an extra insulin dose calculated as 5% of your Total Daily Dose' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), go to ER' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack';
             if (isMeal == 'Yes'){
                                     finalRecommendation = ifMealTime + recommendation;
                                 }
@@ -367,7 +329,7 @@ switch (caseNO == '3'){
     switch (caseNO == '5'){
         case level == 'Negative':
             console.log('F2');
-            recommendation = 'No extra insulin required for illness at this time & Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms';
+            recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms';
             if (isMeal == 'Yes'){
                     finalRecommendation = ifMealTime + recommendation;
                 }
@@ -380,7 +342,7 @@ switch (caseNO == '3'){
             break;
         case level == 'Trace':
             console.log('G2');
-            recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
+            recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms' + '\n' + '• If you have vomiting & it is persistent, go to ER';
             if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -394,7 +356,7 @@ switch (caseNO == '3'){
             break;
         case level == 'Small':
             console.log('H2');
-            recommendation = 'No extra insulin required for illness at this time & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms & If you have vomiting & it is persistent, go to ER';
+            recommendation = '• No extra insulin required for illness at this time' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 3 hours or sooner if you have hypoglycemia symptoms' + '\n' + '• If you have vomiting & it is persistent, go to ER';
             if (isMeal == 'Yes'){
                 finalRecommendation = ifMealTime + recommendation;
             }
@@ -408,7 +370,7 @@ switch (caseNO == '3'){
             break;
         case level == 'Moderate':
             console.log('I2');
-            recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
+            recommendation = '• Take an extra insulin dose calculated as 5% of your Total Daily Dose' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours or sooner if you have hypoglycemia symptoms' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), close monitoring required' + '\n' + '• If you have vomiting & it is persistent, go to ER';
             if (isMeal == 'Yes'){
                finalRecommendation = ifMealTime + recommendation;
            }
@@ -422,7 +384,7 @@ switch (caseNO == '3'){
             break;
         case level == 'Large':
             console.log('J2');
-            recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack';
+            recommendation = '• Take an extra insulin dose calculated as 5% of your Total Daily Dose' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), go to ER' + '\n' + '• Encourage sugar-containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack';
             if (isMeal == 'Yes'){
                                     finalRecommendation = ifMealTime + recommendation;
                                 }
@@ -437,7 +399,7 @@ switch (caseNO == '3'){
         switch (caseNO == '6'){
             case level < 0.6:
                 console.log('K');
-                recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours If you have vomiting & it is persistent, go to ER';
+                recommendation = '• Encourage fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                     if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -450,7 +412,7 @@ switch (caseNO == '3'){
                 break;
             case level >= 0.6 && level <= 0.9:
                 console.log('L');
-                recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & Encourage sugar - containing fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours &If you have vomiting & it is persistent, go to ER';
+                recommendation = '• Take an extra insulin dose calculated as 5% of your Total Daily Dose' + '\n' + '• Encourage sugar - containing fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                 if (isMeal == 'Yes'){
                             finalRecommendation = ifMealTime + recommendation;
                         }
@@ -462,7 +424,7 @@ switch (caseNO == '3'){
                 break;
             case level >= 1 && level <= 1.4:
                 console.log('M');
-                recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
+                recommendation = '• Take an extra insulin dose calculated as 5% of your Total Daily Dose' + '\n' + '• Encourage sugar - containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                 if (isMeal == 'Yes'){
                                 finalRecommendation = ifMealTime + recommendation;
                             }
@@ -474,7 +436,7 @@ switch (caseNO == '3'){
                 break;
             case level >= 1.5 && level <= 2.9:
                 console.log('N');
-                recommendation = 'Take an extra insulin dose calculated as 10% of your Total Daily Dose & Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 4 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
+                recommendation = '• Take an extra insulin dose calculated as 10% of your Total Daily Dose' + '\n' + '• Encourage sugar - containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), close monitoring required' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                 if (isMeal == 'Yes'){
                                     finalRecommendation = ifMealTime + recommendation;
                                 }
@@ -486,7 +448,7 @@ switch (caseNO == '3'){
                 break;
             case level >= 3:
                 console.log('P');
-                recommendation = 'Take an extra insulin dose calculated as 20% of your Total Daily Dose & High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack';
+                recommendation = '• Take an extra insulin dose calculated as 20% of your Total Daily Dose' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), go to ER' + '\n' + '• Encourage sugar - containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack';
                 if (isMeal == 'Yes'){
                                         finalRecommendation = ifMealTime + recommendation;
                                     }
@@ -501,7 +463,7 @@ switch (caseNO == '3'){
         switch (caseNO == '7'){
             case level == 'Negative':
                 console.log('K2');
-                recommendation = 'No extra insulin required for illness at this time & Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours If you have vomiting & it is persistent, go to ER';
+                recommendation = '• Encourage fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                 if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -514,7 +476,7 @@ switch (caseNO == '3'){
                 break;
             case level == 'Trace':
                 console.log('L2');
-                recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & Encourage sugar - containing fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours &If you have vomiting & it is persistent, go to ER';
+                recommendation = '• Take an extra insulin dose calculated as 5% of your Total Daily Dose' + '\n' + '• Encourage sugar - containing fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                 if (isMeal == 'Yes'){
                             finalRecommendation = ifMealTime + recommendation;
                         }
@@ -526,7 +488,7 @@ switch (caseNO == '3'){
                 break;
             case level == 'Small':
                 console.log('M2');
-                recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
+                recommendation = '• Take an extra insulin dose calculated as 5% of your Total Daily Dose' + '\n' + '• Encourage sugar - containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                 if (isMeal == 'Yes'){
                                 finalRecommendation = ifMealTime + recommendation;
                             }
@@ -538,7 +500,7 @@ switch (caseNO == '3'){
                 break;
             case level == 'Moderate':
                 console.log('N2');
-                recommendation = 'Take an extra insulin dose calculated as 10% of your Total Daily Dose & Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack & Re-check your blood glucose & Ketone level in 4 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
+                recommendation = '• Take an extra insulin dose calculated as 10% of your Total Daily Dose' + '\n' + '• Encourage sugar - containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), close monitoring required' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                 if (isMeal == 'Yes'){
                                     finalRecommendation = ifMealTime + recommendation;
                                 }
@@ -550,7 +512,7 @@ switch (caseNO == '3'){
                 break;
             case level == 'Large':
                 console.log('P2');
-                recommendation = 'Take an extra insulin dose calculated as 20% of your Total Daily Dose & High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar - containing fluids intake (At least 100ml every hour) & Take a carbohydrate containing snack';
+                recommendation = '• Take an extra insulin dose calculated as 20% of your Total Daily Dose' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), go to ER' + '\n' + '• Encourage sugar - containing fluids intake (At least 100ml every hour)' + '\n' + '• Take a carbohydrate containing snack';
                 if (isMeal == 'Yes'){
                                         finalRecommendation = ifMealTime + recommendation;
                                     }
@@ -565,7 +527,7 @@ switch (caseNO == '3'){
             switch (caseNO == '8'){
                 case level < 0.6:
                     console.log('O');
-                    recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours If you have vomiting & it is persistent, go to ER';
+                    recommendation = '• Encourage fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                     if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -578,7 +540,7 @@ switch (caseNO == '3'){
                     break;
                 case level >= 0.6 && level <= 0.9:
                     console.log('Q');
-                    recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
+                    recommendation = '• Encourage fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                          if (isMeal == 'Yes'){
                             finalRecommendation = ifMealTime + recommendation;
                         }
@@ -591,7 +553,7 @@ switch (caseNO == '3'){
                     break;
                 case level >= 1 && level <= 1.4:
                     console.log('R');
-                    recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & If you have vomiting & it is persistent, go to ER';
+                    recommendation = '• Encourage sugar-free fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                     if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -604,7 +566,7 @@ switch (caseNO == '3'){
                     break;
                 case level >= 1.5 && level <= 2.9:
                     console.log('S');
-                    recommendation = '-Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
+                    recommendation = '' + '\n' + '• Encourage sugar-free fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), close monitoring required' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                     if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -617,7 +579,7 @@ switch (caseNO == '3'){
                     break;
                 case level >= 3:
                     console.log('T');
-                    recommendation = 'High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-free fluids intake (At least 100ml every hour)';
+                    recommendation = '• High risk for Diabetes Ketoacidosis (DKA), go to ER' + '\n' + '• Encourage sugar-free fluids intake (At least 100ml every hour)';
                     if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -632,7 +594,7 @@ switch (caseNO == '3'){
             switch (caseNO == '9'){
                 case level == 'Negative':
                     console.log('O2');
-                    recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours If you have vomiting & it is persistent, go to ER';
+                    recommendation = '• Encourage fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                     if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -645,7 +607,7 @@ switch (caseNO == '3'){
                     break;
                 case level == 'Trace':
                     console.log('Q2');
-                    recommendation = 'Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
+                    recommendation = '• Encourage fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                     if (isMeal == 'Yes'){
                        finalRecommendation = ifMealTime + recommendation;
                    }
@@ -658,7 +620,7 @@ switch (caseNO == '3'){
                     break;
                 case level == 'Small':
                     console.log('R2');
-                    recommendation = 'Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & If you have vomiting & it is persistent, go to ER';
+                    recommendation = '• Encourage sugar-free fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                     if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -671,7 +633,7 @@ switch (caseNO == '3'){
                     break;
                 case level == 'Moderate':
                     console.log('S2');
-                    recommendation = '-Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
+                    recommendation = '' + '\n' + '• Encourage sugar-free fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), close monitoring required' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                     if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -684,7 +646,7 @@ switch (caseNO == '3'){
                     break;
                 case level == 'Large':
                     console.log('T2');
-                    recommendation = 'High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-free fluids intake (At least 100ml every hour)';
+                    recommendation = '• High risk for Diabetes Ketoacidosis (DKA), go to ER' + '\n' + '• Encourage sugar-free fluids intake (At least 100ml every hour)';
                     if (isMeal == 'Yes'){
                         finalRecommendation = ifMealTime + recommendation;
                     }
@@ -699,7 +661,7 @@ switch (caseNO == '3'){
                 switch (caseNO == '10'){
                     case level < 0.6:
                         console.log('U');
-                        recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours If you have vomiting & it is persistent, go to ER';
+                        recommendation = '' + '\n' + '• Take an extra insulin dose calculated as 5% of your Total Daily Dose' + '\n' + '• Encourage fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                         if (isMeal == 'Yes'){
                                 finalRecommendation = ifMealTime + recommendation;
                             }
@@ -711,7 +673,7 @@ switch (caseNO == '3'){
                         break;
                     case level >= 0.6 && level <= 0.9:
                         console.log('V');
-                        recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & Encourage fluids intake (At least 100ml every hour) Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
+                        recommendation = '• Take an extra insulin dose calculated as 5% of your Total Daily Dose' + '\n' + '• Encourage fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                         if (isMeal == 'Yes'){
                                     finalRecommendation = ifMealTime + recommendation;
                                 }
@@ -723,7 +685,7 @@ switch (caseNO == '3'){
                         break;
                     case level >= 1 && level <= 1.4:
                         console.log('W');
-                        recommendation = 'Take an extra insulin dose calculated as 10% of your Total Daily Dose & Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & If you have vomiting & it is persistent, go to ER';
+                        recommendation = '• Take an extra insulin dose calculated as 10% of your Total Daily Dose' + '\n' + '• Encourage sugar-free fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                         if (isMeal == 'Yes'){
                                         finalRecommendation = ifMealTime + recommendation;
                                     }
@@ -735,7 +697,7 @@ switch (caseNO == '3'){
                         break;
                     case level >= 1.5 && level <= 2.9:
                         console.log('X');
-                        recommendation = 'Take an extra insulin dose calculated as 10% of your Total Daily Dose & Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
+                        recommendation = '• Take an extra insulin dose calculated as 10% of your Total Daily Dose' + '\n' + '• Encourage sugar-free fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), close monitoring required' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                         if (isMeal == 'Yes'){
                                             finalRecommendation = ifMealTime + recommendation;
                                         }
@@ -747,7 +709,7 @@ switch (caseNO == '3'){
                         break;
                     case level >= 3:
                         console.log('Y');
-                        recommendation = 'Take an extra insulin dose calculated as 10% of your Total Daily Dose & High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-free fluids intake (At least 100ml every hour)';
+                        recommendation = '• Take an extra insulin dose calculated as 10% of your Total Daily Dose' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), go to ER' + '\n' + '• Encourage sugar-free fluids intake (At least 100ml every hour)';
                         if (isMeal == 'Yes'){
                                                 finalRecommendation = ifMealTime + recommendation;
                                             }
@@ -761,7 +723,7 @@ switch (caseNO == '3'){
                 switch (caseNO == '11'){
                     case level == 'Negative':
                         console.log('U2');
-                        recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & Encourage fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 4 hours If you have vomiting & it is persistent, go to ER';
+                        recommendation = '' + '\n' + '• Take an extra insulin dose calculated as 5% of your Total Daily Dose' + '\n' + '• Encourage fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 4 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                         if (isMeal == 'Yes'){
                                 finalRecommendation = ifMealTime + recommendation;
                             }
@@ -773,7 +735,7 @@ switch (caseNO == '3'){
                         break;
                     case level == 'Trace':
                         console.log('V2');
-                        recommendation = 'Take an extra insulin dose calculated as 5% of your Total Daily Dose & Encourage fluids intake (At least 100ml every hour) Re-check your blood glucose & Ketone level in 4 hours & If you have vomiting & it is persistent, go to ER';
+                        recommendation = '• Take an extra insulin dose calculated as 10% of your Total Daily Dose' + '\n' + '• Encourage sugar-free fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                         if (isMeal == 'Yes'){
                                     finalRecommendation = ifMealTime + recommendation;
                                 }
@@ -797,7 +759,7 @@ switch (caseNO == '3'){
                         break;
                     case level == 'Moderate':
                         console.log('X2');
-                        recommendation = 'Take an extra insulin dose calculated as 10% of your Total Daily Dose & Encourage sugar-free fluids intake (At least 100ml every hour) & Re-check your blood glucose & Ketone level in 2 hours & High risk for Diabetes Ketoacidosis (DKA), close monitoring required & If you have vomiting & it is persistent, go to ER';
+                        recommendation = '• Take an extra insulin dose calculated as 10% of your Total Daily Dose' + '\n' + '• Encourage sugar-free fluids intake (At least 100ml every hour)' + '\n' + '• Re-check your blood glucose & Ketone level in 2 hours' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), close monitoring required' + '\n' + '• If you have vomiting & it is persistent, go to ER';
                         if (isMeal == 'Yes'){
                                             finalRecommendation = ifMealTime + recommendation;
                                         }
@@ -809,7 +771,7 @@ switch (caseNO == '3'){
                         break;
                     case level == 'Large':
                         console.log('Y2');
-                        recommendation = 'Take an extra insulin dose calculated as 10% of your Total Daily Dose & High risk for Diabetes Ketoacidosis (DKA), go to ER & Encourage sugar-free fluids intake (At least 100ml every hour)';
+                        recommendation = '• Take an extra insulin dose calculated as 10% of your Total Daily Dose' + '\n' + '• High risk for Diabetes Ketoacidosis (DKA), go to ER' + '\n' + '• Encourage sugar-free fluids intake (At least 100ml every hour)';
                         if (isMeal == 'Yes'){
                                                 finalRecommendation = ifMealTime + recommendation;
                                             }
