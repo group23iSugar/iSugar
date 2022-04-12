@@ -2,22 +2,30 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import React from 'react';
-import {StyleSheet, View, Text, Dimensions, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, View, Text,TouchableOpacity} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import LinearGradient from 'react-native-linear-gradient';
 
 const App = ({navigation}) => {
   return (
     <View style={styles.container}>
-       <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
-       <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
+    <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
         <TouchableOpacity onPress={()=>navigation.openDrawer()}>
          <Entypo name="menu" color="#05375a" size={35} />
          </TouchableOpacity>
+         <View style={{alignItems: 'center', marginRight: 130, paddingTop: -10, paddingEnd: 15}}>
+         <Text
+          style={{
+            color: '#05375a',
+            fontSize: 18,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            paddingLeft: 30,
+          }}>
+          About iSugar
+        </Text>
+         </View>
       </View>
 
-        <Text style={styles.title}>About iSugar</Text>
         <View style={styles.footer}>
         <Text style={styles.titleB}>
         iSugar application aims to provide daily management for children with
@@ -25,17 +33,14 @@ const App = ({navigation}) => {
         insulin dose
        </Text>
       </View>
-      </LinearGradient>
     </View>
   );
 };
-const {height} = Dimensions.get('screen');
-const height_logo = height * 0.15;
 
 const styles = StyleSheet.create({
-  container: {
+ container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#EEF0F2',
   },
   titleB: {
     color: '#05375a',
@@ -45,12 +50,6 @@ const styles = StyleSheet.create({
     lineHeight: 40,
     alignItems: 'center',
   },
-  pic: {
-
-    width: height_logo,
-    height: height_logo,
-    marginRight: 10,
-},
   title: {
     color: '#05375a',
     fontSize: 27,
@@ -60,10 +59,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 5,
   },
-      logo: {
-        width: height_logo,
-        height: height_logo,
-      },
       header: {
         flex: 1,
         justifyContent: 'center',
