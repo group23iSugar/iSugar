@@ -16,7 +16,7 @@ const App = ({navigation}) => {
             fontSize: 18,
             fontWeight: 'bold',
             textAlign: 'center',
-            paddingLeft: 120,
+            paddingLeft: 80,
           }}>
   حول تطبيق السَّكر
         </Text>
