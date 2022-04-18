@@ -58,7 +58,7 @@ console.log('Meal now is-: ' + Meal);
             recommendation = '• أعد فحص مستوى سكر الدم بعد ٣٠ دقيقة' + '\n' + '• إذا كنت تشعر أنك مريض أو كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
         }
        if (flag != 'true'){
-       handleScheduleNotification('iSugar','Time to Re-check your blood glucose level.', 30);//30
+       handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 30);//30
        }
     }//Case1 below 70
 
@@ -114,7 +114,7 @@ switch (caseNO == '2'){
         recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
         }
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         break;
 
@@ -126,7 +126,7 @@ switch (caseNO == '2'){
         recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
         }
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         // there is a clalculation for insulin A
         break;
@@ -139,7 +139,7 @@ switch (caseNO == '2'){
         recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
         }
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         // there is a clalculation for insulin A
         break;
@@ -152,7 +152,7 @@ switch (caseNO == '2'){
             recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• تحتاج إلى متابعة قريبة لارتفاع احتمال حدوث الحموضة الكيتونية' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
         }
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         // there is a clalculation for insulin A
         break;
@@ -177,7 +177,7 @@ switch (caseNO == '3'){
         recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
         }
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         break;
     case level == 'Trace':
@@ -188,7 +188,7 @@ switch (caseNO == '3'){
         recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
         }
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         // there is a clalculation for insulin A
         break;
@@ -200,7 +200,7 @@ switch (caseNO == '3'){
         recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
         }
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         // there is a clalculation for insulin A
         break;
@@ -212,7 +212,7 @@ switch (caseNO == '3'){
             recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• تحتاج إلى متابعة قريبة لارتفاع احتمال حدوث الحموضة الكيتونية' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
         }
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         // there is a clalculation for insulin A
         break;
@@ -237,7 +237,7 @@ switch (caseNO == '3'){
                 recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٣ساعات أو أبكر إذا كان لديك أعراض انخفاض سكر الدم';
             }
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 180);//180
             }
             break;
         case level >= 0.6 && level <= 0.9:
@@ -248,7 +248,7 @@ switch (caseNO == '3'){
                 recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٣ساعات أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
             }
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 180);//180
             }
             // there is a clalculation for insulin A
             break;
@@ -260,7 +260,7 @@ switch (caseNO == '3'){
                 recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٣ساعات أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
             }
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 180);//180
             }
             // there is a clalculation for insulin A
             break;
@@ -272,7 +272,7 @@ switch (caseNO == '3'){
                 recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• تحتاج إلى متابعة قريبة لارتفاع احتمال حدوث الحموضة الكيتونية' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
             }
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
             }
             // there is a clalculation for insulin A
             break;
@@ -296,7 +296,7 @@ switch (caseNO == '3'){
                 recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٣ساعات أو أبكر إذا كان لديك أعراض انخفاض سكر الدم';
             }
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 180);//180
             }
             break;
         case level == 'Trace':
@@ -307,7 +307,7 @@ switch (caseNO == '3'){
                 recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٣ساعات أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
             }
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 180);//180
             }
             // there is a clalculation for insulin A
             break;
@@ -319,7 +319,7 @@ switch (caseNO == '3'){
                 recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٣ساعات أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
             }
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 180);//180
             }
             // there is a clalculation for insulin A
             break;
@@ -331,7 +331,7 @@ switch (caseNO == '3'){
                 recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين أو أبكر إذا كان لديك أعراض انخفاض سكر الدم' + '\n' + '• تحتاج إلى متابعة قريبة لارتفاع احتمال حدوث الحموضة الكيتونية' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
             }
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
             }
             // there is a clalculation for insulin A
             break;
@@ -356,7 +356,7 @@ switch (caseNO == '3'){
                     recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                 }
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                 }
                 break;
             case level >= 0.6 && level <= 0.9:
@@ -367,7 +367,7 @@ switch (caseNO == '3'){
                     recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                 }
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                 }
                 break;
             case level >= 1 && level <= 1.4:
@@ -378,7 +378,7 @@ switch (caseNO == '3'){
                     recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                 }
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                 }
                 break;
             case level >= 1.5 && level <= 2.9:
@@ -389,7 +389,7 @@ switch (caseNO == '3'){
                     recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• تحتاج إلى متابعة قريبة لارتفاع احتمال حدوث الحموضة الكيتونية' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                 }
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                 }
                 break;
             case level >= 3:
@@ -412,7 +412,7 @@ switch (caseNO == '3'){
                     recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                 }
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                 }
                 break;
             case level == 'Trace':
@@ -423,7 +423,7 @@ switch (caseNO == '3'){
                     recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                 }
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                 }
                 break;
             case level == 'Small':
@@ -434,7 +434,7 @@ switch (caseNO == '3'){
                     recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                 }
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                 }
                 break;
             case level == 'Moderate':
@@ -445,7 +445,7 @@ switch (caseNO == '3'){
                     recommendation = '• احرص على شرب السوائل المحلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• تناول وجبة خفيفة تحتوي على الكربوهيدرات' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• تحتاج إلى متابعة قريبة لارتفاع احتمال حدوث الحموضة الكيتونية' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                 }
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                 }
                 break;
             case level == 'Large':
@@ -469,7 +469,7 @@ switch (caseNO == '3'){
                         recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                     }
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                     }
                     break;
                 case level >= 0.6 && level <= 0.9:
@@ -480,7 +480,7 @@ switch (caseNO == '3'){
                         recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                     }
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                     }
                     break;
                 case level >= 1 && level <= 1.4:
@@ -491,7 +491,7 @@ switch (caseNO == '3'){
                         recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                     }
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
                     }
                     break;
                 case level >= 1.5 && level <= 2.9:
@@ -502,7 +502,7 @@ switch (caseNO == '3'){
                         recommendation = '• احرص على شرب السوائل الغير محلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين' + '\n' + '• تحتاج إلى متابعة قريبة لارتفاع احتمال حدوث الحموضة الكيتونية' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                     }
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
                     }
                     break;
                 case level >= 3:
@@ -525,7 +525,7 @@ switch (caseNO == '3'){
                         recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                     }
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                     }
                     break;
                 case level == 'Trace':
@@ -536,7 +536,7 @@ switch (caseNO == '3'){
                         recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                     }
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                     }
                     break;
                 case level == 'Small':
@@ -547,7 +547,7 @@ switch (caseNO == '3'){
                         recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                     }
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
                     }
                     break;
                 case level == 'Moderate':
@@ -558,7 +558,7 @@ switch (caseNO == '3'){
                         recommendation = '• احرص على شرب السوائل الغير محلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين' + '\n' + '• تحتاج إلى متابعة قريبة لارتفاع احتمال حدوث الحموضة الكيتونية' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                     }
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
                     }
                     break;
                 case level == 'Large':
@@ -582,7 +582,7 @@ switch (caseNO == '3'){
                             recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                         }
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                         }
                         break;
                     case level >= 0.6 && level <= 0.9:
@@ -593,7 +593,7 @@ switch (caseNO == '3'){
                             recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                         }
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 180);//180
                         }
                         break;
                     case level >= 1 && level <= 1.4:
@@ -604,7 +604,7 @@ switch (caseNO == '3'){
                             recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                         }
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
                         }
                         break;
                     case level >= 1.5 && level <= 2.9:
@@ -615,7 +615,7 @@ switch (caseNO == '3'){
                             recommendation = '• احرص على شرب السوائل الغير محلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين' + '\n' + '• تحتاج إلى متابعة قريبة لارتفاع احتمال حدوث الحموضة الكيتونية' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                         }
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
                         }
                         break;
                     case level >= 3:
@@ -638,7 +638,7 @@ switch (caseNO == '3'){
                             recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                         }
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 240);//240
                         }
                         break;
                     case level == 'Trace':
@@ -649,7 +649,7 @@ switch (caseNO == '3'){
                             recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ٤ ساعات' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                         }
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 180);//180
                         }
                         break;
                     case level == 'Small':
@@ -660,7 +660,7 @@ switch (caseNO == '3'){
                             recommendation = '• احرص على شرب السوائل (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                         }
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
                         }
                         break;
                     case level == 'Moderate':
@@ -671,7 +671,7 @@ switch (caseNO == '3'){
                             recommendation = '• احرص على شرب السوائل الغير محلاة (على الأقل ١٠٠مل كل ساعة)' + '\n' + '• أعد فحص مستوى سكر الدم والكيتونات بعد ساعتين' + '\n' + '• تحتاج إلى متابعة قريبة لارتفاع احتمال حدوث الحموضة الكيتونية' + '\n' + '• إذا كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                         }
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
                         }
                         break;
                     case level == 'Large':
