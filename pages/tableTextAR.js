@@ -51,7 +51,7 @@ const tableText = function(BG, ketonesSource, ketonesLevel, isMeal, insulinType,
                     recommendation = '• أعد فحص مستوى سكر الدم بعد ٣٠ دقيقة' + '\n' + '• إذا كنت تشعر أنك مريض أو كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                 }
                 if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 30);//30
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 30);//30
                     }
             }
             else if (ketones == 'blood' && level == 'Negative'){
@@ -61,7 +61,7 @@ const tableText = function(BG, ketonesSource, ketonesLevel, isMeal, insulinType,
                     recommendation = '• أعد فحص مستوى سكر الدم بعد ٣٠ دقيقة' + '\n' + '• إذا كنت تشعر أنك مريض أو كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف';
                 }
                 if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 30);//30
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 30);//30
                     }
             }
         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
@@ -126,7 +126,7 @@ switch (caseNO == '2'){
         }
         finalRecommendation = recommendation;
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
             if (Meal != 'No'){
@@ -147,7 +147,7 @@ switch (caseNO == '2'){
              }
              finalRecommendation = recommendation;
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
             if (Meal != 'No'){
@@ -169,7 +169,7 @@ switch (caseNO == '2'){
              }
              finalRecommendation = recommendation;
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
             if (Meal != 'No'){
@@ -191,7 +191,7 @@ switch (caseNO == '2'){
              }
              finalRecommendation = recommendation;
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
             if (Meal != 'No'){
@@ -234,7 +234,7 @@ switch (caseNO == '3'){
              }
              finalRecommendation = recommendation;
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم و الكيتونات', 120);//120
         }
         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
             if (Meal != 'No'){
@@ -254,7 +254,7 @@ switch (caseNO == '3'){
              }
              finalRecommendation = recommendation;
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
         }
         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
             if (Meal != 'No'){
@@ -275,7 +275,7 @@ switch (caseNO == '3'){
              }
              finalRecommendation = recommendation;
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
         }
         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
             if (Meal != 'No'){
@@ -296,7 +296,7 @@ switch (caseNO == '3'){
              }
              finalRecommendation = recommendation;
         if (flag != 'true'){
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
         }
         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
             if (Meal != 'No'){
@@ -339,7 +339,7 @@ switch (caseNO == '3'){
             }
             finalRecommendation = recommendation;
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 180);//180
             }
             if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                 if (Meal != 'No'){
@@ -359,7 +359,7 @@ switch (caseNO == '3'){
                  }
                  finalRecommendation = recommendation;
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 180);//180
             }
             if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                 if (Meal != 'No'){
@@ -380,7 +380,7 @@ switch (caseNO == '3'){
                  }
                  finalRecommendation = recommendation;
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 180);//180
             }
             if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                 if (Meal != 'No'){
@@ -401,7 +401,7 @@ switch (caseNO == '3'){
                  }
                  finalRecommendation = recommendation;
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
             }
             if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                 if (Meal != 'No'){
@@ -443,7 +443,7 @@ switch (caseNO == '3'){
             }
             finalRecommendation = recommendation;
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 180);//180
             }
             if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                 if (Meal != 'No'){
@@ -463,7 +463,7 @@ switch (caseNO == '3'){
                  }
                  finalRecommendation = recommendation;
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 180);//180
             }
             if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                 if (Meal != 'No'){
@@ -484,7 +484,7 @@ switch (caseNO == '3'){
                  }
                  finalRecommendation = recommendation;
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 180);//180
             }
             if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                 if (Meal != 'No'){
@@ -505,7 +505,7 @@ switch (caseNO == '3'){
                  }
                  finalRecommendation = recommendation;
             if (flag != 'true'){
-            handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
             }
             if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                 if (Meal != 'No'){
@@ -548,7 +548,7 @@ switch (caseNO == '3'){
                      }
                      finalRecommendation = recommendation;
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                 }
                 if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                     if (Meal != 'No'){
@@ -568,7 +568,7 @@ switch (caseNO == '3'){
                     }
                      finalRecommendation = recommendation;
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                 }
                 if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                     if (Meal != 'No'){
@@ -588,7 +588,7 @@ switch (caseNO == '3'){
                  }
                      finalRecommendation = recommendation;
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                 }
                 if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                     if (Meal != 'No'){
@@ -608,7 +608,7 @@ switch (caseNO == '3'){
                      }
                      finalRecommendation = recommendation;
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                 }
                 if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                     if (Meal != 'No'){
@@ -649,7 +649,7 @@ switch (caseNO == '3'){
                      }
                      finalRecommendation = recommendation;
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                 }
                 if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                     if (Meal != 'No'){
@@ -669,7 +669,7 @@ switch (caseNO == '3'){
                     }
                      finalRecommendation = recommendation;
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                 }
                 if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                     if (Meal != 'No'){
@@ -689,7 +689,7 @@ switch (caseNO == '3'){
                  }
                      finalRecommendation = recommendation;
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                 }
                 if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                     if (Meal != 'No'){
@@ -709,7 +709,7 @@ switch (caseNO == '3'){
                      }
                      finalRecommendation = recommendation;
                 if (flag != 'true'){
-                handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                 }
                 if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                     if (Meal != 'No'){
@@ -751,7 +751,7 @@ switch (caseNO == '3'){
                          }
                          finalRecommendation = recommendation;
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                     }
                     if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                         if (Meal != 'No'){
@@ -771,7 +771,7 @@ switch (caseNO == '3'){
                          }
                          finalRecommendation = recommendation;
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                     }
                     if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                         if (Meal != 'No'){
@@ -791,7 +791,7 @@ switch (caseNO == '3'){
                          }
                          finalRecommendation = recommendation;
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
                     }
                     if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                         if (Meal != 'No'){
@@ -811,7 +811,7 @@ switch (caseNO == '3'){
                         }
                          finalRecommendation = recommendation;
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
                     }
                     if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                         if (Meal != 'No'){
@@ -852,7 +852,7 @@ switch (caseNO == '3'){
                          }
                          finalRecommendation = recommendation;
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                     }
                      if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                             if (Meal != 'No'){
@@ -872,7 +872,7 @@ switch (caseNO == '3'){
                          }
                          finalRecommendation = recommendation;
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                     }
                     if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                         if (Meal != 'No'){
@@ -892,7 +892,7 @@ switch (caseNO == '3'){
                          }
                          finalRecommendation = recommendation;
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
                     }
                     if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                         if (Meal != 'No'){
@@ -912,7 +912,7 @@ switch (caseNO == '3'){
                         }
                          finalRecommendation = recommendation;
                     if (flag != 'true'){
-                    handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
                     }
                     if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                         if (Meal != 'No'){
@@ -954,7 +954,7 @@ switch (caseNO == '3'){
                              }
                              finalRecommendation = recommendation;
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                         }
                         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                             if (Meal != 'No'){
@@ -974,7 +974,7 @@ switch (caseNO == '3'){
                              }
                              finalRecommendation = recommendation;
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 180);//180
                         }
                         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                             if (Meal != 'No'){
@@ -994,7 +994,7 @@ switch (caseNO == '3'){
                              }
                              finalRecommendation = recommendation;
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
                         }
                         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                             if (Meal != 'No'){
@@ -1014,7 +1014,7 @@ switch (caseNO == '3'){
                             }
                              finalRecommendation = recommendation;
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
                         }
                         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                             if (Meal != 'No'){
@@ -1055,7 +1055,7 @@ switch (caseNO == '3'){
                              }
                              finalRecommendation = recommendation;
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 240);//240
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 240);//240
                         }
                         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                             if (Meal != 'No'){
@@ -1075,7 +1075,7 @@ switch (caseNO == '3'){
                              }
                              finalRecommendation = recommendation;
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 180);//180
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 180);//180
                         }
                         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                             if (Meal != 'No'){
@@ -1095,7 +1095,7 @@ switch (caseNO == '3'){
                              }
                              finalRecommendation = recommendation;
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
                         }
                         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                             if (Meal != 'No'){
@@ -1115,7 +1115,7 @@ switch (caseNO == '3'){
                             }
                              finalRecommendation = recommendation;
                         if (flag != 'true'){
-                        handleScheduleNotification('iSugar','Time to Re-check your blood glucose & Ketone level.', 120);//120
+                        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم والكيتونات', 120);//120
                         }
                         if (insType != 'Aspart' || insType != 'Lispro' || insType != 'Glulisine'){
                             if (Meal != 'No'){
