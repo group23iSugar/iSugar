@@ -27,7 +27,6 @@ var ketones = '';
 var level = '';
 var flag = '';
 var Meal = '';
-
 //==============for notification=============================
 const handleScheduleNotification = (title, message, time) => {
     PushNotification.localNotificationSchedule({
