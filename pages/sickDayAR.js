@@ -952,7 +952,7 @@ console.log('flaaags? ' + response[0].flag);
             }//if pen
       else {
         alert(
-          'Your Insulin type is not supported in this application. Please contact your Diabetes center for instruction & recommendations for insulin bolus calculation & dose determination',
+          'نوع الأنسولين الخاص بك غير مدعوم في هذا التطبيق. يرجى الاتصال بمركز السكري الخاص بك للحصول على التعليمات والتوصيات الخاصة بحساب جرعة الأنسولين وتحديد الجرعة',
         );
       }//if insulin type not pen     
       console.log(c);
@@ -994,15 +994,15 @@ console.log('flaaags? ' + response[0].flag);
             dose = 15;
           }
         } 
-        handleScheduleNotification('iSugar','Time to Re-check your blood glucose level.', 30);//30
-         finalGlucagon = ' Take ' + dose + ' units of glucagon (mini-dose of glucagon) using the insulin syringe, Re-check your blood glucose level after 30 minutes, and if your unwell or have persistent vomiting, go to ER. ' + '\n' + ' Instruction on how to mix & take mini-dose glucagon: ' + '\n' +
-         '1- Remove the safety cap from the powder-containing bottle ' + '\n' +
-         '2- Attach the needle on to the pre-filled syringe ' + '\n' +
-         '3- Push the syringe inside the bottle then press the plunger to push all the liquid from syringe into the bottle. ' + '\n' +
-         '4- Remove the syringe & shake the bottle well until all powder has dissolved ' + '\n' +
-         '5- Using the insulin syringe withdraw ' + dose + ' units ' + '\n' +
-         '6- inject the dose in the same way you would inject your insulin. ' + '\n' +
-         '7- Keep the vial with remaining solution in the fridge for 24h then discard. ' + '\n';
+        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 30);//30
+         finalGlucagon = ' خذ ' + dose + '  وحدة من الجلوكاجون (جرعة مصغرة) باستخدام حقنة الانسولين, أعد فحص مستوى سكر الدم بعد ٣٠ دقيقة, إذا كنت تشعر أنك مريض أو كان لديك استفراغ (ترجيع) مستمر اذهب إلى الإسعاف ' + '\n' + ' Instruction on how to mix & take mini-dose glucagon: ' + '\n' +
+         'أزل غطاء الأمان من العبوة التي تحتوي على العلاج المسحوق.' + '\n' +
+         'صل الإبرة بالحقنة المملؤة بالسائل ' + '\n' +
+         'أدخل الحقنة في العبوة ثم ادفع كل السائل إلى داخل العبوة' + '\n' +
+         'أزل الحقنة ثم رج العلبة جيداً حتى يذوب المسحوق كلياً' + '\n' +
+         'باستخدام حقنة الانسولين اسحب ' + dose + ' وحدة من المحلول ' + '\n' +
+         'احقن الجرعة كما تحقن الانسولين' + '\n' +
+         'احفظ علبة محلول الجلوكاجون المتبقي في الثلاجة لمدة ٢٤ ساعة ثم تخلص منه' + '\n';
       }
       else if (hasRecord == 'true'){
         if (age < 2){
@@ -1016,7 +1016,7 @@ console.log('flaaags? ' + response[0].flag);
             dose = 30;
           }
         } 
-         finalGlucagon = ' Take ' + dose +  ' units of glucagon (mini-dose of glucagon) using the insulin syringe AND go to ER ';
+         finalGlucagon = ' خذ ' + dose +  '  وحدة من الجلوكاجون (جرعة مصغرة) باستخدام حقنة الانسولين و أذهب إلى الاسعاف ';
       }
       console.log('Your age is: ' + age + ' and the instructor: ' + finalGlucagon);
       c = dose;
