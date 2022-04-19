@@ -29,7 +29,6 @@ import moment from 'moment';
 import PushNotification from 'react-native-push-notification';
 import SQLite from 'react-native-sqlite-storage';
 
-
 global.db = SQLite.openDatabase(
   {
     name: 'iSugar.db',
@@ -110,7 +109,7 @@ if (TypeOfExercise == '0'){
 
   if (currentBG < 70){
   console.log('less than 70');
-  setInstruction('Don’t exercise & Treat your hypoglycemia (low blood glucose level)');
+  setInstruction('• Don’t exercise' + '\n' + '• Treat your hypoglycemia (low blood glucose level)');
 
 } else if (currentBG >= 70 && currentBG < 90){
   console.log('between 70 and  90');
@@ -119,7 +118,7 @@ if (takenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
   console.log(gram1 + '-' + gram2);
   sum = gram1 + '-' + gram2;
   console.log(sum);
-  setInstruction('Take ' + gram1 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
+  setInstruction('• Take ' + gram1 + ' grams of carbohydrate now' + '\n' + '• recheck your blood glucose level after 15 minutes' + '\n' + '• Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
   handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
 } else {
   if (weight > 0 && weight < 60){
@@ -128,7 +127,7 @@ if (takenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
     console.log(gram1 + '-' + gram2);
     sum = gram1 + '-' + gram2;
     console.log(sum);
-    setInstruction('Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
+    setInstruction('• Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now' + '\n' + '• recheck your blood glucose level after 15 minutes' + '\n' + '• Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
     handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
   }
   else if (weight >= 60){
@@ -137,7 +136,7 @@ if (takenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
     console.log(gram1 + '-' + gram2);
     sum = gram1 + '-' + gram2;
     console.log(sum);
-    setInstruction('Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
+    setInstruction('• Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now' + '\n' + '• recheck your blood glucose level after 15 minutes' + '\n' + '• Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
     handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
   }
 }
@@ -174,13 +173,13 @@ if (takenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
   }
 }  else if (currentBG >= 126 && currentBG < 250){
   console.log('between 126 and 250');
-  setInstruction('You can start your exercise & Re-check your blood glucose level every 30 minutes throughout your exercise or sooner if you have symptoms of low or high blood glucose level (hypoglycemia or hyperglycemia)');
+  setInstruction('• You can start your exercise' + '\n' + '• Re-check your blood glucose level every 30 minutes throughout your exercise or sooner if you have symptoms of low or high blood glucose level (hypoglycemia or hyperglycemia)');
   handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 30);
 } else if (currentBG >= 250) {
   console.log('greater than 250');
   if ( blood > 0.6 || urine == 'Small' || urine == 'Moderate' || urine == 'Large'){
     console.log('option 1');
-    setInstruction2('Don’t exercise & take extra insulin to clear the ketones');
+    setInstruction2('• Don’t exercise' + '\n' + '• take extra insulin to clear the ketones');
           } else if (blood < 0.6 || urine == 'Negative' || urine == 'Trace'){
       console.log('option 2');
       if (ReData2.insulinReg == 'Pen' && (ReData2.insulinType == 'Aspart' ||
@@ -208,7 +207,7 @@ if (takenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
       }
       correction = ((currentBG - ReData1.targetBG) / ReData1.ISF) - num;
     }
-      setInstruction2('Take' + correction + ' units of ' +  ReData2.insulinType  + ' insulin & Don’t start exercise now & You can start exercise in 3-4 hours once your blood glucose level is corrected.');
+      setInstruction2('• Take ' + correction + ' units of ' +  ReData2.insulinType  + ' insulin' + '\n' + '• Don’t start exercise now' + '\n' + '• You can start exercise in 3-4 hours once your blood glucose level is corrected.');
    }
 }//end all cureent BG cases
 }//end aerobic
@@ -216,7 +215,7 @@ if (takenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
 else {
   if (currentBG < 70){
     console.log('less than 70');
-    setInstruction('Don’t exercise & Treat your hypoglycemia (low blood glucose level)');
+    setInstruction('• Don’t exercise' + '\n' + '• Treat your hypoglycemia (low blood glucose level)');
 
   } else if (currentBG >= 70 && currentBG < 90){
     console.log('between 70 and  90');
@@ -225,7 +224,7 @@ else {
       console.log(gram1 + '-' + gram2);
       sum = gram1 + '-' + gram2;
       console.log(sum);
-      setInstruction('Take ' + gram1 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
+      setInstruction('• Take ' + gram1 + ' grams of carbohydrate now' + '\n' + '• recheck your blood glucose level after 15 minutes' + '\n' + '• Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
       handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
     } else {
       if (weight > 0 && weight < 60){
@@ -234,7 +233,7 @@ else {
         console.log(gram1 + '-' + gram2);
         sum = gram1 + '-' + gram2;
         console.log(sum);
-        setInstruction('Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
+        setInstruction('• Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now' + '\n' + '• recheck your blood glucose level after 15 minutes' + '\n' + '• Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
         handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
       }
       else if (weight >= 60){
@@ -243,19 +242,19 @@ else {
       console.log(gram1 + '-' + gram2);
       sum = gram1 + '-' + gram2;
       console.log(sum);
-      setInstruction('Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
+      setInstruction('• Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now' + '\n' + '• recheck your blood glucose level after 15 minutes' + '\n' + '• Don’t start your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
       handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
     }
     }
   } else if (currentBG >= 90 && currentBG < 250){
     console.log('between 90 and 250');
-    setInstruction('You can start your exercise & Re-check your blood glucose level every 30 minutes throughout your exercise or sooner if you have symptoms of low or high blood glucose level (hypoglycemia or hyperglycemia)');
+    setInstruction('• You can start your exercise' + '\n' + '• Re-check your blood glucose level every 30 minutes throughout your exercise or sooner if you have symptoms of low or high blood glucose level (hypoglycemia or hyperglycemia)');
     handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 30);
   } else if (currentBG >= 250) {
     console.log('greater than 250');
     if ( blood > 0.6 || urine == 'Small' || urine == 'Moderate' || urine == 'Large'){
       console.log('option 1');
-      setInstruction2('Don’t exercise & take extra insulin to clear the ketones');
+      setInstruction2('• Don’t exercise' + '\n' + '• take extra insulin to clear the ketones');
             } else if (blood < 0.6 || urine == 'Negative' || urine == 'Trace'){
               console.log('option 2');
               if (ReData2.insulinReg == 'Pen' && (ReData2.insulinType == 'Aspart' ||
@@ -283,7 +282,7 @@ else {
               }
               correction = ((currentBG - ReData1.targetBG) / ReData1.ISF) - num;
             }
-              setInstruction2('Take' + correction + ' units of ' +  ReData2.insulinType  + ' insulin & Don’t start exercise now & You can start exercise in 3-4 hours once your blood glucose level is corrected.');
+              setInstruction2('• Take ' + correction + ' units of ' +  ReData2.insulinType  + ' insulin' + '\n' + '• Don’t start exercise now' + '\n' + '• You can start exercise in 3-4 hours once your blood glucose level is corrected.');
            }
   }//end all cureent BG cases
 }//end Anaerobic
@@ -592,7 +591,6 @@ fetch(InsertAPIURL,{
 
 }
 //---insert users-----========================= Withtin-APP DATABASE ***********************
-
 const insert = async () => {
 
  //------------ BG LEVEL -------------------
@@ -641,18 +639,28 @@ if (currentBG >= 70 && currentBG < 250){
 }
     return (
         <View style={styles.container}>
-            <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
-            <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
-            <Image source={require('../images/logo.png')} style={styles.pic} />
-            <TouchableOpacity onPress={()=>navigation.openDrawer()}>
-             <Entypo name="menu" color="#05375a" size={35} />
-             </TouchableOpacity>
-          </View>
-          <View style={styles.footer}>
-           <View>
+             <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
+        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+         <Entypo name="menu" color="#05375a" size={35} />
+         </TouchableOpacity>
+         <View style={{alignItems: 'center', marginRight: 130, paddingTop: -10, paddingEnd: 15}}>
+         <Text
+          style={{
+            color: '#05375a',
+            fontSize: 18,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            paddingLeft: 30,
+          }}>
+          Exercise
+        </Text>
+         </View>
+      </View>
            <ScrollView>
-             <View style={{marginTop: 25, flexDirection: 'row'}}>
-            <Text style={styles.inpTxt}>Type of exercise: </Text>
+           <View style={styles.buttonVx}>
+<View style = {styles.innerCotainer}>
+  <View style = {{flexDirection: 'row', marginTop: 25}}>
+            <Text style={styles.textBody}>Type of exercise </Text>
             <Picker
             itemStyle={{color: 'black'}}
               selectedValue={TypeOfExercise}
@@ -785,36 +793,44 @@ if (currentBG >= 70 && currentBG < 250){
                 testID="1"   />
             </Picker>
             </View>
-
-            <View style={styles.vNext}>
-              <Text style={styles.inpTxt}>Current blood glucose level</Text>
-              <TextInput
+            </View>
+            </View>
+            <View style={styles.buttonVx}>
+<View style = {styles.innerCotainer}>
+    <Text style= {styles.textBody}>Blood glucose level </Text>
+    <TextInput
                 keyboardType="decimal-pad"
                 placeholder="000.0"
                 onChangeText={(val)=>setCurrentBG(val)}
                 style={styles.inputT} />
-              <Text style={{fontSize: 13, paddingTop: 20}}> mg/dl </Text>
-            </View>
-
+              <Text style={{fontSize: 13}}> mg/dl </Text>
+</View>
+</View>
+<View style={styles.buttonVx}>
             { currentBG > 0 && currentBG < 250 && TypeOfExercise != '0' && instruction != '' ?
+            <View style = {styles.innerCotainer}>
   <Text style={styles.textHeader} >{instruction}</Text>
-  : null
-}
-            { currentBG < 70 && TypeOfExercise != '0' && instruction != '' ?
+  { currentBG < 70 && TypeOfExercise != '0' && instruction != '' ?
               <View>
               <TouchableOpacity onPress={()=> navigation.navigate('hypo')}>
-               <Text style={{fontSize: 15, color: 'grey',  paddingLeft: 20, backgroundColor: '#c3d4e0', paddingBottom: 10}}>Go to hypoglycemia page</Text>
+               <Text style={styles.textHeader}>Go to hypoglycemia page</Text>
               </TouchableOpacity>
              </View>
              : null
             }
-
+  </View>
+  : null
+}
+</View>
+<View style={styles.buttonVx}>
             {currentBG >= 250 && TypeOfExercise != '0' ?
+            <View style = {styles.innerCotainer}>
 <View>
-<Text style={styles.textHeader} >Do not start exercise now</Text>
-<Text style={styles.textHeader} >Please check for Ketones, and enter your result here for further</Text>
-<View style={{marginTop: 25, flexDirection: 'row'}}>
-<Text style={styles.inpTxt}>Ketone reading source</Text>
+<Text style={styles.textHeader} >• Do not start exercise now</Text>
+<Text style={styles.textHeader} >• Please check for Ketones</Text>
+<Text style={styles.textHeader} >• Enter your result here for further</Text>
+<View style={{marginTop: 20, flexDirection: 'row'}}>
+<Text style={styles.textBody}>Ketone reading source</Text>
 <Picker
             itemStyle={{color: 'black'}}
               selectedValue={ketones}
@@ -827,10 +843,7 @@ if (currentBG >= 70 && currentBG < 250){
               </Picker>
 </View>
     </View>
-:
-null
-    }
-        {ketones == 'blood' && currentBG >= 250 ?
+    {ketones == 'blood' && currentBG >= 250 ?
 <View>
 <View style={styles.vNext}>
 <TextInput
@@ -867,40 +880,32 @@ null
   <Text style={styles.textHeader} >{instruction2}</Text>
   : null
 }
+    </View>
+:
+null
+    }
+</View>
              <View style={styles.buttonV}>
           <TouchableOpacity onPress={checkExercise}>
             <LinearGradient
               colors={['#f5f5f5', '#e9ebee', '#e9ebee']}
               style={styles.buttonR}>
-              <Text style={styles.titleB}>
-                See the instruction
+              <Text style={{ fontSize: 17, color: '#05375a', textAlign: 'center', fontWeight: 'bold'}}>
+              See the instruction
               </Text>
             </LinearGradient>
           </TouchableOpacity>
           </View>
           </ScrollView>
            </View>
-          </View>
-          </LinearGradient>
-          </View>
     );
 };
-
-
-const {height} = Dimensions.get('screen');
-const height_logo = height * 0.15;
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#f5f5f5',
     },
-    pic: {
-
-      width: height_logo,
-      height: height_logo,
-      marginRight: 10,
-  },
   footer: {
     flex: 1,
     width: 380,
@@ -912,6 +917,12 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 10,
+},
+textBody:{
+  fontSize: 17,
+  color: '#05375a',
+  textAlign: 'center',
+  fontWeight: 'bold',
 },
 action: {
     flex: 0,
@@ -931,6 +942,19 @@ action: {
     fontWeight: '600',
     lineHeight: 30,
   },
+  innerCotainer: {
+    backgroundColor: 'white', margin: 10, alignItems: 'center', borderRadius: 15, padding: 10, width: 370,
+    flexDirection: 'row',
+      flexWrap: 'wrap',
+                shadowColor: '#000',
+                shadowOffset: {
+                width: 0,
+                height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+  },
   points: {
     color: '#05375a',
     fontSize: 16,
@@ -946,13 +970,20 @@ buttonV: {
     paddingBottom: 35,
     paddingTop: 30,
   },
-  buttonR: {
-    alignItems: 'center',
-    width: 150,
-    height: 30,
-    justifyContent: 'center',
-    borderRadius: 10,
-  },
+buttonVx: {
+  marginTop: 10,
+  alignItems: 'center',
+},
+buttonR: {
+  alignItems: 'center',
+  width: 150,
+  height: 55,
+  borderColor: '#000',
+  shadowColor: '#5c5b5b',
+  justifyContent: 'center',
+  borderRadius: 15,
+  flexDirection: 'row',
+},
   titleB: {
     color: '#05375a',
     fontSize: 15,
@@ -966,7 +997,7 @@ buttonV: {
     marginBottom: 10,
     },
  picker: {
-    width: 230,
+    width: 200,
     height: 30,
     borderWidth: 2,
     borderColor: '#4c4c4c',
@@ -1001,14 +1032,14 @@ buttonV: {
     elevation: 2,
   },
   textHeader:{
-    paddingTop: 25,
-    fontSize: 16,
+    fontSize: 18,
+    paddingBottom: 15,
+    paddingTop: 15,
     color: '#05375a',
-    paddingLeft: 20,
-    paddingRight: 20,
-    lineHeight: 25,
-    backgroundColor: '#c3d4e0',
-    paddingBottom: 10,
- },
+    textAlign: 'left',
+    paddingLeft: 10,
+    paddingRight: 10,
+    lineHeight: 30,
+  },
 });
 export default exercise3;
