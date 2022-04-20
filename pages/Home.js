@@ -15,12 +15,8 @@ import {
   Switch,
   FlatList,
   Dimensions,
-} from 'react-native';
-import ModalDropdown from 'react-native-modal-dropdown';
-import LinearGradient from 'react-native-linear-gradient';
+} from 'react-native'
 import {Picker} from '@react-native-picker/picker';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PieChart} from 'react-native-chart-kit';
 import moment from 'moment';
 //import { ActivityIndicator, Colors } from 'react-native-paper';
@@ -323,7 +319,7 @@ const updateFlag = () => {
 
      <View style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
+        <Image source={require('../images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView>
         <Text
@@ -350,7 +346,7 @@ const updateFlag = () => {
           }}
           onPress={dashBoard}>
           <Image
-            source={require('./images/upd.png')}
+            source={require('../images/upd.png')}
             style={{height: 25, width: 25}}
           />
         </TouchableOpacity>
@@ -414,7 +410,7 @@ const updateFlag = () => {
           }}
           onPress={ret4}>
           <Image
-            source={require('./images/upd.png')}
+            source={require('../images/upd.png')}
             style={{height: 25, width: 25}}
           />
         </TouchableOpacity>

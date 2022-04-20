@@ -4,19 +4,13 @@ import {
   Image,
   Button,
   ScrollView,
-  StatusBar,
   Text,
   View,
-  AppRegistry,
-  Navigator,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator,
   Switch,
-  Alert,
   Dimensions,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';

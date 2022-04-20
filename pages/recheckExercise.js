@@ -54,7 +54,7 @@ const toggleFinishSwitch = () =>
   const [urine, setUrine] = useState('-1');//for ketones type if your BG level is > 250
 
 
-  var TakenInsulin = 0;
+  var takenInsulin = 0;
   var currentTaken = -1;
   var isPlanned = -1;
   var weight = 0;
@@ -72,25 +72,26 @@ const toggleFinishSwitch = () =>
       checkIsPlanned();
     
     if (TypeOfExercise == '0'){
-      Alert.alert('الرجاء قم باختيار نوع التمارين ');
+      Alert.alert('Select your exercise type');
       
-    } else if (TypeOfExercise == 'الجري' || TypeOfExercise == 'السباحة' || TypeOfExercise == 'المشي' || TypeOfExercise == 'ركوب الدراجة الثابتة (الدوران السريع)' || TypeOfExercise == 'تسلق الجبال' || TypeOfExercise == 'الكيك بوكسينغ' || TypeOfExercise == 'التزلج على الثلج' || TypeOfExercise == 'تمارين القفز' || TypeOfExercise == 'الفنون القتالية' || TypeOfExercise == 'كرة السلة'
-    || TypeOfExercise == 'القفز على النطيطة' || TypeOfExercise == 'تمارين التقوية الهوائية المتتابعة' || TypeOfExercise == 'ركوب الدراجة' || TypeOfExercise == 'الهرولة' || TypeOfExercise == 'تمارين الكارديو/ أجهزة تمارين الكارديو' || TypeOfExercise == 'دروس التمارين الهوائية – تمارين الأيروبك' || TypeOfExercise == 'القفز بحبل القفز' || TypeOfExercise == 'صعود الدرج (جهاز الدرج)' || TypeOfExercise == 'ركوب الدراجة الثابتة' || TypeOfExercise == 'جهاز الاليبتكال'
-    || TypeOfExercise == 'بليومتريك' || TypeOfExercise == 'التزلج' || TypeOfExercise == 'كرة المضرب' || TypeOfExercise == 'كرة القدم' || TypeOfExercise == 'الملاكمة' || TypeOfExercise == 'اللعب بحلقة الهولا هوب' || TypeOfExercise == 'رياضة/تمارين هوائية أخرى' || TypeOfExercise == 'الرقص' || TypeOfExercise == 'التجديف' || TypeOfExercise == 'رقص الزومبا' ){
+    } else if (TypeOfExercise == 'Running' || TypeOfExercise == 'Swimming' || TypeOfExercise == 'Walking' || TypeOfExercise == 'Spinning' || TypeOfExercise == 'Mountain Climbing' || TypeOfExercise == 'Kickboxing' || TypeOfExercise == 'Cross country skiing' || TypeOfExercise == 'Jumping jacks' || TypeOfExercise == 'Martial arts' || TypeOfExercise == 'Basketball'
+    || TypeOfExercise == 'Trampoline-ing' || TypeOfExercise == 'Aerobic strength circuit' || TypeOfExercise == 'Cycling' || TypeOfExercise == 'Jogging' || TypeOfExercise == 'Cardio exercises/ machines' || TypeOfExercise == 'Aerobic exercise classes' || TypeOfExercise == 'Skipping/ Jump rope' || TypeOfExercise == 'Stair mill /Stair stepper' || TypeOfExercise == 'Stationary bike' || TypeOfExercise == 'Elliptical'
+    || TypeOfExercise == 'Plyometrics' || TypeOfExercise == 'Skating' || TypeOfExercise == 'Tennis' || TypeOfExercise == 'Soccer' || TypeOfExercise == 'Boxing' || TypeOfExercise == 'Hula-hooping' || TypeOfExercise == 'Other aerobic exercise' || TypeOfExercise == 'Dancing' || TypeOfExercise == 'Rowing' || TypeOfExercise == 'Zumba' ){
     
       if (currentBG < 70){
       console.log('less than 70');
-      setInstruction('لا تقم بعمل التمارين، عالج نقص سكر الدم (انخفاض مستوى الجلوكوز في الدم) ');
+      setInstruction('Don’t exercise & Treat your hypoglycemia (low blood glucose level)');
     
     } else if (currentBG >= 70 && currentBG < 90){
       console.log('between 70 and  90');
-if (TakenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
+if (takenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
     gram1 = 15;
     console.log(gram1 + '-' + gram2);
     sum = gram1 + '-' + gram2;
     console.log(sum);
-    setInstruction('خذ ' + gram1 + ' جرام من الكربوهيدرات الآن و قم بإعادة فحص مستوى الجلوكوز في الدم بعد 15 دقيقة، ولا تقم بعمل التمارين في حال كان مستوى الجلوكوز في الدم أقل من 90 مج/دل؛ وذلك لخطورة حدوث نفص سكر الدم');
-  handleScheduleNotification('السُّكر','حان الوقت لإعادة فحص مستوى الجلوكوز في الدم', 15);
+    setInstruction('Take ' + gram1 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t resume your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
+    
+    handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
 
 } else {
   if (weight > 0 && weight < 60){
@@ -99,8 +100,8 @@ if (TakenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
     console.log(gram1 + '-' + gram2);
     sum = gram1 + '-' + gram2;
     console.log(sum);
-    setInstruction('خذ ' + gram1 + ' - ' + gram2 + '  جرام من الكربوهيدرات الآن و قم بإعادة فحص مستوى الجلوكوز في الدم بعد 15 دقيقة، ولا تقم بعمل التمارين في حال كان مستوى الجلوكوز في الدم أقل من 90 مج/دل؛ وذلك لخطورة حدوث نفص سكر الدم');
-      handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 15);
+    setInstruction('Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t resume your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
+      handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
       
 }
   else if (weight >= 60){
@@ -109,32 +110,33 @@ if (TakenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
     console.log(gram1 + '-' + gram2);
     sum = gram1 + '-' + gram2;
     console.log(sum);
-    setInstruction('خذ ' + gram1 + ' - ' + gram2 + '  جرام من الكربوهيدرات الآن و قم بإعادة فحص مستوى الجلوكوز في الدم بعد 15 دقيقة، ولا تقم بعمل التمارين في حال كان مستوى الجلوكوز في الدم أقل من 90 مج/دل؛ وذلك لخطورة حدوث نفص سكر الدم');
+    setInstruction('Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t resume your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
    
-    handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 15);
-    
+      handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
+      
 }
 }
     } else if (currentBG >= 90 && currentBG < 126){
       console.log('between 90 and 126');
-      if (TakenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
+      if (takenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
         gram1 = 15;
         console.log(gram1 + '-' + gram2);
         sum = gram1 + '-' + gram2;
         console.log(sum);
-        setInstruction('خذ ' + gram1 + '  جرام من الكربوهيدرات الآن و قم بإعادة فحص مستوى الجلوكوز في الدم بعد 30 دقيقة، ولا تقم بعمل التمارين في حال كان مستوى الجلوكوز في الدم أقل من 90 مج/دل؛ وذلك لخطورة حدوث نفص سكر الدم');
+      setInstruction('Take ' + gram1 + ' grams of carbohydrate now and recheck your blood glucose level after 30 minutes & Don’t resume your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
      
-        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 30);
-         } else {
+        handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 30);
+        
+    } else {
         if (weight > 0 && weight < 60){
           gram1 = weight * 1;
           gram2 = weight * 1.5;
           console.log(gram1 + '-' + gram2);
           sum = gram1 + '-' + gram2;
           console.log(sum);
-          setInstruction('خذ ' + gram1 + ' - ' + gram2 + '  جرام من الكربوهيدرات الآن و قم بإعادة فحص مستوى الجلوكوز في الدم بعد 30 دقيقة، ولا تقم بعمل التمارين في حال كان مستوى الجلوكوز في الدم أقل من 90 مج/دل؛ وذلك لخطورة حدوث نفص سكر الدم');
+          setInstruction('Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now and recheck your blood glucose level after 30 minutes & Don’t resume your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
           
-            handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 30);
+            handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 30);
             
         }
         else if (weight >= 60){
@@ -143,16 +145,16 @@ if (TakenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
       console.log(gram1 + '-' + gram2);
       sum = gram1 + '-' + gram2;
       console.log(sum);
-      setInstruction('خذ ' + gram1 + ' - ' + gram2 + '  جرام من الكربوهيدرات الآن و قم بإعادة فحص مستوى الجلوكوز في الدم بعد 30 دقيقة، ولا تقم بعمل التمارين في حال كان مستوى الجلوكوز في الدم أقل من 90 مج/دل؛ وذلك لخطورة حدوث نفص سكر الدم');
-        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 30);
+      setInstruction('Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now and recheck your blood glucose level after 30 minutes & Don’t resume your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
+        handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 30);
         
     }
       }
     }  else if (currentBG >= 126 && currentBG < 250){
       console.log('between 126 and 250');
-      setInstruction('بإمكانك البدء في القيام بعمل التمارين و قم بإعادة حساب  مستوى الجلوكوز في الدم كل 30 دقيقة خلال فترة قيامك بالتمارين أو عاجلا إذا كان لديك أعراض انخفاض أو ارتفاع مستوى الجلوكوز في الدم ');
+      setInstruction('You can resume your exercise & Re-check your blood glucose level every 30 minutes throughout your exercise or sooner if you have symptoms of low or high blood glucose level (hypoglycemia or hyperglycemia)');
      
-        handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 30);
+        handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 30);
         
 
     } else if (currentBG >= 250) {
@@ -160,12 +162,12 @@ if (TakenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
 
   if ( blood > 0.6 || urine == 'Small' || urine == 'Moderate' || urine == 'Large'){
     console.log('option 1');
-    setInstruction2('لا تقم بعمل التمارين و تناول المزيد من الأنسولين من أجل حالة الكيتونات');
+    setInstruction2('Don’t exercise & take extra insulin to clear the ketones');
           } else if (blood < 0.6 || urine == 'Negative' || urine == 'Trace'){
       console.log('option 2');
-     setInstruction2('بإمكانك البدء في القيام بعمل التمارين و قم بإعادة حساب  مستوى الجلوكوز في الدم كل 30 دقيقة خلال فترة قيامك بالتمارين أو عاجلا إذا كان لديك أعراض انخفاض أو ارتفاع مستوى الجلوكوز في الدم ');
+     setInstruction2('You can resume your exercise & Re-check your blood glucose level every 30 minutes throughout your exercise or sooner if you have symptoms of low or high blood glucose level (hypoglycemia or hyperglycemia)');
      
-      handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 30);
+      handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 30);
       
     }
     }//end all cureent BG cases
@@ -174,18 +176,18 @@ if (TakenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
     else {
       if (currentBG < 70){
         console.log('less than 70');
-        setInstruction('لا تقم بعمل التمارين، عالج نقص سكر الدم (انخفاض مستوى الجلوكوز في الدم) ');
+        setInstruction('Don’t exercise & Treat your hypoglycemia (low blood glucose level)');
     
       } else if (currentBG >= 70 && currentBG < 90){
         console.log('between 70 and  90'); console.log('between 70 and  90');
-        if (TakenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
+        if (takenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
             gram1 = 15;
             console.log(gram1 + '-' + gram2);
             sum = gram1 + '-' + gram2;
             console.log(sum);
-            setInstruction('خذ ' + gram1 + '  جرام من الكربوهيدرات الآن و قم بإعادة فحص مستوى الجلوكوز في الدم بعد 15 دقيقة، ولا تقم بعمل التمارين في حال كان مستوى الجلوكوز في الدم أقل من 90 مج/دل؛ وذلك لخطورة حدوث نفص سكر الدم');
+            setInstruction('Take ' + gram1 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t resume your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
            
-              handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 15);
+              handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
               
           } else {
           if (weight > 0 && weight < 60){
@@ -194,9 +196,9 @@ if (TakenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
             console.log(gram1 + '-' + gram2);
             sum = gram1 + '-' + gram2;
             console.log(sum);
-            setInstruction('خذ ' + gram1 + ' - ' + gram2 + '  جرام من الكربوهيدرات الآن و قم بإعادة فحص مستوى الجلوكوز في الدم بعد 15 دقيقة، ولا تقم بعمل التمارين في حال كان مستوى الجلوكوز في الدم أقل من 90 مج/دل؛ وذلك لخطورة حدوث نفص سكر الدم');
+            setInstruction('Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t resume your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
             
-              handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 15);
+              handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
               
           }
           else if (weight >= 60){
@@ -205,28 +207,28 @@ if (TakenInsulin > 0 && currentTaken == 1 && isPlanned == 1){
             console.log(gram1 + '-' + gram2);
             sum = gram1 + '-' + gram2;
             console.log(sum);
-            setInstruction('خذ ' + gram1 + ' - ' + gram2 + '  جرام من الكربوهيدرات الآن و قم بإعادة فحص مستوى الجلوكوز في الدم بعد 15 دقيقة، ولا تقم بعمل التمارين في حال كان مستوى الجلوكوز في الدم أقل من 90 مج/دل؛ وذلك لخطورة حدوث نفص سكر الدم');
+            setInstruction('Take ' + gram1 + ' - ' + gram2 + ' grams of carbohydrate now and recheck your blood glucose level after 15 minutes & Don’t resume your exercise if your blood glucose level is less than 90mg/dl because the risk of hypoglycemia');
            
-              handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 15);
+              handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 15);
               
           }
         }
       } else if (currentBG >= 90 && currentBG < 250){
         console.log('between 90 and 250');
-        setInstruction('بإمكانك البدء في القيام بعمل التمارين و قم بإعادة حساب  مستوى الجلوكوز في الدم كل 30 دقيقة خلال فترة قيامك بالتمارين أو عاجلا إذا كان لديك أعراض انخفاض أو ارتفاع مستوى الجلوكوز في الدم ');
+        setInstruction('You can resume your exercise & Re-check your blood glucose level every 30 minutes throughout your exercise or sooner if you have symptoms of low or high blood glucose level (hypoglycemia or hyperglycemia)');
         
-          handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 30);
+          handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 30);
           
       } else if (currentBG >= 250) {
         console.log('greater than 250');
         if ( blood > 0.6 || urine == 'Small' || urine == 'Moderate' || urine == 'Large'){
           console.log('option 1');
-          setInstruction2('لا تقم بعمل التمارين و تناول المزيد من الأنسولين من أجل حالة الكيتونات');
+          setInstruction2('Don’t exercise & take extra insulin to clear the ketones');
                 } else if (blood < 0.6 || urine == 'Negative' || urine == 'Trace'){
             console.log('option 2');
-            setInstruction2('بإمكانك البدء في القيام بعمل التمارين و قم بإعادة حساب  مستوى الجلوكوز في الدم كل 30 دقيقة خلال فترة قيامك بالتمارين أو عاجلا إذا كان لديك أعراض انخفاض أو ارتفاع مستوى الجلوكوز في الدم ');
+            setInstruction2('You can resume your exercise & Re-check your blood glucose level every 30 minutes throughout your exercise or sooner if you have symptoms of low or high blood glucose level (hypoglycemia or hyperglycemia)');
             
-              handleScheduleNotification('السُّكر','حان وقت إعادة فحص مستوى سكر الدم', 30);
+              handleScheduleNotification('iSugar','Time to recheck your blood glucose level.', 30);
               
           }
       }//end all cureent BG cases
@@ -247,7 +249,7 @@ if (blood != '-1'){
   const saveLast = () => {//if the user finish exercise
     saveBGLevel();
     insertBG();
-    navigation.navigate('Home');//go to home
+    navigation.navigate('hypo');//go to home
   };
 
 //==============for notification=============================
@@ -263,9 +265,9 @@ const handleScheduleNotification = (title, message, time) => {
 
 //-----------------------------DATABASE----------------------------------------------------
 const checkIsPlanned = () => {
-    console.log('in DB of Taken insulin and planned exercise');
+    console.log('in DB of taken insulin and planned exercise');
     // eslint-disable-next-line quotes
-    var InsertAPIURL = "http://192.168.56.1/iSugar/checkPlannedExercise.php";   //API to  signup
+    var InsertAPIURL = "http://192.168.56.1/isugar/checkPlannedExercise.php";   //API to  signup
   
     var headers = {
       'Accept': 'application/json',
@@ -289,15 +291,15 @@ const checkIsPlanned = () => {
    if (response[0].flag == 'true'){
     // if (onlinUserID != '0'){
         console.log(response[0].userID);
-       TakenInsulin = response[0].TakenInslin;
-        console.log(response[0].TakenInslin);
+       takenInsulin = response[0].takenInslin;
+        console.log(response[0].takenInslin);
        currentTaken = response[0].currentTaken;
          console.log(response[0].currentTaken);
        isPlanned = response[0].currentPlanned;
          console.log(response[0].currentPlanned);
           console.log('inside recheck: ');
    //}
-   console.log(onlinUserID + '-' + TakenInsulin + '-' + currentTaken + '-' + isPlanned);
+   console.log(onlinUserID + '-' + takenInsulin + '-' + currentTaken + '-' + isPlanned);
    checkWeight();
    }
    console.log('inside onlineDB: ');
@@ -310,7 +312,7 @@ const checkIsPlanned = () => {
   const checkWeight = () => {
     console.log('in DB of weight');
     // eslint-disable-next-line quotes
-    var InsertAPIURL = "http://192.168.56.1/iSugar/checkWeight.php";   //API to  signup
+    var InsertAPIURL = "http://192.168.56.1/isugar/checkWeight.php";   //API to  signup
   
     var headers = {
       'Accept': 'application/json',
@@ -350,7 +352,7 @@ const checkIsPlanned = () => {
 const saveInstruction = () => {
   console.log('in DB of Saving information');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/iSugar/recheckrecord.php";   //API to  signup
+  var InsertAPIURL = "http://192.168.56.1/isugar/recheckrecord.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -386,7 +388,7 @@ fetch(InsertAPIURL,{
 const saveBGLevel = () => {
   console.log('in DB of Saving information');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/iSugar/BGLevel.php";   //API to  signup
+  var InsertAPIURL = "http://192.168.56.1/isugar/BGLevel.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',

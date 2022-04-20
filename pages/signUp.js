@@ -10,10 +10,6 @@ import { StyleSheet,
     TextInput,
     Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
 
 import react from 'react';
 import RadioForm, {
@@ -197,5 +193,4 @@ buttonR: {
   
 }
 });
-
 

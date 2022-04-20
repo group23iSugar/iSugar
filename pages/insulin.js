@@ -10,7 +10,6 @@ import {  StyleSheet,
   TextInput,
   ScrollView,
   Dimensions} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -18,7 +17,7 @@ import moment from 'moment';
 
 
   const insulin = ({ navigation, route }) =>{
-   
+    var AccType = 'Patient Account'; 
   const [shouldShow, setShouldShow] = useState(false);
   const [shouldShow2, setShouldShow2] = useState(false);
   const [InsulinR, setInsulinR] = useState('0');
@@ -459,7 +458,7 @@ const onlineInsulinRegDB = () => {
           <View style={styles.action}>
               <Text style={styles.text_footer}>Insulin regimen</Text>
               <Picker
-               itemStyle={{color: '#000'}}
+               itemStyle={{color: 'black', height : 50, width: 200, fontSize: 15, marginBottom: 30, paddingBottom:15}}
               selectedValue={InsulinR}
               onValueChange={(value) => setInsulinR(value)}
               mode="dropdown"
@@ -481,7 +480,8 @@ const onlineInsulinRegDB = () => {
               {halfOrFull() ?  (<View style={styles.field} > 
               <Text style={styles.text_footer}>Insulin Type</Text>
               <Picker
-               itemStyle={{color: '#000'}}
+               itemStyle={{color: 'black', height : 50, width: 200, fontSize: 15, marginBottom: 30, paddingBottom:15}}
+            
               selectedValue={penProvide}
               onValueChange={(value) => setPen(value)}
               mode="dropdown"
@@ -497,7 +497,8 @@ const onlineInsulinRegDB = () => {
     </View> ) :  (<View style={styles.field} >
               <Text style={styles.text_footer}>Insulin Type</Text>
               <Picker
-               itemStyle={{color: '#000'}}
+                itemStyle={{color: 'black', height : 50, width: 300, fontSize: 15, marginBottom: 30, paddingBottom:15}}
+            
               selectedValue={iType}
               onValueChange={(value) => setiType(value)}
               mode="dropdown"
@@ -530,7 +531,7 @@ const onlineInsulinRegDB = () => {
         <TouchableOpacity onPress={showTimepicker} 
     >
 <Text testID="dateTimePicker" style={styles.text_footerD} >
-                {moment.utc(date).format('h:mm a')}
+                {moment(date).format('h:mm a')}
                 </Text> 
     </TouchableOpacity>
       
@@ -551,7 +552,8 @@ const onlineInsulinRegDB = () => {
           {shouldShow && halfOrFull1() ? (<View style={styles.field } >
             <Text style={styles.text_footer}>Pen provided</Text>
               <Picker
-               itemStyle={{color: '#000'}}
+               itemStyle={{color: 'black', height : 50, width: 200, fontSize: 15, marginBottom: 30, paddingBottom:15}}
+            
               selectedValue={penProvide1}
               onValueChange={(value) => setPen1(value)}
               mode="dropdown"
@@ -570,7 +572,8 @@ const onlineInsulinRegDB = () => {
           {shouldShow && (halfOrFull1() == false)? (<View style={styles.field } >
               <Text style={styles.text_footer}>Insulin Type</Text>
               <Picker
-               itemStyle={{color: '#000'}}
+                itemStyle={{color: 'black', height : 50, width: 300, fontSize: 15, marginBottom: 30, paddingBottom:15}}
+            
               selectedValue={iType1}
               onValueChange={(value) => setiType1(value)}
               mode="dropdown"
@@ -602,7 +605,7 @@ const onlineInsulinRegDB = () => {
         <TouchableOpacity onPress={showTimepicker1} 
     >
 <Text testID="dateTimePicker" style={styles.text_footerD} >
-                {moment.utc(date1).format('h:mm a')}
+                {moment(date1).format('h:mm a')}
                 </Text> 
     </TouchableOpacity>
       
@@ -622,7 +625,8 @@ const onlineInsulinRegDB = () => {
           {shouldShow2 && halfOrFull2() ? (<View style={styles.field } >
             <Text style={styles.text_footer}>Insulin Type</Text>
               <Picker
-               itemStyle={{color: '#000'}}
+  itemStyle={{color: 'black', height : 50, width: 200, fontSize: 15, marginBottom: 30, paddingBottom:15}}
+            
               selectedValue={penProvide2}
               onValueChange={(value) => setPen2(value)}
               mode="dropdown"
@@ -641,8 +645,8 @@ const onlineInsulinRegDB = () => {
           {shouldShow2 && (halfOrFull2() == false)? (<View style={styles.field } >
               <Text style={styles.text_footer}>Insulin Type</Text>
               <Picker
-               itemStyle={{color: '#000'}}
-              itemStyle={{color: '#000'}}
+                 itemStyle={{color: 'black', height : 50, width: 300, fontSize: 15, marginBottom: 30, paddingBottom:15}}
+            
               selectedValue={iType2}
               onValueChange={(value) => setiType2(value)}
               mode="dropdown"
@@ -673,7 +677,7 @@ const onlineInsulinRegDB = () => {
         <TouchableOpacity onPress={showTimepicker2} 
     >
 <Text testID="dateTimePicker" style={styles.text_footerD} >
-                {moment.utc(date2).format('h:mm a')}
+                {moment(date2).format('h:mm a')}
                 </Text> 
     </TouchableOpacity>
       
@@ -831,8 +835,7 @@ titleBS: {
 picker: {
   width: 150,
   height: 30,
-  borderWidth: 2,
-  borderColor: '#4c4c4c',
+  marginBottom: 30,
   color: 'grey'
     
 },
@@ -917,5 +920,4 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
 

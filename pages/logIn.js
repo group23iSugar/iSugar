@@ -18,11 +18,11 @@ import {
   Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import FontAwesome from 'react-native-vector-icons/FontAwesome';
+// import Feather from 'react-native-vector-icons/Feather';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import react from 'react';
-import SQLite from 'react-native-sqlite-storage';
+// import SQLite from 'react-native-sqlite-storage';
 
 
 
@@ -1104,7 +1104,7 @@ insertInLocalPrev();
       <View style={styles.footer}>
         <Text style={styles.text_footer}>Email</Text>
         <View style={styles.action}>
-          <MaterialIcons name="alternate-email" color="#8CA1BB" size={20} />
+          
 
           <TextInput
             style={styles.textInput}
@@ -1112,9 +1112,7 @@ insertInLocalPrev();
             autoCapitalize="none"
             onChangeText={val => textInputChange(val)}
           />
-          {data.check_textInputChange ? (
-            <Feather name="check-circle" color="green" size={20} />
-          ) : null}
+        
         </View>
 
         <Text
@@ -1128,7 +1126,7 @@ insertInLocalPrev();
           Password
         </Text>
         <View style={styles.action}>
-          <FontAwesome name="lock" color="#8CA1BB" size={20} />
+          
           <TextInput
             style={styles.textInput}
             placeholder="***********"
@@ -1137,11 +1135,7 @@ insertInLocalPrev();
             onChangeText={val => handlePasswordChange(val)}
           />
           <TouchableOpacity onPress={updateSecureTextEntry}>
-            {data.secureTextEntry ? (
-              <Feather name="eye-off" color="grey" size={20} />
-            ) : (
-              <Feather name="eye" color="grey" size={20} />
-            )}
+           
           </TouchableOpacity>
         </View>
 

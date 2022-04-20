@@ -12,12 +12,12 @@ import {  StyleSheet,
   Dimensions,
 Alert} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
+// import FontAwesome from 'react-native-vector-icons/FontAwesome';
+// import Feather from 'react-native-vector-icons/Feather';
 import react from 'react';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-
+global.AccType = 'Patient Account';
   const AccInfo = ({ navigation, route }) =>{
 //  useEffect(() => {
 //   register();
@@ -162,7 +162,8 @@ const validEmail = (val) => {
     const register = async () => {
 
          if ( data.fName.trim().length>2 && data.lName.trim().length>2 && data.isValidEmail == true && data.isValidPassword == true ){
-           onlineDB();
+          navigation.navigate('clinic')
+          //  onlineDB();
           try {
             db.transaction( (tx) => {
                 tx.executeSql(
@@ -254,7 +255,7 @@ const onlineDB = () => {
       alert('Email already exists!');
     } else {
       console.log('Response', response[0].Message);
-      getOnlineInfo(); 
+      // getOnlineInfo(); 
     }
   })
   .catch((error)=>{
@@ -347,13 +348,7 @@ const getOnlineInfo = () => {
                 marginTop: 35
             }]}>Email</Text>
         <View style={styles.action}>
-        <MaterialIcons
-           name="alternate-email"
-           color='#8CA1BB'
-           size={20}
 
-          />
-         
           <TextInput 
           style={styles.textInput}
           placeholder='example@gmail.com'
@@ -372,12 +367,6 @@ const getOnlineInfo = () => {
                 marginTop: 35
             }]}>Password</Text>
         <View style={styles.action}>
-          <FontAwesome
-           name="lock"
-           color='#8CA1BB'
-           size={20}
-
-          />
           <TextInput 
           style={styles.textInput}
           placeholder='***********'
@@ -389,19 +378,7 @@ const getOnlineInfo = () => {
            <TouchableOpacity
                     onPress={updateSecureTextEntry}
                 >
-                    {data.secureTextEntry ? 
-                    <Feather 
-                        name="eye-off"
-                        color="grey"
-                        size={18}
-                    />
-                    :
-                    <Feather 
-                        name="eye"
-                        color="grey"
-                        size={18}
-                    />
-                    }
+                    
                 </TouchableOpacity>
           </View>
           
@@ -537,5 +514,4 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
 

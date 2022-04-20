@@ -424,4 +424,3 @@ buttonV: {
   },
 });
 export default exercise;
-

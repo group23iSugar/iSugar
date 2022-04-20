@@ -8,7 +8,6 @@ import {  StyleSheet,
   TextInput,
   ScrollView,
   Dimensions} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -16,7 +15,7 @@ import moment from 'moment';
 
 
   const isf = ({ navigation, route }) =>{
-   
+    var AccType = 'Patient Account'; 
   //---------------------------------------------------
     const[bgTarget1, setbgTarget1] = useState(0);
     const[bgTarget2, setbgTarget2] = useState(0);
@@ -669,7 +668,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker1F} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date1From).format('h:mm a')}
+                             {moment(date1From).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    
@@ -689,7 +688,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker1T} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date1TO).format('h:mm a')}
+                             {moment(date1TO).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    
@@ -741,7 +740,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker2F} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date2From).format('h:mm a')}
+                             {moment(date2From).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    
@@ -761,7 +760,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker2T} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date2TO).format('h:mm a')}
+                             {moment(date2TO).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    
@@ -811,7 +810,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker3F} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date3From).format('h:mm a')}
+                             {moment(date3From).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    
@@ -831,7 +830,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker3T} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date3TO).format('h:mm a')}
+                             {moment(date3TO).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    
@@ -882,7 +881,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker4F} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date4From).format('h:mm a')}
+                             {moment(date4From).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    
@@ -902,7 +901,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker4T} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date4TO).format('h:mm a')}
+                             {moment(date4TO).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    
@@ -952,7 +951,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker5F} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date5From).format('h:mm a')}
+                             {moment(date5From).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    
@@ -972,7 +971,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker5T} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date5TO).format('h:mm a')}
+                             {moment(date5TO).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    
@@ -1022,7 +1021,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker6F} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date6From).format('h:mm a')}
+                             {moment(date6From).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    
@@ -1042,7 +1041,7 @@ start correction:</Text>
                      <TouchableOpacity onPress={showTimepicker6T} 
                  >
              <Text testID="dateTimePicker" style={styles.text_footerD} >
-                             {moment.utc(date6TO).format('h:mm a')}
+                             {moment(date6TO).format('h:mm a')}
                              </Text> 
                  </TouchableOpacity>
                    

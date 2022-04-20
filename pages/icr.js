@@ -23,7 +23,7 @@ var calcMethod = [
   {label: 'I use sliding scale to determine my meal insulin'+'\n', value: 'Sliding Scale', valueIndex: 1},
   ];
   const icr = ({ navigation, route }) =>{
-   
+    var AccType = 'Patient Account'; 
     useEffect(() => {
       MethodForCalc('ICR');
         }, []);
@@ -871,7 +871,6 @@ innerView: {
     flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
 }
 });
-
 
 
 

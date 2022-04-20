@@ -10,15 +10,12 @@ import {  StyleSheet,
   TextInput,
   ScrollView,
   Dimensions} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import moment from 'moment';
 
 
   const ketones = ({ navigation, route }) =>{
-   
+    var AccType = 'Patient Account'; 
   const [monitor, setMonitor] = useState('0');
   const [levelUnit, setlevelUnit] = useState('0');
   const [ketones, setketones] = useState('0');
@@ -216,7 +213,7 @@ fetch(InsertAPIURL,{
           <View style={styles.action}>
               <Text style={styles.text_footer}>Type of Glucose Monitoring</Text>
               <Picker
-               itemStyle={{color: '#000'}}
+               itemStyle={{color: 'black', height : 50, width: 340, fontSize: 15, marginBottom: 30, paddingBottom:15}}
               selectedValue={monitor}
               onValueChange={(value) => setMonitor(value)}
               mode="dropdown"
@@ -233,7 +230,7 @@ fetch(InsertAPIURL,{
 <View style={styles.action}>
               <Text style={styles.text_footer}>Blood glucose level unit in the glucometer:</Text>
               <Picker
-               itemStyle={{color: '#000'}}
+              itemStyle={{color: 'black', height : 50, width: 200, fontSize: 15, marginBottom: 30, paddingBottom:15}}
               selectedValue={levelUnit}
               onValueChange={(value) => setlevelUnit(value)}
               mode="dropdown"
@@ -250,7 +247,7 @@ fetch(InsertAPIURL,{
 <View style={styles.action}>
               <Text style={styles.text_footer}>Type of Ketones measurement:</Text>
               <Picker
-               itemStyle={{color: '#000'}}
+               itemStyle={{color: 'black', height : 50, width: 250, fontSize: 15, marginBottom: 30, paddingBottom:15}}
               selectedValue={ketones}
               onValueChange={(value) => setketones(value)}
               mode="dropdown"
@@ -414,12 +411,11 @@ titleB: {
   backgroundColor: '#E7EFFA'
 },
 picker: {
-  width: 150,
-  height: 30,
-  borderWidth: 2,
-  borderColor: '#4c4c4c',
-  color: 'grey'
-    
+    width: 150,
+    height: 30,
+    marginBottom: 20,
+    marginLeft: 0,
+    color: 'grey'
 },
 pickerP: {
   width: 90,
@@ -493,5 +489,4 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
 

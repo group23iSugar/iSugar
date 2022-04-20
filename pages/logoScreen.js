@@ -8,8 +8,8 @@ import { StyleSheet,
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LinearGradient from 'react-native-linear-gradient';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import EvilIcons from 'react-native-vector-icons/EvilIcons';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 
@@ -26,7 +26,7 @@ const logoScreen = ({ navigation }) => {
          </View>
       </LinearGradient>
       <View style={styles.footer}>
-        <Text style={styles.title}>Join iSugar for a better T1D life<EvilIcons name="heart" size={25} color="#FF6B6B"  /> </Text>
+        <Text style={styles.title}>Join iSugar for a better T1D life </Text>
         <Text>
 
 
@@ -42,11 +42,7 @@ const logoScreen = ({ navigation }) => {
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={styles.titleB}>Get Started<MaterialIcons 
-                        name="navigate-next"
-                        color='#05375a'
-                        size={20}
-                    /></Text>
+                    <Text style={styles.titleB}>Get Started</Text>
                   
                 </LinearGradient>
             </TouchableOpacity>
@@ -124,5 +120,4 @@ buttonR: {
   marginRight: 15
 }
 });
-
 

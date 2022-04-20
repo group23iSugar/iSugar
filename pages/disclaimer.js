@@ -13,8 +13,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import react from 'react';
 
 
-  const disclaimer = ({ navigation, route }) =>{
-    const AccountT = route.params;
+  const disclaimer = ({ navigation}) =>{
+    const AccountT = '';
     return (
       <View style={styles.container}>
       <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
@@ -176,5 +176,4 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
 

@@ -10,21 +10,18 @@ import {  StyleSheet,
   TextInput,
   ScrollView,
   Dimensions} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
-import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
-import react from 'react';
 
 
   const personalInfo = ({ navigation, route }) =>{
     
-
+var AccType = 'Patient Account'; 
     useEffect(() => {
-        search();
+        // search();
           }, []);
-console.log(uID);
+
     const search = async () => {
 
       try {
@@ -55,8 +52,8 @@ console.log(uID);
  
   
 
-  console.log(AccType);
-  console.log(uID);
+//   console.log(AccType);
+//   console.log(uID);
 
     const [dateOfBirth, setDateOfBirth] = useState(new Date());
     const [dateOfHB1AC, setDateOfHB1AC] = useState(new Date());
@@ -373,7 +370,7 @@ fetch(InsertAPIURL,{
 <Text style={styles.text_footer}>Date of Birth:</Text>
 <View style={styles.dateB}>
         <TouchableOpacity onPress={showDatepicker} style={styles.dateB} >
-        <MaterialIcons name="date-range" size={30} color="#8CA1BB"  />
+        {/* <MaterialIcons name="date-range" size={30} color="#8CA1BB"  /> */}
         <Text testID="dateOfBirthText" style={styles.text_footerD} >
                 {moment.utc(dateOfBirth).format('DD/MM/YYYY')}
                 </Text> 
@@ -444,7 +441,7 @@ fetch(InsertAPIURL,{
 <Text style={styles.text_footer}>Date of Latest HB1AC:</Text>
 <View style={styles.dateB}>
         <TouchableOpacity onPress={showDatepicker2} style={styles.dateB} >
-        <MaterialIcons name="date-range" size={30} color="#8CA1BB"  />
+        {/* <MaterialIcons name="date-range" size={30} color="#8CA1BB"  /> */}
         <Text testID="dateOfHB1ACText" style={styles.text_footerD} >
                 {moment.utc(dateOfHB1AC).format('DD/MM/YYYY')}
                 </Text> 
@@ -674,5 +671,4 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
 

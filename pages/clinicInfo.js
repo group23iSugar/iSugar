@@ -10,7 +10,7 @@ import {  StyleSheet,
   TextInput,
   ScrollView,
   Dimensions} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -51,7 +51,7 @@ Diabetescenter = center;
   };
 
   const showDatepicker = () => {
-    showMode('Year');
+    showMode('date');
   };
    
   const cNameCheck = (val) => {
@@ -227,8 +227,11 @@ const onlineDBOther = () => {
       <ScrollView>
           <View style={styles.action}>
               <Text style={styles.text_footer}>Diabetes Center/Clinic</Text>
-              <Picker
-              itemStyle={{color: 'black'}}
+         
+      
+</View>
+<Picker
+              itemStyle={{color: 'black', height : 50, width: 200, fontSize: 15, marginBottom: 30, paddingBottom:15}}
               selectedValue={center}
               onValueChange={(value) => setCenter(value)}
               mode="dropdown"
@@ -239,9 +242,6 @@ const onlineDBOther = () => {
             <Picker.Item label= 'Other' value='2'    ></Picker.Item>
 
         </Picker>
-      
-</View>
-
 {center== '2'? 
 <View>
 <Text style={styles.text_footer}>Center Name</Text>
@@ -288,7 +288,7 @@ null
 <Text style={styles.text_footer}>Diagnosis Date:</Text>
 <View style={styles.dateB}>
         <TouchableOpacity onPress={showDatepicker} style={styles.dateB} >
-        <MaterialIcons name="date-range" size={30} color="#8CA1BB"  />
+        
         <Text testID="dateText" style={styles.text_footerD} >
                 {moment.utc(date).format('DD/MM/YYYY')}
                 </Text>
@@ -305,7 +305,7 @@ null
           testID="dateTimePicker"
           value={date}
           mode={mode}
-          display="default"
+          display="inline"
           onChange={onChange}
         />
       )}
@@ -426,8 +426,8 @@ titleB: {
 picker: {
   width: 150,
   height: 30,
-  borderWidth: 2,
-  borderColor: '#4c4c4c',
+  marginBottom: 20,
+  marginLeft: 0,
   color: 'grey'
 },
 pickerP: {
@@ -506,5 +506,4 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
 
