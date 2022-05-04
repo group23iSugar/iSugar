@@ -80,6 +80,11 @@ import checkFirst from './pages/checkFirst';
 import exercise from './pages/exercise';
 import exercise3 from './pages/exercise3';
 import recheckExercise from './pages/recheckExercise';
+//===========Last Sprint=============
+import logbook from './pages/logbook';
+import logbookAR from './pages/logbookAR';
+import Educational from './pages/Educational';
+import EducationalAR from './pages/EducationalAR';
 
 
 
@@ -298,7 +303,7 @@ try {
     try {
       db.transaction( (tx) => {
           tx.executeSql(
-           'CREATE TABLE IF NOT EXISTS takenInsulinDose (takenInsulinID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, BG_level REAL NOT NULL, ReasonForInsulin TEXT NOT NULL, CHO REAL NOT NULL, insulinDose INTEGER NOT NULL, Dose_time_hours INTEGER NOT NULL, Dose_time_minutes	INTEGER NOT NULL, Dose_Date_Month INTEGER NOT NULL, Dose_Date_Day INTEGER NOT NULL, Dose_Date_Year INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+           'CREATE TABLE IF NOT EXISTS takenInsulinDose (takenInsulinID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, BG_level REAL NOT NULL, ReasonForInsulin TEXT NOT NULL, CHO REAL NOT NULL, insulinDose INTEGER NOT NULL, Dose_time_hours INTEGER NOT NULL, Dose_time_minutes	INTEGER NOT NULL, Dose_Date_Month INTEGER NOT NULL, Dose_Date_Day INTEGER NOT NULL, Dose_Date_Year INTEGER NOT NULL, spicial TEXT, dateString TEXT, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
           []
          );
      })
@@ -598,6 +603,8 @@ global.choDB='';
  
   //======= Previous Dose==========//
   global.prevArr =[];
+  //=======  Final Sprint ==========//
+  global.specialLog=''; 
 
 
 
@@ -694,6 +701,11 @@ const mainStack = () => {
         <Stack.Screen name="exercise" component={exercise}  />
         <Stack.Screen name="exercise3" component={exercise3}  />
         <Stack.Screen name="recheckExercise" component={recheckExercise}  />
+     //=======================Last Sprint!!!!===================
+           <Stack.Screen name="EducationalAR" component={EducationalAR} />
+          <Stack.Screen name="Educational" component={Educational} />
+          <Stack.Screen name="logbook" component={logbook} />
+            <Stack.Screen name="logbookAR" component={logbookAR} />
 
       </Stack.Navigator>
     </NavigationContainer>
