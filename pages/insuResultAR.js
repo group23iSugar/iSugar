@@ -35,6 +35,7 @@ const insuResultAR = ({navigation, route}) => {
     //======================Save into DB========================
 
     var currentTime2 = new Date();
+    var currentTime2String = currentTime2.toString();//new
     var currentTimeHours1 = currentTime2.getHours(); //0-23
     var currentTimeMin1 = currentTime2.getMinutes(); //0-59
     var currentTimeDate_day1 = currentTime2.getDate(); //1-31
@@ -44,8 +45,8 @@ const insuResultAR = ({navigation, route}) => {
       try {
           db.transaction( (tx) => {
               tx.executeSql(
-               'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Day, Dose_Date_Month, Dose_Date_Year) VALUES (?,?,?,?,?,?,?,?,?,?)',
-                 [uID, bgLevelDB, reasonDB, choDB, dose, currentTimeHours1, currentTimeMin1, currentTimeDate_day1, currentTimeDate_month1, currentTimeDate_year1]
+               'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Day, Dose_Date_Month, Dose_Date_Year, spicial, dateString) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+                 [uID, bgLevelDB, reasonDB, choDB, dose, currentTimeHours1, currentTimeMin1, currentTimeDate_day1, currentTimeDate_month1, currentTimeDate_year1, specialLog, currentTime2String]
              );
             
          })

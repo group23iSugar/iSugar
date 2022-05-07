@@ -79,6 +79,8 @@ const updateFlag = () => {
   var nowDate = new Date();
   var nowDateString = moment.utc(nowDate).format('yyyy/MM/DD'); // 
 
+  const [note, setNote] = useState('');
+
   const [appointmentTime, setAppointmentTime] = useState(new Date()); //Store it in database as toString
   const [showAppointmentTime, setShowAppointmentTime] = useState(false);
 
@@ -101,10 +103,10 @@ const updateFlag = () => {
    try {
       db.transaction(tx => {
         tx.executeSql(
-          'INSERT INTO appointments (UserID, appointmentDate) VALUES (?,?)',
-          [222, appointmentToString],
+          'INSERT INTO appointments (UserID, appointmentDate, note) VALUES (?,?,?)',
+          [222, appointmentToString, note],
         );
-        console.log('inserted!!' + appointmentToString);
+        console.log('inserted!!' + appointmentToString + note);
       });
     } catch (error) {
       console.log(error);
@@ -167,7 +169,18 @@ const updateFlag = () => {
             
           </TouchableOpacity>
 
+          <View style={styles.innerView}>
 
+          <Text style={styles.textBody}>Note:     </Text>
+
+          <TextInput
+            
+            placeholder=""
+            onChangeText={value => setNote(value)}
+            style={styles.inputT}
+          />
+
+</View>
             </View>
 
             <Text
@@ -313,7 +326,8 @@ buttonR: {
   
 },
 innerView: {
-    flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
+    flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,alignItems: 'center',
+    alignSelf: 'center',
 }, 
 container: {
   flex: 1,
@@ -374,6 +388,23 @@ textHeader:{
   alignItems: 'center',
   
 
+},
+inputT: {
+  //inputs field
+  color: '#000',
+  width: 210,
+  fontSize: 16,
+  shadowColor: '#000',
+  height: 50,
+  textAlign: 'center',
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowOpacity: 0.23,
+  shadowRadius: 0.62,
+
+  elevation: 2,
 },
 ddown2: {
   //drop down list style

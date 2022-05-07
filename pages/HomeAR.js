@@ -31,7 +31,7 @@ const HomeAR = ({navigation}) => {
     dashBoard();
     ret3();
     //ret4();
-  }, []);
+  }, [appointments]);
 
   const [flag, setFlag] = useState(false);
   const [within, setWitin] = useState(0);
@@ -69,10 +69,9 @@ const HomeAR = ({navigation}) => {
     } else if (addBGlevel > startBG) {
       //startbgcorr =150
       navigation.navigate('CalcAR');
-    }else if (reason == '1'){
+    } else if (reason == '1') {
       navigation.navigate('CalcAR');
     }
-    
   };
 
   const dashBoard = async () => {
@@ -205,34 +204,44 @@ const HomeAR = ({navigation}) => {
     }
   };
   //==================================================
-  const ret4 = () => { //Appointments
-    var currentD =  new Date();
+  const ret4 = () => {
+    //Appointments
+    var currentD = new Date();
     var counter = 0;
     var aaa = [];
     try {
       db.transaction(tx => {
         tx.executeSql(
-          'SELECT UserID, appointmentDate FROM appointments',
+          'SELECT UserID, appointmentDate, note FROM appointments',
           [],
           (tx, results) => {
             var rows = results.rows;
-            
+
             for (let i = 0; i < rows.length; i++) {
               //console.log(rows.item(i).appointmentDate + 'iiiiiiiiii');
               // var UID = rows.item(i).UserID;
               // if (UID == 222) {
-                 console.log(rows.item(i).appointmentDate + 'iiiiiiiiii');
-                 var d = rows.item(i).appointmentDate;
-                 var toObjd = new Date(d);
-                 var momFormatd = moment(toObjd).format('dddd yyyy/MM/DD');
-                 var weeksNum =  (toObjd-currentD)/(1000 * 60 * 60 *24*7);
-                 var weeksNum2= Math.floor(weeksNum);
-                 if((toObjd-currentD)/(1000 * 60 * 60 *24) > 0){
-                   
-                  //aaa.push(momFormatd+'\n');
-                  aaa.push({key: counter, name: momFormatd, weeks: weeksNum2});
-                  counter++;
-                 }
+              console.log(rows.item(i).appointmentDate + 'iiiiiiiiii');
+              var d = rows.item(i).appointmentDate;
+              var notee = rows.item(i).note;
+              console.log('Check note111  ' + rows.item(i).note);
+              var toObjd = new Date(d);
+              var momFormatd = moment(toObjd).format('dddd yyyy/MM/DD');
+              var weeksNum = (toObjd - currentD) / (1000 * 60 * 60 * 24 * 7);
+              var weeksNum2 = Math.floor(weeksNum);
+              if ((toObjd - currentD) / (1000 * 60 * 60 * 24) > 0) {
+                //check if it's new
+                console.log('Check note  ' + notee);
+
+                //aaa.push(momFormatd+'\n');
+                aaa.push({
+                  key: counter,
+                  name: momFormatd,
+                  weeks: weeksNum2,
+                  note: notee,
+                });
+                counter++;
+              }
 
               // }
             }
@@ -247,63 +256,58 @@ const HomeAR = ({navigation}) => {
   };
 
   //===============================Online DB===========================
-const updateFlag = () => {
+  const updateFlag = () => {
+    var time = new Date();
+    var timeString = time.toString();
+    console.log('in DB of check flag');
+    // eslint-disable-next-line quotes
+    var InsertAPIURL = 'http://192.168.56.1/isugar/updateEMsgFlag.php'; //API to  signup
 
-      var time = new Date(); 
-      var timeString = time.toString();
-            console.log('in DB of check flag');
-            // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/updateEMsgFlag.php";   //API to  signup
+    var headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    var Data = {
+      UserID: onlinUserID,
+      BGlevel: addBGlevel,
+      Date_Time: timeString,
+    };
 
-            var headers = {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            };
-            var Data = {
-              UserID: onlinUserID,
-              BGlevel: addBGlevel,
-              Date_Time: timeString,
-
-
-
-            };
-
-          // FETCH func ------------------------------------
-          fetch(InsertAPIURL,{
-              method:'POST',
-              headers:headers,
-              body: JSON.stringify(Data),//convert data to JSON
-          })
-          .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-          .then((response)=>{
-          })
-          .catch((error)=>{
-              alert('Error Occured' + error);
-          })
-          }
-//===================================================================
+    // FETCH func ------------------------------------
+    fetch(InsertAPIURL, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(Data), //convert data to JSON
+    })
+      .then(response => response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then(response => {})
+      .catch(error => {
+        alert('Error Occured' + error);
+      });
+  };
+  //===================================================================
   //==================================================
   const widthScreen = Dimensions.get('window').width;
   const heightScreen = Dimensions.get('window').height;
   const data = [
     {
-      name: 'تحت الهدف',
+      name: 'أقل من الهدف',
       population: under,
-      color: '#9286FF',
+      color: '#FF5541',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15,
     },
     {
-      name: 'فوق الهدف',
+      name: 'أعلى من الهدف',
       population: above,
-      color: '#FF8686',
+      color: '#FF9A41',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15,
     },
     {
-      name: 'مع الهدف',
+      name: 'ضمن الهدف',
       population: within,
-      color: '#86FF9E',
+      color: '#41FF48',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15,
     },
@@ -321,11 +325,11 @@ const updateFlag = () => {
   return (
     //dashBoard(),
 
-     <View style={styles.container}>
+    <View style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
         <Image source={require('./images/logo.png')} style={styles.pic} />
       </View>
-      <View>
+      <ScrollView>
         <Text
           style={{
             color: '#000',
@@ -335,314 +339,325 @@ const updateFlag = () => {
             paddingRight: 15,
             fontWeight: 'bold',
           }}>
-          الرئيسية
+          Home
         </Text>
-
-         <View style={styles.innerCotainer}>
-
-        <Text style={styles.textBody}>آخر قراءة:{lastBG + '\n'}الوقت: {lastBGtime}
-        </Text>
-
-        <Text style={styles.textBody}>القرائات خلال السبع ايام الماضية:</Text>
-        <TouchableOpacity
-          style={{
-            marginRight: 350,
-          }}
-          onPress={dashBoard}>
-          <Image
-            source={require('./images/upd.png')}
-            style={{height: 25, width: 25}}
-          />
-        </TouchableOpacity>
-
-        {bgArr.length > 0 && (within > 0 || above > 0 || under > 0) ? (
-          <PieChart
-            data={data}
-            width={widthScreen}
-            height={150}
-            chartConfig={chartConfig}
-            accessor={'population'}
-            backgroundColor={'#ECECEC'}
-
-            //absolute
-          />
-        ) : (
-          <ActivityIndicator size="large" />
-        )}
-        {flag ? (
-          <Text style={styles.msg}>
-            تواصل مع عيادة السكر لأنك 50% من المرات فوق الهدف
-          </Text>
-        ) : null}
-        <Text>{'\n\n'}</Text>
-         </View>
 
         <View style={styles.innerCotainer}>
-        <Text style={{fontSize: 15, paddingTop: 15}}>.               mg/dl {'\n'}            .</Text>
+          <Text style={styles.textBody}>
+            آخر قياس لمستوى سكر الدم:{lastBG + '\n'}الوقت: {lastBGtime}
+          </Text>
 
-        <TextInput
-  keyboardType="decimal-pad"
-  placeholder="000.00"
-  onChangeText={value => setAddBGlevel(value)}
-  style={styles.inputT}
-/>
-
-
-
-        <Text style={styles.textBody}>اضافة قراءة جديدة: </Text>
-
-
-        <TouchableOpacity style={styles.buttonV} onPress={addBG}>
-              <Text style={{color:'white', fontSize: 10, textAlign: 'center', fontWeight: 'bold'}}>إضافة</Text>
+          <Text
+            style={{
+              fontSize: 20,
+              color: '#05375a',
+              textAlign: 'center',
+              paddingLeft: 200,
+            }}>
+            {'\n'} الوقت في الهدف:{''}
+          </Text>
+          <TouchableOpacity
+            style={{
+              marginRight: 350,
+            }}
+            onPress={dashBoard}>
+            <Image
+              source={require('./images/upd.png')}
+              style={{height: 25, width: 25}}
+            />
           </TouchableOpacity>
 
-        <Picker
+          {bgArr.length > 0 && (within > 0 || above > 0 || under > 0) ? (
+            <PieChart
+              data={data}
+              width={widthScreen}
+              height={150}
+              chartConfig={chartConfig}
+              accessor={'population'}
+              backgroundColor={'white'}
+
+              //absolute
+            />
+          ) : (
+            <ActivityIndicator size="large" />
+          )}
+          {flag ? (
+            <Text style={styles.msg}>
+              الرجاء التواصل مع فريق السكر حيث أن قراءات مستوى سكر الدم أعلى من
+              الهدف في ٥٠٪ من الوقت أو أكثر.
+            </Text>
+          ) : null}
+          <Text>{'\n\n'}</Text>
+        </View>
+
+        <View style={styles.innerCotainer}>
+          <Text style={{fontSize: 15, paddingTop: 15}}>mg/dl</Text>
+          <TextInput
+            keyboardType="decimal-pad"
+            placeholder="000.00"
+            onChangeText={value => setAddBGlevel(value)}
+            style={styles.inputT}
+          />
+
+          <Text style={styles.textBody}>إضافة قياس جديد: </Text>
+
+          <Picker
             itemStyle={{color: 'black'}}
             selectedValue={reason}
             onValueChange={value => setReason(value)}
             mode="dropdown"
             style={styles.ddown}>
-            <Picker.Item label="وقت النوم" value="0"></Picker.Item>
-            <Picker.Item label="قبل وجبة" value="1"></Picker.Item>
-            <Picker.Item label="آخر" value="2"></Picker.Item>
+            <Picker.Item label="قبل النوم" value="0"></Picker.Item>
+            <Picker.Item label="قبل الوجبة" value="1"></Picker.Item>
+            <Picker.Item label="أخرى" value="2"></Picker.Item>
           </Picker>
+          <Text style={styles.textBody}>سبب القياس: </Text>
 
-          <Text style={styles.textBody}>سبب القراءة: </Text>
-
-
-       
-
-
-
-
-          </View>
-            <View style={styles.innerCotainer2}>
-                    <TouchableOpacity
-          style={{
-            marginRight: 350,
-          }}
-          onPress={ret4}>
-          <Image
-            source={require('./images/upd.png')}
-            style={{height: 25, width: 25}}
-          />
-        </TouchableOpacity>
-
-            <Text style={styles.textBody}> المواعيد القادمة:{'\n'}
+          <TouchableOpacity style={styles.buttonV} onPress={addBG}>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 10,
+                textAlign: 'center',
+                fontWeight: 'bold',
+              }}>
+              إضافة
             </Text>
-            <FlatList
-            data={appointments}
-            renderItem={({ item }) => (<TouchableOpacity onPress={()=>{alert('لديك موعد في العيادة بعد '+item.weeks+' اسابيع في تاريخ  '+item.name+'. If you are scheduled to have your annual lab work please don’t forget to do them.')}}><Text style={styles.textBody2}>{item.name}</Text></TouchableOpacity>)}
-              />
-
-
-          <TouchableOpacity  style={styles.buttonR} onPress={()=>{navigation.navigate('appointmentsAR')}}>
-           
-              <Text style={{color:'white', fontSize: 15, textAlign: 'center', fontWeight: 'bold'}}>إضافة موعد</Text>
-
-
-  
-            
           </TouchableOpacity>
-            
+        </View>
+        <View style={styles.innerCotainer2}>
+          <TouchableOpacity
+            style={{
+              marginRight: 350,
+            }}
+            onPress={ret4}>
+            <Image
+              source={require('./images/upd.png')}
+              style={{height: 25, width: 25}}
+            />
+          </TouchableOpacity>
 
-            </View>
-            
-        
-      </View>
-      
-   </View>
+          <Text style={styles.textBody}>
+            {' '}
+            مواعيد عيادات السكري القادمة:{'\n'}
+          </Text>
+          <FlatList
+            data={appointments}
+            renderItem={({item}) => (
+              <TouchableOpacity
+                onPress={() => {
+                  alert(
+                    'لديك موعد في مركز السكر بعد ' +
+                      item.weeks +
+                      ' اسابيع في ' +
+                      item.name +
+                      '. إذا كان لديك تحاليل سنوية لطفاً لا تنساها.',
+                  );
+                }}>
+                <Text style={styles.textBody2}>
+                  {item.name} | {item.note}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+
+          <TouchableOpacity
+            style={styles.buttonR}
+            onPress={() => {
+              navigation.navigate('appointmentsAR');
+            }}>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 15,
+                textAlign: 'center',
+                fontWeight: 'bold',
+              }}>
+              إضافة موعد جديد
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-
   pic: {
     width: 70,
     height: 90,
   },
 
-
-//====================newStyle========================
-container: {
+  //====================newStyle========================
+  container: {
     flex: 1,
     backgroundColor: '#EEF0F2',
   },
-//   pic: {
-//     width: height_logo,
-//     height: height_logo,
-//     marginRight: 10,
-// },
+  //   pic: {
+  //     width: height_logo,
+  //     height: height_logo,
+  //     marginRight: 10,
+  // },
   header: {
     justifyContent: 'center',
-    alignItems: 'center'
-},
-body: {
+    alignItems: 'center',
+  },
+  body: {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 50,
     marginBottom: 20,
-
-},
-textBody:{
-    
+  },
+  textBody: {
     fontSize: 20,
-    color: '#05375a', 
+    color: '#05375a',
     textAlign: 'right',
     fontWeight: 'bold',
-    paddingLeft: 30,
- }, 
- textBody2:{
-   marginTop:5,
-   padding: 10,
-    
-  fontSize: 15,
-  backgroundColor: '#506c80', 
-  color: 'white',
-  textAlign: 'center',
-  fontWeight: 'bold',
-  borderRadius: 10,
-}, 
- innerCotainer: {
-  backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 5, width: 380,
-       flexDirection: 'row',
+    marginLeft: 100,
+  },
+  textBody2: {
+    marginTop: 5,
+    padding: 10,
+
+    fontSize: 15,
+    backgroundColor: '#506c80',
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    borderRadius: 10,
+  },
+  innerCotainer: {
+    backgroundColor: 'white',
+    margin: 10,
+    borderRadius: 15,
+    padding: 5,
+    width: 380,
+    flexDirection: 'row',
     flexWrap: 'wrap',
     alignSelf: 'center',
-              shadowColor: "#000",
-              shadowOffset: {
-              width: 0,
-              height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-},
-innerCotainer2: {
-  backgroundColor: 'white',
-  alignItems: 'center',
-  borderRadius: 15,
-  paddingBottom: 45,
-  marginBottom:100,
-  width: 380,
-      
-    
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  innerCotainer2: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    borderRadius: 15,
+    paddingBottom: 45,
+    marginBottom: 100,
+    width: 380,
+
     alignSelf: 'center',
-              shadowColor: "#000",
-              shadowOffset: {
-              width: 0,
-              height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-},
-buttonV: {
-  backgroundColor: '#05375a',
-  alignItems: 'center',
-  width: 50,
-  height: 35,
-  justifyContent: 'center',
-  borderRadius: 15,
-  flexDirection: 'row',
-  shadowColor: "#000",
-              shadowOffset: {
-              width: 0,
-              height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-  
-  
-  
-},
-buttonR: {
-
-  backgroundColor: '#05375a',
-  alignItems: 'center',
-  width: 150,
-  height: 35,
-  marginTop:20,
-  justifyContent: 'center',
-  borderRadius: 15,
-  flexDirection: 'row',
-  shadowColor: "#000",
-              shadowOffset: {
-              width: 0,
-              height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-  
-  
-},
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  buttonV: {
+    backgroundColor: '#05375a',
+    alignItems: 'center',
+    width: 50,
+    height: 35,
+    justifyContent: 'center',
+    borderRadius: 15,
+    flexDirection: 'row',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  buttonR: {
+    backgroundColor: '#05375a',
+    alignItems: 'center',
+    width: 150,
+    height: 35,
+    marginTop: 20,
+    justifyContent: 'center',
+    borderRadius: 15,
+    flexDirection: 'row',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
   ddown: {
-  //drop down list style
+    //drop down list style
 
+    shadowColor: '#000',
+    alignSelf: 'center',
+    width: 140,
 
-  shadowColor: '#000',
-  alignSelf: 'center',
-  width: 140,
-
-
-  alignItems: 'center',
-  
-
-},
-ddown2: {
-  //drop down list style
-
-
-  marginTop: 20,
-  marginRight: 10,
-  shadowColor: '#000',
-
-  width: 100,
-  fontSize: 5,
-
-  shadowOffset: {
-    width: 0,
-    height: 1,
+    alignItems: 'center',
   },
-  shadowOpacity: 0.33,
-  shadowRadius: 0.62,
+  ddown2: {
+    //drop down list style
 
-  elevation: 7,
-  backgroundColor: '#f5f5f5',
-},
+    marginTop: 20,
+    marginRight: 10,
+    shadowColor: '#000',
+
+    width: 100,
+    fontSize: 5,
+
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.33,
+    shadowRadius: 0.62,
+
+    elevation: 7,
+    backgroundColor: '#f5f5f5',
+  },
   ddown3: {
-  //drop down list style
+    //drop down list style
 
+    marginTop: 20,
+    marginRight: 10,
+    shadowColor: '#000',
 
-  marginTop: 20,
-  marginRight: 10,
-  shadowColor: '#000',
+    width: 130,
+    fontSize: 5,
 
-  width: 130,
-  fontSize: 5,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.33,
+    shadowRadius: 0.62,
 
-  shadowOffset: {
-    width: 0,
-    height: 1,
+    elevation: 7,
+    backgroundColor: '#f5f5f5',
   },
-  shadowOpacity: 0.33,
-  shadowRadius: 0.62,
-
-  elevation: 7,
-  backgroundColor: '#f5f5f5',
-},
-picker: {
-  color: 'grey'
-},
- msg: {
+  picker: {
+    color: 'grey',
+  },
+  msg: {
     //lables
     paddingRight: 20,
     paddingTop: 15,
     fontSize: 18,
     color: 'red',
+    textAlign: 'right',
   },
-//====================newStyle========================
+  //====================newStyle========================
 });
 
 export default HomeAR;

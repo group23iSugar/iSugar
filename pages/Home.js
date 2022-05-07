@@ -15,8 +15,12 @@ import {
   Switch,
   FlatList,
   Dimensions,
-} from 'react-native'
+} from 'react-native';
+import ModalDropdown from 'react-native-modal-dropdown';
+import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PieChart} from 'react-native-chart-kit';
 import moment from 'moment';
 //import { ActivityIndicator, Colors } from 'react-native-paper';
@@ -208,7 +212,7 @@ const Home = ({navigation}) => {
     try {
       db.transaction(tx => {
         tx.executeSql(
-          'SELECT UserID, appointmentDate FROM appointments',
+          'SELECT UserID, appointmentDate, note FROM appointments',
           [],
           (tx, results) => {
             var rows = results.rows;
@@ -218,15 +222,19 @@ const Home = ({navigation}) => {
               // var UID = rows.item(i).UserID;
               // if (UID == 222) {
                  console.log(rows.item(i).appointmentDate + 'iiiiiiiiii');
+                 
+                 var notee = rows.item(i).note;
+                 console.log('Check note111  '+ rows.item(i).note);
                  var d = rows.item(i).appointmentDate;
                  var toObjd = new Date(d);
                  var momFormatd = moment(toObjd).format('dddd yyyy/MM/DD');
                  var weeksNum =  (toObjd-currentD)/(1000 * 60 * 60 *24*7);
                  var weeksNum2= Math.floor(weeksNum);
                  if((toObjd-currentD)/(1000 * 60 * 60 *24) > 0){ //check if it's new
+                  console.log('Check note  '+ notee);
                    
                   //aaa.push(momFormatd+'\n');
-                  aaa.push({key: counter, name: momFormatd, weeks: weeksNum2});
+                  aaa.push({key: counter, name: momFormatd, weeks: weeksNum2, note: notee});
                   counter++;
                  }
 
@@ -285,21 +293,21 @@ const updateFlag = () => {
     {
       name: 'Under Target',
       population: under,
-      color: '#9286FF',
+      color: '#FF5541',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15,
     },
     {
       name: 'Above Target',
       population: above,
-      color: '#FF8686',
+      color: '#FF9A41',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15,
     },
     {
       name: 'Within Target',
       population: within,
-      color: '#86FF9E',
+      color: '#41FF48',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15,
     },
@@ -319,7 +327,7 @@ const updateFlag = () => {
 
      <View style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
+        <Image source={require('./images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView>
         <Text
@@ -346,7 +354,7 @@ const updateFlag = () => {
           }}
           onPress={dashBoard}>
           <Image
-            source={require('../images/upd.png')}
+            source={require('./images/upd.png')}
             style={{height: 25, width: 25}}
           />
         </TouchableOpacity>
@@ -358,7 +366,7 @@ const updateFlag = () => {
             height={150}
             chartConfig={chartConfig}
             accessor={'population'}
-            backgroundColor={'#ECECEC'}
+            backgroundColor={'white'}
 
             //absolute
           />
@@ -410,7 +418,7 @@ const updateFlag = () => {
           }}
           onPress={ret4}>
           <Image
-            source={require('../images/upd.png')}
+            source={require('./images/upd.png')}
             style={{height: 25, width: 25}}
           />
         </TouchableOpacity>
@@ -419,7 +427,7 @@ const updateFlag = () => {
             </Text>
             <FlatList
             data={appointments}
-            renderItem={({ item }) => (<TouchableOpacity onPress={()=>{alert('You have an appointment at the diabetes Center after '+item.weeks+' weeks on '+item.name+'. If you are scheduled to have your annual lab work please don’t forget to do them.')}}><Text style={styles.textBody2}>{item.name}</Text></TouchableOpacity>)}
+            renderItem={({ item }) => (<TouchableOpacity onPress={()=>{alert('You have an appointment at the diabetes Center after '+item.weeks+' weeks on '+item.name+'. If you are scheduled to have your annual lab work please don’t forget to do them.')}}><Text style={styles.textBody2}>{item.name} | {item.note}</Text></TouchableOpacity>)}
               />
 
 

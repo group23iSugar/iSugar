@@ -64,6 +64,16 @@ const CalcAR = ({navigation, route}) => {
         insulinType == 'Lispro' ||
         insulinType == 'Glulisine')
     ) {
+      specialLog = '';
+      if (isSick){
+        specialLog = specialLog+' SD'
+      }
+      if (isFasting){
+        specialLog = specialLog+' F'
+      }
+      if (isPostEnabled || isPreEnabled){
+        specialLog = specialLog+' E'
+      }
       if (bgLevel > 70) {
         if (reason == '5') {
           if (bgLevel > sBGP) {
@@ -831,6 +841,15 @@ else{//half-units
   const [isPostEnabled, setIsPostEnabled] = useState(false);
   const togglePostSwitch = () =>
     setIsPostEnabled(previousState => !previousState);
+
+        //Sick Switch
+        const [isSick, setIsSick] = useState(false);
+        const toggleSickSwitch = () =>
+          setIsSick(previousState => !previousState);
+            //Fasting Switch
+        const [isFasting, setIsFasting] = useState(false);
+        const toggleFastingSwitch = () =>
+        setIsFasting(previousState => !previousState);
   //=================================================================================
   const [reason, setReason] = useState('0'); //ReasonForInsulin
   const [preDuration, setPreDuration] = useState('14'); //Duration of pre exersize
@@ -858,7 +877,7 @@ else{//half-units
             paddingTop: 20,
             paddingRight: 15,
           }}>
-          حاسبة الإنسولين
+          حاسبة الإنسولين{specialLog}
         </Text>
 
         <View style={styles.innerCotainer}>
@@ -1317,6 +1336,31 @@ else{//half-units
             )}
           </View>
         ) : null}
+
+<Text style={styles.textBody}>
+          هل انت مريض؟
+        </Text>
+        <Switch
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+          thumbColor={isSick ? '#f4f3f4' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSickSwitch}
+          value={isSick}
+          
+        />
+
+<Text style={styles.textBody}>
+          هل انت صائم؟
+        </Text>
+        <Switch
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+          thumbColor={isFasting ? '#f4f3f4' : '#f4f3f4'}//
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleFastingSwitch}//
+          value={isFasting}//
+          
+        />
+
 
         </View>
 

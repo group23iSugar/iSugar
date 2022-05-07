@@ -30,20 +30,20 @@ import PushNotification from "react-native-push-notification";
 
 const appoinmentsAR = ({navigation}) => {
 
+
+      //==Notification==
+      const handleNotification = ()=>{
+        PushNotification.localNotificationSchedule({
+          channelId: 'test',
+          title: 'Do not forget your appointment this week!',
+          message: 'Do not forget your appointment this week!',
+          date: new Date(appointmentTime-(60*60*24*7*1000)),
+          allowWhileIdle: true,
   
-    //==Notification==
-    const handleNotification = ()=>{
-      PushNotification.localNotificationSchedule({
-        channelId: 'test',
-        title: 'لديك موعد هذا الاسبوع!',
-        message: 'لا تنسى موعدك هذا الاسبوع!',
-        date: new Date(appointmentTime-(60*60*24*7*1000)),//add validation to check if date of notification is valid
-        allowWhileIdle: true,
-
-
-      });
-    }
-    //================
+  
+        });
+      }
+      //================
 //===============================Online DB===========================
 const updateFlag = () => {
 
@@ -79,6 +79,8 @@ const updateFlag = () => {
   var nowDate = new Date();
   var nowDateString = moment.utc(nowDate).format('yyyy/MM/DD'); // 
 
+  const [note, setNote] = useState('');
+
   const [appointmentTime, setAppointmentTime] = useState(new Date()); //Store it in database as toString
   const [showAppointmentTime, setShowAppointmentTime] = useState(false);
 
@@ -101,24 +103,24 @@ const updateFlag = () => {
    try {
       db.transaction(tx => {
         tx.executeSql(
-          'INSERT INTO appointments (UserID, appointmentDate) VALUES (?,?)',
-          [222, appointmentToString],
+          'INSERT INTO appointments (UserID, appointmentDate, note) VALUES (?,?,?)',
+          [222, appointmentToString, note],
         );
-        console.log('inserted!!' + appointmentToString);
+        console.log('inserted!!' + appointmentToString + note);
       });
     } catch (error) {
       console.log(error);
     }
 
-
     //if ((appointmentTime-cDate)/(1000 * 60 * 60 *24) > 7){
-    handleNotification(); //}
+      handleNotification(); //}
 
     
 
-    alert('You have an appointment at the diabetes Center  on '+appointmentToString+'. If you are scheduled to have your annual lab work please don’t forget to do them.');
+
+    alert('لديك موعد في مركز السكر في '+appointmentToString+'. إذا كان لديك تحاليل سنوية لطفاً لا تنساها.');
     navigation.navigate('HomeAR');
-  } else {alert('التاريخ المدخل غير صحيح! \nحاول مجدداً')}
+  } else {alert('التاريخ المدخل غير صحيح! \nالرجاء المحاولة مرة أخرى')}
  }
  
  
@@ -138,21 +140,21 @@ const updateFlag = () => {
             fontSize: 25,
             textAlign: 'center',
             paddingTop: 20,
-            paddingRight: 15,
+            paddingLeft: 15,
             fontWeight: 'bold',
           }}>
-          إضافة موعد جديد
+          موعد جديد
         </Text>
 
          <View style={styles.innerCotainer}>
 
-        <Text style={styles.textBody}>أدخل تاريخ الموعد الجديد:{'\n\n'}</Text>
+        <Text style={styles.textBody}>أدخل تاريخ الموعد{'\n\n'}</Text>
 
         <View>
 
                   <TouchableOpacity
                   style={{
-            marginRight: 80,
+            marginLeft: 80,
             width: 200,
             alignSelf: 'center',
             alignItems: 'center',
@@ -163,11 +165,23 @@ const updateFlag = () => {
                     
           
               
-              <Text style={styles.textBody2}>اختيار التاريخ</Text>
+              <Text style={styles.textBody2}>تحديد التاريخ</Text>
             
           </TouchableOpacity>
 
+          <View style={styles.innerView}>
 
+          
+
+          <TextInput
+            
+            placeholder=""
+            onChangeText={value => setNote(value)}
+            style={styles.inputT}
+          />
+          <Text style={styles.textBody}>ملاحظة: </Text>
+
+</View>
             </View>
 
             <Text
@@ -266,9 +280,13 @@ textBody2:{
 },
 textBody:{
     paddingTop:10,
+    
     fontSize: 20,
     color: '#05375a', 
     textAlign: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     fontWeight: 'bold',
  }, 
  innerCotainer: {
@@ -276,6 +294,7 @@ textBody:{
        flexDirection: 'row',
     flexWrap: 'wrap',
     alignSelf: 'center',
+    justifyContent: 'center',
               shadowColor: "#000",
               shadowOffset: {
               width: 0,
@@ -313,7 +332,8 @@ buttonR: {
   
 },
 innerView: {
-    flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
+    flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,alignItems: 'center',
+    alignSelf: 'center',
 }, 
 container: {
   flex: 1,
@@ -335,8 +355,6 @@ outer: {
   height: 110,
   marginTop: 15,
   marginBottom: 20,
-  justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   shadowColor: "#000",
@@ -351,8 +369,8 @@ height: 2,
 inner: {
   width: 250,
   height: 110,
-  justifyContent: 'center',
-  alignItems: 'center',
+
+
   flexDirection: 'row',
   backgroundColor: 'white'
   
@@ -367,20 +385,36 @@ textHeader:{
 
 
   shadowColor: '#000',
-  alignSelf: 'center',
+
   width: 140,
 
 
-  alignItems: 'center',
+
   
 
+},
+inputT: {
+  //inputs field
+  color: '#000',
+  width: 210,
+  fontSize: 16,
+  shadowColor: '#000',
+  height: 50,
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowOpacity: 0.23,
+  shadowRadius: 0.62,
+
+  elevation: 2,
 },
 ddown2: {
   //drop down list style
 
 
   marginTop: 20,
-  marginRight: 10,
+  marginLeft: 10,
   shadowColor: '#000',
 
   width: 100,
@@ -401,7 +435,7 @@ ddown2: {
 
 
   marginTop: 20,
-  marginRight: 10,
+  marginLeft: 10,
   shadowColor: '#000',
 
   width: 130,
@@ -419,7 +453,7 @@ ddown2: {
 },
 inpTxt: {
   //lables
-  paddingRight: 20,
+  paddingLeft: 20,
   paddingTop: 15,
   fontSize: 18,
 },
