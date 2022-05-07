@@ -89,7 +89,7 @@ const hypoConsciousAR = ({navigation}) => {
   //======================================================
 
   return (
-    <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
+    <LinearGradient colors={['#f5f5f5', '#f5f5f5']} style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
         <Image source={require('./images/logo.png')} style={styles.pic} />
       </View>
