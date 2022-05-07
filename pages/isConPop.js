@@ -119,7 +119,7 @@ import PushNotification from "react-native-push-notification";
     //const AccountT = route.params;
     return (
       <View style={styles.container}>
-      <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
+      <LinearGradient colors={['#f5f5f5', '#f5f5f5','#f5f5f5']} style={styles.container}>
          <View style={styles.header}>
          <Image source={require('./images/logo.png')}
          style={styles.logo}
