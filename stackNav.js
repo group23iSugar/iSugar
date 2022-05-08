@@ -75,17 +75,27 @@ import insuResult from './pages/insuResult';
 import insuResultAR from './pages/insuResultAR';
 import howCalc from './pages/howCalc'
 import howCalcAR from './pages/howCalcAR'
+//=============Travel==============
+import travel from './pages/travel';
+import travelAR from './pages/travelAR';
+//===============pumpFailure========
+import pump from './pages/pumpFailure';
 //==================================
 import checkFirst from './pages/checkFirst';
 import exercise from './pages/exercise';
 import exercise3 from './pages/exercise3';
 import recheckExercise from './pages/recheckExercise';
+//============Fasting=================
+import fasting from './pages/fasting';
+import fastingProfile from './pages/fastingProfile';
+import calcFasting from './pages/calcFasting';
+import calcRecommend from './pages/calcRecommend';
+import guidlines from './pages/guidlines';
 //===========Last Sprint=============
 import logbook from './pages/logbook';
 import logbookAR from './pages/logbookAR';
 import Educational from './pages/Educational';
 import EducationalAR from './pages/EducationalAR';
-
 
 
 
@@ -530,6 +540,54 @@ try {
  console.log(error);
 }
 
+//----------Travel------------
+
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS travel (travelID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, travelDate TEXT NOT NULL, cityName TEXT NOT NULL,  timeDifference	INTEGER NOT NULL, fromOrTO TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+    
+//----------City create and insert---------------
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS city (cityID INTEGER PRIMARY KEY AUTOINCREMENT, cityEnglishName TEXT NOT NULL UNIQUE, cityArabicName	TEXT NOT NULL, fromOrTo	TEXT NOT NULL,  timeDifference	INTEGER NOT NULL)',
+            []
+           );
+           try {
+            db.transaction( (tx) => {
+                tx.executeSql(
+                  'INSERT INTO city (cityEnglishName, cityArabicName, fromOrTo, timeDifference) VALUES (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?)',
+                ['Abu Dhabi, United Arab Emirates', 'أبوظبي، الإمارات العربية المتحدة', 'from', '1', 'Abuja, Nigeria', 'أبوجا، نيجيريا', 'from', '-2','Accra, Ghana', 'أكرا، غانا', 'from', '-3','Addis Ababa, Ethiopia', 'أديس أبابا، اثيوبيا', 'from', '0','Algiers, Algeria', 'الجزائر العاصمة، الجزائر', 'from', '-2','Alofi, Niue', 'ألوفي، نيوي', 'from', '-14','Amman, Jordan', 'عمّان، الأردن', 'from', '-1','Amsterdam, Netherlands', 'أمستردام، هولندا', 'from', '-2','Andorra La Vella, Andorra', 'أندورا لا فيلا، أندورا', 'from', '-2','Ankara, Turkey', 'أنقرة، تركيا', 'from', '0','Antananarivo, Madagascar', 'أنتاناناريفو، مدغشقر', 'from', '0','Apia, Samoa', 'أبيا، ساموا', 'from', '10','Ashgabat, Turkmenistan', 'عشق أباد، تركمانستان', 'from', '2', 'Asmara, Eritrea', 'أسمرة، إريتريا', 'from', '0','Asuncion, Paraguay', 'أسونسيون، باراغواي', 'from', '-7','Athens, Greece', 'أثينا، اليونان', 'from', '-1','Baghdad, Iraq', 'بغداد، العراق', 'from', '0','Baku, Azerbaijan', 'باكو، أذربيجان', 'from', '1','Bamako, Mali', 'باماكو، مالي', 'from', '-3','Bandar Seri Begawan, Brunei', 'بندر سري بكاوان، بروناي', 'from', '5']
+               );
+           })
+          } catch (error) {
+           console.log(error);
+          }
+       })
+      } catch (error) {
+       console.log(error);
+      }
+//---------Pump Failure-----------------
+  try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+           'CREATE TABLE IF NOT EXISTS pumpFailure (pumpID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, failDate TEXT NOT NULL, startingDose REAL NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+          []
+         );
+     })
+    } catch (error) {
+     console.log(error);
+    }
+    
+
+
 
 
 global.uID='';
@@ -701,6 +759,15 @@ const mainStack = () => {
         <Stack.Screen name="exercise" component={exercise}  />
         <Stack.Screen name="exercise3" component={exercise3}  />
         <Stack.Screen name="recheckExercise" component={recheckExercise}  />
+      //=========================================================
+            <Stack.Screen name="travelAR" component={travelAR}  />
+            <Stack.Screen name="travel" component={travel}  />
+            <Stack.Screen name="fasting" component={fasting}  />
+            <Stack.Screen name="fastingProfile" component={fastingProfile}  />
+            <Stack.Screen name="calcFasting" component={calcFasting}  />
+            <Stack.Screen name="calcRecommend" component={calcRecommend}  />
+            <Stack.Screen name="guidlines" component={guidlines}  />
+            <Stack.Screen name="pump" component={pump}  />
      //=======================Last Sprint!!!!===================
            <Stack.Screen name="EducationalAR" component={EducationalAR} />
           <Stack.Screen name="Educational" component={Educational} />
