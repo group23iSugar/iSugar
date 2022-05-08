@@ -30,7 +30,7 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 //import dashDB from './dashDB';
 const optionsPerPage = [2, 3, 4];
 
-const logbook = ({navigation, theme}) => {
+const logbookAR = ({navigation, theme}) => {
   
   
   const [page, setPage] = useState(0);
@@ -212,7 +212,7 @@ const  [age, setAge] = useState(1);
 
                  var d = rows.item(i).dateString;
                  var toObjd = new Date(d);
-                 var momFormatd = moment(toObjd).format('dddd yyyy/MM/DD');
+                 var momFormatd = moment(toObjd).format('yyyy/MM/DD');
 
                  var bg22 = rows.item(i).BG_level;
                  var cho22 = rows.item(i).CHO;
@@ -359,21 +359,21 @@ const widthScreen = Dimensions.get('window').width;
   const heightScreen = Dimensions.get('window').height;
   const pieData = [
     {
-      name: 'Under Target',
+      name: 'تحت',
       population: under,
       color: '#FF5541',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15,
     },
     {
-      name: 'Above Target',
+      name: 'فوق',
       population: above,
       color: '#FF9A41',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15,
     },
     {
-      name: 'Within Target',
+      name: 'مع الهدف',
       population: within,
       color: '#41FF48',
       legendFontColor: '#7F7F7F',
@@ -404,11 +404,13 @@ const widthScreen = Dimensions.get('window').width;
             fontSize: 25,
             textAlign: 'center',
             paddingTop: 20,
-            paddingLeft: 15,
+            paddingRight: 15,
             fontWeight: 'bold',
           }}>
-          log book
+          السجل
         </Text>
+
+        
 
         <TouchableOpacity
           style={{
@@ -423,17 +425,17 @@ const widthScreen = Dimensions.get('window').width;
 
 
         <View style={styles.innerCotainer}>
-          Name: {data.fName+''+data.lName+'        '} Age: {age+'        '} Weigt: {data.weigh+'\n'}
-          Target BG level per day: {fromBGHome+'-'+toBGHome+' mg/dl'+'        '} Diagnosis Date:{diagnos+'\n'}
+          الإسم: {data.fName+''+data.lName+'        '} العمر: {age+'        '} الوزن: {data.weigh+'\n'}
+          الهدف اليومي: {fromBGHome+'-'+toBGHome+' mg/dl'+'        '} تاريخ التشخيص: {diagnos+'\n'}
 
 
 
 
 
-          <Text style={styles.textBody}>{'\n\n\n\n'}Time in target for the last 7 days:</Text>
+          <Text style={styles.textBody}>{'\n\n\n\n'}الوقت في الهدف:</Text>
         <TouchableOpacity
           style={{
-            marginLeft: 350,
+            marginRight: 350,
           }}
           onPress={dashBoard}>
           <Image
@@ -458,13 +460,14 @@ const widthScreen = Dimensions.get('window').width;
         )}
         {flag ? (
           <Text style={styles.msg}>
-            Contact diabetes center as you are above target 50% of times
+           
+           الرجاء التواصل مع فريق السكر حيث أن قراءات مستوى سكر الدم أعلى من
+              الهدف في ٥٠٪ من الوقت أو أكثر.
           </Text>
         ) : null}
         <Text>{'\n\n'}</Text>
 
         </View>
-
 
         <TouchableOpacity
           style={{
@@ -480,12 +483,12 @@ const widthScreen = Dimensions.get('window').width;
         <ScrollView horizontal={true}>
           <DataTable style={{borderRadius: 15, backgroundColor: 'white', textAlign:'center', alignItems:'cetner'}}>
             <DataTable.Row>
-              <DataTable.Cell style={{paddingRight: 100, width:90}}>Date</DataTable.Cell>
-              <DataTable.Cell style={{paddingLeft: 30, width:90}}>Hour</DataTable.Cell>
-              <DataTable.Cell style={{paddingLeft: 30, width:90}}>BG Level</DataTable.Cell>
-              <DataTable.Cell style={{paddingLeft: 30, width:90}}>Insulin Dose</DataTable.Cell>
+              <DataTable.Cell style={{paddingRight: 100, width:90}}>التاريخ</DataTable.Cell>
+              <DataTable.Cell style={{paddingLeft: 30, width:90}}>الساعة</DataTable.Cell>
+              <DataTable.Cell style={{paddingLeft: 30, width:90}}>مستوى السكر</DataTable.Cell>
+              <DataTable.Cell style={{paddingLeft: 30, width:90}}>جرعة الانسولين</DataTable.Cell>
               <DataTable.Cell style={{paddingLeft: 30, width:90}}>CHO</DataTable.Cell>
-              <DataTable.Cell style={{paddingLeft: 30, width:90}}>Special</DataTable.Cell>
+              <DataTable.Cell style={{paddingLeft: 30, width:90}}>استثناءات</DataTable.Cell>
             </DataTable.Row>
 
             <FlatList
@@ -695,7 +698,7 @@ const styles = StyleSheet.create({
   },
   msg: {
     //lables
-    paddingLeft: 20,
+    paddingRight: 20,
     paddingTop: 15,
     fontSize: 18,
     color: 'red',
@@ -703,4 +706,4 @@ const styles = StyleSheet.create({
   //====================newStyle========================
 });
 
-export default logbook;
+export default logbookAR;
