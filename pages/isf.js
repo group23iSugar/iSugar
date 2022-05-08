@@ -24,9 +24,9 @@ import moment from 'moment';
      const [ISF, setISFM] = useState(0);
      const [targetBG, setTargetBG] = useState(0);
      const [startBG, setStartBG] = useState(0);
-     const [ISFList, setISFList]= useState([{id: 0, from: new Date().setHours(0), to: new Date().setHours(6), isf: -1, start: -1, target: -1, flagF: true},
-      {id: 0, from: new Date().setHours(6), to: new Date().setHours(18), isf: -1, start: -1, target: -1, flagF: true}, 
-      {id: 0, from: new Date().setHours(18), to: new Date().setHours(23), isf: -1, start: -1, target: -1, flagF: true}]);
+     const [ISFList, setISFList]= useState([{id: 0, from: new Date().setHours(6), to: new Date().setHours(12), isf: -1, start: -1, target: -1, flagF: true},
+      {id: 0, from: new Date().setHours(12), to: new Date().setHours(17), isf: -1, start: -1, target: -1, flagF: true}, 
+      {id: 0, from: new Date().setHours(17), to: new Date().setHours(23), isf: -1, start: -1, target: -1, flagF: true}]);
      const [isfCount, setISFCount] = useState(0);
      //======================//
      const [showTo, setShowTo] = useState(false);
