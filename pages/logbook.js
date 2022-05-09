@@ -24,26 +24,22 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PieChart} from 'react-native-chart-kit';
 import moment from 'moment';
 import {DataTable} from 'react-native-paper';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+//import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
 //import { ActivityIndicator, Colors } from 'react-native-paper';
 //import dashDB from './dashDB';
 const optionsPerPage = [2, 3, 4];
 
 const logbook = ({navigation, theme}) => {
-  
-  
-  const [page, setPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
   useEffect(() => {
-    setPage(0);
-    getLocalInfo();
+    retre1();
+    retre2();
     ret4();
     dashBoard();
     ret3();
+  }, []);
 
-  }, [itemsPerPage]);
-
+  const [flag, setFlag] = useState(false);
   const [within, setWitin] = useState(0);
   const [above, setAbove] = useState(0);
   const [under, setUnder] = useState(0);
@@ -51,8 +47,12 @@ const logbook = ({navigation, theme}) => {
   const [lastBG, setLastBG] = useState(0);
   const [lastBGtime, setLastBGtime] = useState('');
   const [startBG, setSBGP] = useState(0);
-  const [diagnos, setDiagnos] = useState('');
-  
+
+  // const [diagnos, setDiagnos] = useState('');
+  // const [DOB, setDOB] = useState('');
+  // const [fName, setfName] = useState('');
+  // const [lName, setlName] = useState('');
+  // const [weigh, setWeigh] = useState('');
 
   const dashBoard = async () => {
     await retrieveDash2();
@@ -96,12 +96,8 @@ const logbook = ({navigation, theme}) => {
             for (let i = 0; i < rows.length; i++) {
               var userid = rows.item(i).UserID;
 
-              if (userid == 222) {
-                fromBGHome = rows.item(i).fromBG;
-                toBGHome = rows.item(i).toBG;
-
-                return;
-              }
+              fromBGHome = rows.item(i).fromBG;
+              toBGHome = rows.item(i).toBG;
             }
           },
         );
@@ -167,12 +163,8 @@ const logbook = ({navigation, theme}) => {
             var rows = results.rows;
             for (let i = 0; i < rows.length; i++) {
               var UID = rows.item(i).UserID;
-              if (UID == 222) {
-                //***************************************FIXIXIXIX */
-
-                var start = rows.item(i).startBG_correct;
-                setSBGP(start);
-              }
+              var start = rows.item(i).startBG_correct;
+              setSBGP(start);
             }
           },
         );
@@ -182,22 +174,9 @@ const logbook = ({navigation, theme}) => {
     }
   };
 
-
-
-  const [data, setData] = useState({
-    fName: '',
-    lName: '',
-    email: '',
-    dateBirth:'',
-    weigh: 0,
-    diagnosisdate:'',
-});
-
-const  [age, setAge] = useState(1);
-
-
-  const ret4 = () => { //Appointments
-    var currentD =  new Date();
+  const ret4 = () => {
+    //Appointments
+    var currentD = new Date();
     var counter = 0;
     var aaa = [];
     try {
@@ -207,28 +186,29 @@ const  [age, setAge] = useState(1);
           [],
           (tx, results) => {
             var rows = results.rows;
-            
+
             for (let i = 0; i < rows.length; i++) {
+              var d = rows.item(i).dateString;
+              var toObjd = new Date(d);
+              var momFormatd = moment(toObjd).format('yyyy/MM/DD');
 
-                 var d = rows.item(i).dateString;
-                 var toObjd = new Date(d);
-                 var momFormatd = moment(toObjd).format('dddd yyyy/MM/DD');
+              var bg22 = rows.item(i).BG_level;
+              var cho22 = rows.item(i).CHO;
+              var hour22 = rows.item(i).Dose_time_hours;
+              var insulin22 = rows.item(i).insulinDose;
+              var special22 = rows.item(i).spicial;
 
-                 var bg22 = rows.item(i).BG_level;
-                 var cho22 = rows.item(i).CHO;
-                 var hour22 = rows.item(i).Dose_time_hours;
-                 var insulin22 = rows.item(i).insulinDose;
-                 var special22 = rows.item(i).spicial;
+              aaa.push({
+                date: momFormatd,
+                hour: hour22,
+                BG: bg22,
+                insulin: insulin22,
+                special: special22,
+                CHO: cho22,
+              });
+            }
 
-
-                 aaa.push({
-                  date: momFormatd, hour: hour22, BG:bg22, insulin:insulin22, special:special22, CHO:cho22
-                 });
-
-                 }
-            
             setLogbookArr(aaa);
-            console.log('this is app array: '+ aaa);
           },
         );
       });
@@ -240,122 +220,183 @@ const  [age, setAge] = useState(1);
   //const [logbookArr, setLogbookArr] = useState([]);
   const [logbookArr, setLogbookArr] = useState([
     {
-      date: '', hour: '', BG:'', insulin:'', special:'', CHO:''
-     }
-   
+      date: '',
+      hour: '',
+      BG: '',
+      insulin: '',
+      special: '',
+      CHO: '',
+    },
   ]); // this is how it should be initialized in order to display it in flat list
 
   //===========================RETRIVE================
 
-
-  const getLocalInfo = ()=>{
-    try {
-        console.log('in try');
-        db.transaction( (tx) => {
-            tx.executeSql(
-              'SELECT UserID, firstName, lastName, email FROM UserAccount',
-              [],
-              (tx, results) => {
-                var rows = results.rows;
-                for (let i = 0; i < rows.length; i++) {           
-                    var userID = rows.item(i).UserID;
-                    if (uID == userID){
-                      setData({
-                        ...data,
-                        fName: rows.item(i).firstName,
-                        lName: rows.item(i).lastName,
-                        email: rows.item(i).email,
-                      });
-                   
-                    }
-                    
-                 
-                  }
-              }   
-    ) 
-        
-    
-    }  ) 
-    } catch (error) {
-       console.log(error);
-    }
-
+  const retre1 = () => {
     try {
       console.log('in try');
-      db.transaction( (tx) => {
-          tx.executeSql(
-            'SELECT UserID, DOB, weightKG FROM patientprofile',
-            [],
-            (tx, results) => {
-              var rows = results.rows;
-              for (let i = 0; i < rows.length; i++) {           
-                  var userID = rows.item(i).UserID;
-                  if (uID == userID){
-                      setData({
-                          ...data,
-                          dateBirth: rows.item(i).DOB,
-                          weigh: rows.item(i).weightKG,
-                      });
-                      
-                    
-                  }
-                }
-
-                var currentDate = new Date();
-                var birthDay = new Date(data.dateBirth);
-                var age2 = currentDate.getFullYear() - birthDay.getFullYear();
-                var mon = currentDate.getMonth() - birthDay.getMonth();
-                if (mon < 0 || mon == 0) {
-                    age2= age2-1;
-                }
-                age=age2;
-                setAge(age);
-            }   
-  ) 
-      
-  
-  }  ) 
-  } catch (error) {
-     console.log(error);
-  }
-
-  try {
-    console.log('in try');
-    db.transaction( (tx) => {
+      db.transaction(tx => {
         tx.executeSql(
-          'SELECT UserID, diagnosis_date FROM patientprofile',
+          'SELECT UserID, firstName, lastName, email FROM UserAccount',
           [],
           (tx, results) => {
             var rows = results.rows;
-            for (let i = 0; i < rows.length; i++) {           
-                var userID = rows.item(i).UserID;
-                if (uID == userID){
-                    setData({
-                        ...data,
-                        diagnosisdate: rows.item(i).diagnosis_date,
-                    });
-                    console.log( dbData.diagnosisdate +'-'+dbData.diabetescenter);
-                 
-                }
-              }
+            for (let i = 0; i < rows.length; i++) {
+              var userID = rows.item(i).UserID;
+              fName = rows.item(i).firstName;
+              lName = rows.item(i).lastName;
+            }
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //=================================
+  const retre2 = () => {
+    retre1();
+    retre3();
+    retre4();
+    retre5();
+    var tempArr = [];
+    try {
+      console.log('in try2');
+      db.transaction(tx => {
+        tx.executeSql(
+          'SELECT UserID, DOB, ISFIntervals, weightKG, diagnosis_date, ISF, targetBG_correct, startBG_correct FROM patientprofile',
+          [],
+          (tx, results) => {
+            var rows = results.rows;
+            for (let i = 0; i < rows.length; i++) {
+              var userID = rows.item(i).UserID;
 
-              var d = moment(data.diagnosisdate).format('YYYY-MM-DD'); // 2021-11-21
-              setDiagnos(d);
-          }   
-) 
-    
+              DOB = rows.item(i).DOB;
+              isInteee = rows.item(i).ISFIntervals;
+              console.log(DOB);
+              weigh = rows.item(i).weightKG;
+              var wewe = rows.item(i).diagnosis_date;
+              var x = new Date(wewe);
 
-}  ) 
-} catch (error) {
-   console.log(error);
-}
+              var d = moment(x).format('YYYY-MM-DD'); // 2021-11-21
+              diagnos = d;
 
+              tempArr.push({
+                isf: rows.item(i).ISF,
+                sbg: rows.item(i).startBG_correct,
+                tbg: rows.item(i).targetBG_correct,
+              });
+            }
 
-  
-}
+            isfAll = tempArr;
 
+            var currentDate = new Date();
+            var birthDay = new Date(DOB);
+            var age2 = currentDate.getFullYear() - birthDay.getFullYear();
+            var mon = currentDate.getMonth() - birthDay.getMonth();
+            if (mon < 0 || mon == 0) {
+              age2 = age2 - 1;
+            }
+            age = age2;
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-const widthScreen = Dimensions.get('window').width;
+  const retre3 = () => {
+    try {
+      db.transaction(tx => {
+        tx.executeSql(
+          'SELECT UserID, insulinType, halfORfull FROM insulinPen',
+          [],
+          (tx, results) => {
+            var rows = results.rows;
+
+            for (let i = 0; i < rows.length; i++) {
+              var userid = rows.item(i).UserID;
+
+              insulinType = rows.item(i).insulinType;
+              return;
+            }
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const retre4 = () => {
+    var tempArr = []; // array of obj
+    try {
+      db.transaction(tx => {
+        tx.executeSql(
+          'SELECT fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
+          [222],
+          (tx, results) => {
+            var rows = results.rows;
+            for (let i = 0; i < rows.length; i++) {
+              console.log('hello?1?************8');
+              tempArr.push({
+                from: rows.item(i).fromTime,
+                to: rows.item(i).toTime,
+                icr: rows.item(i).ICR,
+              });
+            }
+            ICRarr = tempArr;
+          },
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const retre5 =()=>{
+    var tempArr = [];
+    try {
+      db.transaction( (tx) => {
+          tx.executeSql(
+              'SELECT fromTime, toTime, ISF, targetBG_correct, startBG_correct FROM isfInterval',
+            [],
+            (tx, results) => {
+              var rows = results.rows;
+              for (let i = 0; i < rows.length; i++){
+
+                var a = new Date(rows.item(i).fromTime);
+                var b = new Date(rows.item(i).toTime);
+        
+
+                   tempArr.push({
+                     
+                     from: moment(a).format('hh:mm a'),
+                     to: moment(b).format('hh:mm a'),
+                     isf: rows.item(i).ISF,
+                     tBG: rows.item(i).targetBG_correct,
+                     sBG: rows.item(i).startBG_correct,
+                   });
+
+                   
+                   
+              
+              isfAllInt = tempArr;  
+              
+             
+            }
+           
+            
+            },
+          );
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+  };
+
+  const widthScreen = Dimensions.get('window').width;
   const heightScreen = Dimensions.get('window').height;
   const pieData = [
     {
@@ -414,57 +455,100 @@ const widthScreen = Dimensions.get('window').width;
           style={{
             marginRight: 350,
           }}
-          onPress={getLocalInfo}>
+          onPress={retre2}>
           <Image
             source={require('./images/upd.png')}
             style={{height: 25, width: 25}}
           />
         </TouchableOpacity>
-
 
         <View style={styles.innerCotainer}>
-          Name: {data.fName+''+data.lName+'        '} Age: {age+'        '} Weigt: {data.weigh+'\n'}
-          Target BG level per day: {fromBGHome+'-'+toBGHome+' mg/dl'+'        '} Diagnosis Date:{diagnos+'\n'}
-
-
-
-
-
-          <Text style={styles.textBody}>{'\n\n\n\n'}Time in target for the last 7 days:</Text>
-        <TouchableOpacity
-          style={{
-            marginLeft: 350,
-          }}
-          onPress={dashBoard}>
-          <Image
-            source={require('./images/upd.png')}
-            style={{height: 25, width: 25}}
-          />
-        </TouchableOpacity>
-
-        {bgArr.length > 0 && (within > 0 || above > 0 || under > 0) ? (
-          <PieChart
-            data={pieData}
-            width={widthScreen}
-            height={150}
-            chartConfig={chartConfig}
-            accessor={'population'}
-            backgroundColor={'white'}
-
-            //absolute
-          />
-        ) : (
-          <ActivityIndicator size="large" />
-        )}
-        {flag ? (
-          <Text style={styles.msg}>
-            Contact diabetes center as you are above target 50% of times
+          <Text style={styles.textBody}>
+            Name: {fName + '' + lName + '\n'} Age: {age + '      '} Weigt:{' '}
+            {weigh + 'kg' + '\n'}
+            Target BG level per day:{' '}
+            {fromBGHome + '-' + toBGHome + ' mg/dl' + '        '} Diagnosis
+            Date:{diagnos + '\n'}
+            Insulin Type: {insulinType + '\n\n'} ICR:{' '}
           </Text>
-        ) : null}
-        <Text>{'\n\n'}</Text>
+          <FlatList
+            data={ICRarr}
+            renderItem={({item}) => (
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.textBody}>
+                  {item.from + '-' + item.to + ' =  ' + item.icr + ''}
+                </Text>
+              </View>
+            )}
+          />
 
+          <Text style={styles.textBody}>{'\n'} ISF:</Text>
+
+          
+          { (isInteee == 0) ? <FlatList
+            data={isfAll}
+            renderItem={({item}) => (
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.textBody}>
+                  {' '}
+                  ISF All Day = {item.isf} Strat bg = {item.sbg} Target bg ={' '}
+                  {item.tbg}{' '}
+                </Text>
+              </View>
+            )}
+          /> : (  <FlatList
+            data={isfAllInt}
+            renderItem={({item}) => (
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.textBody}>
+                  {' '}
+                  From= {item.from} To= {item.to} ISF={item.isf} Start bg={item.sBG} Traget BG={item.tBG}
+                  
+                </Text>
+              </View>
+            )}
+          />
+
+        )}
+          
+
+          
+
+          <Text style={styles.textBody}>
+            {'\n\n\n\n'}Time in target for the last 7 days:
+          </Text>
+          <TouchableOpacity
+            style={{
+              marginLeft: 350,
+            }}
+            onPress={dashBoard}>
+            <Image
+              source={require('./images/upd.png')}
+              style={{height: 25, width: 25}}
+            />
+          </TouchableOpacity>
+
+          {bgArr.length > 0 && (within > 0 || above > 0 || under > 0) ? (
+            <PieChart
+              data={pieData}
+              width={widthScreen}
+              height={150}
+              chartConfig={chartConfig}
+              accessor={'population'}
+              backgroundColor={'white'}
+
+              //absolute
+            />
+          ) : (
+            <ActivityIndicator size="large" />
+          )}
+          {flag ? (
+            <Text style={styles.msg}>
+              Contact diabetes center as you are above target 50% of times
+            </Text>
+          ) : null}
+          <Text>{'\n\n'}</Text>
         </View>
-
 
         <TouchableOpacity
           style={{
@@ -478,47 +562,67 @@ const widthScreen = Dimensions.get('window').width;
         </TouchableOpacity>
 
         <ScrollView horizontal={true}>
-          <DataTable style={{borderRadius: 15, backgroundColor: 'white', textAlign:'center', alignItems:'cetner'}}>
+          <DataTable
+            style={{
+              borderRadius: 15,
+              backgroundColor: 'white',
+              textAlign: 'center',
+              alignItems: 'center',
+              marginBottom: 30,
+            }}>
             <DataTable.Row>
-              <DataTable.Cell style={{paddingRight: 100, width:90}}>Date</DataTable.Cell>
-              <DataTable.Cell style={{paddingLeft: 30, width:90}}>Hour</DataTable.Cell>
-              <DataTable.Cell style={{paddingLeft: 30, width:90}}>BG Level</DataTable.Cell>
-              <DataTable.Cell style={{paddingLeft: 30, width:90}}>Insulin Dose</DataTable.Cell>
-              <DataTable.Cell style={{paddingLeft: 30, width:90}}>CHO</DataTable.Cell>
-              <DataTable.Cell style={{paddingLeft: 30, width:90}}>Special</DataTable.Cell>
+              <DataTable.Cell style={{paddingRight: 15, width: 120}}>
+                Date
+              </DataTable.Cell>
+              <DataTable.Cell style={{paddingLeft: 15, width: 90}}>
+                Hour
+              </DataTable.Cell>
+              <DataTable.Cell style={{paddingLeft: 15, width: 90}}>
+                BG Level
+              </DataTable.Cell>
+              <DataTable.Cell style={{paddingLeft: 15, width: 90}}>
+                Insulin Dose
+              </DataTable.Cell>
+              <DataTable.Cell style={{paddingLeft: 15, width: 90}}>
+                CHO
+              </DataTable.Cell>
+              <DataTable.Cell style={{paddingLeft: 15, width: 90}}>
+                Special
+              </DataTable.Cell>
             </DataTable.Row>
 
             <FlatList
               data={logbookArr}
               renderItem={({item}) => (
                 <View>
-
-               
-            <DataTable.Row>
-            <DataTable.Cell style={{paddingRight: 20, width:90}}>{item.date}</DataTable.Cell>
-            <DataTable.Cell style={{padding: 20, width:90}}>{item.hour}</DataTable.Cell>
-            <DataTable.Cell style={{padding: 40, width:90}}>{item.BG}</DataTable.Cell>
-            <DataTable.Cell style={{padding: 40, width:90}}>{item.insulin}</DataTable.Cell>
-            <DataTable.Cell style={{padding: 30, width:90}}>{item.CHO}</DataTable.Cell>
-            <DataTable.Cell style={{padding: 20, width:90}}>{item.special}</DataTable.Cell>
-            </DataTable.Row>
-
-            
-
-           
-
-            </View>
-
-
+                  <DataTable.Row>
+                    <DataTable.Cell style={{paddingRight: 20, width: 120}}>
+                      {item.date}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={{padding: 20, width: 90}}>
+                      {item.hour}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={{padding: 20, width: 90}}>
+                      {item.BG}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={{padding: 20, width: 90}}>
+                      {item.insulin}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={{padding: 20, width: 90}}>
+                      {item.CHO}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={{padding: 20, width: 90}}>
+                      {item.special}
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                </View>
               )}
             />
 
-{/* 
+            {/* 
             <DataTable.Row>
               <DataTable.Cell numeric>6.0</DataTable.Cell>
             </DataTable.Row> */}
-
-            
           </DataTable>
         </ScrollView>
       </ScrollView>
@@ -555,7 +659,7 @@ const styles = StyleSheet.create({
   textBody: {
     fontSize: 20,
     color: '#05375a',
-    textAlign: 'center',
+    marginLeft: 15,
     fontWeight: 'bold',
   },
   textBody2: {
@@ -572,31 +676,10 @@ const styles = StyleSheet.create({
   innerCotainer: {
     backgroundColor: 'white',
     margin: 10,
-    alignItems: 'center',
-    borderRadius: 15,
-    padding: 5,
-    width: 380,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignSelf: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  innerCotainer2: {
-    backgroundColor: 'white',
-    alignItems: 'center',
-    borderRadius: 15,
-    paddingBottom: 45,
-    marginBottom: 100,
-    width: 380,
 
-    alignSelf: 'center',
+    borderRadius: 15,
+
+    width: 380,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -606,6 +689,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+
   buttonV: {
     backgroundColor: '#05375a',
     alignItems: 'center',
