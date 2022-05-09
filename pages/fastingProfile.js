@@ -14,11 +14,11 @@ import { set } from 'react-native-reanimated';
 
 
 
-global.firstFlag = false;
 const fastingProfile = ({ navigation }) => {
     useEffect(() => {
         firstTimeCheck();
         }, []);
+        const [firstFlag, setFirst] = useState(false);
     const firstTimeCheck = () => {
         try {
                         db.transaction(tx => {
@@ -28,8 +28,8 @@ const fastingProfile = ({ navigation }) => {
                             (tx, results) => {
                               var rows = results.rows;
                               for (let i = 0; i < rows.length; i++) {
-                                if (rows.item(i).recordTime == 'false'){
-                                    firstFlag = true;
+                                if (rows.item(i).profileEntry == 'false'){
+                                    setFirst(true);
                                     try {
                                         console.log('in try2');
                                         db.transaction( (tx) => {
@@ -64,7 +64,9 @@ const fastingProfile = ({ navigation }) => {
         
     };
 
- 
+    const alertMessage = () => {
+      alert('This feature is not available yet!');
+    }
   return (
 
     <View style={styles.container}>
@@ -77,7 +79,7 @@ const fastingProfile = ({ navigation }) => {
             paddingTop: 20,
             paddingLeft: 15,
           }}>
-          Fasting
+          Fasting Profile
         </Text>
          <ScrollView> 
          <View style={styles.body}>
@@ -96,7 +98,7 @@ const fastingProfile = ({ navigation }) => {
          
       
         
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{navigation.navigate('insulinFasting')}}>
             <LinearGradient style={styles.outer}
             colors={['#a8dadc', '#457b9d']}>
             <View style={styles.inner}>
@@ -106,7 +108,7 @@ const fastingProfile = ({ navigation }) => {
             </LinearGradient>
             </TouchableOpacity>
      {/* //=================// */}
-     <TouchableOpacity>
+     <TouchableOpacity onPress={()=>{navigation.navigate('isfFasting')}}>
             <LinearGradient style={styles.outer}
             colors={['#a8dadc', '#457b9d']}>
             <View style={styles.inner}>
@@ -117,7 +119,7 @@ const fastingProfile = ({ navigation }) => {
             </TouchableOpacity>
            
             {/* //=================// */}
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>{navigation.navigate('icrFasting')}}>
             <LinearGradient style={styles.outer}
             colors={['#a8dadc', '#457b9d']}>
             <View style={styles.inner}>
@@ -126,16 +128,7 @@ const fastingProfile = ({ navigation }) => {
             
             </LinearGradient>
             </TouchableOpacity>
-            {/* //======= ==========// */}
-            <TouchableOpacity>
-            <LinearGradient style={styles.outer}
-            colors={[ '#a8dadc', '#457b9d']}>
-            <View style={styles.inner}>
-            <Text style={styles.textBody}>Average total insulin requirement per day</Text>
-            </View>
-            </LinearGradient>
-            </TouchableOpacity>
-            {/* //=================// */}
+
            </View>
         </ScrollView>
     </View>      
@@ -435,4 +428,5 @@ const styles = StyleSheet.create({
     }
  
 });
+
 
