@@ -109,16 +109,15 @@ const calcRecommend = ({ navigation }) => {
          
           </View>) : (
                 <View style={styles.innerCotainer}>
-          <Text style={styles.textHeader}>1- If long acting insulin in profile </Text>
           <Text style={styles.textBody}>- Take {insType} Insulin at Maghrib time OR after Taraweeh prayer.</Text>
           <Text style={styles.textBody}>- The {insType} insulin dose is recommended to be reduced during Ramadan fasting by 20-30% from your original dose before Ramadan.</Text>
           <Text style={styles.textBody}>- 20-30% reduction of your original {insType} insulin dose makes your starting Ramadan fasting dose of {dose} insulin range from {(dose) - (dose*0.20)} to {(dose) - (dose*0.30)} units. </Text>
  
-          <Text style={styles.textHeader}>2- If pump user in profile page:</Text>
+          {/* <Text style={styles.textHeader}>2- If pump user in profile page:</Text>
           <Text style={styles.textBody}>- It is recommended to decrease your basal rate during fasting hours by 20%.</Text>
           <Text style={styles.textBody}>- It is recommended to decrease your Insulin to Carbohydrate Ratio (ICR) at breakfast (Fatour) by 1-2 grams (leads to taking more insulin bolus at this time)</Text>
           <Text style={styles.textBody}>- It is recommended to Increase your Insulin to Carbohydrate Ratio (ICR) at Suhur by 1-2 grams (leads to taking less insulin bolus at this time)</Text>
- 
+  */}
           </View>
              )}
          
@@ -422,4 +421,5 @@ const styles = StyleSheet.create({
     }
  
 });
+
 
