@@ -80,6 +80,7 @@ import travel from './pages/travel';
 import travelAR from './pages/travelAR';
 //===============pumpFailure========
 import pump from './pages/pumpFailure';
+import pumpAR from './pages/pumpFailureAR';
 //==================================
 import checkFirst from './pages/checkFirst';
 import exercise from './pages/exercise';
@@ -91,6 +92,17 @@ import fastingProfile from './pages/fastingProfile';
 import calcFasting from './pages/calcFasting';
 import calcRecommend from './pages/calcRecommend';
 import guidlines from './pages/guidlines';
+import isfFasting from './pages/isfFasting';
+import icrFasting from './pages/icrFasting';
+import insulinFasting from './pages/insulinFasting';
+import isfFastingAR from './pages/isfFastingAR';
+import icrFastingAR from './pages/icrFastingAR';
+import insulinFastingAR from './pages/insulinFastingAR';
+import fastingAR from './pages/fastingAR';
+import fastingProfileAR from './pages/fastingProfileAR';
+import calcFastingAR from './pages/calcFastingAR';
+import calcRecommendAR from './pages/calcRecommendAR';
+import guidlinesAR from './pages/guidlinesAR';
 //===========Last Sprint=============
 import logbook from './pages/logbook';
 import logbookAR from './pages/logbookAR';
@@ -763,11 +775,23 @@ const mainStack = () => {
             <Stack.Screen name="travelAR" component={travelAR}  />
             <Stack.Screen name="travel" component={travel}  />
             <Stack.Screen name="fasting" component={fasting}  />
+            <Stack.Screen name="isfFasting" component={isfFasting}  />
+            <Stack.Screen name="icrFasting" component={icrFasting}  /> 
+            <Stack.Screen name="insulinFasting" component={insulinFasting}  />
             <Stack.Screen name="fastingProfile" component={fastingProfile}  />
             <Stack.Screen name="calcFasting" component={calcFasting}  />
             <Stack.Screen name="calcRecommend" component={calcRecommend}  />
             <Stack.Screen name="guidlines" component={guidlines}  />
+            <Stack.Screen name="fastingAR" component={fastingAR}  />
+            <Stack.Screen name="isfFastingAR" component={isfFastingAR}  />
+            <Stack.Screen name="icrFastingAR" component={icrFastingAR}  /> 
+            <Stack.Screen name="insulinFastingAR" component={insulinFastingAR}  />
+            <Stack.Screen name="fastingProfileAR" component={fastingProfileAR}  />
+            <Stack.Screen name="calcFastingAR" component={calcFastingAR}  />
+            <Stack.Screen name="calcRecommendAR" component={calcRecommendAR}  />
+            <Stack.Screen name="guidlinesAR" component={guidlinesAR}  />
             <Stack.Screen name="pump" component={pump}  />
+            <Stack.Screen name="pumpAR" component={pumpAR}  />
      //=======================Last Sprint!!!!===================
            <Stack.Screen name="EducationalAR" component={EducationalAR} />
           <Stack.Screen name="Educational" component={Educational} />
