@@ -677,6 +677,17 @@ global.choDB='';
   global.specialLog=''; 
 
 
+global.diagnos=''; 
+global.DOB=''; 
+global.fName=''; 
+global.lName='';
+global.weigh='';
+
+global.isfAllInt=[];
+global.isfAll=[];
+isInteee = 0;
+
+
 
 //============================================
 
