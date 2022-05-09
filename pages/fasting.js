@@ -288,14 +288,14 @@ const fasting = ({ navigation }) => {
     
                 for (let i = 0; i < rows.length; i++) {
                   var userid = rows.item(i).UserID;
-                
+                  
                   if (userid == uID) {
                     penFating.push({
                         insulinType: rows.item(i).insulinType,
                         halfORfull: rows.item(i).halfORfull,
                     });
                     
-                  console.log(penFating[i] + ' This is pennn arr');
+                  console.log(penFating[i].insulinType + ' This is pennn arr');
                     return;
                   }
                 }
@@ -463,75 +463,80 @@ const fasting = ({ navigation }) => {
        //===============icr==========
        if (insulinCalcMethodF == 'ICR'){
            if (ICRFasting.length > 0){
+            for (let i = 0; i < ICRFasting.length; i++){
+              try {
+                db.transaction( (tx) => {
+                    tx.executeSql(
+                     'INSERT INTO icrIntervalFasting (UserID, fromTime, toTime, ICR)' 
+                     +'VALUES (?,?,?,?)',
+                       [uID, ICRFasting[i].from, ICRFasting[i].to, ICRFasting[i].icr ]
+                   );
+               })
+               try {
+                db.transaction(tx => {
+                  tx.executeSql(
+                    'SELECT UserID, fromTime FROM icrIntervalFasting',
+                    [],
+                    (tx, results) => {
+                      var rows = results.rows;
+                      for (let i = 0; i < rows.length; i++) {
+                        var UID = rows.item(i).UserID;
+                        console.log(UID);
+                        console.log(rows.item(i).fromTime+ ' after insert');
+                      }
+                    },
+                  );
+                });
+              } catch (error) {
+                console.log(error);
+              }
+              } catch (error) {
+               console.log(error);
+              }
+            }
 
-                  try {
-                    db.transaction( (tx) => {
-                        tx.executeSql(
-                         'INSERT INTO icrIntervalFasting (UserID, fromTime, toTime, ICR)' 
-                         +'VALUES (?,?,?,?)',
-                           [uID, ICRFasting[i].from, ICRFasting[i].to, ICRFasting[i].icr ]
-                       );
-                   })
-                   try {
-                    db.transaction(tx => {
-                      tx.executeSql(
-                        'SELECT UserID, fromTime FROM icrIntervalFasting',
-                        [],
-                        (tx, results) => {
-                          var rows = results.rows;
-                          for (let i = 0; i < rows.length; i++) {
-                            var UID = rows.item(i).UserID;
-                            console.log(UID);
-                            console.log(rows.item(i).fromTime+ ' after insert');
-                          }
-                        },
-                      );
-                    });
-                  } catch (error) {
-                    console.log(error);
-                  }
-                  } catch (error) {
-                   console.log(error);
-                  }
                 
             
            }
         
        } else {
            if (SSFasting.length  >0){
-                  try { 
-                    console.log('in if 1');
-                    db.transaction( (tx) => { 
-                        tx.executeSql(
-                         'INSERT INTO ssIntervalFasting (UserID, fromTime, toTime)' 
-                         +'VALUES (?,?,?)',
-                           [uID, SSFasting[i].FromTime, SSFasting[i].toTime]
-                       );
-                       for (let j=0; j<SSFasting[i].Rnages.length; j++){
-                        if (SSFasting[i].Rnages[j].flagI){
-                          try {
-                            db.transaction( (tx) => {
-                                tx.executeSql(
-                                 'INSERT INTO bgleveltoinsulinFasting (ssID, fromBGLevel, toBGLevel, insulinDose)' 
-                                 +'VALUES (?,?,?,?)',
-                                   [ssID, SSFasting[i].Rnages[j].BGFrom, SSFasting[i].Rnages[j].BGTo, SSFasting[i].Rnages[j].insulin]
-                               );
-                               bgtoIOnlineDb(i, j);
-                           })
-                           console.log(SSFasting[i].Rnages[j].BGFrom+' / '+SSFasting[i].Rnages[j].BGTo+' / '+ SSFasting[i].Rnages[j].insulin);
-                          } catch (error) {
-                           console.log(error);
-                          }
-                        }
+            for (let i = 0; i < SSFasting.length; i++){
+              try { 
+                console.log('in if 1');
+                db.transaction( (tx) => { 
+                    tx.executeSql(
+                     'INSERT INTO ssIntervalFasting (UserID, fromTime, toTime)' 
+                     +'VALUES (?,?,?)',
+                       [uID, SSFasting[i].FromTime, SSFasting[i].toTime]
+                   );
+                   for (let j=0; j<SSFasting[i].Rnages.length; j++){
+                    if (SSFasting[i].Rnages[j].flagI){
+                      try {
+                        db.transaction( (tx) => {
+                            tx.executeSql(
+                             'INSERT INTO bgleveltoinsulinFasting (ssID, fromBGLevel, toBGLevel, insulinDose)' 
+                             +'VALUES (?,?,?,?)',
+                               [ssID, SSFasting[i].Rnages[j].BGFrom, SSFasting[i].Rnages[j].BGTo, SSFasting[i].Rnages[j].insulin]
+                           );
+                           bgtoIOnlineDb(i, j);
+                       })
+                       console.log(SSFasting[i].Rnages[j].BGFrom+' / '+SSFasting[i].Rnages[j].BGTo+' / '+ SSFasting[i].Rnages[j].insulin);
+                      } catch (error) {
+                       console.log(error);
                       }
-                   })
-                   
+                    }
+                  }
+               })
                
-               } catch (error) {
-                   console.log(error);
-               }
-               
-                
+           
+           } catch (error) {
+               console.log(error);
+           }
+           
+            
+            }
+                  
               
            }
        
@@ -539,89 +544,97 @@ const fasting = ({ navigation }) => {
      //==========ISF==============
      if (intervalISFF == 1){
         if (ISFFasting.length > 0){
-             
-                  try {
-                    db.transaction( (tx) => {
-                        tx.executeSql(
-                         'INSERT INTO isfIntervalFasting (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct)' 
-                         +'VALUES (?,?,?,?,?,?)',
-                           [uID, ISFFasting[i].from, ISFFasting[i].to, ISFFasting[i].ISF_, ISFFasting[i].target, ISFFasting[i].start ]
-                       );
-                   })
-                   try {
-                    db.transaction(tx => {
-                      tx.executeSql(
-                        'SELECT UserID, fromTime FROM isfIntervalFasting',
-                        [],
-                        (tx, results) => {
-                          var rows = results.rows;
-                          for (let i = 0; i < rows.length; i++) {
-                            var UID = rows.item(i).UserID;
-                            console.log(UID);
-                            console.log(rows.item(i).fromTime+ ' after isffffffff');
-                          }
-                        },
-                      );
-                    });
-                  } catch (error) {
-                    console.log(error);
-                  }
-                  } catch (error) {
-                   console.log(error);
-                  }
+          for (let i = 0; i < ISFFasting.length; i++){
+            try {
+              db.transaction( (tx) => {
+                  tx.executeSql(
+                   'INSERT INTO isfIntervalFasting (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct)' 
+                   +'VALUES (?,?,?,?,?,?)',
+                     [uID, ISFFasting[i].from, ISFFasting[i].to, ISFFasting[i].ISF_, ISFFasting[i].target, ISFFasting[i].start ]
+                 );
+             })
+             try {
+              db.transaction(tx => {
+                tx.executeSql(
+                  'SELECT UserID, fromTime FROM isfIntervalFasting',
+                  [],
+                  (tx, results) => {
+                    var rows = results.rows;
+                    for (let i = 0; i < rows.length; i++) {
+                      var UID = rows.item(i).UserID;
+                      console.log(UID);
+                      console.log(rows.item(i).fromTime+ ' after isffffffff');
+                    }
+                  },
+                );
+              });
+            } catch (error) {
+              console.log(error);
+            }
+            } catch (error) {
+             console.log(error);
+            }
+          }
+                 
                 
                 }
                 }
      //================Taken Insulin========
      if (takenInsulinDoseFasting.length > 0){
+      for (let i = 0; i < takenInsulinDoseFasting.length; i++){
+        try {
+          db.transaction( (tx) => {
+              tx.executeSql(
+               'INSERT INTO takenInsulinDoseFasting (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Month, Dose_Date_Day, Dose_Date_Year)' 
+               +'VALUES (?,?,?,?,?,?,?,?,?,?)',
+                 [uID, takenInsulinDoseFasting[i].BG_level, takenInsulinDoseFasting[i].ReasonForInsulin, takenInsulinDoseFasting[i].CHO, takenInsulinDoseFasting[i].insulinDose, takenInsulinDoseFasting[i].Dose_time_hours, takenInsulinDoseFasting[i].Dose_time_minutes, takenInsulinDoseFasting[i].Dose_Date_Month, takenInsulinDoseFasting[i].Dose_Date_Day, takenInsulinDoseFasting[i].Dose_Date_Year ]
+             );
+         })
          
-              try {
-                db.transaction( (tx) => {
-                    tx.executeSql(
-                     'INSERT INTO takenInsulinDoseFasting (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Month, Dose_Date_Day, Dose_Date_Year)' 
-                     +'VALUES (?,?,?,?,?,?,?,?,?,?)',
-                       [uID, takenInsulinDoseFasting[i].BG_level, takenInsulinDoseFasting[i].ReasonForInsulin, takenInsulinDoseFasting[i].CHO, takenInsulinDoseFasting[i].insulinDose, takenInsulinDoseFasting[i].Dose_time_hours, takenInsulinDoseFasting[i].Dose_time_minutes, takenInsulinDoseFasting[i].Dose_Date_Month, takenInsulinDoseFasting[i].Dose_Date_Day, takenInsulinDoseFasting[i].Dose_Date_Year ]
-                   );
-               })
-               
-              } catch (error) {
-               console.log(error);
-              }
+        } catch (error) {
+         console.log(error);
+        }
+      }
+              
             
             }
     //================planned===============
     if (plannedExerciseFasting.length > 0){
+      for (let i = 0; i < plannedExerciseFasting.length; i++){
+        try {
+          db.transaction( (tx) => {
+              tx.executeSql(
+               'INSERT INTO plannedExerciseFasting (UserID, type, duration)' 
+               +'VALUES (?,?,?)',
+                 [uID, plannedExerciseFasting[i].type, plannedExerciseFasting[i].duration ]
+             );
+         })
          
-              try {
-                db.transaction( (tx) => {
-                    tx.executeSql(
-                     'INSERT INTO plannedExerciseFasting (UserID, type, duration)' 
-                     +'VALUES (?,?,?)',
-                       [uID, plannedExerciseFasting[i].type, plannedExerciseFasting[i].duration ]
-                   );
-               })
-               
-              } catch (error) {
-               console.log(error);
-              }
+        } catch (error) {
+         console.log(error);
+        }
+      }
+           
             
             }
     
     //================previous==============
     if (previousExerciseFasting.length > 0){
+      for (let i = 0; i < previousExerciseFasting.length; i++){
+        try {
+          db.transaction( (tx) => {
+              tx.executeSql(
+               'INSERT INTO previousExerciseFasting (UserID, type, duration, Time)' 
+               +'VALUES (?,?,?)',
+                 [uID, previousExerciseFasting[i].type, previousExerciseFasting[i].duration, previousExerciseFasting[i].Time ]
+             );
+         })
          
-              try {
-                db.transaction( (tx) => {
-                    tx.executeSql(
-                     'INSERT INTO previousExerciseFasting (UserID, type, duration, Time)' 
-                     +'VALUES (?,?,?)',
-                       [uID, previousExerciseFasting[i].type, previousExerciseFasting[i].duration, previousExerciseFasting[i].Time ]
-                   );
-               })
-               
-              } catch (error) {
-               console.log(error);
-              }
+        } catch (error) {
+         console.log(error);
+        }
+      }
+             
             
             }
             try {
@@ -653,6 +666,39 @@ const fasting = ({ navigation }) => {
               } catch (error) {
                console.log(error);
               }
+              for (let i = 0; i < penFating.length; i++){
+                try {
+                  db.transaction( (tx) => {
+                      tx.executeSql(
+                       'INSERT INTO insulinPenFasting (UserID, insulinType, halfORfull)' 
+                       +'VALUES (?,?,?)',
+                         [uID, penFating[i].insulinType, penFating[i].halfORfull]
+                     );
+                 })
+                 try {
+                  db.transaction(tx => {
+                    tx.executeSql(
+                      'SELECT UserID, insulinType FROM insulinPenFasting',
+                      [],
+                      (tx, results) => {
+                        var rows = results.rows;
+                        for (let i = 0; i < rows.length; i++) {
+                          var UID = rows.item(i).UserID;
+                          console.log(UID);
+                          console.log(rows.item(i).insulinType+ ' after pennnnnnnnnnnnn');
+                        }
+                      },
+                    );
+                  });
+                } catch (error) {
+                  console.log(error);
+                }
+                } catch (error) {
+                 console.log(error);
+                }
+              }
+             
+            
       };
       const settingYesFlag = ()=> {
         setYes(true);
@@ -1071,4 +1117,5 @@ const styles = StyleSheet.create({
     }
  
 });
+
 
