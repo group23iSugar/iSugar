@@ -23,7 +23,7 @@ var calcMethod = [
   {label: 'I use sliding scale to determine my meal insulin'+'\n', value: 'Sliding Scale', valueIndex: 1},
   ];
   const icr = ({ navigation, route }) =>{
-    var AccType = 'Patient Account'; 
+   
     useEffect(() => {
       MethodForCalc('ICR');
         }, []);
@@ -41,9 +41,9 @@ var calcMethod = [
 const [outerCount, setOuterCount] = useState(0);
 const [innerCount, setInnerCount] = useState(0);
 const [innerCount1, setInnerCount1] = useState(0);
-  const [SlidingScale, setSlidingScale] = useState([{ id: 0, FromTime: new Date(), toTime: new Date(), flag: true, Rnages: [{id: 0, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
-  }, { id: 1, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 6, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
-  }, { id: 2, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 12, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+  const [SlidingScale, setSlidingScale] = useState([{ id: 0, FromTime: new Date().setHours(6), toTime: new Date().setHours(12), flag: true, Rnages: [{id: 0, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+  }, { id: 1, FromTime: new Date().setHours(12), toTime: new Date().setHours(17), flag: false, Rnages: [{id: 6, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+  }, { id: 2, FromTime: new Date().setHours(17), toTime: new Date().setHours(23), flag: false, Rnages: [{id: 12, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
   }, { id: 3, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 18, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
   }, { id: 4, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 24, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
   }]); // this is how it should be initialized in order to display it in flat list
@@ -56,7 +56,9 @@ const [innerCount1, setInnerCount1] = useState(0);
   const [innerIndex, setIndex] = useState(-1);
 //================================================
 //===================ICR==========================
-const [ICR, setICR]= useState([{id: 0, from: new Date(), to: new Date(), icr: -1, flagC: true}]);
+const [ICR, setICR]= useState([{id: 0, from: new Date().setHours(6), to: new Date().setHours(12), icr: -1, flagC: true},
+  {id: 0, from: new Date().setHours(12), to: new Date().setHours(17), icr: -1, flagC: true},
+  {id: 0, from: new Date().setHours(17), to: new Date().setHours(23), icr: -1, flagC: true}]);
 const [icrCount, setIcrCount] = useState(0);
 
 const addICR = ()=> {
@@ -871,6 +873,7 @@ innerView: {
     flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
 }
 });
+
 
 
 
