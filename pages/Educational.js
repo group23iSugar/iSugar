@@ -44,61 +44,126 @@ const Educational = ({navigation}) => {
         <View style={styles.innerCotainer2}>
           <Text style={styles.textBody}>
             {' '}
-            {'\n'}{'\n'}You can find all the educational materials in the following website
-            -----------------{'\n'}{'\n'}However below you can find direct links to
-            some of the important materials:{'\n'}
+            {'\n'}
+            {'\n'}You can find all the educational materials in the following
+            website
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL('https://isugarserver.com/educationmaterial/')
+              }>
+              <Text style={styles.textBody2}>
+                isugarserver.com/educationmaterial
+              </Text>
+            </TouchableOpacity>
+            {'\n'}
+            {'\n'}However below you can find direct links to some of the
+            important materials:{'\n'}
           </Text>
-          
+
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
-            <Text style={styles.textBody2}>How to use the iSugar application</Text>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=30',
+              )
+            }>
+            <Text style={styles.textBody2}>
+              How to use the iSugar application
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
-            <Text style={styles.textBody2}>How to check your blood glucose level</Text>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=42',
+              )
+            }>
+            <Text style={styles.textBody2}>
+              How to check your blood glucose level
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=43',
+              )
+            }>
             <Text style={styles.textBody2}>How to take the insulin dose</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=44',
+              )
+            }>
             <Text style={styles.textBody2}>Carbohydrate counting</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=45',
+              )
+            }>
             <Text style={styles.textBody2}>Glucagon</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
-            <Text style={styles.textBody2}>Hypoglycemia management (low blood glucose level)</Text>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=46',
+              )
+            }>
+            <Text style={styles.textBody2}>
+              Hypoglycemia management (low blood glucose level)
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
-            <Text style={styles.textBody2}>Hyperglycemia management (high blood glucose level)</Text>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=47',
+              )
+            }>
+            <Text style={styles.textBody2}>
+              Hyperglycemia management (high blood glucose level)
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
-            <Text style={styles.textBody2}>Diabetes and sick day management</Text>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=48',
+              )
+            }>
+            <Text style={styles.textBody2}>
+              Diabetes and sick day management
+            </Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
-            <Text style={styles.textBody2}>Correct method for continuous glucose monitoring (CGM) sensor application</Text>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=49',
+              )
+            }>
+            <Text style={styles.textBody2}>
+              Correct method for continuous glucose monitoring (CGM) sensor
+              application
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
-            <Text style={styles.textBody2}>Correct method for i-Port application</Text>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=50',
+              )
+            }>
+            <Text style={styles.textBody2}>
+              Correct method for i-Port application
+            </Text>
           </TouchableOpacity>
-
         </View>
       </ScrollView>
     </View>
@@ -169,7 +234,7 @@ const styles = StyleSheet.create({
   },
   innerCotainer2: {
     backgroundColor: 'white',
-  //  alignItems: 'center',
+    //  alignItems: 'center',
     borderRadius: 15,
     paddingBottom: 45,
     marginBottom: 100,

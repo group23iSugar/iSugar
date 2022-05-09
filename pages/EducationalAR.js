@@ -38,66 +38,120 @@ const EducationalAR = ({navigation}) => {
             paddingLeft: 15,
             fontWeight: 'bold',
           }}>
-         {'\n'} المواد التثقيفية
+          {'\n'} المواد التثقيفية
         </Text>
 
         <View style={styles.innerCotainer2}>
           <Text style={styles.textBody}>
             {' '}
-            {'\n'}{'\n'}يمكنك الوصول لجميع المواد التثقيفية من خلال الموقع الالكتروني: -------------{'\n'}{'\n'}
+            {'\n'}
+            {'\n'}يمكنك الوصول لجميع المواد التثقيفية من خلال الموقع الالكتروني:{' '}
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL('https://isugarserver.com/educationmaterial')
+              }>
+              <Text style={styles.textBody2}>
+                isugarserver.com/educationmaterial
+              </Text>
+            </TouchableOpacity>
+            {'\n'}
+            {'\n'}
             في الأسفل روابط مباشرة لبعض المواد المهمة:{'\n'}
           </Text>
-          
+
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=30',
+              )
+            }>
             <Text style={styles.textBody2}>كيف تستخدم تطبيق السكر</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=42',
+              )
+            }>
             <Text style={styles.textBody2}>كيف تقيس مستوى السكر بالدم</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=43',
+              )
+            }>
             <Text style={styles.textBody2}>كيف تأخذ جرعة الانسولين</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=44',
+              )
+            }>
             <Text style={styles.textBody2}>حساب الكربوهيدرات</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=45',
+              )
+            }>
             <Text style={styles.textBody2}>الجلوكاجون</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=46',
+              )
+            }>
             <Text style={styles.textBody2}>علاج انخفاض مستوى سكر الدم</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=47',
+              )
+            }>
             <Text style={styles.textBody2}>علاج ارتفاع مستوى سكر الدم</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=48',
+              )
+            }>
             <Text style={styles.textBody2}>السكري في أيام المرض</Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
-            <Text style={styles.textBody2}>الطريقة الصحيحة لتركيب المجس لأجهزة المراقبة المستمرة</Text>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=49',
+              )
+            }>
+            <Text style={styles.textBody2}>
+              الطريقة الصحيحة لتركيب المجس لأجهزة المراقبة المستمرة
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://google.com')}>
-            <Text style={styles.textBody2}>الطريقة الصحيحة لتركيب منفذ حقن الانسولين (أي بورت)</Text>
+            onPress={() =>
+              Linking.openURL(
+                'https://isugarserver.com/educationmaterial/?page_id=50',
+              )
+            }>
+            <Text style={styles.textBody2}>
+              الطريقة الصحيحة لتركيب منفذ حقن الانسولين (أي بورت)
+            </Text>
           </TouchableOpacity>
-
         </View>
       </ScrollView>
     </View>
@@ -168,7 +222,7 @@ const styles = StyleSheet.create({
   },
   innerCotainer2: {
     backgroundColor: 'white',
-  //  alignItems: 'center',
+    //  alignItems: 'center',
     borderRadius: 15,
     paddingBottom: 45,
     marginBottom: 100,
