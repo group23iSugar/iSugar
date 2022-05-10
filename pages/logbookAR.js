@@ -275,10 +275,10 @@ const logbookAR = ({navigation, theme}) => {
               console.log(DOB);
               weigh = rows.item(i).weightKG;
               var wewe = rows.item(i).diagnosis_date;
-              var x = new Date(wewe);
+             // var x = new Date(wewe);
 
-              var d = moment(x).format('YYYY-MM-DD'); // 2021-11-21
-              diagnos = d;
+             // var d = moment(x).format('YYYY-MM-DD'); // 2021-11-21
+              diagnos = wewe;
 
               tempArr.push({
                 isf: rows.item(i).ISF,
