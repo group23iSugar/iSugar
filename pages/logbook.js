@@ -24,6 +24,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PieChart} from 'react-native-chart-kit';
 import moment from 'moment';
 import {DataTable} from 'react-native-paper';
+//import * as Print from 'expo-print';
 //import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
 //import { ActivityIndicator, Colors } from 'react-native-paper';
@@ -102,6 +103,7 @@ const logbook = ({navigation, theme}) => {
           },
         );
       });
+      console.log(fromBGHome+'     '+toBGHome);
     } catch (error) {
       console.log(error);
     }
@@ -431,10 +433,49 @@ const logbook = ({navigation, theme}) => {
     barPercentage: 0.5,
   };
 
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pdf Content</title>
+        <style>
+            body {
+                font-size: 16px;
+                color: rgb(255, 196, 0);
+            }
+            h1 {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Hello, UppLabs!</h1>
+    </body>
+    </html>
+`;
+
+const createPDF = async (html) => {
+  try {
+      const { uri } = await Print.printToFileAsync({ html });
+      return uri;
+  } catch (err) {
+      console.error(err);
+  }
+};
+
   return (
     //dashBoard(),
 
     <View style={styles.container}>
+
+
+      
+
+
+
       <View style={{top: 10, alignItems: 'center'}}>
         <Image source={require('./images/logo.png')} style={styles.pic} />
       </View>
@@ -602,9 +643,16 @@ const logbook = ({navigation, theme}) => {
                     <DataTable.Cell style={{padding: 20, width: 90}}>
                       {item.hour}
                     </DataTable.Cell>
-                    <DataTable.Cell style={{padding: 20, width: 90}}>
-                      {item.BG}
-                    </DataTable.Cell>
+                    {(item.BG > toBGHome) ? (
+                    <DataTable.Cell style={{padding: 20, width: 90, backgroundColor:'orange', color:'white'}}>
+                    {item.BG}
+                  </DataTable.Cell>
+          ) :  (item.BG < fromBGHome) ? ( <DataTable.Cell style={{padding: 20, width: 90, backgroundColor:'red', color:'white'}}>
+          {item.BG}
+        </DataTable.Cell>) : ( <DataTable.Cell style={{padding: 20, width: 90, backgroundColor:'green', color:'white'}}>
+          {item.BG}
+        </DataTable.Cell>)}
+
                     <DataTable.Cell style={{padding: 20, width: 90}}>
                       {item.insulin}
                     </DataTable.Cell>
@@ -625,6 +673,8 @@ const logbook = ({navigation, theme}) => {
             </DataTable.Row> */}
           </DataTable>
         </ScrollView>
+
+
       </ScrollView>
     </View>
   );

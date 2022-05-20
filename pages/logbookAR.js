@@ -275,10 +275,10 @@ const logbookAR = ({navigation, theme}) => {
               console.log(DOB);
               weigh = rows.item(i).weightKG;
               var wewe = rows.item(i).diagnosis_date;
-             // var x = new Date(wewe);
+              var x = new Date(wewe);
 
-             // var d = moment(x).format('YYYY-MM-DD'); // 2021-11-21
-              diagnos = wewe;
+              var d = moment(x).format('YYYY-MM-DD'); // 2021-11-21
+              diagnos = d;
 
               tempArr.push({
                 isf: rows.item(i).ISF,
@@ -433,8 +433,10 @@ const logbookAR = ({navigation, theme}) => {
 
   return (
     //dashBoard(),
+    
 
     <View style={styles.container}>
+
       <View style={{top: 10, alignItems: 'center'}}>
         <Image source={require('./images/logo.png')} style={styles.pic} />
       </View>
@@ -561,6 +563,7 @@ const logbookAR = ({navigation, theme}) => {
           />
         </TouchableOpacity>
 
+
         <ScrollView horizontal={true}>
           <DataTable
             style={{
@@ -602,9 +605,15 @@ const logbookAR = ({navigation, theme}) => {
                     <DataTable.Cell style={{padding: 20, width: 90}}>
                       {item.hour}
                     </DataTable.Cell>
-                    <DataTable.Cell style={{padding: 20, width: 90}}>
-                      {item.BG}
-                    </DataTable.Cell>
+                    {(item.BG > toBGHome) ? (
+                    <DataTable.Cell style={{padding: 20, width: 90, backgroundColor:'orange', color:'white'}}>
+                    {item.BG}
+                  </DataTable.Cell>
+          ) :  (item.BG < fromBGHome) ? ( <DataTable.Cell style={{padding: 20, width: 90, backgroundColor:'red', color:'white'}}>
+          {item.BG}
+        </DataTable.Cell>) : ( <DataTable.Cell style={{padding: 20, width: 90, backgroundColor:'green', color:'white'}}>
+          {item.BG}
+        </DataTable.Cell>)}
                     <DataTable.Cell style={{padding: 20, width: 90}}>
                       {item.insulin}
                     </DataTable.Cell>
@@ -625,6 +634,9 @@ const logbookAR = ({navigation, theme}) => {
             </DataTable.Row> */}
           </DataTable>
         </ScrollView>
+
+
+
       </ScrollView>
     </View>
   );
