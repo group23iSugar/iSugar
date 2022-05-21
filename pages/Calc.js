@@ -361,7 +361,7 @@ else{//half-units
             var rows = results.rows;
             for (let i = 0; i < rows.length; i++) {
               var UID = rows.item(i).UserID;
-              if (UID == 222) {
+              if (UID == uID) {
                 console.log('in if (user is found)');
                 interval = rows.item(i).ISFIntervals; //boolean 0 or 1
                 console.log(interval);
@@ -412,7 +412,7 @@ else{//half-units
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == 222) {
+                  if (UID == uID) {
                     //user id
                     var from = rows.item(i).fromTime;
                     ISFfromtimesTemp.push(from);
@@ -453,7 +453,7 @@ else{//half-units
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == 222) {
+                  if (UID == uID) {
                     var ISF_ = rows.item(i).ISF;
                     isfP=ISF_;
 
@@ -483,7 +483,7 @@ else{//half-units
         db.transaction(tx => {
           tx.executeSql(
             'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
-            [222],
+            [uID],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
@@ -510,7 +510,7 @@ else{//half-units
         db.transaction(tx => {
           tx.executeSql(
             'SELECT ssID, fromTime, toTime FROM ssInterval WHERE UserID=?',
-            [222],
+            [uID],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
@@ -569,7 +569,7 @@ else{//half-units
             for (let i = 0; i < rows.length; i++) {
               var userid = rows.item(i).UserID;
 
-              if (userid == 222) {
+              if (userid == uID) {
                 insulinType=rows.item(i).insulinType;
                 halfOrFull=rows.item(i).halfORfull;
                
