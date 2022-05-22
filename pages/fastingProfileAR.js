@@ -1,18 +1,25 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-shadow */
+/* eslint-disable eqeqeq */
+/* eslint-disable semi */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/rules-of-hooks */
+
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, 
+import { StyleSheet,
     View,
-    Image, 
+    Image,
     Text,
     ScrollView,
-    TouchableOpacity, 
-    Dimensions } from 'react-native'; 
+    TouchableOpacity,
+    Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
 import { set } from 'react-native-reanimated';
-
-
 
 const fastingProfileAR = ({ navigation }) => {
     useEffect(() => {
@@ -42,16 +49,16 @@ const fastingProfileAR = ({ navigation }) => {
                                              console.log('record updated seuccefully');
                                              console.log(center);
                                                   }
-                                              }    
-                                    ) 
-                                        
-                                    
-                                    }  ) 
+                                              }
+                                    )
+
+
+                                    }  )
                                     } catch (error) {
                                        console.log(error);
                                     }
                                 }
-                                
+
                               }
                             },
                           );
@@ -60,11 +67,12 @@ const fastingProfileAR = ({ navigation }) => {
                         console.log(error);
                       }
 
-       
-        
+
+
     };
 
     const alertMessage = () => {
+      // eslint-disable-next-line no-alert
       alert('This feature is not available yet!');
     }
   return (
@@ -81,7 +89,7 @@ const fastingProfileAR = ({ navigation }) => {
           }}>
           إعدادات الانسولين لصيام رمصان
         </Text>
-         <ScrollView> 
+         <ScrollView>
          <View style={styles.body}>
              {firstFlag == false ? (  <View style={styles.innerCotainer}>
                 <Text style={styles.textBody}>التعديلات التي تقوم بها هنا ستحفظ في هذه الصفحة فقط (لن يتم حفظها في صفحة المعلومات الشخصية الرئيسية بالتطبيق)</Text>
@@ -91,19 +99,19 @@ const fastingProfileAR = ({ navigation }) => {
           <Text style={styles.textBody}>تم أخذ معلومات الانسولين هنا من صفحة المعلومات الشخصية الرئيسية بالتطبيق وتعديل معامل الكربوهيدرات مبدئياً للصيام. قد تحتاج إلى القيام ببعض التعديلات لاحقاً. </Text>
           <Text style={styles.textBody}>التعديلات التي تقوم بها هنا ستحفظ في هذه الصفحة فقط (لن يتم حفظها في صفحة المعلومات الشخصية الرئيسية بالتطبيق)</Text>
           <Text style={styles.textBody}>المعلومات المتوفرة هنا ستستخدم في صفحات التطبيق الخاصة بصيام رمضان فقط</Text>
- 
+
           </View>
              )}
-         
-      
-        
-        <TouchableOpacity onPress={() => alertMessage()}>
+
+
+
+        <TouchableOpacity onPress={()=>{navigation.navigate('insulinFastingAR'); }}>
             <LinearGradient style={styles.outer}
             colors={['#a8dadc', '#457b9d']}>
             <View style={styles.inner}>
             <Text style={styles.textBody}>معلومات الإنسولين</Text>
             </View>
-            
+
             </LinearGradient>
             </TouchableOpacity>
      {/* //=================// */}
@@ -113,10 +121,10 @@ const fastingProfileAR = ({ navigation }) => {
             <View style={styles.inner}>
             <Text style={styles.textBody}>معامل حساسية الإنسولين</Text>
             </View>
-            
+
             </LinearGradient>
             </TouchableOpacity>
-           
+
             {/* //=================// */}
             <TouchableOpacity onPress={()=>{navigation.navigate('icrFastingAR')}}>
             <LinearGradient style={styles.outer}
@@ -124,20 +132,20 @@ const fastingProfileAR = ({ navigation }) => {
             <View style={styles.inner}>
             <Text style={styles.textBody}>معامل الكربوهيدرات</Text>
             </View>
-            
+
             </LinearGradient>
             </TouchableOpacity>
-   
+
            </View>
         </ScrollView>
-    </View>      
+    </View>
 
-    
+
   );
 };
 
 
-const {height} = Dimensions.get("screen");
+const {height} = Dimensions.get('screen');
 const height_logo = height * 0.28;
 
 export default fastingProfileAR;
@@ -148,7 +156,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#EEF0F2',
       },
       innerTitle: {
-        fontSize: 15, color: '#05375a', fontWeight:'bold', textAlign: 'center'
+        fontSize: 15, color: '#05375a', fontWeight:'bold', textAlign: 'center',
     },
       pic: {
         width: height_logo,
@@ -157,14 +165,14 @@ const styles = StyleSheet.create({
     },
       header: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     body: {
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 50,
         marginBottom: 20,
-    
+
     },
     outer: {
         width: 275,
@@ -175,7 +183,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 15,
         flexDirection: 'row',
-        shadowColor: "#000",
+        shadowColor: '#000',
         shadowOffset: {
         width: 0,
         height: 2,
@@ -190,34 +198,34 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        backgroundColor: 'white'
-        
+        backgroundColor: 'white',
+
       },
     textHeader:{
        fontSize: 18,
        paddingBottom: 15,
        paddingTop: 15,
-       color: '#05375a', 
+       color: '#05375a',
        textAlign: 'right',
        paddingLeft: 10,
-       paddingRight: 10
+       paddingRight: 10,
     },
     textAlert:{
       fontSize: 17,
-      color: 'red', 
+      color: 'red',
       fontWeight: 'bold',
       textAlign: 'center',
       paddingLeft: 10,
-      paddingRight: 10
+      paddingRight: 10,
     },
     textBody:{
         fontSize: 20,
         marginBottom: 15,
         paddingBottom: 15,
-        color: '#05375a', 
+        color: '#05375a',
         textAlign: 'right',
         fontWeight: 'bold',
-     }, 
+     },
      textInput: {
       width: 50,
       height: 45,
@@ -226,7 +234,7 @@ const styles = StyleSheet.create({
       borderRightWidth: 1,
       borderBottomWidth: 1,
       borderColor: '#CACDD1',
-      color: '#000'
+      color: '#000',
     },
     textInputISF: {
       width: 60,
@@ -236,11 +244,11 @@ const styles = StyleSheet.create({
       borderRightWidth: 1,
       borderBottomWidth: 1,
       borderColor: '#CACDD1',
-      color: '#000'
+      color: '#000',
     },
      innerCotainer: {
       backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10, width: 310,
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: {
                   width: 0,
                   height: 2,
@@ -251,7 +259,7 @@ const styles = StyleSheet.create({
     },
     innerCotainerISF: {
       backgroundColor: 'white', margin: 10,  borderRadius: 15, padding: 10, width: 360,
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: {
                   width: 0,
                   height: 2,
@@ -263,7 +271,7 @@ const styles = StyleSheet.create({
     innerCotainer2: {
       backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10, width: 360,
       flexDirection: 'row',
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: {
                   width: 0,
                   height: 2,
@@ -275,7 +283,7 @@ const styles = StyleSheet.create({
     buttonV: {
       marginTop: 60,
       alignItems: 'center',
-      
+
     },
     buttonR: {
       marginTop: 20,
@@ -284,7 +292,6 @@ const styles = StyleSheet.create({
       width: 50,
       height: 35,
       justifyContent: 'center',
-      alignItems: 'center',
       borderRadius: 15,
       flexDirection: 'row',
     },
@@ -295,73 +302,22 @@ const styles = StyleSheet.create({
       width: 100,
       height: 35,
       justifyContent: 'center',
-      alignItems: 'center',
       borderRadius: 15,
       flexDirection: 'row',
     },
     innerView: {
         flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
-    }, 
-    container: {
-      flex: 1,
-      backgroundColor: '#EEF0F2',
-    },
-    header: {
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    body: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 50,
-      marginBottom: 20,
-    
-    },
-    outer: {
-      width: 275,
-      height: 110,
-      marginTop: 15,
-      marginBottom: 20,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 15,
-      flexDirection: 'row',
-      shadowColor: "#000",
-      shadowOffset: {
-    width: 0,
-    height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-    },
-    inner: {
-      width: 250,
-      height: 110,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'row',
-      backgroundColor: 'white'
-      
-    },
-    textBody:{
-      fontSize: 17,
-      color: '#05375a', 
-      textAlign: 'center',
-      fontWeight: 'bold',
-      marginTop: 5,
-      paddingTop: 15
     },
       ddown: {
       //drop down list style
-    
-    
+
+
       marginTop: 20,
       shadowColor: '#000',
       alignSelf: 'center',
       width: 300,
-    
-    
+
+
       alignItems: 'center',
       shadowOffset: {
         width: 0,
@@ -369,49 +325,49 @@ const styles = StyleSheet.create({
       },
       shadowOpacity: 0.33,
       shadowRadius: 0.62,
-    
+
       elevation: 7,
       backgroundColor: '#f5f5f5',
     },
     ddown2: {
       //drop down list style
-    
-    
+
+
       marginTop: 20,
       marginLeft: 10,
       shadowColor: '#000',
-    
+
       width: 100,
       fontSize: 5,
-    
+
       shadowOffset: {
         width: 0,
         height: 1,
       },
       shadowOpacity: 0.33,
       shadowRadius: 0.62,
-    
+
       elevation: 7,
       backgroundColor: '#f5f5f5',
     },
       ddown3: {
       //drop down list style
-    
-    
+
+
       marginTop: 20,
       marginLeft: 10,
       shadowColor: '#000',
-    
+
       width: 130,
       fontSize: 5,
-    
+
       shadowOffset: {
         width: 0,
         height: 1,
       },
       shadowOpacity: 0.33,
       shadowRadius: 0.62,
-    
+
       elevation: 7,
       backgroundColor: '#f5f5f5',
     },
@@ -423,9 +379,8 @@ const styles = StyleSheet.create({
     },
     picker: {
       color: 'grey',
-      width: 300
-    }
- 
-});
+      width: 300,
+    },
 
+});
 
