@@ -1,3 +1,12 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable no-shadow */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
@@ -23,6 +32,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PieChart} from 'react-native-chart-kit';
 import moment from 'moment';
+import Entypo from 'react-native-vector-icons/Entypo';
+import AuthStackAR from './AuthStackAR';
 //import { ActivityIndicator, Colors } from 'react-native-paper';
 //import dashDB from './dashDB';
 
@@ -141,7 +152,7 @@ const HomeAR = ({navigation}) => {
     try {
       db.transaction(tx => {
         tx.executeSql(
-          'SELECT UserID, BGlevel, DateTime FROM BGLevel',
+          'SELECT UserID, BGLevel, DateTime FROM BGLevel',
           [],
           (tx, results) => {
             var rows = results.rows;
@@ -150,12 +161,12 @@ const HomeAR = ({navigation}) => {
             var momFormat = moment(d).format('yyyy/MM/DD  hh:mm a');
 
             setLastBGtime(momFormat);
-            setLastBG(rows.item(rows.length - 1).BGlevel);
+            setLastBG(rows.item(rows.length - 1).BGLevel);
 
             for (let i = 0; i < rows.length; i++) {
               var timeString = rows.item(i).DateTime;
               var toObj = new Date(timeString);
-              var bgHome = rows.item(i).BGlevel;
+              var bgHome = rows.item(i).BGLevel;
               var userid = rows.item(i).UserID;
               //console.log((time - toObj) / (1000 * 60 * 60));
 
@@ -260,8 +271,7 @@ const HomeAR = ({navigation}) => {
     var time = new Date();
     var timeString = time.toString();
     console.log('in DB of check flag');
-    // eslint-disable-next-line quotes
-    var InsertAPIURL = 'http://192.168.56.1/isugar/updateEMsgFlag.php'; //API to  signup
+    var InsertAPIURL = 'https://isugarserver.com/updateEMsgFlag.php'; //API to  signup
 
     var headers = {
       Accept: 'application/json',
@@ -282,7 +292,7 @@ const HomeAR = ({navigation}) => {
       .then(response => response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
       .then(response => {})
       .catch(error => {
-        alert('Error Occured' + error);
+        // alert('Error Occured' + error);
       });
   };
   //===================================================================
@@ -296,6 +306,7 @@ const HomeAR = ({navigation}) => {
       color: '#FF5541',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15,
+      textAlign: 'right',
     },
     {
       name: 'أعلى من الهدف',
@@ -303,6 +314,7 @@ const HomeAR = ({navigation}) => {
       color: '#FF9A41',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15,
+      textAlign: 'right',
     },
     {
       name: 'ضمن الهدف',
@@ -326,22 +338,24 @@ const HomeAR = ({navigation}) => {
     //dashBoard(),
 
     <View style={styles.container}>
-      <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
-      </View>
-      <ScrollView>
-        <Text
+     <ScrollView>
+      <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
+        <TouchableOpacity onPress={()=>navigation.getParent('RightDrawer').openDrawer()}>
+         <Entypo name="menu" color="#05375a" size={35} />
+         </TouchableOpacity>
+         <View style={{alignItems: 'center', marginRight: 130, paddingTop: -10, paddingEnd: 15}}>
+         <Text
           style={{
-            color: '#000',
-            fontSize: 25,
-            textAlign: 'center',
-            paddingTop: 20,
-            paddingRight: 15,
+            color: '#05375a',
+            fontSize: 18,
             fontWeight: 'bold',
+            textAlign: 'center',
+            paddingLeft: 15,
           }}>
           Home
         </Text>
-
+         </View>
+      </View>
         <View style={styles.innerCotainer}>
           <Text style={styles.textBody}>
             آخر قياس لمستوى سكر الدم:{lastBG + '\n'}الوقت: {lastBGtime}
@@ -362,7 +376,7 @@ const HomeAR = ({navigation}) => {
             }}
             onPress={dashBoard}>
             <Image
-              source={require('./images/upd.png')}
+              source={require('../images/upd.png')}
               style={{height: 25, width: 25}}
             />
           </TouchableOpacity>
@@ -432,7 +446,7 @@ const HomeAR = ({navigation}) => {
             }}
             onPress={ret4}>
             <Image
-              source={require('./images/upd.png')}
+              source={require('../images/upd.png')}
               style={{height: 25, width: 25}}
             />
           </TouchableOpacity>
