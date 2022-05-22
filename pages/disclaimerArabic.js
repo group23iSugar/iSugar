@@ -1,3 +1,9 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-quotes */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-trailing-spaces */
 import React from 'react';
 import { StyleSheet, 
     View,
@@ -28,11 +34,12 @@ import react from 'react';
         <ScrollView>
       <Text style={styles.title}>للتوضيح و إخلاء المسؤولية: </Text>
       <View style={styles.textD}>
-      <Text style={styles.text_footer}>من المقرر أن يستخدم هذا التطبيق من قبل مرضى السكري 1 الأطفال (الذين تقل أعمارهم عن 18 عاماً) أو مقدمي الرعاية لهم حيث أن المبادئ التوجيهية
-       الطبية المستخدمة في هذا التطبيق هي مبادئ توجيهية للأطفال حتى عمر 18 سنة - {'\n'}</Text>
-      <Text style={styles.text_footer}> ينبغي ألا يستخدم المصابون الذين يعانون من مرض السكري من النوع 1 وما فوق سن 18 سنة هذا التطبيق
-       في إدارة مرض السكري ، حيث أن المبادئ التوجيهية الطبية المستخدمة في هذا التطبيق هي مبادئ توجيهية للأطفال وليست معتمدة بعد سن 18 سنة.- {'\n'}</Text>
-      <Text style={styles.text_footer}> يمكن أن يتم تخزين بيانات المرضى واستخدامها لأغراض البحثية في جامعة الملك سعود و المدينة الطبية بجامعة الملك سعود</Text>
+      <Text style={styles.text_footer}>-	هذا التطبيق مطوراً ومملوكاً من قبل جامعة الملك سعود والمدينة الطبية بجامعة الملك سعود في الرياض، المملكة العربية السعودية.{'\n'}</Text>
+      <Text style={styles.text_footer}>-	 التطبيق صمم ليساعدك في الرعاية اليومية لمرض السكري وتقديم التوصيات بناءً على آخر التوصيات الطبية في علاج السكري لدى الأطفال{'\n'}</Text>
+      <Text style={styles.text_footer}>-	التطبيق ليس بديل عن الخطة والتوصيات العلاجية المعطاة لك من طبيبك المعالج.{'\n'}</Text>
+      <Text style={styles.text_footer}>-	المستخدم مسؤول عن تحديث معلوماته في التطبيق بشكل مستمر وعند كل زيارة للطبيب.{'\n'}</Text>
+      <Text style={styles.text_footer}>-	التطبيق صمم للاستخدام من قبل مرضى السكري النوع الأول الأطفال (عمر أقل من ١٨ سنة) أو ذوييهم.{'\n'}</Text>
+      <Text style={styles.text_footer}>-	المعلومات المدخلة في التطبيق سيتم حفظها واستخدامها وفقاً لقواعد وأنظمة جامعة الملك سعود والمدينة الطبية بجامعة الملك سعود والتي تتضمن البحوث.</Text>
       </View>
       
      
@@ -162,7 +169,6 @@ buttonR: {
   width: 100,
   height: 40,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -172,4 +178,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
