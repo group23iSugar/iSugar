@@ -1,14 +1,28 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable jsx-quotes */
+/* eslint-disable quotes */
+/* eslint-disable yoda */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable eqeqeq */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-shadow */
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-undef */
+/* eslint-disable no-trailing-spaces */
 import React, { useEffect, useState } from 'react';
 import {  StyleSheet, 
   View,
   Image,
-  SafeAreaView, 
   Text,
   TouchableOpacity,
-  Button,
   Platform, 
   TextInput,
   ScrollView,
+  alert,
   Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
@@ -37,7 +51,7 @@ import {Picker} from '@react-native-picker/picker';
                     var rows = results.rows;
                     for (let i = 0; i < rows.length; i++) {          
                         var userID = rows.item(i).UserID;
-                        if (238 == userID){
+                        if (1 == userID){
                             setDbData({
                                 ...dbData,
                                 glucoseMType: rows.item(i).typeOfGlucoseM,
@@ -149,7 +163,7 @@ ketonesMeasure = ketones;
           db.transaction( (tx) => {
               tx.executeSql(
                 'UPDATE patientprofile SET typeOfGlucoseM=? WHERE UserID=? ',
-                [monitor, 238],
+                [monitor, 1],
                 (tx, results) => {
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
@@ -169,7 +183,7 @@ ketonesMeasure = ketones;
           db.transaction( (tx) => {
               tx.executeSql(
                 'UPDATE nonPatientprofile SET typeOfGlucoseM=? WHERE UserID=? ',
-                [monitor, 238],
+                [monitor, 1],
                 (tx, results) => {
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
@@ -193,7 +207,7 @@ ketonesMeasure = ketones;
               db.transaction( (tx) => {
                   tx.executeSql(
                     'UPDATE patientprofile SET glucoseLevel_unit=? WHERE UserID=? ',
-                    [levelUnit, 238],
+                    [levelUnit, 1],
                     (tx, results) => {
                       console.log('Results', results.rowsAffected);
                    if (results.rowsAffected > 0) {
@@ -237,7 +251,7 @@ ketonesMeasure = ketones;
                   db.transaction( (tx) => {
                       tx.executeSql(
                         'UPDATE patientprofile SET ketonesMeasure=? WHERE UserID=? ',
-                        [ketones, 238],
+                        [ketones, 1],
                         (tx, results) => {
                           console.log('Results', results.rowsAffected);
                        if (results.rowsAffected > 0) {
@@ -257,7 +271,7 @@ ketonesMeasure = ketones;
                   db.transaction( (tx) => {
                       tx.executeSql(
                         'UPDATE nonPatientprofile SET ketonesMeasure=? WHERE UserID=? ',
-                        [ketones, 238],
+                        [ketones, 1],
                         (tx, results) => {
                           console.log('Results', results.rowsAffected);
                        if (results.rowsAffected > 0) {
@@ -281,7 +295,7 @@ ketonesMeasure = ketones;
                       db.transaction( (tx) => {
                           tx.executeSql(
                             'UPDATE patientprofile SET fromBG=? WHERE UserID=? ',
-                            [BGFrom.BGFrom, 238],
+                            [BGFrom.BGFrom, 1],
                             (tx, results) => {
                               console.log('Results', results.rowsAffected);
                            if (results.rowsAffected > 0) {
@@ -301,7 +315,7 @@ ketonesMeasure = ketones;
                       db.transaction( (tx) => {
                           tx.executeSql(
                             'UPDATE nonPatientprofile SET fromBG=? WHERE UserID=? ',
-                            [BGFrom.BGFrom, 238],
+                            [BGFrom.BGFrom, 1],
                             (tx, results) => {
                               console.log('Results', results.rowsAffected);
                            if (results.rowsAffected > 0) {
@@ -325,7 +339,7 @@ ketonesMeasure = ketones;
                           db.transaction( (tx) => {
                               tx.executeSql(
                                 'UPDATE patientprofile SET toBG=? WHERE UserID=? ',
-                                [BGTO.BGTO, 238],
+                                [BGTO.BGTO, 1],
                                 (tx, results) => {
                                   console.log('Results', results.rowsAffected);
                                if (results.rowsAffected > 0) {
@@ -345,7 +359,7 @@ ketonesMeasure = ketones;
                           db.transaction( (tx) => {
                               tx.executeSql(
                                 'UPDATE nonPatientprofile SET toBG=? WHERE UserID=? ',
-                                [BGTO.BGTO, 238],
+                                [BGTO.BGTO, 1],
                                 (tx, results) => {
                                   console.log('Results', results.rowsAffected);
                                if (results.rowsAffected > 0) {
@@ -372,7 +386,7 @@ ketonesMeasure = ketones;
                           };
                           
                           var Data ={
-                            UserID: 119,
+                            UserID:onlinUserID,
                             ketonesMeasure: ketones
                           };
                         
@@ -386,7 +400,7 @@ ketonesMeasure = ketones;
                         .then((response)=>{
                         })
                         .catch((error)=>{
-                            alert("Error Occured" + error);
+                           // alert('Error Occured' + error);
                         })
                         }
                         //-------------------------------
@@ -399,7 +413,7 @@ ketonesMeasure = ketones;
                           };
                           
                           var Data ={
-                            UserID: 119,
+                            UserID:onlinUserID,
                             glucoseLevel_unit: levelUnit
                           };
                         
@@ -413,7 +427,7 @@ ketonesMeasure = ketones;
                         .then((response)=>{
                         })
                         .catch((error)=>{
-                            alert("Error Occured" + error);
+                           // alert('Error Occured' + error);
                         })
                         }
                         //-------------------------------
@@ -426,7 +440,7 @@ ketonesMeasure = ketones;
                           };
                           
                           var Data ={
-                            UserID: 119,
+                            UserID:onlinUserID,
                             fromBG: BGFrom.BGFrom,
                             toBG: BGTO.BGTO
                           };
@@ -441,7 +455,7 @@ ketonesMeasure = ketones;
                         .then((response)=>{
                         })
                         .catch((error)=>{
-                            alert("Error Occured" + error);
+                           // alert('Error Occured' + error);
                         })
                         }
                         //-------------------------------
@@ -454,7 +468,7 @@ ketonesMeasure = ketones;
                           };
                           
                           var Data ={
-                            UserID: 119,
+                            UserID:onlinUserID,
                             fromBG: BGFrom.BGFrom,
                             toBG: dbData.tBG
                           };
@@ -469,7 +483,7 @@ ketonesMeasure = ketones;
                         .then((response)=>{
                         })
                         .catch((error)=>{
-                            alert("Error Occured" + error);
+                           // alert('Error Occured' + error);
                         })
                         }
                         //-------------------------------
@@ -482,7 +496,7 @@ ketonesMeasure = ketones;
                           };
                           
                           var Data ={
-                            UserID: 119,
+                            UserID:onlinUserID,
                             fromBG: dbData.fBG,
                             toBG: BGTO.BGTO
                           };
@@ -497,7 +511,7 @@ ketonesMeasure = ketones;
                         .then((response)=>{
                         })
                         .catch((error)=>{
-                            alert("Error Occured" + error);
+                           // alert('Error Occured' + error);
                         })
                         }
                         //-------------------------------
@@ -510,7 +524,7 @@ ketonesMeasure = ketones;
                           };
                           
                           var Data ={
-                            UserID: 119,
+                            UserID:onlinUserID,
                             typeOfGlucoseM: monitor
                           };
                         
@@ -524,7 +538,7 @@ ketonesMeasure = ketones;
                         .then((response)=>{
                         })
                         .catch((error)=>{
-                            alert("Error Occured" + error);
+                           // alert('Error Occured' + error);
                         })
                         }
 //-------------------------------
@@ -841,12 +855,6 @@ pickerP: {
   height: 30,
     
 },
-titleB: {
-  color: '#05375a',
-  fontSize: 20,
-  fontWeight: 'bold',
- 
-},
 buttonV: {
   marginTop: 60,
   alignItems: 'center',
@@ -897,7 +905,6 @@ buttonR: {
   width: 200,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -907,4 +914,5 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
+
 
