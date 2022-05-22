@@ -1,11 +1,19 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-shadow */
+/* eslint-disable eqeqeq */
+/* eslint-disable semi */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, 
+import { StyleSheet,
     View,
-    Image, 
+    Image,
     Text,
     ScrollView,
-    TouchableOpacity, 
-    Dimensions } from 'react-native'; 
+    TouchableOpacity,
+    Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -32,7 +40,7 @@ const calcRecommend = ({ navigation }) => {
                   [],
                   (tx, results) => {
                     var rows = results.rows;
-                    for (let i = 0; i < rows.length; i++) {           
+                    for (let i = 0; i < rows.length; i++) {
                         var userID = rows.item(i).UserID;
                         if (userID == uID){
                           console.log(rows.item(i).latest_HP1AC_date);
@@ -46,14 +54,14 @@ const calcRecommend = ({ navigation }) => {
                             //                 setYes(true);
                             //                 setNo(false);
                             //             }
-                        
+
                         }
                       }
-                  }   
-        ) 
-            
-        
-        }  ) 
+                  }
+        )
+
+
+        }  )
         } catch (error) {
            console.log(error);
         }
@@ -65,7 +73,7 @@ const calcRecommend = ({ navigation }) => {
                   [],
                   (tx, results) => {
                     var rows = results.rows;
-                    for (let i = 0; i < rows.length; i++) {           
+                    for (let i = 0; i < rows.length; i++) {
                         var userID = rows.item(i).UserID;
                        if (userID == uID) {
                       console.log(rows.item(i).insulinType);
@@ -76,18 +84,18 @@ const calcRecommend = ({ navigation }) => {
                             return;
                         }
                       }
-                  }   
-        ) 
-            
-        
-        }  ) 
+                  }
+        )
+
+
+        }  )
         } catch (error) {
            console.log(error);
         }
 
     };
 
- 
+
   return (
 
     <View style={styles.container}>
@@ -102,17 +110,17 @@ const calcRecommend = ({ navigation }) => {
           }}>
           Fasting
         </Text>
-         <ScrollView> 
+         <ScrollView>
          <View style={styles.body}>
              {notFlag ? (  <View style={styles.innerCotainer}>
           <Text style={styles.textAlert}>This section is temporarily unavailable for you as your HBA1C does not match with our algorithm. Please contact your Diabetes center for assistance.</Text>
-         
+
           </View>) : (
                 <View style={styles.innerCotainer}>
           <Text style={styles.textBody}>- Take {insType} Insulin at Maghrib time OR after Taraweeh prayer.</Text>
           <Text style={styles.textBody}>- The {insType} insulin dose is recommended to be reduced during Ramadan fasting by 20-30% from your original dose before Ramadan.</Text>
-          <Text style={styles.textBody}>- 20-30% reduction of your original {insType} insulin dose makes your starting Ramadan fasting dose of {dose} insulin range from {(dose) - (dose*0.20)} to {(dose) - (dose*0.30)} units. </Text>
- 
+          <Text style={styles.textBody}>- 20-30% reduction of your original {insType} insulin dose makes your starting Ramadan fasting dose of {dose} insulin range from {(dose) - (dose * 0.20)} to {(dose) - (dose * 0.30)} units. </Text>
+
           {/* <Text style={styles.textHeader}>2- If pump user in profile page:</Text>
           <Text style={styles.textBody}>- It is recommended to decrease your basal rate during fasting hours by 20%.</Text>
           <Text style={styles.textBody}>- It is recommended to decrease your Insulin to Carbohydrate Ratio (ICR) at breakfast (Fatour) by 1-2 grams (leads to taking more insulin bolus at this time)</Text>
@@ -120,18 +128,18 @@ const calcRecommend = ({ navigation }) => {
   */}
           </View>
              )}
-         
-      
+
+
       </View>
         </ScrollView>
-    </View>      
+    </View>
 
-    
+
   );
 };
 
 
-const {height} = Dimensions.get("screen");
+const {height} = Dimensions.get('screen');
 const height_logo = height * 0.28;
 
 export default calcRecommend;
@@ -142,7 +150,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#EEF0F2',
       },
       innerTitle: {
-        fontSize: 15, color: '#05375a', fontWeight:'bold', textAlign: 'center'
+        fontSize: 15, color: '#05375a', fontWeight:'bold', textAlign: 'center',
     },
       pic: {
         width: height_logo,
@@ -151,14 +159,14 @@ const styles = StyleSheet.create({
     },
       header: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     body: {
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 50,
         marginBottom: 20,
-    
+
     },
     outer: {
         width: 275,
@@ -169,7 +177,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 15,
         flexDirection: 'row',
-        shadowColor: "#000",
+        shadowColor: '#000',
         shadowOffset: {
         width: 0,
         height: 2,
@@ -184,34 +192,34 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        backgroundColor: 'white'
-        
+        backgroundColor: 'white',
+
       },
     textHeader:{
        fontSize: 18,
        paddingBottom: 15,
        paddingTop: 15,
-       color: '#05375a', 
+       color: '#05375a',
        textAlign: 'left',
        paddingLeft: 10,
-       paddingRight: 10
+       paddingRight: 10,
     },
     textAlert:{
       fontSize: 17,
-      color: 'red', 
+      color: 'red',
       fontWeight: 'bold',
       textAlign: 'center',
       paddingLeft: 10,
-      paddingRight: 10
+      paddingRight: 10,
     },
     textBody:{
         fontSize: 20,
         marginBottom: 15,
         paddingBottom: 15,
-        color: '#05375a', 
+        color: '#05375a',
         textAlign: 'left',
         fontWeight: 'bold',
-     }, 
+     },
      textInput: {
       width: 50,
       height: 45,
@@ -220,7 +228,7 @@ const styles = StyleSheet.create({
       borderRightWidth: 1,
       borderBottomWidth: 1,
       borderColor: '#CACDD1',
-      color: '#000'
+      color: '#000',
     },
     textInputISF: {
       width: 60,
@@ -230,11 +238,11 @@ const styles = StyleSheet.create({
       borderRightWidth: 1,
       borderBottomWidth: 1,
       borderColor: '#CACDD1',
-      color: '#000'
+      color: '#000',
     },
      innerCotainer: {
       backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10, width: 310,
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: {
                   width: 0,
                   height: 2,
@@ -245,7 +253,7 @@ const styles = StyleSheet.create({
     },
     innerCotainerISF: {
       backgroundColor: 'white', margin: 10,  borderRadius: 15, padding: 10, width: 360,
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: {
                   width: 0,
                   height: 2,
@@ -257,7 +265,7 @@ const styles = StyleSheet.create({
     innerCotainer2: {
       backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10, width: 360,
       flexDirection: 'row',
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: {
                   width: 0,
                   height: 2,
@@ -269,7 +277,7 @@ const styles = StyleSheet.create({
     buttonV: {
       marginTop: 60,
       alignItems: 'center',
-      
+
     },
     buttonR: {
       marginTop: 20,
@@ -278,7 +286,6 @@ const styles = StyleSheet.create({
       width: 50,
       height: 35,
       justifyContent: 'center',
-      alignItems: 'center',
       borderRadius: 15,
       flexDirection: 'row',
     },
@@ -289,73 +296,22 @@ const styles = StyleSheet.create({
       width: 100,
       height: 35,
       justifyContent: 'center',
-      alignItems: 'center',
       borderRadius: 15,
       flexDirection: 'row',
     },
     innerView: {
         flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
-    }, 
-    container: {
-      flex: 1,
-      backgroundColor: '#EEF0F2',
-    },
-    header: {
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    body: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 50,
-      marginBottom: 20,
-    
-    },
-    outer: {
-      width: 275,
-      height: 110,
-      marginTop: 15,
-      marginBottom: 20,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 15,
-      flexDirection: 'row',
-      shadowColor: "#000",
-      shadowOffset: {
-    width: 0,
-    height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-    },
-    inner: {
-      width: 250,
-      height: 110,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'row',
-      backgroundColor: 'white'
-      
-    },
-    textBody:{
-      fontSize: 17,
-      color: '#05375a', 
-      textAlign: 'center',
-      fontWeight: 'bold',
-      marginTop: 5,
-      paddingTop: 15
     },
       ddown: {
       //drop down list style
-    
-    
+
+
       marginTop: 20,
       shadowColor: '#000',
       alignSelf: 'center',
       width: 300,
-    
-    
+
+
       alignItems: 'center',
       shadowOffset: {
         width: 0,
@@ -363,49 +319,49 @@ const styles = StyleSheet.create({
       },
       shadowOpacity: 0.33,
       shadowRadius: 0.62,
-    
+
       elevation: 7,
       backgroundColor: '#f5f5f5',
     },
     ddown2: {
       //drop down list style
-    
-    
+
+
       marginTop: 20,
       marginLeft: 10,
       shadowColor: '#000',
-    
+
       width: 100,
       fontSize: 5,
-    
+
       shadowOffset: {
         width: 0,
         height: 1,
       },
       shadowOpacity: 0.33,
       shadowRadius: 0.62,
-    
+
       elevation: 7,
       backgroundColor: '#f5f5f5',
     },
       ddown3: {
       //drop down list style
-    
-    
+
+
       marginTop: 20,
       marginLeft: 10,
       shadowColor: '#000',
-    
+
       width: 130,
       fontSize: 5,
-    
+
       shadowOffset: {
         width: 0,
         height: 1,
       },
       shadowOpacity: 0.33,
       shadowRadius: 0.62,
-    
+
       elevation: 7,
       backgroundColor: '#f5f5f5',
     },
@@ -417,9 +373,8 @@ const styles = StyleSheet.create({
     },
     picker: {
       color: 'grey',
-      width: 300
-    }
- 
-});
+      width: 300,
+    },
 
+});
 
