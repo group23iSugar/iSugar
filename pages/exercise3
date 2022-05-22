@@ -353,7 +353,7 @@ const handleScheduleNotification = (title, message, time) => {
 const checkIsPlanned = () => {
   console.log('in DB of taken insulin and planned exercise');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/isugar/checkPlannedExercise.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/checkPlannedExercise.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -391,7 +391,7 @@ fetch(InsertAPIURL,{
  console.log('inside onlineDB: ');
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 
 }
@@ -399,7 +399,7 @@ fetch(InsertAPIURL,{
 const checkWeight = () => {
   console.log('in DB of weight');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/isugar/checkWeight.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/checkWeight.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -432,7 +432,7 @@ fetch(InsertAPIURL,{
  console.log('inside onlineDB2: ');
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 
 }
@@ -440,7 +440,7 @@ fetch(InsertAPIURL,{
 const saveInstruction = () => {
   console.log('in DB of Saving information');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/isugar/ExerciseRecord.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/ExerciseRecord.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -469,14 +469,14 @@ fetch(InsertAPIURL,{
      console.log(response[0].flag);
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 }
 
 const saveBGLevel = () => {
   console.log('in DB of Saving information');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/isugar/BGLevel.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/BGLevel.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -499,14 +499,14 @@ fetch(InsertAPIURL,{
 .then((response)=>{
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 }
 
 const insulinB = () => {
   console.log('in DB to find insulin B');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/isugar/checkInsuB.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/checkInsuB.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -547,7 +547,7 @@ fetch(InsertAPIURL,{
  console.log('inside onlineDB: ');
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 
 }
@@ -555,7 +555,7 @@ fetch(InsertAPIURL,{
 const calculateIOB = () => {
   console.log('in DB to find IOB');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/isugar/checkIOB.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/checkIOB.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -586,7 +586,7 @@ fetch(InsertAPIURL,{
  console.log('inside onlineDB: ');
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 
 }
