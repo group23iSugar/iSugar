@@ -1,14 +1,21 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
+/* eslint-disable no-unused-vars */
+/* eslint-disable eqeqeq */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-undef */
+/* eslint-disable react-native/no-inline-styles */
+
 import React from 'react';
 import { StyleSheet, 
     View,
-    Image, 
     Text,
     ScrollView,
     TouchableOpacity, 
     Dimensions } from 'react-native'; 
 import LinearGradient from 'react-native-linear-gradient';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import SQLite from 'react-native-sqlite-storage';
 
 
 
@@ -170,5 +177,3 @@ textBody:{
     fontWeight: 'bold',
  } 
 });
-
-
