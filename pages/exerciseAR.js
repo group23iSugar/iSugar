@@ -113,7 +113,7 @@ const exercise = ({navigation}) => {
          checkBGLevel();
         })
         .catch((error)=>{
-            alert('Error Occured' + error);
+            // alert('Error Occured' + error);
         // eslint-disable-next-line semi
         })
         // eslint-disable-next-line semi
@@ -157,7 +157,7 @@ const exercise = ({navigation}) => {
          checkGlucagon();
         })
         .catch((error)=>{
-            alert('Error Occured' + error);
+            // alert('Error Occured' + error);
         // eslint-disable-next-line semi
         })
         // eslint-disable-next-line semi
@@ -200,7 +200,7 @@ const exercise = ({navigation}) => {
          checkAnnual();
         })
         .catch((error)=>{
-            alert('Error Occured' + error);
+            // alert('Error Occured' + error);
         // eslint-disable-next-line semi
         })
         // eslint-disable-next-line semi
@@ -242,7 +242,7 @@ const exercise = ({navigation}) => {
          console.log('inside onlineDB for annual test: ');
         })
         .catch((error)=>{
-            alert('Error Occured' + error);
+            // alert('Error Occured' + error);
         // eslint-disable-next-line semi
         })
         // eslint-disable-next-line semi
@@ -272,7 +272,7 @@ const exercise = ({navigation}) => {
         .then((response)=>{
         })
         .catch((error)=>{
-            alert('Error Occured' + error);
+            // alert('Error Occured' + error);
         // eslint-disable-next-line semi
         })
         // eslint-disable-next-line semi
@@ -424,3 +424,4 @@ buttonV: {
   },
 });
 export default exercise;
+
