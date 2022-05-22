@@ -1,3 +1,9 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-undef */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, {Component, useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -21,13 +27,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import RNSearchablePicker from 'react-native-searchable-picker';
 import react from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import SQLite from 'react-native-sqlite-storage';
-import PushNotification from "react-native-push-notification";
+import PushNotification from 'react-native-push-notification';
 
 const hypoConsciousAR = ({navigation}) => {
   //==================================================================
@@ -91,7 +96,7 @@ const hypoConsciousAR = ({navigation}) => {
   return (
     <LinearGradient colors={['#f5f5f5', '#f5f5f5']} style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
+        <Image source={require('../images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -123,7 +128,7 @@ const hypoConsciousAR = ({navigation}) => {
             paddingBottom: 30,
             backgroundColor: '#6496d7',
           }}
-          onPress={()=>navigation.navigate('hypoAR')} 
+          onPress={()=>navigation.navigate('hypoAR')}
         >
           <Text style={{fontSize: 18, textAlign: 'center'}}>حسناً</Text>
         </TouchableOpacity>
@@ -213,7 +218,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center',
     paddingLeft: 30,
     shadowOffset: {
       width: 0,
