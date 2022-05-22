@@ -1,4 +1,20 @@
-import React, { useCallback, useState, useEffect } from 'react';
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable jsx-quotes */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-spaced-func */
+/* eslint-disable keyword-spacing */
+/* eslint-disable no-alert */
+/* eslint-disable semi */
+/* eslint-disable no-undef */
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
+/* eslint-disable quotes */
+/* eslint-disable no-dupe-keys */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable react/self-closing-comp */import React, { useCallback, useState, useEffect } from 'react';
 import {  StyleSheet, 
   View,
   Image,
@@ -241,7 +257,7 @@ const check = () => {
       db.transaction( (tx) => {
           tx.executeSql(
            'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
-             [uID, iType, penProvide]
+             [1, iType, penProvide]
          );
         
         
@@ -255,7 +271,7 @@ const check = () => {
     db.transaction( (tx) => {
         tx.executeSql(
          'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
-           [uID, iType, iDose.iDose, date]
+           [1, iType, iDose.iDose, date]
        );
       
       
@@ -281,7 +297,7 @@ const check = () => {
         db.transaction( (tx) => {
             tx.executeSql(
              'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
-               [uID, iType1, penProvide1]
+               [1, iType1, penProvide1]
            );
           
           
@@ -296,7 +312,7 @@ const check = () => {
        db.transaction( (tx) => {
            tx.executeSql(
             'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
-              [uID, iType1, iDose1.iDose1, date1]
+              [1, iType1, iDose1.iDose1, date1]
           );
          
          
@@ -318,7 +334,7 @@ const check = () => {
         db.transaction( (tx) => {
             tx.executeSql(
              'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
-               [uID, iType2, penProvide2]
+               [1, iType2, penProvide2]
            );
           
           
@@ -333,7 +349,7 @@ const check = () => {
        db.transaction( (tx) => {
            tx.executeSql(
             'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
-              [uID, iType2, iDose2.iDose2, date2]
+              [1, iType2, iDose2.iDose2, date2]
           );
          
          
@@ -371,7 +387,7 @@ const onlinePenDB = (type, halfull) => {
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
   
@@ -403,7 +419,7 @@ const onlineOtherDB = (type, dose, time) => {
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
   
@@ -433,7 +449,7 @@ const onlineInsulinRegDB = () => {
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
   
@@ -479,6 +495,28 @@ const onlineInsulinRegDB = () => {
              
               {halfOrFull() ?  (<View style={styles.field} > 
               <Text style={styles.text_footer}>Insulin Type</Text>
+              <Picker
+                itemStyle={{color: 'black', height : 50, width: 300, fontSize: 15, marginBottom: 30, paddingBottom:15}}
+            
+              selectedValue={iType}
+              onValueChange={(value) => setiType(value)}
+              mode="dropdown"
+              style={styles.picker}
+              >
+            <Picker.Item label= 'Select Insulin type' value='0'   ></Picker.Item>
+            <Picker.Item label= 'Aspart' value='Aspart'   ></Picker.Item>
+            <Picker.Item label= 'Lispro ' value='Lispro'   ></Picker.Item>
+            <Picker.Item label= 'Glulisine ' value='Glulisine'   ></Picker.Item>
+            <Picker.Item label= 'NPH' value='ANPH'   ></Picker.Item>
+            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'    ></Picker.Item>
+            <Picker.Item label= 'Detemir' value='Detemir'   ></Picker.Item>
+            <Picker.Item label= 'Glargine' value='Glargine'   ></Picker.Item>
+            <Picker.Item label= 'Degludec' value='Degludec'   ></Picker.Item>
+            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'    ></Picker.Item>
+
+
+        </Picker>
+        <Text style={styles.text_footer}>Pen provide</Text>
               <Picker
                itemStyle={{color: 'black', height : 50, width: 200, fontSize: 15, marginBottom: 30, paddingBottom:15}}
             
@@ -550,6 +588,28 @@ const onlineInsulinRegDB = () => {
 </View>
 <View  style={styles.action}>
           {shouldShow && halfOrFull1() ? (<View style={styles.field } >
+            <Text style={styles.text_footer}>Insulin Type</Text>
+              <Picker
+                itemStyle={{color: 'black', height : 50, width: 300, fontSize: 15, marginBottom: 30, paddingBottom:15}}
+            
+              selectedValue={iType}
+              onValueChange={(value) => setiType(value)}
+              mode="dropdown"
+              style={styles.picker}
+              >
+            <Picker.Item label= 'Select Insulin type' value='0'   ></Picker.Item>
+            <Picker.Item label= 'Aspart' value='Aspart'   ></Picker.Item>
+            <Picker.Item label= 'Lispro ' value='Lispro'   ></Picker.Item>
+            <Picker.Item label= 'Glulisine ' value='Glulisine'   ></Picker.Item>
+            <Picker.Item label= 'NPH' value='ANPH'   ></Picker.Item>
+            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'    ></Picker.Item>
+            <Picker.Item label= 'Detemir' value='Detemir'   ></Picker.Item>
+            <Picker.Item label= 'Glargine' value='Glargine'   ></Picker.Item>
+            <Picker.Item label= 'Degludec' value='Degludec'   ></Picker.Item>
+            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'    ></Picker.Item>
+
+
+        </Picker>
             <Text style={styles.text_footer}>Pen provided</Text>
               <Picker
                itemStyle={{color: 'black', height : 50, width: 200, fontSize: 15, marginBottom: 30, paddingBottom:15}}
@@ -594,11 +654,11 @@ const onlineInsulinRegDB = () => {
         </Picker>
         <Text style={styles.text_footer}>Insulin Dose</Text>
         <TextInput
-          style={{color:'black'}}
+          style={styles.actionN}
             keyboardType="decimal-pad"
             placeholder="00"
             onChangeText= {(val)=>checkIDose1(val)}
-            style={styles.actionN}></TextInput>  
+            ></TextInput>  
               
               
               <Text style={styles.text_footer}>Insulin Time</Text>
@@ -624,6 +684,28 @@ const onlineInsulinRegDB = () => {
      <View  style={styles.action}>
           {shouldShow2 && halfOrFull2() ? (<View style={styles.field } >
             <Text style={styles.text_footer}>Insulin Type</Text>
+              <Picker
+                itemStyle={{color: 'black', height : 50, width: 300, fontSize: 15, marginBottom: 30, paddingBottom:15}}
+            
+              selectedValue={iType}
+              onValueChange={(value) => setiType(value)}
+              mode="dropdown"
+              style={styles.picker}
+              >
+            <Picker.Item label= 'Select Insulin type' value='0'   ></Picker.Item>
+            <Picker.Item label= 'Aspart' value='Aspart'   ></Picker.Item>
+            <Picker.Item label= 'Lispro ' value='Lispro'   ></Picker.Item>
+            <Picker.Item label= 'Glulisine ' value='Glulisine'   ></Picker.Item>
+            <Picker.Item label= 'NPH' value='ANPH'   ></Picker.Item>
+            <Picker.Item label= 'Mixed Rapid and intermediate insulin' value='Mixed Rapid and intermediate insulin'    ></Picker.Item>
+            <Picker.Item label= 'Detemir' value='Detemir'   ></Picker.Item>
+            <Picker.Item label= 'Glargine' value='Glargine'   ></Picker.Item>
+            <Picker.Item label= 'Degludec' value='Degludec'   ></Picker.Item>
+            <Picker.Item label= 'Degludec + Aspart mix (Ryzodeg)' value='Degludec + Aspart mix (Ryzodeg)'    ></Picker.Item>
+
+
+        </Picker>
+            <Text style={styles.text_footer}>Pen provided</Text>
               <Picker
   itemStyle={{color: 'black', height : 50, width: 200, fontSize: 15, marginBottom: 30, paddingBottom:15}}
             
@@ -666,11 +748,11 @@ const onlineInsulinRegDB = () => {
         </Picker>
         <Text style={styles.text_footer}>Insulin Dose</Text>
         <TextInput
-          style={{color:'black'}}
+          style={styles.actionN}
             keyboardType="decimal-pad"
             placeholder="00"
             onChangeText= {(val)=>checkIDose2(val)}
-            style={styles.actionN}></TextInput>  
+           ></TextInput>  
               
               
               <Text style={styles.text_footer}>Insulin Time</Text>
@@ -920,4 +1002,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
