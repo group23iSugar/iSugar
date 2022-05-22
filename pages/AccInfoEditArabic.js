@@ -1,3 +1,19 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable jsx-quotes */
+/* eslint-disable quotes */
+/* eslint-disable no-useless-escape */
+/* eslint-disable keyword-spacing */
+/* eslint-disable eqeqeq */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-shadow */
+/* eslint-disable semi */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-undef */
 import React, {useEffect}from 'react';
 import {  StyleSheet, 
   View,
@@ -173,9 +189,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
                   [],
                   (tx, results) => {
                     var rows = results.rows;
-                    for (let i = 0; i < rows.length; i++) {           
+                    for (let i = 0; i < rows.length; i++) {  
+                        console.log(rows.item(i).UserID + ' local ID');
+                        console.log(1 + ' global ID');   
                         var userID = rows.item(i).UserID;
-                        if (uID == userID){
                           setData({
                             ...data,
                             fName: rows.item(i).firstName,
@@ -183,7 +200,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
                             email: rows.item(i).email,
                           });
                           return;
-                        }
+                        
                         
                      
                       }
@@ -207,7 +224,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE UserAccount SET firstName=?, lastName=?, email=?  WHERE UserID=? ',
-                  [data.fName, data.lName, data.email, uID],
+                  [data.fName, data.lName, data.email, 1],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -494,7 +511,6 @@ buttonR: {
   width: 100,
   height: 40,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -504,4 +520,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
