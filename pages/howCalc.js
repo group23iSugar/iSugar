@@ -1,3 +1,7 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-undef */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-unused-vars */
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -22,14 +26,14 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import moment from 'moment';
 
 const howCalc = ({navigation}) => {
-  
-  
+
+
 
 
   return (
     <View style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
+        <Image source={require('../images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
 
@@ -43,19 +47,19 @@ const howCalc = ({navigation}) => {
 
         <View style={styles.innerCotainer2}>
 
-                
 
 
-        
+
+
           <Text
             style={styles.textBody2}>
             {howText}
-            
+
 
           </Text>
 
-          <TouchableOpacity style={styles.buttonR} onPress={()=>navigation.navigate('insuResult')} > 
-                    <Text style={{fontSize: 18, textAlign: 'center', color: 'white',}}>OK</Text>
+          <TouchableOpacity style={styles.buttonR} onPress={()=>navigation.navigate('insuResult')} >
+                    <Text style={{fontSize: 18, textAlign: 'center', color: 'white'}}>OK</Text>
             </TouchableOpacity>
 
       </View>
@@ -77,7 +81,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 15,
         flexDirection: 'row',
-        shadowColor: "#000",
+        shadowColor: '#000',
                     shadowOffset: {
                     width: 0,
                     height: 2,
@@ -85,8 +89,8 @@ const styles = StyleSheet.create({
                     shadowOpacity: 0.25,
                     shadowRadius: 3.84,
                     elevation: 5,
-        
-        
+
+
       },
 
   pic: {
@@ -112,26 +116,26 @@ container: {
   fontSize: 20,
   color: '#053720',
   textAlign: 'center',
-}, 
+},
 textBody:{
 
     margin:25,
-      
+
       fontSize: 30,
-      color: '#05375a', 
+      color: '#05375a',
       textAlign: 'center',
       fontWeight: 'bold',
-   }, 
- 
+   },
+
 innerCotainer2: {
-  
+
   textAlign: 'left',
   backgroundColor: 'white',
   borderRadius: 15,
   marginBottom: 50,
   width: 380,
   alignSelf: 'center',
-              shadowColor: "#000",
+              shadowColor: '#000',
               shadowOffset: {
               width: 0,
               height: 2,
