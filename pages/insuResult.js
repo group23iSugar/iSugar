@@ -1,3 +1,12 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable semi */
+/* eslint-disable no-undef */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-trailing-spaces */
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -31,7 +40,7 @@ const insuResult = ({navigation, route}) => {
   
 
   const insertE = ()=>{
-    var uID=222;
+
     //======================Save into DB========================
 
     var currentTime2 = new Date();
@@ -46,7 +55,7 @@ const insuResult = ({navigation, route}) => {
           db.transaction( (tx) => {
               tx.executeSql(
                'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Day, Dose_Date_Month, Dose_Date_Year, spicial, dateString) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
-                 [uID, bgLevelDB, reasonDB, choDB, dose, currentTimeHours1, currentTimeMin1, currentTimeDate_day1, currentTimeDate_month1, currentTimeDate_year1, specialLog, currentTime2String]
+                 [1, bgLevelDB, reasonDB, choDB, dose, currentTimeHours1, currentTimeMin1, currentTimeDate_day1, currentTimeDate_month1, currentTimeDate_year1, specialLog, currentTime2String]
              );
             
          })
@@ -64,7 +73,7 @@ const insuResult = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
+        <Image source={require('../images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -109,7 +118,7 @@ const insuResult = ({navigation, route}) => {
         
       
         <View style={styles.vNext}>
-                  <Image source={require('./images/info.png')} style={{height:45 , width:45}} />
+                  <Image source={require('../images/info.png')} style={{height:45 , width:45}} />
                    <TouchableOpacity
                    onPress={()=>navigation.navigate('howCalc')}
                    >
@@ -171,7 +180,7 @@ textBody:{
        flexDirection: 'row',
     flexWrap: 'wrap',
     alignSelf: 'center',
-              shadowColor: "#000",
+              shadowColor: '#000',
               shadowOffset: {
               width: 0,
               height: 2,
@@ -188,7 +197,7 @@ innerCotainer2: {
   marginBottom: 50,
   width: 380,
   alignSelf: 'center',
-              shadowColor: "#000",
+              shadowColor: '#000',
               shadowOffset: {
               width: 0,
               height: 2,
@@ -248,7 +257,7 @@ buttonR: {
   justifyContent: 'center',
   borderRadius: 15,
   flexDirection: 'row',
-  shadowColor: "#000",
+  shadowColor: '#000',
               shadowOffset: {
               width: 0,
               height: 2,
