@@ -1,15 +1,22 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
+/* eslint-disable no-unused-vars */
+/* eslint-disable eqeqeq */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-undef */
+/* eslint-disable react-native/no-inline-styles */
+
 import React from 'react';
 import { StyleSheet, 
     View,
-    Image, 
     Text,
     ScrollView,
     TouchableOpacity, 
     Dimensions } from 'react-native'; 
 import LinearGradient from 'react-native-linear-gradient';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import SQLite from 'react-native-sqlite-storage';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 
 
@@ -19,17 +26,23 @@ const editProfile = ({ navigation }) => {
     <View style={styles.container}>
       
          <ScrollView> 
+         <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
+        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+         <Entypo name="menu" color="#05375a" size={35} />
+         </TouchableOpacity>
+         <View style={{alignItems: 'center', marginRight: 130, paddingTop: -10, paddingEnd: 15}}>
          <Text
           style={{
             color: '#05375a',
             fontSize: 18,
             fontWeight: 'bold',
-            textAlign: 'left',
-            paddingTop: 20,
+            textAlign: 'center',
             paddingLeft: 15,
           }}>
-          Profile Information
+            Profile Information
         </Text>
+         </View>
+      </View>
         <View style={styles.body}>
            
         <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Account Information', }); }}>
@@ -170,5 +183,4 @@ textBody:{
     fontWeight: 'bold',
  } 
 });
-
 
