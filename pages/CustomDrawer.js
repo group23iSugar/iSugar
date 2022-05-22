@@ -16,12 +16,6 @@ const CustomDrawer = props => {
       <DrawerContentScrollView
         {...props}
         contentContainerStyle={{backgroundColor: '#e9ebee'}}>
-          <ImageBackground source= {require('../images/lightGray.jpg')} style={{padding: 20}}>
-            <View style={{flexDirection: 'row', alignContent: 'center'}}>
-             <Text style={{color: '#fff', fontSize: 18, fontFamily: 'Roboto-Medium', fontWeight: 'bold'}}>Welcome</Text>
-             <MaterialCommunityIcons name="balloon" color="#fff" size={22}/>
-            </View>
-          </ImageBackground>
         <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 20}}>
           <DrawerItemList {...props} />
         </View>
