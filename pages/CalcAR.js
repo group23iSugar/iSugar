@@ -1,3 +1,18 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
+/* eslint-disable comma-dangle */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
+/* eslint-disable semi */
+/* eslint-disable radix */
+/* eslint-disable keyword-spacing */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-undef */
 import React, {Component, useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -21,6 +36,7 @@ import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import timeCompare from './timeCompare';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const CalcAR = ({navigation, route}) => {
 
@@ -122,6 +138,7 @@ const CalcAR = ({navigation, route}) => {
               // return (total);
             }
           } else {
+            // eslint-disable-next-line no-alert
             alert('لا حاجة إلى التصحيح');
             return;
           }
@@ -227,6 +244,7 @@ const CalcAR = ({navigation, route}) => {
        navigation.navigate('hypoAR');
       }
     } else {
+      // eslint-disable-next-line no-alert
       alert(
         'للأسف حساب جرعة الأنسولين التي تستخدمها غير مدعومة خلال التطبيق. الرجاء التواصل مع طبيبك لمعرفة كيفية حساب جرعة الأنسولين',
       );
@@ -360,7 +378,7 @@ else{//half-units
             var rows = results.rows;
             for (let i = 0; i < rows.length; i++) {
               var UID = rows.item(i).UserID;
-              if (UID == 222) {
+              if (UID == 1) {
                 console.log('in if (user is found)');
                 interval = rows.item(i).ISFIntervals; //boolean 0 or 1
                 console.log(interval);
@@ -411,7 +429,7 @@ else{//half-units
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == 222) {
+                  if (UID == 1) {
                     //user id
                     var from = rows.item(i).fromTime;
                     ISFfromtimesTemp.push(from);
@@ -452,7 +470,7 @@ else{//half-units
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == 222) {
+                  if (UID == 1) {
                     var ISF_ = rows.item(i).ISF;
                     isfP=ISF_;
 
@@ -482,15 +500,15 @@ else{//half-units
         db.transaction(tx => {
           tx.executeSql(
             'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
-            [222],
+            [1],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
                 console.log('hello?1?************8');
                 tempArr.push({
                   id: rows.item(i).icrID,
-                  from: rows.item(i).fromTime,
-                  to: rows.item(i).toTime,
+                  from: moment(rows.item(i).fromTime).format('h:mm a'),
+                  to: moment(rows.item(i).toTime).format('h:mm a'),
                   icr: rows.item(i).ICR,
                 });
               }
@@ -509,7 +527,7 @@ else{//half-units
         db.transaction(tx => {
           tx.executeSql(
             'SELECT ssID, fromTime, toTime FROM ssInterval WHERE UserID=?',
-            [222],
+            [1],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
@@ -568,7 +586,7 @@ else{//half-units
             for (let i = 0; i < rows.length; i++) {
               var userid = rows.item(i).UserID;
 
-              if (userid == 222) {
+              if (userid == 1) {
                 insulinType=rows.item(i).insulinType;
                 halfOrFull=rows.item(i).halfORfull;
                
@@ -865,9 +883,11 @@ else{//half-units
     return (
     //ret(),
     <View style={styles.container}>
-      <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
-      </View>
+
+        <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
+        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+         <Entypo name="menu" color="#05375a" size={35} />
+         </TouchableOpacity>
       <ScrollView>
         <Text
           style={{
@@ -1373,6 +1393,7 @@ else{//half-units
 
         <Text></Text>
       </ScrollView>
+    </View>
     </View>
   );
 
