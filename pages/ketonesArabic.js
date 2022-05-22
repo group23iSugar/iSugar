@@ -1,3 +1,18 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable jsx-quotes */
+/* eslint-disable space-infix-ops */
+/* eslint-disable quotes */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable semi */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-alert */
+/* eslint-disable no-undef */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-dupe-keys */
 import React, { useCallback, useState } from 'react';
 import {  StyleSheet, 
   View,
@@ -268,17 +283,7 @@ fetch(InsertAPIURL,{
 <Text style={styles.text_footer}>مستوى سكر الدم المرغوب به خلال اليوم{'\n'}</Text>
              
               <View style={styles.field} >
-              <View style={styles.actionB}>
-              <Text style={styles.text_footer}>الى:</Text>
              
-            <TextInput
-            keyboardType="decimal-pad"
-            placeholder="000 mg/dl"
-            onChangeText = {(val)=>validateBGTo(val)}
-            style={styles.actionN}></TextInput> 
-      
-
-</View>
 <View style={styles.actionB}>
               <Text style={styles.text_footer}>من:</Text>
              
@@ -287,6 +292,17 @@ fetch(InsertAPIURL,{
             placeholder="000 mg/dl"
             onChangeText = {(val)=>validateBGFrom(val)}
             style={styles.actionN}></TextInput>
+
+</View>
+<View style={styles.actionB}>
+              <Text style={styles.text_footer}>الى:</Text>
+             
+            <TextInput
+            keyboardType="decimal-pad"
+            placeholder="000 mg/dl"
+            onChangeText = {(val)=>validateBGTo(val)}
+            style={styles.actionN}></TextInput> 
+      
 
 </View>
               </View>
@@ -492,4 +508,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
