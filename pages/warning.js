@@ -1,3 +1,9 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-quotes */
+/* eslint-disable quotes */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-trailing-spaces */
 import React from 'react';
 import { StyleSheet, 
     View,
@@ -150,7 +156,6 @@ buttonR: {
   width: 100,
   height: 40,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -160,4 +165,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-

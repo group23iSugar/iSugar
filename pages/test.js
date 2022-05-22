@@ -1,3 +1,20 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-undef */
+/* eslint-disable yoda */
+/* eslint-disable no-self-compare */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-shadow */
+/* eslint-disable quotes */
+/* eslint-disable semi-spacing */
+/* eslint-disable keyword-spacing */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
+/* eslint-disable semi */
+/* eslint-disable space-infix-ops */
+/* eslint-disable react-hooks/rules-of-hooks */
+
 import React, {useState, useEffect, useMemo } from 'react';
 import {StyleSheet,
   View,
@@ -5,9 +22,218 @@ import {StyleSheet,
   FlatList,
   TouchableOpacity,
   TextInput,
+  Platform,
+  alert,
 } from 'react-native';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import SQLite from 'react-native-sqlite-storage';
+
+global.db = SQLite.openDatabase(
+    {
+      name: 'iSugar.db',
+      location: 'Library'
+    },
+    () => {
+      console.log('Success')
+     },
+    error => {
+      console.log('ERROR: ' + error);
+    }
+  );
+  
+  try {
+    db.transaction( (tx) => {
+        tx.executeSql(
+         'CREATE TABLE IF NOT EXISTS UserAccount (UserID INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT NOT NULL, lastName	TEXT NOT NULL, email	TEXT NOT NULL, pass	TEXT NOT NULL, accountType	TEXT NOT NULL)',
+        []
+       );
+       //=====//
+       try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS KSUMC (UserID INTEGER NOT NULL UNIQUE, MRN TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+      //=====//
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS patientprofile (UserID INTEGER NOT NULL UNIQUE, DOB TEXT NOT NULL, weightKG REAL NOT NULL, latest_HP1AC REAL NOT NULL, latest_HP1AC_date TEXT NOT NULL, typeOfGlucoseM TEXT NOT NULL, glucoseLevel_unit TEXT NOT NULL, ketonesMeasure TEXT NOT NULL, insulinRegimen TEXT NOT NULL, ISF INTEGER, targetBG_correct INTEGER, startBG_correct INTEGER, ISFIntervals INTEGER NOT NULL, insulinCalcMethod TEXT NOT NULL, fromBG INTEGER NOT NULL, toBG INTEGER NOT NULL, height REAL NOT NULL, diabetes_center TEXT NOT NULL, diagnosis_date TEXT NOT NULL, center_name TEXT, center_city TEXT, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+      //========//
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS nonPatientprofile (UserID INTEGER NOT NULL UNIQUE, DOB TEXT NOT NULL, weightKG REAL NOT NULL, latest_HP1AC REAL NOT NULL, latest_HP1AC_date TEXT NOT NULL, typeOfGlucoseM TEXT NOT NULL, glucoseLevel_unit TEXT NOT NULL, ketonesMeasure TEXT NOT NULL, insulinRegimen TEXT NOT NULL, ISF INTEGER, targetBG_correct INTEGER, startBG_correct INTEGER, ISFIntervals INTEGER NOT NULL, insulinCalcMethod TEXT NOT NULL, fromBG INTEGER NOT NULL, toBG INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+      //====//
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS icrInterval (icrID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, fromTime TEXT NOT NULL, toTime TEXT NOT NULL, ICR INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+      //====//
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS isfInterval (isfID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, fromTime TEXT NOT NULL, toTime TEXT NOT NULL, ISF INTEGER NOT NULL, targetBG_correct INTEGER NOT NULL, startBG_correct INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+      //======/
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS insulinPen (insulinID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, insulinType TEXT NOT NULL, halfORfull INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+      //====/
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS insulinOther (insulinID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, insulinType TEXT NOT NULL, iDose REAL NOT NULL, iTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+      //=====//
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS ssInterval (ssID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, fromTime TEXT NOT NULL, toTime TEXT NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+      //======//
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS bgleveltoinsulin (bgID INTEGER PRIMARY KEY AUTOINCREMENT, ssID INTEGER NOT NULL, fromTime TEXT NOT NULL, toTime TEXT NOT NULL, FOREIGN KEY("ssID") REFERENCES "ssInterval"("ssID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+      //======//
+      try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS takenInsulinDose (takenInsulinID INTEGER PRIMARY KEY AUTOINCREMENT, UserID INTEGER NOT NULL, BG_level REAL NOT NULL, ReasonForInsulin TEXT NOT NULL, CHO REAL NOT NULL, insulinDose INTEGER NOT NULL, Dose_time_hours INTEGER NOT NULL, Dose_time_minutes	INTEGER NOT NULL, Dose_Date_Month INTEGER NOT NULL, Dose_Date_Day INTEGER NOT NULL, Dose_Date_Year INTEGER NOT NULL, FOREIGN KEY("UserID") REFERENCES "UserAccount"("UserID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+      //====/
+       //======//
+       try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS plannedExercise (takenInsulinID INTEGER NOT NULL, type TEXT NOT NULL, duration	INTEGER NOT NULL,  FOREIGN KEY("takenInsulinID") REFERENCES "takenInsulinDose"("takenInsulinID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+       //======//
+       try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS prevoiusExercise (takenInsulinID INTEGER NOT NULL, type TEXT NOT NULL, duration	INTEGER NOT NULL, Time	TEXT NOT NULL,  FOREIGN KEY("takenInsulinID") REFERENCES "takenInsulinDose"("takenInsulinID"))',
+            []
+           );
+       })
+      } catch (error) {
+       console.log(error);
+      }
+       //======//
+       try {
+        db.transaction( (tx) => {
+            tx.executeSql(
+             'CREATE TABLE IF NOT EXISTS CHO (foodID INTEGER PRIMARY KEY AUTOINCREMENT, foodEnglishName TEXT NOT NULL UNIQUE, foodArabicName	TEXT NOT NULL, unit	TEXT NOT NULL, unitArabic	TEXT NOT NULL, gramsOfCHO REAL NOT NULL )',
+            []
+           );
+           //------------child
+           try {
+            db.transaction( (tx) => {
+                tx.executeSql(
+                 'INSERT INTO CHO (foodEnglishName, foodArabicName, unit, unitArabic, gramsOfCHO) VALUES (?,?,?,?,?),(?,?,?,?,?),(?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?),(?,?,?,?,?),(?,?,?,?,?),(?,?,?,?,?), (?,?,?,?,?),(?,?,?,?,?), (?,?,?,?,?),  (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?), (?,?,?,?,?) ',
+                ['Cantaloupe', 'شمام',	'cup', 'كوب' , '15', 'Pineapple', 'أناناس', 'cup', 'كوب', '20', 'Raspberry', 'توت العليق الأحمر', 'cup', 'كوب', '7.5', 'Blackberry', 'توت العليق الأسود', 'cup', 'كوب', '7', 'Blueberry','التوت الأزرق','cup','كوب','15', 'Strawberry', 'فراولة', 'cup', 'كوب', '12', 'Watermelon ', 'جح' ,'cup' ,'كوب' ,'12', 'Dried fruits','فواكه مجففة','cup','كوب','60', 'Canned fruits', 'فواكه معلبة', 'cup', 'كوب', '30', 'Popcorn', 'فشار', 'cup', 'كوب', '15', 'Indomie','اندومي','cup','كوب','30', 'Corn flakes','كورن فليكس','cup','كوب','30', 'Full fat milk','حليب كامل الدسم','cup','كوب','15', 'Low fat milk', 'حليب قليل الدسم', 'cup', 'كوب', '15', 'Chocolate milk', 'حليب بالشوكولاتة', 'cup', 'كوب', '30', 'Full fat laban', 'لبن كامل الدسم', 'cup', 'كوب', '15', 'skim fat laban','لبن منزوع الدسم','cup','كوب','15', 'Low fat laban', 'لبن قليل الدسم', 'cup', 'كوب', '15', 'Full fat yogurt', 'زبادي كامل الدسم' ,'cup', 'كوب', '15', 'Skim fat yogurt', 'زبادي منزوع الدسم', 'cup', 'كوب', '15', 'Low fat yogurt', 'زبادي قليل الدسم', 'cup', 'كوب', '15', 'Flavoured yogurt','زبادي بالنكهات','cup','كوب','22.5', 'Skim milk','حليب منزوع الدسم','cup','كوب','15', 'Vermicelli', 'شعيرية', 'cup', 'كوب', '60', 'Stewed vegetables', 'مرق خضار', 'cup', 'كوب', '15', 'Oats soup', 'شوربة الشوفان', 'cup', 'كوب', '15', 'Lentils soup', 'شوربة عدس', 'cup', 'كوب', '20']
+               );
+           })
+          } catch (error) {
+           console.log(error);
+          }
+  
+       })
+      } catch (error) {
+       console.log(error);
+      }
+   })
+   
+  } catch (error) {
+   console.log(error);
+  }
+  
+  
+  global.uID='';
+  global.onlinUserID = 0;
+  global.AccType = '';
+  global.centName = '';
+  global.centCity = '';
+  global.Diabetescenter= '';
+  global.DOD = '';
+  global.weightKG = 0;
+  global.heightCM = 0;
+  global.DOBirth= '';
+  global.DOLatestHB1AC = '';
+  global.latestHB1AC_ = 0; 
+  global.glucoseUnit = '';
+  global.insulinReg = '';
+  global.ketonesMeasure = '';
+  global.bgTarget = 0;
+  global.bgStart = 0;
+  global.fromBG = 0;
+  global.toBG= 0;
+  global.InsulinSF = 0;
+  global.intervalISF = '';
+  global.insulinCalcMethod = '';
+  global.glucoseMonitor = '';
 
 const test = ()=>{
 

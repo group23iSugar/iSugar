@@ -94,7 +94,7 @@ const sickDay = ({ navigation }) => {
 
       //variables
       var onlinUserID = 15;//54 is the user for table 3
-      var uID = 222;
+      var uID = 1;
       var curDate = moment().format('YYYY-MM-DD');
       var curTime = moment().format('HH:mm:ss');
       var cTime = new Date();
@@ -701,7 +701,7 @@ console.log('flaaags? ' + response[0].flag);
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
                   var userid = rows.item(i).UserID;
-                if (userid == 222 ) {
+                if (userid == 1 ) {
                   var lastString = rows.item(i).recheckDate;
                   var d = new Date(lastString);
                   var momFormat = moment(d).format('YYYY-MM-DD');
@@ -1036,7 +1036,7 @@ console.log('flaaags? ' + response[0].flag);
                     var rows = results.rows;
                     for (let i = 0; i < rows.length; i++) {
                       var UID = rows.item(i).UserID;
-                      if (UID == 222) {
+                      if (UID == 1) {
                         console.log('in if (user is found)');
                         interval = rows.item(i).ISFIntervals; //boolean 0 or 1
                         console.log('i' + interval);
@@ -1087,7 +1087,7 @@ console.log('flaaags? ' + response[0].flag);
                         console.log(rows.length);
                         for (let i = 0; i < rows.length; i++) {
                           var UID = rows.item(i).UserID;
-                          if (UID == 222) {
+                          if (UID == 1) {
                             //user id
                             from = rows.item(i).fromTime;
                             // fromTime = [from];
@@ -1134,7 +1134,7 @@ console.log('flaaags? ' + response[0].flag);
                         var rows = results.rows;
                         for (let i = 0; i < rows.length; i++) {
                           var UID = rows.item(i).UserID;
-                          if (UID == 222) {
+                          if (UID == 1) {
                             //***************************************FIXIXIXIX */
                             var ISF_ = rows.item(i).ISF;
                             // setISFP(ISF_);
@@ -1172,14 +1172,14 @@ console.log('flaaags? ' + response[0].flag);
                 db.transaction(tx => {
                   tx.executeSql(
                     'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
-                    [222],
+                    [1],
                     (tx, results) => {
                       var rows = results.rows;
                       for (let i = 0; i < rows.length; i++) {
                         ICRarr.push({
                           id: rows.item(i).icrID,
-                          from: rows.item(i).fromTime,
-                          to: rows.item(i).toTime,
+                          from: moment(rows.item(i).fromTime).format('h:mm a'),
+                          to: moment(rows.item(i).toTime).format('h:mm a'),
                           icr: rows.item(i).ICR,
                         });
                       }
@@ -1197,7 +1197,7 @@ console.log('flaaags? ' + response[0].flag);
                 db.transaction(tx => {
                   tx.executeSql(
                     'SELECT ssID, fromTime, toTime FROM ssInterval WHERE UserID=?',
-                    [222],
+                    [1],
                     (tx, results) => {
                       var rows = results.rows;
                       for (let i = 0; i < rows.length; i++) {
@@ -1255,7 +1255,7 @@ console.log('flaaags? ' + response[0].flag);
                     for (let i = 0; i < rows.length; i++) {
                       var userid = rows.item(i).UserID;
         
-                      if (userid == 222) {
+                      if (userid == 1) {
                         setReData2({
                           ...ReData2,
                           insulinType: rows.item(i).insulinType,
@@ -1340,12 +1340,12 @@ console.log('flaaags? ' + response[0].flag);
 
             //------------ BG LEVEL -------------------
 
-              console.log(222 + ' *-* ' + currentBG + ' - ' + cTime);
+              console.log(1 + ' *-* ' + currentBG + ' - ' + cTime);
               try {
                 db.transaction( (tx) => {
                     tx.executeSql(
                       'INSERT INTO BGLevel (UserID, BGLevel, DateTime) VALUES (?,?,?)',
-                      [222, currentBG, cTime],
+                      [1, currentBG, cTime],
                       (tx, results) => {
                         console.log('Results: ' + results.rowsAffected);
                         if (results.rowsAffected > 0){
@@ -1409,7 +1409,7 @@ console.log('flaaags? ' + response[0].flag);
         
                     for (let i = 0; i < rows.length; i++) {
                       var userid = rows.item(i).UserID;
-                      // if (userid == 222) {
+                      // if (userid == 1) {
                         usID = rows.item(i).UserID;
                         uBG = rows.item(i).BGLevel;
                         uDateTime = rows.item(i).DateTime;
@@ -1435,7 +1435,7 @@ console.log('flaaags? ' + response[0].flag);
               db.transaction(tx => {
                 tx.executeSql(
                   'SELECT UserID, BG_level, insulinDose, Dose_Date_Month, Dose_Date_Day, Dose_Date_Year FROM takenInsulinDose WHERE UserID=?',
-                  [222],
+                  [1],
                   (tx, results) => {
                     var rows = results.rows;
                     console.log('Wow' + rows.length);
@@ -1481,7 +1481,7 @@ console.log('flaaags? ' + response[0].flag);
               db.transaction(tx => {
                 tx.executeSql(
                   'SELECT UserID, BGLevel, DateTime FROM BGLevel WHERE UserID=?',
-                  [222],
+                  [1],
                   (tx, results) => {
                     var rows = results.rows;
                     console.log('Wo0w' + rows.length);

@@ -1,14 +1,24 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-shadow */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable semi */
+/* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, 
+import { StyleSheet,
     View,
-    Image, 
+    Image,
     Text,
     TextInput,
     ScrollView,
-    TouchableOpacity, 
-    Dimensions } from 'react-native'; 
+    TouchableOpacity,
+    Dimensions } from 'react-native';
     import LinearGradient from 'react-native-linear-gradient';
-    
+
 import {Picker} from '@react-native-picker/picker';
 import { FlatList } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -65,16 +75,16 @@ const travel = ({ navigation }) => {
                             fromOrTo: rows.item(i).fromOrTo,
                             timeDifference: rows.item(i).timeDifference,
                         });
-                        console.log(tempArr[i].id+' / '+tempArr[i].cityEnglishName+' / '+tempArr[i].cityArabicName+' / '+tempArr[i].fromOrTo +' / '+tempArr[i].timeDifference);
-                        
+                        console.log(tempArr[i].id + ' / ' + tempArr[i].cityEnglishName + ' / ' + tempArr[i].cityArabicName + ' / ' + tempArr[i].fromOrTo + ' / ' + tempArr[i].timeDifference);
+
                   }
                   setCity([...tempArr]);
-              }   
-    ) 
-    
-        
-    
-    }  ) 
+              }
+    )
+
+
+
+    }  )
     } catch (error) {
        console.log(error);
     }
@@ -86,7 +96,7 @@ const travel = ({ navigation }) => {
     console.log('in try');
       db.transaction(  ( tx) => {
         tx.executeSql(
-          'SELECT insulinType, iDose, iTime FROM insulinOther', 
+          'SELECT insulinType, iDose, iTime FROM insulinOther',
           [],
           (tx, results) => {
             var rows = results.rows;
@@ -103,12 +113,12 @@ const travel = ({ navigation }) => {
               }
              setInsulin([...tempArr]);
              callback(tempArr);
-          }   
-) 
+          }
+)
 
-    
 
-}  ) 
+
+}  )
 } catch (error) {
    console.log(error);
 }
@@ -130,12 +140,12 @@ const travel = ({ navigation }) => {
               });
               }
               setInsulin2([...tempArr]);
-          }   
-  ) 
+          }
+  )
 
-    
 
-  }  ) 
+
+  }  )
   } catch (error) {
   console.log(error);
   }
@@ -146,7 +156,7 @@ const travel = ({ navigation }) => {
         // if not then return false, else true
         var insulinType = [...types];
         for (var i = 0; i < insulinType.length; i++){
-          console.log(insulinType[i]+ ' I am here');
+          console.log(insulinType[i] + ' I am here');
           if (insulinType[i] == 'NPH' || insulinType[i] == 'Deguldec+Aspart Mix' || insulinType[i] == 'mixed rapid+ intermediate' ){ //should check all other insulin
              setFlag2(false);
           } else {
@@ -168,7 +178,7 @@ const travel = ({ navigation }) => {
     const getTimeDifference = () => {
       if (selected == 0){ // take 'from' column
           return 0;
-      } else if (selected == 1){ // take 'to' column 
+      } else if (selected == 1){ // take 'to' column
           return 1;
       }
 
@@ -178,17 +188,17 @@ const travel = ({ navigation }) => {
       setShow(Platform.OS === 'ios');
       setDate(currentDate);
     };
-  
+
     const showMode = (currentMode) => {
       setShow(true);
       setMode(currentMode);
     };
-  
+
     const showDatepicker = () => {
       showMode('Year');
     };
-    const AdjustInsulin = (time) => { 
-      console.log(time + ' ///// '+timeDiff);
+    const AdjustInsulin = (time) => {
+      console.log(time + ' ///// ' + timeDiff);
         var timeD = timeDiff;
 
         if (timeD >= 5){ //-----
@@ -196,21 +206,21 @@ const travel = ({ navigation }) => {
             return dose;
           }
           else if (time == 'during'){
-            return Math.round(dose+(dose*0.25));
+            return Math.round(dose + (dose * 0.25));
           }
           else if (time == 'after'){
             return dose;
-          } 
+          }
         } else if (timeD <= -5){ //------
           if (time == 'before'){
-            return Math.round(dose-(dose*0.25));
+            return Math.round(dose - (dose * 0.25));
           }
           else if (time == 'during'){
             return 0;
           }
           else if (time == 'after'){
             return dose;
-          } 
+          }
         } else { //---------
           if (time == 'before'){
             return dose;
@@ -220,14 +230,14 @@ const travel = ({ navigation }) => {
           }
           else if (time == 'after'){
             return dose;
-          } 
+          }
         }
     }
 
     const searchCity = (val) => {
       var column = getTimeDifference();
       setS2(val);
-      for(let i =0; i< city.length; i++){
+      for (let i = 0; i < city.length; i++){
         // iterating in the city array of objects that contains all the city info
           if (city[i].id == val ){
             // If the id in city array matched the user selection
@@ -239,7 +249,7 @@ const travel = ({ navigation }) => {
                 setTime(tDiff);
                 return;
               }
-             } else  if (column == 1) {// TO col 
+             } else  if (column == 1) {// TO col
               if (city[i].fromOrTo == 'to'){
                 setfromORTo(city[i].fromOrTo);
                 var tDiff = city[i].timeDifference;
@@ -249,75 +259,75 @@ const travel = ({ navigation }) => {
              }
           }
       }
-     
-   
+
+
     }
 
     const renderCityList = () => {
       return city.map((ch) => {
-        return <Picker.Item key= {ch.id+''} label={ch.cityArabicName +' ( '+ch.timeDifference+' )'} value={ch.id+''}    />
+        return <Picker.Item key= {ch.id + ''} label={ch.cityArabicName + ' ( ' + ch.timeDifference + ' )'} value={ch.id + ''}    />
       })
-    } 
+    }
     const alertMsg = () => {
-      alert(`لضمان الاختيار الصحيح الرجاء قراءة التعليمات التالية:\n- تم احتساب فارق التوقيت في القائمة استناداً على التوقيت الأساسي للدول (ST).  إذا كانت الدولة التي سيتم السفر إليها أو منها ممن يتبنى التوقيت الصيفي *(DST) خلال تاريخ سفرك الرجاء اختيار أخرى وإدخال فارق التوقيت يدوياً.\n- القائمة مبنية على عواصم الدول. إذا كانت الوجهة المراد السفر منها أو إليها غير متوفرة في القائمة الرجاء اختيار أخرى وإدخال فارق التوقيت يدوياً.\n*التوقيت الصيفي (Daylight Saving Time- DST) تتبناه بعض الدول بتقديم التوقيت ساعة خلال أشهر الصيف ومن ثم ارجاعها للتوقيت الأساسي في الخريف وذلك للاستفادة من الضوء الطبيعي في النهار. `);
+      alert('لضمان الاختيار الصحيح الرجاء قراءة التعليمات التالية:\n- تم احتساب فارق التوقيت في القائمة استناداً على التوقيت الأساسي للدول (ST).  إذا كانت الدولة التي سيتم السفر إليها أو منها ممن يتبنى التوقيت الصيفي *(DST) خلال تاريخ سفرك الرجاء اختيار أخرى وإدخال فارق التوقيت يدوياً.\n- القائمة مبنية على عواصم الدول. إذا كانت الوجهة المراد السفر منها أو إليها غير متوفرة في القائمة الرجاء اختيار أخرى وإدخال فارق التوقيت يدوياً.\n*التوقيت الصيفي (Daylight Saving Time- DST) تتبناه بعض الدول بتقديم التوقيت ساعة خلال أشهر الصيف ومن ثم ارجاعها للتوقيت الأساسي في الخريف وذلك للاستفادة من الضوء الطبيعي في النهار. ');
     }
     const insertDB = () => {
       setFlag(true);
-      console.log(date+' - '+cityName+' - '+timeDiff+' - '+fromORTo);
+      console.log(date + ' - ' + cityName + ' - ' + timeDiff + ' - ' + fromORTo);
       try {
         db.transaction( (tx) => {
             tx.executeSql(
-             'INSERT INTO travel (UserID, travelDate, cityName, timeDifference, fromOrTO)' 
-             +'VALUES (?,?,?,?,?)',
+             'INSERT INTO travel (UserID, travelDate, cityName, timeDifference, fromOrTO)'
+             + 'VALUES (?,?,?,?,?)',
                [uID, date, cityName, timeDiff, fromORTo ]
            );
        })
-       
+
       } catch (error) {
        console.log(error);
       }
 
       //if (AccType == 'Patient Account')
       // -----------online
-      var InsertAPIURL3 = "https://isugarserver.com/travel.php";   //API to  signup
+      var InsertAPIURL3 = 'http://172.20.10.6/isugar/travel.php';   //API to  signup
 
       var headers = {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       };
-       var Data ={
+       var Data = {
         UserID: onlinUserID,
         travelDate: date.toString(),
         cName: cityName,
         fromOrTo: fromORTo,
-        timeDifference: timeDiff
+        timeDifference: timeDiff,
       };
-    
+
     // FETCH func ------------------------------------
     fetch(InsertAPIURL3,{
           method:'POST',
         headers:headers,
-        body: JSON.stringify(Data) //convert data to JSON
+        body: JSON.stringify(Data), //convert data to JSON
     })
     .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
     .then((response)=>{      // If data is in JSON => Display alert msg
     })
     .catch((error)=>{
-        alert("Error Occured" + error);
+        alert('Error Occured' + error);
     })
     }
   return (
 
     <View style={styles.container}>
      <View style={{top: 10, flexDirection: 'row', padding: 30}}>
-       
+
         <TouchableOpacity onPress={()=>navigation.openDrawer()}>
          <Entypo name="menu" color="#05375a" size={35} />
          </TouchableOpacity>
       </View>
 
-        
-        
+
+
          <ScrollView>
 
          <Text
@@ -332,8 +342,8 @@ const travel = ({ navigation }) => {
           السفر
         </Text>
 
-          {insulin.length > 0 ? (<View>
-            {!globalFlag3? 
+          {city.length > 0 ? (<View>
+            {!globalFlag3 ?
             (<View>
               <Text style={{
             color: '#05375a',
@@ -352,32 +362,32 @@ const travel = ({ navigation }) => {
             paddingRight: 15,
           }}>وذلك مهم لإعطائك التوصيات بشكل صحيح</Text>
           <View style={{flexDirection: 'row'}}>
-         
-            <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Insulin Information', }); }}>
+
+            <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Insulin Information' }); }}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={{ fontWeight: 'bold', color: '#05375a', }}>لا</Text>
-                  
+                    <Text style={{ fontWeight: 'bold', color: '#05375a' }}>لا</Text>
+
                 </LinearGradient>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>setFlag3(true)}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={{fontWeight: 'bold', color: '#05375a',}}>نعم</Text>
-                  
+                    <Text style={{fontWeight: 'bold', color: '#05375a'}}>نعم</Text>
+
                 </LinearGradient>
             </TouchableOpacity>
             </View>
             </View>)
             : null}
-            
-            {globalFlag3 && !globalFlag? (<View>
-              { ( globalFlag2 && city.length > 0) ? 
+
+            {globalFlag3 && !globalFlag ? (<View>
+              { ( globalFlag2 && city.length > 0) ?
              ( <View>
                <View style={styles.innerCotainer}>
-               <Text style={{color: 'darkblue', textAlign: 'right'}}>المملكة العربية السعودية </Text>  
+               <Text style={{color: 'darkblue', textAlign: 'right'}}>المملكة العربية السعودية </Text>
                       <Picker
                         itemStyle={{color: 'black'}}
                         selectedValue={selected}
@@ -390,11 +400,11 @@ const travel = ({ navigation }) => {
                         paddingRight: 5,
                       color: '#05375a'}}
                         mode={'dropdown'}>
-                            <Picker.Item label= 'اختر' value='-1'   ></Picker.Item>
-                            <Picker.Item label= 'من' value='0'   ></Picker.Item>
-                            <Picker.Item label= 'إلى' value='1'   ></Picker.Item>
-                
-                      </Picker> 
+                            <Picker.Item label= "اختر" value="-1"    />
+                            <Picker.Item label= "من" value="0"    />
+                            <Picker.Item label= "إلى" value="1"    />
+
+                      </Picker>
                       <Text style={{color: 'darkblue', textAlign: 'right'}}>السفر</Text>
                </View>
                <View style={styles.innerCotainer}>
@@ -411,39 +421,39 @@ const travel = ({ navigation }) => {
                         paddingRight: 5,
                       color: '#05375a'}}
                         mode={'dropdown'}>
-                            <Picker.Item label= 'اخرى' value='-1'   ></Picker.Item>
+                            <Picker.Item label= "اخرى" value="-1"    />
                             {renderCityList()}
-                
+
                       </Picker>
-                      {selected == '-1'?  <Text style={{color: 'darkblue'}}>من\إلى</Text> :
-                      (<View>{selected == '0'? <Text style={{color: 'darkblue'}}>إلى</Text> : <Text style={{color: 'darkblue'}}>من</Text>}</View>) }
-                      
-               <Text style={{color: 'darkblue', textAlign: 'right'}}>السفر </Text> 
-                     
+                      {selected == '-1' ?  <Text style={{color: 'darkblue'}}>من\إلى</Text> :
+                      (<View>{selected == '0' ? <Text style={{color: 'darkblue'}}>إلى</Text> : <Text style={{color: 'darkblue'}}>من</Text>}</View>) }
+
+               <Text style={{color: 'darkblue', textAlign: 'right'}}>السفر </Text>
+
                </View>
                {selected2 == '-1' ? (<View style={styles.innerCotainer}>
-                <TextInput 
+                <TextInput
                           style={styles.textInput}
-                          defaultValue={timeDiff+''}
+                          defaultValue={timeDiff + ''}
                           autoCapitalize="none"
                           onChangeText={(val) => setTime(val)}
 
                       />
-                     <Text style={{color: 'darkblue', textAlign: 'right'}}>فارق التوقيت:      </Text> 
-                     
+                     <Text style={{color: 'darkblue', textAlign: 'right'}}>فارق التوقيت:      </Text>
+
                      </View>)
                 : null}
-                     
+
                      <View style={styles.innerCotainer}>
                      <TouchableOpacity onPress={showDatepicker}
                  >
              <Text testID="dateTimePicker"
              style={{fontSize: 17, color: 'grey', alignItems: 'flex-start'}} >
                              {moment(date).format('DD/MM/YYYY')}
-                             </Text> 
-          
+                             </Text>
+
                  </TouchableOpacity>
-                   
+
                  {show && (
         <DateTimePicker
           testID="dateTimePicker"
@@ -453,26 +463,26 @@ const travel = ({ navigation }) => {
           onChange={onChange}
         />
       )}
-                     <Text style={{color: 'darkblue', textAlign: 'right'}}>تاريخ السفر:  </Text> 
-                 
+                     <Text style={{color: 'darkblue', textAlign: 'right'}}>تاريخ السفر:  </Text>
+
                      </View>
-                      
+
                       <TouchableOpacity onPress={()=>insertDB()}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={{ fontWeight: 'bold', color: '#05375a', }}>تم</Text>
-                  
+                    <Text style={{ fontWeight: 'bold', color: '#05375a' }}>تم</Text>
+
                 </LinearGradient>
             </TouchableOpacity>
                       </View>)
              : <Text>توصيات السفر غير متوفرة لمن يستخدم أنسولين {getInsulinType()}. الرجاء التواصل مع مركز السكر الذي تتابع فيه لتوصيات جرعات الأنسولين أثناء السفر.
              </Text> }
             </View>) : null}
-           
-          </View>): null}
-          
-           
+
+          </View>) : null}
+
+
           {globalFlag == true ? (<View style={styles.innerCotainer2}>
               <Text style={styles.textBody}>قم بتعديل جرعة الأنسولين طويل المفعول {getInsulinType()} باتباع التوصيات التالية:</Text>
               <Text style={styles.textBody}>قبل السفر:</Text>
@@ -485,19 +495,19 @@ const travel = ({ navigation }) => {
               <Text style={styles.textBody}>افحص مستوى سكر الدم كل ٣-٤ ساعات أثناء السفر.</Text>
               <Text style={styles.textBody}>خذ أنسولين {insulinPen} مع جميع الوجبات أثناء السفر. الرجاء استخدام حاسبة جرعات الأنسولين المتوفرة في التطبيق.</Text>
               <Text style={styles.textBody}>عند الوصول إلى {cityName} الرجاء التأكد من تحديث الوقت في جهازك إلى توقيت {cityName}. هذه الخطوة مهمة لحساب جرعات الأنسولين بشكل صحيح في التطبيق.</Text>
-            
-             </View>) : null}      
+
+             </View>) : null}
 
         </ScrollView>
-    
-    </View>      
 
-    
+    </View>
+
+
   );
 };
 
 
-const {height} = Dimensions.get("screen");
+const {height} = Dimensions.get('screen');
 const height_logo = height * 0.15;
 
 export default travel;
@@ -506,7 +516,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'flex-end',
     backgroundColor: '#EEF0F2',
-    
+
   },
   pic: {
     width: height_logo,
@@ -515,7 +525,7 @@ const styles = StyleSheet.create({
 },
   header: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
 },
 body: {
     justifyContent: 'center',
@@ -533,7 +543,7 @@ outer: {
     alignItems: 'center',
     borderRadius: 15,
     flexDirection: 'row',
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
 	width: 0,
 	height: 2,
@@ -548,33 +558,33 @@ outer: {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: 'white'
-    
+    backgroundColor: 'white',
+
   },
 textHeader:{
    fontSize: 17,
-   color: '#05375a', 
+   color: '#05375a',
    textAlign: 'center',
-   marginLeft: 30
+   marginLeft: 30,
 },
 textBody:{
     fontSize: 18,
-    color: '#05375a', 
+    color: '#05375a',
     textAlign: 'center',
     fontWeight: 'bold',
-    marginLeft: 30
- }, 
+    marginLeft: 30,
+ },
  textInput: {
   width: 180,
   borderRightWidth: 1,
   borderBottomWidth: 1,
   borderColor: '#CACDD1',
-  color: '#000'
+  color: '#000',
 },
  innerCotainer: {
   backgroundColor: 'white', margin: 10, marginLeft: 40, alignItems: 'center', justifyContent: 'flex-end',  borderRadius: 15, padding: 10, width: 330,
   flexDirection: 'row',
-              shadowColor: "#000",
+              shadowColor: '#000',
               shadowOffset: {
               width: 0,
               height: 2,
@@ -585,7 +595,7 @@ textBody:{
 },
 innerCotainer2: {
   backgroundColor: 'white', margin: 10, alignItems: 'flex-start', textAlign: 'right',  borderRadius: 15, padding: 10, width: 330,
-              shadowColor: "#000",
+              shadowColor: '#000',
               shadowOffset: {
               width: 0,
               height: 2,
@@ -597,7 +607,7 @@ innerCotainer2: {
 buttonV: {
   marginTop: 60,
   alignItems: 'center',
-  
+
 },
 buttonR: {
   marginTop: 20,
@@ -606,69 +616,11 @@ buttonR: {
   width: 50,
   height: 35,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
 },
 innerView: {
     flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
-}, 
-container: {
-  flex: 1,
-  backgroundColor: '#EEF0F2',
-},
-header: {
-  justifyContent: 'center',
-  alignItems: 'center'
-},
-body: {
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginTop: 50,
-  marginBottom: 20,
-
-},
-outer: {
-  width: 275,
-  height: 110,
-  marginTop: 15,
-  marginBottom: 20,
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 15,
-  flexDirection: 'row',
-  shadowColor: "#000",
-  shadowOffset: {
-width: 0,
-height: 2,
-  },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.84,
-  elevation: 5,
-},
-inner: {
-  width: 250,
-  height: 110,
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'row',
-  backgroundColor: 'white'
-  
-},
-textHeader:{
- fontSize: 15,
- color: '#05375a', 
- 
- marginTop: 5,
- paddingTop: 15
-},
-textBody:{
-  fontSize: 20,
-  color: '#05375a', 
-  textAlign: 'center',
-  fontWeight: 'bold',
-  marginTop: 5,
-  paddingTop: 15
 },
   ddown: {
   //drop down list style
@@ -740,9 +692,7 @@ inpTxt: {
   fontSize: 18,
 },
 picker: {
-  color: 'grey'
-}
+  color: 'grey',
+},
 
 });
-
-{/* */}

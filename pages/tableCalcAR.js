@@ -19,7 +19,7 @@ global.db = SQLite.openDatabase(
   },
 );
 
-var uID = 222;
+var uID = 1;
 var curDate = moment().format('YYYY-MM-DD');
 var cTime = new Date();
 var currentBG = '';

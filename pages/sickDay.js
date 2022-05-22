@@ -24,7 +24,7 @@ import moment from 'moment';
 import tableCalc from './tableCalc';
 import SQLite from 'react-native-sqlite-storage';
 import tableukgCopy from './tableukgCopy';
-import tableTextCopy from './tableTextCopy';
+import tableText from './tableText';
 import timeCompare from './timeCompare';
 import PushNotification from 'react-native-push-notification';
 
@@ -92,9 +92,6 @@ global.totalAvgInsulin = 0;
 
 const sickDay = ({ navigation }) => {
 
-      //variables
-      var onlinUserID = 15;//54 is the user for table 3
-      var uID = 222;
       var curDate = moment().format('YYYY-MM-DD');
       var curTime = moment().format('HH:mm:ss');
       var cTime = new Date();
@@ -163,14 +160,20 @@ const sickDay = ({ navigation }) => {
                            if (blood != '0'){
                             setLevel(blood);
                              console.log('k : ' + ketones);
-                             TotalDD = insuliAB(currentBG, ketones, blood, meal, carb, Flags);
-                            recommendation = tableukgCopy(currentBG, ketones, blood, Flags);
+                             if (meal != 'No'){
+                             TotalDD = insuliAB(currentBG, ketones, blood, carb, Flags);
+                             }
+                             console.log('MEEAAAL? ' + meal);
+                            recommendation = tableukgCopy(currentBG, ketones, blood, meal, Flags);
                            } else {
                              if (urine == 'Negative' || urine == 'Trace' || urine == 'Small' || urine == 'Moderate' || urine == 'Large'){
                              setLevel(urine);
                               console.log('k : ' + ketones);
-                              TotalDD = insuliAB(currentBG, ketones, urine, meal, carb, Flags);
-                              recommendation = tableukgCopy(currentBG, ketones, urine, Flags);
+                              if (meal != 'No'){
+                              TotalDD = insuliAB(currentBG, ketones, urine, carb, Flags);
+                             }
+                             console.log('MEEAAAL? ' + meal);
+                             recommendation = tableukgCopy(currentBG, ketones, urine, meal, Flags);
                              }
                            }
                         console.log('The recommendation is : ' + recommendation);
@@ -201,13 +204,13 @@ const sickDay = ({ navigation }) => {
                                 if (blood != '0'){
                                 setLevel(blood);
                                   console.log('k : ' + ketones);
-                                TotalDD = insuliAB(currentBG, ketones, blood, meal, carb, Flags);
+                                TotalDD = insuliAB(currentBG, ketones, blood, carb, Flags);
                                 recommendation = tableCalc(currentBG, ketones, blood, Flags);
                                 } else {
                                   if (urine == 'Negative' || urine == 'Trace' || urine == 'Small' || urine == 'Moderate' || urine == 'Large'){
                                   setLevel(urine);
                                   console.log('k : ' + ketones);
-                                  TotalDD = insuliAB(currentBG, ketones, urine, meal, carb, Flags);
+                                  TotalDD = insuliAB(currentBG, ketones, urine, carb, Flags);
                                   recommendation = tableCalc(currentBG, ketones, urine, Flags);
                                   }
                                 }
@@ -238,14 +241,18 @@ const sickDay = ({ navigation }) => {
                       if (blood != '0'){
                         setLevel(blood);
                          console.log('k : ' + ketones);
-                         TotalDD = insuliAB(currentBG, ketones, blood, meal, carb, Flags);
-                         recommendation = tableTextCopy(currentBG, ketones, blood, meal, Flags);
+                         if (meal != 'No'){
+                          TotalDD = insuliAB(currentBG, ketones, blood, carb, Flags);
+                          }
+                         recommendation = tableText(currentBG, ketones, blood, meal, ReData2.insulinType, Flags);
                        } else {
                          if (urine == 'Negative' || urine == 'Trace' || urine == 'Small' || urine == 'Moderate' || urine == 'Large'){
                          setLevel(urine);
                           console.log('k : ' + ketones);
-                          TotalDD = insuliAB(currentBG, ketones, blood, meal, carb, Flags);
-                          recommendation = tableTextCopy(currentBG, ketones, urine, meal, Flags);
+                          if (meal != 'No'){
+                            TotalDD = insuliAB(currentBG, ketones, urine, carb, Flags);
+                            }
+                          recommendation = tableText(currentBG, ketones, urine, meal, ReData2.insulinType, Flags);
                          }
                        }
                     console.log('The recommendation is : ' + recommendation);
@@ -263,7 +270,7 @@ const sickDay = ({ navigation }) => {
 
     const check = () => { //to check if the recommendatio will be from table ukg
         // eslint-disable-next-line quotes
-        var InsertAPIURL = "http://192.168.56.1/isugar/checkSD1.php";   //API to  signup
+        var InsertAPIURL = "http://isugarserver.com/isugar/checkSD1.php";   //API to  signup
       
         var headers = {
           'Accept': 'application/json',
@@ -300,7 +307,7 @@ const sickDay = ({ navigation }) => {
 
       const checkReg = () => { //to check insulin regimen
         // eslint-disable-next-line quotes
-        var InsertAPIURL = "http://192.168.56.1/isugar/checkSD3.php";   //API to  signup
+        var InsertAPIURL = "http://isugarserver.com/isugar/checkSD3.php";   //API to  signup
       
         var headers = {
           'Accept': 'application/json',
@@ -335,7 +342,7 @@ const sickDay = ({ navigation }) => {
       const checkInsulinType = () => { //to check insulin regimen
         console.log('in DB for Sick day');
         // eslint-disable-next-line quotes
-        var InsertAPIURL = "http://192.168.56.1/isugar/checkInsulinType.php";   //API to  signup
+        var InsertAPIURL = "http://isugarserver.com/isugar/checkInsulinType.php";   //API to  signup
       
         var headers = {
           'Accept': 'application/json',
@@ -644,7 +651,7 @@ const sickDay = ({ navigation }) => {
       const checkLessThanTwoHour = () => {
         console.log('in DB for Sick day to check if you have check less than two hours');
         // eslint-disable-next-line quotes
-        var InsertAPIURL = "http://192.168.56.1/isugar/checkFirstCheck.php";   //API to  signup
+        var InsertAPIURL = "http://isugarserver.com/isugar/checkFirstCheck.php";   //API to  signup
       
         var headers = {
           'Accept': 'application/json',
@@ -691,7 +698,7 @@ const sickDay = ({ navigation }) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
                   var userid = rows.item(i).UserID;
-                if (userid == 222 ) {
+                if (userid == 1 ) {
                   var lastString = rows.item(i).recheckDate;
                   var d = new Date(lastString);
                   var momFormat = moment(d).format('YYYY-MM-DD');
@@ -740,7 +747,7 @@ const sickDay = ({ navigation }) => {
       }
       } 
 
-      const insuliAB = async (bgLevel, ketones, level, isMeal, CHO, flag) => {
+      const insuliAB = async (bgLevel, ketones, level, CHO, flag) => {
         console.log('table ' + T);
           var a = 0;
           var b = 0;
@@ -755,7 +762,6 @@ const sickDay = ({ navigation }) => {
                 //did NOT recheck before two hours ago
               if (bgLevel > 70) {
                   if (flag == 'false'){
-                      if (isMeal == 'Yes'){
                 if (calcMethod == 'ICR') {
                   console.log('is ICR?');
                     checkICRIntervals();
@@ -822,7 +828,7 @@ const sickDay = ({ navigation }) => {
                         a = 0.10 * a;
                       }
                     }
-                 }//if table is table1
+                 }//if table is table3
                  
                     }
               
@@ -848,21 +854,6 @@ const sickDay = ({ navigation }) => {
                   c = SlidingScale; // from database
                   console.log('this is c: ' + c + ' And Sliding: ' + SlidingScale);
                   }//end of S.S
-              }//end of isMeal ==yes
-              else {
-                  a = 0;
-                  console.log('a: ' + a);
-                  console.log('1:' + sBG);
-                  console.log('2:' + tBG);
-                  console.log('3:' + isf);
-                  if (bgLevel > sBG) {
-                    b = (bgLevel - tBG) / isf;
-                  } else {
-                    b = 0;
-                  }
-                  c = a + b;
-              }//end of isMeal == NO
-      
           //if insulin type is a pen
       if (halfOrFull == 1){
           c = Math.round(c);
@@ -887,7 +878,6 @@ const sickDay = ({ navigation }) => {
       
       else {
           if (calcMethod == 'ICR'){
-          if (isMeal == 'Yes') {
             console.log('is ICR?');
             checkICRIntervals();
             console.log('is?');
@@ -944,26 +934,12 @@ const sickDay = ({ navigation }) => {
                 b = 0;
                 c = a + b;
                 console.log('c value: ' + c);
-              }
-              //if NOT A MEAL TIME
-              else {
-                  c = 0;
-              }
           }//if ICR
           else {
-              if (isMeal == 'Yes') {
                   checkSSIntervals();
                   console.log('is Sliding?');
                   c = SlidingScale; // from database
                   console.log('this is c: ' + c + ' And Sliding: ' + SlidingScale);
-                  }
-                  //if NOT A MEAL TIME
-                  else {
-                      if (bgLevel > sBG) {
-                          b = (bgLevel - tBG) / isf;
-                        }
-                      c = b;
-                  }
           }//if S.s
       }// if flag == yes
       }//if it BG level is >70
@@ -1057,7 +1033,7 @@ const sickDay = ({ navigation }) => {
                     var rows = results.rows;
                     for (let i = 0; i < rows.length; i++) {
                       var UID = rows.item(i).UserID;
-                      if (UID == 222) {
+                      if (UID == 1) {
                         console.log('in if (user is found)');
                         interval = rows.item(i).ISFIntervals; //boolean 0 or 1
                         console.log('i' + interval);
@@ -1108,7 +1084,7 @@ const sickDay = ({ navigation }) => {
                         console.log(rows.length);
                         for (let i = 0; i < rows.length; i++) {
                           var UID = rows.item(i).UserID;
-                          if (UID == 222) {
+                          if (UID == 1) {
                             //user id
                             from = rows.item(i).fromTime;
                             // fromTime = [from];
@@ -1155,7 +1131,7 @@ const sickDay = ({ navigation }) => {
                         var rows = results.rows;
                         for (let i = 0; i < rows.length; i++) {
                           var UID = rows.item(i).UserID;
-                          if (UID == 222) {
+                          if (UID == 1) {
                             //***************************************FIXIXIXIX */
                             var ISF_ = rows.item(i).ISF;
                             // setISFP(ISF_);
@@ -1193,14 +1169,14 @@ const sickDay = ({ navigation }) => {
                 db.transaction(tx => {
                   tx.executeSql(
                     'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
-                    [222],
+                    [1],
                     (tx, results) => {
                       var rows = results.rows;
                       for (let i = 0; i < rows.length; i++) {
                         ICRarr.push({
                           id: rows.item(i).icrID,
-                          from: rows.item(i).fromTime,
-                          to: rows.item(i).toTime,
+                          from: moment(rows.item(i).fromTime).format('h:mm a'),
+                          to: moment(rows.item(i).toTime).format('h:mm a'),
                           icr: rows.item(i).ICR,
                         });
                       }
@@ -1218,7 +1194,7 @@ const sickDay = ({ navigation }) => {
                 db.transaction(tx => {
                   tx.executeSql(
                     'SELECT ssID, fromTime, toTime FROM ssInterval WHERE UserID=?',
-                    [222],
+                    [1],
                     (tx, results) => {
                       var rows = results.rows;
                       for (let i = 0; i < rows.length; i++) {
@@ -1276,7 +1252,7 @@ const sickDay = ({ navigation }) => {
                     for (let i = 0; i < rows.length; i++) {
                       var userid = rows.item(i).UserID;
         
-                      if (userid == 222) {
+                      if (userid == 1) {
                         setReData2({
                           ...ReData2,
                           insulinType: rows.item(i).insulinType,
@@ -1361,12 +1337,12 @@ const sickDay = ({ navigation }) => {
 
             //------------ BG LEVEL -------------------
 
-              console.log(222 + ' *-* ' + currentBG + ' - ' + cTime);
+              console.log(1 + ' *-* ' + currentBG + ' - ' + cTime);
               try {
                 db.transaction( (tx) => {
                     tx.executeSql(
                       'INSERT INTO BGLevel (UserID, BGLevel, DateTime) VALUES (?,?,?)',
-                      [222, currentBG, cTime],
+                      [1, currentBG, cTime],
                       (tx, results) => {
                         console.log('Results: ' + results.rowsAffected);
                         if (results.rowsAffected > 0){
@@ -1420,7 +1396,6 @@ const sickDay = ({ navigation }) => {
           }
 
           const print = async () => {
-            console.log('hdhd99h');
             try {
               db.transaction(tx => {
                 tx.executeSql(
@@ -1431,7 +1406,7 @@ const sickDay = ({ navigation }) => {
         
                     for (let i = 0; i < rows.length; i++) {
                       var userid = rows.item(i).UserID;
-                      // if (userid == 222) {
+                      // if (userid == 1) {
                         usID = rows.item(i).UserID;
                         uBG = rows.item(i).BGLevel;
                         uDateTime = rows.item(i).DateTime;
@@ -1457,7 +1432,7 @@ const sickDay = ({ navigation }) => {
               db.transaction(tx => {
                 tx.executeSql(
                   'SELECT UserID, BG_level, insulinDose, Dose_Date_Month, Dose_Date_Day, Dose_Date_Year FROM takenInsulinDose WHERE UserID=?',
-                  [222],
+                  [1],
                   (tx, results) => {
                     var rows = results.rows;
                     console.log('Wow' + rows.length);
@@ -1503,7 +1478,7 @@ const sickDay = ({ navigation }) => {
               db.transaction(tx => {
                 tx.executeSql(
                   'SELECT UserID, BGLevel, DateTime FROM BGLevel WHERE UserID=?',
-                  [222],
+                  [1],
                   (tx, results) => {
                     var rows = results.rows;
                     console.log('Wo0w' + rows.length);
@@ -1531,7 +1506,7 @@ const sickDay = ({ navigation }) => {
 //To save all the information inside online database
           const saveInfo = () => {
               // eslint-disable-next-line quotes
-              var InsertAPIURL = "http://192.168.56.1/isugar/recheckSickDay.php";   //API to  signup
+              var InsertAPIURL = "http://isugarserver.com/isugar/recheckSickDay.php";   //API to  signup
               var headers = {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -1567,7 +1542,7 @@ const sickDay = ({ navigation }) => {
           const checkTwoWeeks = (m, d, y) => {
           console.log('in DB for Sick day check within two week');
           // eslint-disable-next-line quotes
-          var InsertAPIURL = "http://192.168.56.1/isugar/checkTwoWeeks.php";   //API to  signup
+          var InsertAPIURL = "http://isugarserver.com/isugar/checkTwoWeeks.php";   //API to  signup
         
           var headers = {
             'Accept': 'application/json',
@@ -1739,7 +1714,7 @@ const sickDay = ({ navigation }) => {
 
     {flag == 'true' && currentBG != '' && currentBG > 70 && ketones != '' && level != '' ?
     
-    <Text style= {styles.textHeader}>Total Daily Dose: {calculateTotal()} </Text> 
+    <Text style= {styles.textHeader}>Take {calculateTotal()} units of {ReData2.insulinType} insulin </Text> 
     : null } 
      {flag == 'true' && currentBG != '' && currentBG > 70 && ketones != '' && level != '' ?
     
@@ -1748,7 +1723,7 @@ const sickDay = ({ navigation }) => {
 
     {flag == 'true' && currentBG != '' && currentBG < 70 && ketones != '' && level != '' ?
     
-    <Text style= {styles.textHeader}>Total Daily Dose: {calculateTotal()} </Text> 
+    <Text style= {styles.textHeader}>Take {calculateTotal()} units of {ReData2.insulinType} insulin </Text>  
     : null} 
       {flag == 'true' && currentBG != '' && currentBG < 70 && ketones != '' && level != '' ?
     
@@ -1773,9 +1748,6 @@ const sickDay = ({ navigation }) => {
     </View>
   );
 };
-const {height} = Dimensions.get('screen');
-const height_logo = height * 0.15;
-
 export default sickDay;
 
 const styles = StyleSheet.create({
@@ -1783,16 +1755,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#EEF0F2',
   },
-  pic: {
-    width: height_logo,
-    height: height_logo,
-    marginRight: 10,
-},
 textHeader:{
-   fontSize: 15,
-   color: '#05375a',
-   textAlign: 'center',
-   lineHeight: 27,
+  fontSize: 18,
+  paddingBottom: 15,
+  paddingTop: 15,
+  color: '#05375a',
+  textAlign: 'left',
+  paddingLeft: 10,
+  paddingRight: 10,
+  lineHeight: 30,
 },
 textBody:{
     fontSize: 17,
@@ -1877,3 +1848,4 @@ inputT: {
   },
 
 });
+

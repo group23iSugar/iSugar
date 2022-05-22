@@ -1,3 +1,20 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable jsx-quotes */
+/* eslint-disable quotes */
+/* eslint-disable keyword-spacing */
+/* eslint-disable no-lone-blocks */
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
+/* eslint-disable semi */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-undef */
 import React, { useCallback, useState, useEffect } from 'react';
 import {  StyleSheet, 
   View,
@@ -44,7 +61,7 @@ import react from 'react';
                     var rows = results.rows;
                     for (let i = 0; i < rows.length; i++) {           
                         var userID = rows.item(i).UserID;
-                        if (uID == userID){
+                        if (1 == userID){
                             setDbData({
                                 ...dbData,
                                 dateBirth: rows.item(i).DOB,
@@ -316,7 +333,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET weightKG=? WHERE UserID=? ',
-                  [data.weight, uID],
+                  [data.weight, 1],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -359,7 +376,7 @@ try {
           db.transaction( (tx) => {
               tx.executeSql(
                 'UPDATE patientprofile SET height=? WHERE UserID=? ',
-                [data.height, uID],
+                [data.height, 1],
                 (tx, results) => {
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
@@ -381,7 +398,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET latest_HP1AC=? WHERE UserID=? ',
-                  [data.latestHB1AC, uID],
+                  [data.latestHB1AC, 1],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -424,7 +441,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET DOB=? WHERE UserID=? ',
-                  [DOB, uID],
+                  [DOB, 1],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -470,7 +487,7 @@ try {
             db.transaction( (tx) => {
                 tx.executeSql(
                   'UPDATE patientprofile SET latest_HP1AC_date=? WHERE UserID=? ',
-                  [dateOfLatestHB1AC, uID],
+                  [dateOfLatestHB1AC, 1],
                   (tx, results) => {
                     console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
@@ -904,12 +921,12 @@ pickerP: {
   height: 30,
     
 },
-titleB: {
-  color: '#05375a',
-  fontSize: 20,
-  fontWeight: 'bold',
+// titleB: {
+//   color: '#05375a',
+//   fontSize: 20,
+//   fontWeight: 'bold',
  
-},
+// },
 buttonV: {
   marginTop: 60,
   alignItems: 'center',
@@ -958,7 +975,6 @@ buttonR: {
   width: 200,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -968,4 +984,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-

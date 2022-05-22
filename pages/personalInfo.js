@@ -1,3 +1,20 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-shadow */
+/* eslint-disable keyword-spacing */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-lone-blocks */
+/* eslint-disable no-alert */
+/* eslint-disable semi */
+/* eslint-disable jsx-quotes */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-undef */
+/* eslint-disable quotes */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-dupe-keys */
+/* eslint-disable comma-dangle */
 import React, { useCallback, useState, useEffect } from 'react';
 import {  StyleSheet, 
   View,
@@ -70,11 +87,11 @@ var AccType = 'Patient Account';
     });
 
     var isValidAge = true;
-    var DOB = moment.utc(dateOfBirth).format('YYYY-MM-DD');
+    var DOB = dateOfBirth.toString();
     var dateOfLatestHB1AC = moment.utc(dateOfHB1AC).format('YYYY-MM-DD');
 
     const changeWeight = (val) => {
-        if (val <= 999 && val > 0){
+        if (val <= 999 && val > 11){
        setData({
          ...data,
          weight: val,
@@ -198,8 +215,10 @@ var AccType = 'Patient Account';
           } else {
             if (isValidAge == false) {
                 alert('Please enter a valid Date of Birth');
+            } else if (data.isValidWeight == false) {
+                alert('The weight you entered is not supported by the application at the current time for your safety.  Please ensure the entered number is correct.');
             } else {
-                alert('Please fill all the fields correctly');
+              alert('Please fill all the fields correctly');
             }
         }
     }
@@ -228,6 +247,7 @@ const onlineDBWeight = () => {
     UserID: onlinUserID,
     weight_KG: weightKG
   };
+  console.log('weight : ' + weightKG);
 
 // FETCH func ------------------------------------
 fetch(InsertAPIURL1,{
@@ -403,9 +423,10 @@ fetch(InsertAPIURL,{
 <Text style={styles.text_footer}>Weight:</Text>
 <TextInput 
             keyboardType="decimal-pad"
-            placeholder="000.00 Kg"
+            placeholder="000.00"
             onChangeText = {(val)=> changeWeight(val)}
             style={styles.actionN}></TextInput>
+            <Text style={styles.text_footer}>kg</Text>
 
 </View> 
 
@@ -415,9 +436,10 @@ fetch(InsertAPIURL,{
 <Text style={styles.text_footer}>Heigt:</Text>
 <TextInput 
             keyboardType="decimal-pad"
-            placeholder="000.00 cm"
+            placeholder="000.00"
             onChangeText = {(val)=> changeHeight(val)}
             style={styles.actionN}></TextInput>
+            <Text style={styles.text_footer}>cm</Text>
             
 </View>) : null }
 { AccType == 'Patient Account'? 
@@ -432,9 +454,10 @@ fetch(InsertAPIURL,{
 <Text style={styles.text_footer}>Latest HB1AC:</Text>
 <TextInput 
             keyboardType="decimal-pad"
-            placeholder="00.00 %"
+            placeholder="00.00"
             onChangeText = {(val)=> changeHB1AC(val)}
             style={styles.actionN}></TextInput>
+            <Text style={styles.text_footer}>%</Text>
 
 </View>
 
@@ -671,4 +694,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-

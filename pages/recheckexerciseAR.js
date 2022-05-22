@@ -32,8 +32,6 @@ import PushNotification from 'react-native-push-notification';
 
 const recheckExercise = ( {navigation} ) => {
     
-  var onlinUserID = 15;
-  var uID = 15;
 
 const [currentBG, setCurrentBG] = useState('0');//for current BG level
 const [TypeOfExercise, setTypeOfExercise] = useState('0'); //reason of post exercize
@@ -265,7 +263,7 @@ const handleScheduleNotification = (title, message, time) => {
 const checkIsPlanned = () => {
     console.log('in DB of Taken insulin and planned exercise');
     // eslint-disable-next-line quotes
-    var InsertAPIURL = "http://192.168.56.1/iSugar/checkPlannedExercise.php";   //API to  signup
+    var InsertAPIURL = "https://isugarserver.com/checkPlannedExercise.php";   //API to  signup
   
     var headers = {
       'Accept': 'application/json',
@@ -310,7 +308,7 @@ const checkIsPlanned = () => {
   const checkWeight = () => {
     console.log('in DB of weight');
     // eslint-disable-next-line quotes
-    var InsertAPIURL = "http://192.168.56.1/iSugar/checkWeight.php";   //API to  signup
+    var InsertAPIURL = "https://isugarserver.com/checkWeight.php";   //API to  signup
   
     var headers = {
       'Accept': 'application/json',
@@ -350,7 +348,7 @@ const checkIsPlanned = () => {
 const saveInstruction = () => {
   console.log('in DB of Saving information');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/iSugar/recheckrecord.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/recheckrecord.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -386,7 +384,7 @@ fetch(InsertAPIURL,{
 const saveBGLevel = () => {
   console.log('in DB of Saving information');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/iSugar/BGLevel.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/BGLevel.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -419,15 +417,15 @@ const insertBG = async () => {
 
   //------------ BG LEVEL -------------------
  
-     console.log(uID + ' - ' + currentBG + ' - ' + curDate + ' - ' + curTime);
+     console.log(1 + ' - ' + currentBG + ' - ' + curDate + ' - ' + curTime);
      try {
       db.transaction( (tx) => {
           tx.executeSql(
            'INSERT INTO BGLevel (UserID, BGLevel, bglevelDate, bglevelTime) VALUES (?,?,?,?)',
-             [uID, currentBG, curDate, curTime]
+             [1, currentBG, curDate, curTime]
          );
      })
-     console.log('Hi ' + uID + ' - ' + currentBG + ' - ' + curDate + ' - ' + curTime);
+     console.log('Hi ' + 1 + ' - ' + currentBG + ' - ' + curDate + ' - ' + curTime);
  } catch (error) {
      console.log(error);
  }
@@ -438,43 +436,43 @@ const insertAll = async () => {
 
   //------------ BG LEVEL -------------------
  
-     console.log(uID + ' - ' + currentBG + ' - ' + curDate + ' - ' + curTime);
+     console.log(1 + ' - ' + currentBG + ' - ' + curDate + ' - ' + curTime);
      try {
       db.transaction( (tx) => {
           tx.executeSql(
            'INSERT INTO BGLevel (UserID, BGLevel, bglevelDate, bglevelTime) VALUES (?,?,?,?)',
-             [uID, currentBG, curDate, curTime]
+             [1, currentBG, curDate, curTime]
          );
      })
-     console.log('Hi ' + uID + ' - ' + currentBG + ' - ' + curDate + ' - ' + curTime);
+     console.log('Hi ' + 1 + ' - ' + currentBG + ' - ' + curDate + ' - ' + curTime);
  } catch (error) {
      console.log(error);
  }
  
  //----------------RECHECK RECORD------------------
-   console.log(uID + ' - ' + curDate + ' - ' + curTime + ' - ' + TypeOfExercise + ' - ' + correction + ' - ' + level + ' - ' + ketones + ' - ' + sum);
+   console.log(1 + ' - ' + curDate + ' - ' + curTime + ' - ' + TypeOfExercise + ' - ' + correction + ' - ' + level + ' - ' + ketones + ' - ' + sum);
      try {
       db.transaction( (tx) => {
           tx.executeSql(
            'INSERT INTO exRecheckRecords (UserID, recordDate, recordTime, exerciseType, suggestedCorrectionDose, ketonesLevel, ketonesSource, suggestCarbs) VALUES (?,?,?,?,?,?,?,?)',
-             [uID, curDate, curTime, TypeOfExercise, correction, level, ketones, sum]
+             [1, curDate, curTime, TypeOfExercise, correction, level, ketones, sum]
          );
      })
-     console.log('Hello ' + uID + ' - ' + curDate + ' - ' + curTime + ' - ' + TypeOfExercise + ' - ' + correction + ' - ' + level + ' - ' + ketones + ' - ' + sum);
+     console.log('Hello ' + 1 + ' - ' + curDate + ' - ' + curTime + ' - ' + TypeOfExercise + ' - ' + correction + ' - ' + level + ' - ' + ketones + ' - ' + sum);
  } catch (error) {
      console.log(error);
  }
 
  //--------------REcheck reminder---------------------
- console.log(uID + ' - ' + curDate + ' - ' + curTime);
+ console.log(1 + ' - ' + curDate + ' - ' + curTime);
  try {
   db.transaction( (tx) => {
       tx.executeSql(
        'INSERT INTO exRecheckNotification (UserID, recheckDate, recheckTime) VALUES (?,?,?)',
-         [uID, curDate, curTime]
+         [1, curDate, curTime]
      );
  })
- console.log('hola ' + uID + ' - ' + curDate + ' - ' + curTime);
+ console.log('hola ' + 1 + ' - ' + curDate + ' - ' + curTime);
 } catch (error) {
  console.log(error);
 }

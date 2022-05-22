@@ -1,14 +1,24 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-shadow */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable semi */
+/* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, 
+import { StyleSheet,
     View,
-    Image, 
+    Image,
     Text,
     TextInput,
     ScrollView,
-    TouchableOpacity, 
-    Dimensions } from 'react-native'; 
+    TouchableOpacity,
+    Dimensions } from 'react-native';
     import LinearGradient from 'react-native-linear-gradient';
-    
+
 import {Picker} from '@react-native-picker/picker';
 import { FlatList } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -65,16 +75,16 @@ const travel = ({ navigation }) => {
                             fromOrTo: rows.item(i).fromOrTo,
                             timeDifference: rows.item(i).timeDifference,
                         });
-                        console.log(tempArr[i].id+' / '+tempArr[i].cityEnglishName+' / '+tempArr[i].cityArabicName+' / '+tempArr[i].fromOrTo +' / '+tempArr[i].timeDifference);
-                        
+                        console.log(tempArr[i].id + ' / ' + tempArr[i].cityEnglishName + ' / ' + tempArr[i].cityArabicName + ' / ' + tempArr[i].fromOrTo + ' / ' + tempArr[i].timeDifference);
+
                   }
                   setCity([...tempArr]);
-              }   
-    ) 
-    
-        
-    
-    }  ) 
+              }
+    )
+
+
+
+    }  )
     } catch (error) {
        console.log(error);
     }
@@ -86,7 +96,7 @@ const travel = ({ navigation }) => {
     console.log('in try');
       db.transaction(  ( tx) => {
         tx.executeSql(
-          'SELECT insulinType, iDose, iTime FROM insulinOther', 
+          'SELECT insulinType, iDose, iTime FROM insulinOther',
           [],
           (tx, results) => {
             var rows = results.rows;
@@ -103,12 +113,12 @@ const travel = ({ navigation }) => {
               }
              setInsulin([...tempArr]);
              callback(tempArr);
-          }   
-) 
+          }
+)
 
-    
 
-}  ) 
+
+}  )
 } catch (error) {
    console.log(error);
 }
@@ -130,12 +140,12 @@ const travel = ({ navigation }) => {
               });
               }
               setInsulin2([...tempArr]);
-          }   
-  ) 
+          }
+  )
 
-    
 
-  }  ) 
+
+  }  )
   } catch (error) {
   console.log(error);
   }
@@ -146,7 +156,7 @@ const travel = ({ navigation }) => {
         // if not then return false, else true
         var insulinType = [...types];
         for (var i = 0; i < insulinType.length; i++){
-          console.log(insulinType[i]+ ' I am here');
+          console.log(insulinType[i] + ' I am here');
           if (insulinType[i] == 'NPH' || insulinType[i] == 'Deguldec+Aspart Mix' || insulinType[i] == 'mixed rapid+ intermediate' ){ //should check all other insulin
              setFlag2(false);
           } else {
@@ -161,7 +171,7 @@ const travel = ({ navigation }) => {
     const getTimeDifference = () => {
       if (selected == 0){ // take 'from' column
           return 0;
-      } else if (selected == 1){ // take 'to' column 
+      } else if (selected == 1){ // take 'to' column
           return 1;
       }
 
@@ -171,17 +181,17 @@ const travel = ({ navigation }) => {
       setShow(Platform.OS === 'ios');
       setDate(currentDate);
     };
-  
+
     const showMode = (currentMode) => {
       setShow(true);
       setMode(currentMode);
     };
-  
+
     const showDatepicker = () => {
       showMode('Year');
     };
-    const AdjustInsulin = (time) => { 
-      console.log(time + ' ///// '+timeDiff);
+    const AdjustInsulin = (time) => {
+      console.log(time + ' ///// ' + timeDiff);
         var timeD = timeDiff;
 
         if (timeD >= 5){ //-----
@@ -189,21 +199,21 @@ const travel = ({ navigation }) => {
             return dose;
           }
           else if (time == 'during'){
-            return Math.round(dose+(dose*0.25));
+            return Math.round(dose + (dose * 0.25));
           }
           else if (time == 'after'){
             return dose;
-          } 
+          }
         } else if (timeD <= -5){ //------
           if (time == 'before'){
-            return Math.round(dose-(dose*0.25));
+            return Math.round(dose - (dose * 0.25));
           }
           else if (time == 'during'){
             return 0;
           }
           else if (time == 'after'){
             return dose;
-          } 
+          }
         } else { //---------
           if (time == 'before'){
             return dose;
@@ -213,14 +223,14 @@ const travel = ({ navigation }) => {
           }
           else if (time == 'after'){
             return dose;
-          } 
+          }
         }
     }
 
     const searchCity = (val) => {
       var column = getTimeDifference();
       setS2(val);
-      for(let i =0; i< city.length; i++){
+      for (let i = 0; i < city.length; i++){
         // iterating in the city array of objects that contains all the city info
           if (city[i].id == val ){
             // If the id in city array matched the user selection
@@ -232,7 +242,7 @@ const travel = ({ navigation }) => {
                 setTime(tDiff);
                 return;
               }
-             } else  if (column == 1) {// TO col 
+             } else  if (column == 1) {// TO col
               if (city[i].fromOrTo == 'to'){
                 setfromORTo(city[i].fromOrTo);
                 var tDiff = city[i].timeDifference;
@@ -242,75 +252,75 @@ const travel = ({ navigation }) => {
              }
           }
       }
-     
-   
+
+
     }
 
     const renderCityList = () => {
       return city.map((ch) => {
-        return <Picker.Item key= {ch.id+''} label={ch.cityEnglishName +' ( '+ch.timeDifference+' )'} value={ch.id+''}    />
+        return <Picker.Item key= {ch.id + ''} label={ch.cityEnglishName + ' ( ' + ch.timeDifference + ' )'} value={ch.id + ''}    />
       })
-    } 
+    }
     const alertMsg = () => {
-      alert(`Please read the following important instructions for accurate selection:\n1-	The time difference in this list is calculated based on countries Standard Time (ST). If the country you are travelling to or from adapt a Daylight Saving Time (DST)* during your travel dates: Please select option OTHER and enter the time difference for your travel dates manually.\n2-	The list is based on countries capital cities. If you can not find your travel destination: Please select option OTHER and enter the time difference for your travel dates manually.\n*Daylight Saving Time (DST) is the practice of setting the clocks forward one hour from standard time during the summer months, and back again in the fall, in order to make better use of natural daylight.`);
+      alert('Please read the following important instructions for accurate selection:\n1-	The time difference in this list is calculated based on countries Standard Time (ST). If the country you are travelling to or from adapt a Daylight Saving Time (DST)* during your travel dates: Please select option OTHER and enter the time difference for your travel dates manually.\n2-	The list is based on countries capital cities. If you can not find your travel destination: Please select option OTHER and enter the time difference for your travel dates manually.\n*Daylight Saving Time (DST) is the practice of setting the clocks forward one hour from standard time during the summer months, and back again in the fall, in order to make better use of natural daylight.');
     }
     const insertDB = () => {
       setFlag(true);
-      console.log(date+' - '+cityName+' - '+timeDiff+' - '+fromORTo);
+      console.log(date + ' - ' + cityName + ' - ' + timeDiff + ' - ' + fromORTo);
       try {
         db.transaction( (tx) => {
             tx.executeSql(
-             'INSERT INTO travel (UserID, travelDate, cityName, timeDifference, fromOrTO)' 
-             +'VALUES (?,?,?,?,?)',
+             'INSERT INTO travel (UserID, travelDate, cityName, timeDifference, fromOrTO)'
+             + 'VALUES (?,?,?,?,?)',
                [uID, date, cityName, timeDiff, fromORTo ]
            );
        })
-       
+
       } catch (error) {
        console.log(error);
       }
 
       //if (AccType == 'Patient Account')
       // -----------online
-      var InsertAPIURL3 = "https://isugarserver.com/travel.php";   //API to  signup
+      var InsertAPIURL3 = 'http://192.168.8.170/isugar/travel.php';   //API to  signup
 
       var headers = {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       };
-       var Data ={
+       var Data = {
         UserID: onlinUserID,
         travelDate: date.toString(),
         cName: cityName,
         fromOrTo: fromORTo,
-        timeDifference: timeDiff
+        timeDifference: timeDiff,
       };
-    
+
     // FETCH func ------------------------------------
     fetch(InsertAPIURL3,{
           method:'POST',
         headers:headers,
-        body: JSON.stringify(Data) //convert data to JSON
+        body: JSON.stringify(Data), //convert data to JSON
     })
     .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
     .then((response)=>{      // If data is in JSON => Display alert msg
     })
     .catch((error)=>{
-        alert("Error Occured" + error);
+        alert('Error Occured' + error);
     })
     }
   return (
 
     <View style={styles.container}>
      <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
-       
+
         <TouchableOpacity onPress={()=>navigation.openDrawer()}>
          <Entypo name="menu" color="#05375a" size={35} />
          </TouchableOpacity>
       </View>
 
-        
-        
+
+
          <ScrollView>
          <Text
           style={{
@@ -324,8 +334,8 @@ const travel = ({ navigation }) => {
           Travel
         </Text>
 
-          {insulin.length > 0 ? (<View>
-            {!globalFlag3? 
+          {city.length > 0 ? (<View>
+            {!globalFlag3 ?
             (<View>
               <Text style={{
             color: '#05375a',
@@ -340,27 +350,27 @@ const travel = ({ navigation }) => {
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={{fontWeight: 'bold', color: '#05375a',}}>Yes</Text>
-                  
+                    <Text style={{fontWeight: 'bold', color: '#05375a'}}>Yes</Text>
+
                 </LinearGradient>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Insulin Information', }); }}>
+            <TouchableOpacity onPress={()=>{navigation.navigate('pass', {textE: 'Insulin Information' }); }}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={{ fontWeight: 'bold', color: '#05375a', }}>No</Text>
-                  
+                    <Text style={{ fontWeight: 'bold', color: '#05375a' }}>No</Text>
+
                 </LinearGradient>
             </TouchableOpacity>
             </View>
             </View>)
             : null}
-            
-            {globalFlag3 && !globalFlag? (<View>
-              { ( globalFlag2 && city.length > 0) ? 
+
+            {globalFlag3 && !globalFlag ? (<View>
+              { ( globalFlag2 && city.length > 0) ?
              ( <View>
                <View style={styles.innerCotainer}>
-               <Text style={{color: 'darkblue'}}>Travelling </Text>  
+               <Text style={{color: 'darkblue'}}>Travelling </Text>
                       <Picker
                         itemStyle={{color: 'black'}}
                         selectedValue={selected}
@@ -373,17 +383,17 @@ const travel = ({ navigation }) => {
                         paddingRight: 5,
                       color: '#05375a'}}
                         mode={'dropdown'}>
-                            <Picker.Item label= 'Select' value='-1'   ></Picker.Item>
-                            <Picker.Item label= 'From' value='0'   ></Picker.Item>
-                            <Picker.Item label= 'To' value='1'   ></Picker.Item>
-                
-                      </Picker> 
+                            <Picker.Item label= "Select" value="-1"    />
+                            <Picker.Item label= "From" value="0"    />
+                            <Picker.Item label= "To" value="1"    />
+
+                      </Picker>
                       <Text style={{color: 'darkblue'}}>Saudi Arabia</Text>
                </View>
                <View style={styles.innerCotainer}>
-               <Text style={{color: 'darkblue'}}>Travelling </Text> 
-                      {selected == '-1'?  <Text style={{color: 'darkblue'}}>From/To</Text> :
-                      (<View>{selected == '0'? <Text style={{color: 'darkblue'}}>To</Text> : <Text style={{color: 'darkblue'}}>From</Text>}</View>) }
+               <Text style={{color: 'darkblue'}}>Travelling </Text>
+                      {selected == '-1' ?  <Text style={{color: 'darkblue'}}>From/To</Text> :
+                      (<View>{selected == '0' ? <Text style={{color: 'darkblue'}}>To</Text> : <Text style={{color: 'darkblue'}}>From</Text>}</View>) }
                       <Picker
                         itemStyle={{color: 'black'}}
                         selectedValue={selected2}
@@ -397,34 +407,34 @@ const travel = ({ navigation }) => {
                         paddingRight: 5,
                       color: '#05375a'}}
                         mode={'dropdown'}>
-                            <Picker.Item label= 'Other' value='-1'   ></Picker.Item>
+                            <Picker.Item label= "Other" value="-1"    />
                             {renderCityList()}
-                
+
                       </Picker>
                </View>
                {selected2 == '-1' ? (<View style={styles.innerCotainer}>
-                     <Text style={{color: 'darkblue'}}>Time difference:      </Text> 
-                      <TextInput 
+                     <Text style={{color: 'darkblue'}}>Time difference:      </Text>
+                      <TextInput
                           style={styles.textInput}
-                          defaultValue={timeDiff+''}
+                          defaultValue={timeDiff + ''}
                           autoCapitalize="none"
                           onChangeText={(val) => setTime(val)}
 
                       />
                      </View>)
                 : null}
-                     
+
                      <View style={styles.innerCotainer}>
-                     <Text style={{color: 'darkblue'}}>Date of travel: </Text> 
+                     <Text style={{color: 'darkblue'}}>Date of travel: </Text>
                      <TouchableOpacity onPress={showDatepicker}
                  >
              <Text testID="dateTimePicker"
              style={{fontSize: 17, color: 'grey', alignItems: 'flex-start'}} >
                              {moment(date).format('DD/MM/YYYY')}
-                             </Text> 
-          
+                             </Text>
+
                  </TouchableOpacity>
-                   
+
                  {show && (
         <DateTimePicker
           testID="dateTimePicker"
@@ -435,13 +445,13 @@ const travel = ({ navigation }) => {
         />
       )}
                      </View>
-                      
+
                       <TouchableOpacity onPress={()=>insertDB()}>
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                 >
-                    <Text style={{ fontWeight: 'bold', color: '#05375a', }}>OK</Text>
-                  
+                    <Text style={{ fontWeight: 'bold', color: '#05375a' }}>OK</Text>
+
                 </LinearGradient>
             </TouchableOpacity>
                       </View>)
@@ -449,10 +459,10 @@ const travel = ({ navigation }) => {
 
              </Text> }
             </View>) : null}
-           
-          </View>): null}
-          
-           
+
+          </View>) : null}
+
+
           {globalFlag == true ? (<View style={styles.innerCotainer2}>
               <Text style={styles.textBody}>Adjust your basal {insulinType} Insulin as per the following instructions:</Text>
               <Text style={styles.textBody}>Before your trip:</Text>
@@ -465,18 +475,18 @@ const travel = ({ navigation }) => {
               <Text style={styles.textBody}>Check your blood glucose level every 3-4 hours during your trip.</Text>
               <Text style={styles.textBody}>Take you {insulinPen} insulin for all your meals/snacks during the trip. Please use the Bolus Calculator section in the application for this. </Text>
               <Text style={styles.textBody}>Upon arrival to {cityName} please ensure you have the time on your electronic device updated to {cityName} time. This is to ensure accurate bolus insulin calculations via the application.</Text>
-            
-             </View>) : null}      
+
+             </View>) : null}
 
         </ScrollView>
-    </View>      
+    </View>
 
-    
+
   );
 };
 
 
-const {height} = Dimensions.get("screen");
+const {height} = Dimensions.get('screen');
 const height_logo = height * 0.15;
 
 export default travel;
@@ -493,7 +503,7 @@ const styles = StyleSheet.create({
 },
   header: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
 },
 body: {
     justifyContent: 'center',
@@ -511,7 +521,7 @@ outer: {
     alignItems: 'center',
     borderRadius: 15,
     flexDirection: 'row',
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
 	width: 0,
 	height: 2,
@@ -526,33 +536,33 @@ outer: {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: 'white'
-    
+    backgroundColor: 'white',
+
   },
 textHeader:{
    fontSize: 17,
-   color: '#05375a', 
+   color: '#05375a',
    textAlign: 'left',
    paddingLeft: 10,
-   paddingRight: 10
+   paddingRight: 10,
 },
 textBody:{
     fontSize: 18,
-    color: '#05375a', 
+    color: '#05375a',
     textAlign: 'left',
     fontWeight: 'bold',
- }, 
+ },
  textInput: {
   width: 180,
   borderRightWidth: 1,
   borderBottomWidth: 1,
   borderColor: '#CACDD1',
-  color: '#000'
+  color: '#000',
 },
  innerCotainer: {
   backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10, width: 330,
   flexDirection: 'row',
-              shadowColor: "#000",
+              shadowColor: '#000',
               shadowOffset: {
               width: 0,
               height: 2,
@@ -563,7 +573,7 @@ textBody:{
 },
 innerCotainer2: {
   backgroundColor: 'white', margin: 10, alignItems: 'flex-start',  borderRadius: 15, padding: 10, width: 330,
-              shadowColor: "#000",
+              shadowColor: '#000',
               shadowOffset: {
               width: 0,
               height: 2,
@@ -575,7 +585,7 @@ innerCotainer2: {
 buttonV: {
   marginTop: 60,
   alignItems: 'center',
-  
+
 },
 buttonR: {
   marginTop: 20,
@@ -584,69 +594,11 @@ buttonR: {
   width: 50,
   height: 35,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
 },
 innerView: {
     flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
-}, 
-container: {
-  flex: 1,
-  backgroundColor: '#EEF0F2',
-},
-header: {
-  justifyContent: 'center',
-  alignItems: 'center'
-},
-body: {
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginTop: 50,
-  marginBottom: 20,
-
-},
-outer: {
-  width: 275,
-  height: 110,
-  marginTop: 15,
-  marginBottom: 20,
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 15,
-  flexDirection: 'row',
-  shadowColor: "#000",
-  shadowOffset: {
-width: 0,
-height: 2,
-  },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.84,
-  elevation: 5,
-},
-inner: {
-  width: 250,
-  height: 110,
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'row',
-  backgroundColor: 'white'
-  
-},
-textHeader:{
- fontSize: 15,
- color: '#05375a', 
- 
- marginTop: 5,
- paddingTop: 15
-},
-textBody:{
-  fontSize: 20,
-  color: '#05375a', 
-  textAlign: 'center',
-  fontWeight: 'bold',
-  marginTop: 5,
-  paddingTop: 15
 },
   ddown: {
   //drop down list style
@@ -718,9 +670,7 @@ inpTxt: {
   fontSize: 18,
 },
 picker: {
-  color: 'grey'
-}
+  color: 'grey',
+},
 
 });
-
-{/* */}

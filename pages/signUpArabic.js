@@ -1,3 +1,14 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable quotes */
+/* eslint-disable jsx-quotes */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable space-infix-ops */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-undef */
+/* eslint-disable no-trailing-spaces */
 import React, {useEffect} from 'react';
 import { StyleSheet, 
     View,
@@ -24,8 +35,8 @@ import RadioForm, {
 
 
 var accountType = [
-{label: 'حساب مصاب - اختر هذا النوع إذا كنت مصاب بالنوع الأول من السكري، وعمرك أقل من 18 عاماً أو أقل'+'\n'+'\n', value: 'Patient Account', valueIndex: 0},
-{label: 'حساب غير-مصاب  اختر هذا النوع إذا كنت ستستخدم هذا التطبيق بهدف الاختبار والأغراض التعليمية، كطبيب ', value: 'Non-Patient Account', valueIndex: 1},
+{label: 'حساب مصاب - اختر هذا الحساب إذا كنت مريضاً بالسكري النوع الأول وعمرك ٠-١٨ سنة أو أحد ذويهم.'+'\n'+'\n', value: 'Patient Account', valueIndex: 0},
+{label: 'حساب غير-مصاب  اختر هذا النوع اختر هذا الحساب إذا كنت لست مريضاً بالسكري وترغب الدخول للتطبيق لأهداف تعليمية وتثقيفية. ', value: 'Non-Patient Account', valueIndex: 1},
 ];
 
 const signUpAR = ({ navigation, route}) => {
@@ -191,10 +202,8 @@ buttonR: {
   width: 200,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
 }
 });
-

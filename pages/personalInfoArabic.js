@@ -1,3 +1,20 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-shadow */
+/* eslint-disable keyword-spacing */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-lone-blocks */
+/* eslint-disable no-alert */
+/* eslint-disable semi */
+/* eslint-disable jsx-quotes */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-undef */
+/* eslint-disable quotes */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-dupe-keys */
+/* eslint-disable comma-dangle */
 import React, { useCallback, useState, useEffect } from 'react';
 import {  StyleSheet, 
   View,
@@ -77,7 +94,7 @@ console.log(uID);
     var dateOfLatestHB1AC = moment.utc(dateOfHB1AC).format('YYYY-MM-DD');
 
     const changeWeight = (val) => {
-        if (val <= 999 && val > 0){
+        if (val <= 999 && val > 11){
        setData({
          ...data,
          weight: val,
@@ -201,8 +218,10 @@ console.log(uID);
           } else {
             if (isValidAge == false) {
                 alert('ادخل قيم صحيحة');
+              } else if (data.isValidWeight == false) {
+                alert('الوزن المدخل غير مدعوم بالتطبيق حالياً وذلك لسلامتك. الرجاء التأكد من أن الرقم المدخل صحيح.');
             } else {
-                alert('ادخل قيم صحيحة');
+              alert('ادخل قيم صحيحة');
             }
         }
     }
@@ -407,9 +426,10 @@ fetch(InsertAPIURL,{
 <Text style={styles.text_footer}>الوزن</Text>
 <TextInput 
             keyboardType="decimal-pad"
-            placeholder="000.00 كجم"
+            placeholder="000.00"
             onChangeText = {(val)=> changeWeight(val)}
             style={styles.actionN}></TextInput>
+            <Text style={styles.text_footer}>كجم</Text>
 
 </View> 
 
@@ -419,9 +439,10 @@ fetch(InsertAPIURL,{
 <Text style={styles.text_footer}>الطول</Text>
 <TextInput 
             keyboardType="decimal-pad"
-            placeholder="000.00 سم"
+            placeholder="000.00 "
             onChangeText = {(val)=> changeHeight(val)}
             style={styles.actionN}></TextInput>
+            <Text style={styles.text_footer}>سم</Text>
             
 </View>) : null }
 { AccType == 'Patient Account'? 
@@ -436,9 +457,10 @@ fetch(InsertAPIURL,{
 <Text style={styles.text_footer}>آخر معدل للسكر التراكمي </Text>
 <TextInput 
             keyboardType="decimal-pad"
-            placeholder="00.00 %"
+            placeholder="00.00"
             onChangeText = {(val)=> changeHB1AC(val)}
             style={styles.actionN}></TextInput>
+            <Text style={styles.text_footer}>%</Text>
 
 </View>
 
@@ -675,4 +697,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-

@@ -16,7 +16,7 @@ global.db = SQLite.openDatabase(
       console.log('ERROR: ' + error);
     },
   );
-  var uID = 222;
+  var uID = 1;
   var curDate = moment().format('YYYY-MM-DD');
   var cTime = new Date();
 //==============for notification=============================

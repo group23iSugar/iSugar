@@ -3,7 +3,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
-import {StyleSheet, View, Text, Dimensions, TouchableOpacity, Alert, Image} from 'react-native';
+import {StyleSheet, View, Text, Dimensions, TouchableOpacity, Alert} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import react from 'react';
 //import About from './About';
@@ -13,12 +13,9 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import SQLite from 'react-native-sqlite-storage';
+//import SQLite from 'react-native-sqlite-storage';
 
 
-//======Local Database======//
-global.onlinUserID = '';
-global.uID = '';
 
 const SettingAR = ({navigation}) => {
 
@@ -44,7 +41,7 @@ const SettingAR = ({navigation}) => {
         text: 'حسنًا',
         onPress: () => {
         console.log('OK pressed');
-        //navigation.navigate('setting');
+        navigation.navigate('Settings');
         //allOperation();
         },
       },
@@ -130,7 +127,7 @@ const SettingAR = ({navigation}) => {
                 for (let i = 0; i < rows.length; i++) {
                     var userID = rows.item(i).UserID;
                     // eslint-disable-next-line eqeqeq
-                    if (userID == uID){
+                    if (userID == 1){
                       console.log('hi from getlocalInfo:');
                       setDbData({
                         ...dbData,
@@ -163,7 +160,7 @@ const SecondRetreive = ()=>{
               for (let i = 0; i < rows.length; i++) {
                   var userID = rows.item(i).UserID;
                   // eslint-disable-next-line eqeqeq
-                  if (userID == uID){
+                  if (userID == 1){
                     console.log('hi from inside info2:');
                     setDbData2({
                       ...dbData2,
@@ -198,7 +195,7 @@ const ThirdRetreive = ()=>{
               for (let i = 0; i < rows.length; i++) {
                   var userID = rows.item(i).UserID;
                   // eslint-disable-next-line eqeqeq
-                  if (userID == uID){
+                  if (userID == 1){
                     console.log('hi from inside info3:');
                     setDbData3({
                       ...dbData3,
@@ -230,7 +227,7 @@ const ForthRetreive = ()=>{
               for (let i = 0; i < rows.length; i++) {
                   var userID = rows.item(i).UserID;
                   // eslint-disable-next-line eqeqeq
-                  if (userID == uID){
+                  if (userID == 1){
                     console.log('hi from inside info4:');
                     setDbData4({
                       ...dbData4,
@@ -264,7 +261,7 @@ const SelectUsers = () => {
                 var userID = rows.item(i).UserID;
                 console.log(userID);
                 // eslint-disable-next-line eqeqeq
-                if (userID == uID){
+                if (userID == 1){
                   console.log('hi from select users:');
                   setDbData({
                     ...dbData,
@@ -352,11 +349,11 @@ const DeleteAll = () => {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM UserAccount WHERE UserID = ?',
-           [uID],
+           [1],
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                 console.log('record delete successfully');
                       }//end if
       }//result
@@ -377,11 +374,11 @@ const DeleteAll = () => {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM patientprofile WHERE UserID = ?',
-           [uID],
+           [1],
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                 console.log('record delete successfully');
                       }//end if
       }//result
@@ -402,11 +399,11 @@ const DeleteAll = () => {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM nonPatientprofile WHERE UserID = ?',
-           [uID],
+           [1],
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                 console.log('record delete successfull ');
                       }//end if
       }//result
@@ -427,11 +424,11 @@ const DeleteAll = () => {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM KSUMC WHERE UserID = ?',
-           [uID],
+           [1],
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                 console.log('record delete successfully');
                       }//end if
       }//result
@@ -454,11 +451,11 @@ const DeleteAll = () => {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM insulinPen WHERE UserID = ?',
-           [uID],
+           [1],
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                 console.log('record delete successfully');
                       }//end if
       }//result
@@ -479,11 +476,11 @@ const DeleteAll = () => {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM insulinOther WHERE UserID = ?',
-           [uID],
+           [1],
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                 console.log('record delete successfully');
                       }//end if
       }//result
@@ -504,11 +501,11 @@ const DeleteAll = () => {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM isfInterval WHERE UserID = ?',
-           [uID],
+           [1],
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                 console.log('record delete successfully');
                       }//end if
       }//result
@@ -529,11 +526,11 @@ const DeleteAll = () => {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM icrInterval WHERE UserID = ?',
-           [uID],
+           [1],
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                 console.log('record delete successfully');
                       }//end if
       }//result
@@ -554,11 +551,11 @@ const DeleteAll = () => {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM ssInterval WHERE UserID = ?',
-           [uID],
+           [1],
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                 console.log('record delete successfully');
                       }//end if
       }//result
@@ -583,7 +580,7 @@ const DeleteAll = () => {
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                    console.log(dbData3.slidingID);
                 console.log('record delete successfully');
                       }//end if
@@ -605,11 +602,11 @@ const DeleteAll = () => {
       db.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM takenInsulinDose WHERE UserID = ?',
-           [uID],
+           [1],
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                    console.log(dbData4.takenInsulinID);
                 console.log('record delete successfully');
                       }//end if
@@ -635,7 +632,7 @@ const DeleteAll = () => {
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                    console.log(dbData4.takenInsulinID);
                 console.log('record delete successfully');
                       }//end if
@@ -661,7 +658,7 @@ const DeleteAll = () => {
          (tx, results) => {
           console.log('Results', results.rowsAffected);
                  if (results.rowsAffected > 0) {
-                   console.log(uID);
+                   console.log(1);
                    console.log(dbData4.takenInsulinID);
                 console.log('record delete successfully');
                       }//end if
@@ -677,60 +674,49 @@ const DeleteAll = () => {
   }
   //end const
 //////////////////////////////////////////////////////END DELETE QUERIES///////////////////////////////////////////
-  return (
- <View style={styles.container}>
-   <LinearGradient colors={['#E7EFFA', '#E7EFFA','#AABED8']} style={styles.container}>
-   <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
-        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
-         <Entypo name="menu" color="#05375a" size={35} />
-         </TouchableOpacity>
-      </View>
+return (
+  <View style={styles.container}>
+  <View style={{top: 10, flexDirection: 'row', padding: 30}}>
+   <TouchableOpacity onPress={()=>navigation.getParent('RightDrawer').openDrawer()}>
+   <Entypo name="menu" color="#212222" size={35} style={{marginLeft: -10, paddingVertical: 5}} />
+   </TouchableOpacity>
+  </View>
 
-
-    <View style={styles.footer}>
-    <View style={{flexDirection: 'row' ,marginLeft:5, paddingTop: 30 }}>
-      <Fontisto name="world-o" color="#05375a" size={22}/>
-       <Text style={styles.title}>اللغة</Text>
-      </View>
-      <View style={styles.radioB}>
-         <RadioForm
-          radio_props = {Language}
-          onPress={ twoOptionAlert }
-          buttonSize = {15}
-          buttonOuterSize = {25}
-          buttonColor= "#AABED8"
-          selectedButtonColor = "#8FA5C1"
-          labelStyle = {{fontSize: 20, color: '#05375a', padding: 10}}
-          formHorizontal={false}
-         />
-        </View>
+ <View style={{flexDirection: 'row' ,marginLeft:15 }}>
+    <Fontisto name="world-o" color="#212222" size={22}/>
+     <Text style={styles.title}>اللغة</Text>
     </View>
+  <View style={styles.footer}>
+    <View style={styles.radioB}>
+       <RadioForm
+        radio_props = {Language}
+        onPress={ twoOptionAlert }
+        buttonSize = {15}
+        buttonOuterSize = {25}
+        buttonColor= "#717274"
+        selectedButtonColor = "#656363"
+        labelStyle = {{fontSize: 20, color: '#212222', padding: 10}}
+        formHorizontal={false}
+       />
+      </View>
+  </View>
+  <View style={{flexDirection: 'row' ,marginLeft:15, paddingTop: 30 }}>
+    <MaterialIcons name="account-circle" color="#212222" size={22}/>
+     <Text style={styles.title}>الحساب</Text>
+    </View>
+  <View style={styles.buttonV}>
+        <TouchableOpacity onPress={logOutAlert}>
+          <LinearGradient
+            colors={['#fff', '#fff', '#fff']}
+            style={styles.buttonR}>
+              <SimpleLineIcons name="logout" color="#212222" size={22}/>
+            <Text style={styles.titleB}>تسجيل خروج</Text>
 
-    <View style={{marginBottom: 30}}>
-  <View style={{flexDirection: 'row' ,marginLeft:20, paddingTop: 50 }}>
-       <MaterialIcons name="account-circle" color="#05375a" size={22}/>
-       <Text style={styles.title}>الحساب</Text>
-     </View>
-        <View style={styles.buttonV}>
-           <TouchableOpacity>
-             <LinearGradient
-               colors={['#fff', '#fff', '#fff']}
-               style={styles.buttonR}>
-                <SimpleLineIcons name="logout" color="#05375a" size={22}/>
-               <Text
-                onPress={ logOutAlert }
-               style={styles.titleB}
-               >
-                 تسجيل الخروج
-                 </Text>
-             </LinearGradient>
-            </TouchableOpacity>
-         </View>
-         </View>
-         </LinearGradient>
- </View>
-  );
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
+</View>
+);
 };
 
 const {height} = Dimensions.get('screen');
@@ -741,80 +727,52 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
-  pic: {
-
+  title: {
+    color: '#212222',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    marginBottom: 10,
+  },
+  logo: {
     width: height_logo,
     height: height_logo,
-    marginRight: 10,
-},
-    title: {
-      color: '#05375a',
-      fontSize: 18,
-      fontWeight: 'bold',
-      marginLeft: 10,
-      marginBottom: -10,
-    },
 
-  footer: {
-      flex: 1,
-      width: 380,
-      height: 50,
-      marginTop: 10,
-      marginBottom: -100,
-      marginLeft: 15,
-      backgroundColor: '#fff',
-      borderRadius: 3,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 10,
   },
-  titleB: {
-    color: '#05375a',
-    fontSize: 18,
+footer: {
+    flex: 1,
+    width: 380,
+    height: 50,
+    marginBottom: 15,
     marginLeft: 15,
-    marginTop: -10,
+    backgroundColor: '#fff',
+    borderRadius: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 10,
+},
+titleB: {
+  color: '#212222',
+  fontSize: 18,
+  marginLeft: 10,
+},
+radioB :{
+  marginTop: 45,
+  justifyContent: 'space-between',
+  padding: 10,
   },
-  radioB :{
-    marginTop: 25,
-    justifyContent: 'space-between',
-    padding: 10,
-    paddingTop:5,
-    marginBottom: 10,
-    },
-    buttonV: {
-      marginTop: 10,
-    },
-    buttonR: {
-      alignItems: 'flex-end',
-      marginBottom: 120,
-      width: 380,
-      height: 50,
-      borderRadius: 3,
-      flexDirection: 'row',
-      marginLeft: 15,
-      paddingVertical: 10,
-    },
-    modalBackground: {
-      flexGrow: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingTop: -40,
-      marginBottom: 20,
-    },
-    modalContainer: {
-      width: '80%',
-      backgroundColor: '#fff',
-      paddingHorizontal: 0,
-      paddingVertical: 35,
-      borderRadius: 20,
-    },
-    header: {
-      textAlign: 'center',
-      height: 40,
-      marginVertical: 20,
-      marginTop: -10,
-      paddingTop: -20,
-      color: 'black',
-    },
+  buttonV: {
+    marginTop: 10,
+  },
+  buttonR: {
+    alignItems: 'flex-end',
+    marginBottom: 120,
+    width: 380,
+    height: 50,
+    borderRadius: 3,
+    flexDirection: 'row',
+    marginLeft: 15,
+    paddingVertical: 10,
+  },
 });
   export default SettingAR;

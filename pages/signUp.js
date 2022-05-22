@@ -1,3 +1,14 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable quotes */
+/* eslint-disable jsx-quotes */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable space-infix-ops */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-undef */
+/* eslint-disable no-trailing-spaces */
 import React, {useEffect} from 'react';
 import { StyleSheet, 
     View,
@@ -17,11 +28,12 @@ import RadioForm, {
   RadioButtonInput, 
   RadioButtonLabel
 } from 'react-native-simple-radio-button';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 var accountType = [
-{label: 'Patient Account: Choose this type if you are a patient diagnosed with type 1 diabetes, and you are 18 years old or younger'+'\n'+'\n', value: 'Patient Account', valueIndex: 0},
-{label: 'Non-Patient Account: Choose this type if you will use this application for testing or educational purposes, such as a doctor', value: 'Non-Patient Account', valueIndex: 1},
+{label: 'Patient Account: Select this account if you are a patient aged 0-18 years with Type 1 Diabetes Mellitus or his/her caregiver.'+'\n'+'\n', value: 'Patient Account', valueIndex: 0},
+{label: 'Non-Patient Account: Select this account if you are not a patient and would like to access the application for educational and learning purposes.', value: 'Non-Patient Account', valueIndex: 1},
 ];
 
 const signUp = ({ navigation, route}) => {
@@ -50,7 +62,9 @@ const signUp = ({ navigation, route}) => {
          resizeMode='stretch'/>
          </View>
       </LinearGradient>
+     
       <View style={styles.footer}>
+      <ScrollView>
       <Text style={styles.title}>Choose your account type:</Text>
       <View style={styles.radioB}>
         <RadioForm
@@ -79,7 +93,10 @@ const signUp = ({ navigation, route}) => {
                 </LinearGradient>
             </TouchableOpacity>
             </View>
+            </ScrollView>
         </View>
+     
+     
      </View>
 
          
@@ -187,10 +204,8 @@ buttonR: {
   width: 200,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
 }
 });
-

@@ -253,13 +253,13 @@ setID(id);
 
         {yesFlag == true ? null
         : (<View style={styles.innerCotainer}>
-          <Text style={styles.textBody}>هل لديك إعدادات المضخة؟</Text>
+          <Text style={styles.textBody}>Do you have your pump setting?</Text>
           <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
             <TouchableOpacity  onPress={()=>settingYesFlag()}>
                   <LinearGradient
                       colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                   >
-                      <Text style={{fontWeight: 'bold', color: '#05375a'}}>نعم</Text>
+                      <Text style={{fontWeight: 'bold', color: '#05375a'}}>Yes</Text>
 
                   </LinearGradient>
               </TouchableOpacity>
@@ -267,7 +267,7 @@ setID(id);
                   <LinearGradient
                       colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonR}
                   >
-                      <Text style={{ fontWeight: 'bold', color: '#05375a' }}>لا</Text>
+                      <Text style={{ fontWeight: 'bold', color: '#05375a' }}>No</Text>
 
                   </LinearGradient>
               </TouchableOpacity>
@@ -275,12 +275,12 @@ setID(id);
           </View>)  }
 
         {noFlag == true ? ( <View style={styles.innerCotainer}>
-          <Text style={styles.textAlert}>تواصل مع فريق السكر أو اذهب مباشرة للإسعاف</Text>
+          <Text style={styles.textAlert}>Call your Diabetes center OR go immediately to ER</Text>
         </View>)
         : null }
         {yesFlag == true ? (<View>
           <View style = {styles.innerCotainer2}>
-          <Text style = {styles.textHeader}>مجموع جرعات الانسولين القاعدي لليوم </Text>
+          <Text style = {styles.textHeader}>Total basal insulin per day</Text>
           <TextInput
                           style={styles.textInput}
                           autoCapitalize="none"
@@ -291,8 +291,8 @@ setID(id);
           <Text>units/day</Text>
         </View>
         <View style={styles.innerCotainerISF}>
-        <Text style = {styles.textBody}>معامل حساسية الانسولين:</Text>
-        <Text style={styles.textHeader}>الفترة الزمنية لمعامل حساسية الانسولين</Text>
+        <Text style = {styles.textBody}>Insulin Sensitivity Factor (ISF):</Text>
+        <Text style={styles.textHeader}>Time to start correction:</Text>
         <Picker
               itemStyle={{color: '#000'}}
               selectedValue={isfInterval}
@@ -300,13 +300,13 @@ setID(id);
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'طوال اليوم' value='0'></Picker.Item>
-            <Picker.Item label= 'ساعات محددة' value='1'></Picker.Item>
+            <Picker.Item label= 'All day' value='0'></Picker.Item>
+            <Picker.Item label= 'Specific hours' value='1'></Picker.Item>
 
         </Picker>
         {isfInterval=='0' ? (<View>
           <View style = {{flexDirection: 'row'}}>
-          <Text style={styles.textHeader}>معامل حساسية الانسولين:</Text>
+          <Text style={styles.textHeader}>ISF:</Text>
           <TextInput
              keyboardType="decimal-pad"
              placeholder="000"
@@ -314,7 +314,7 @@ setID(id);
              style={styles.textInput}></TextInput>
           </View>
           <View style = {{flexDirection: 'row'}}>
-          <Text style={styles.textHeader}>مستوى سكر الدم المرغوب التصحيح إليه </Text>
+          <Text style={styles.textHeader}>Target Blood glucose level for correction: </Text>
           <TextInput
             keyboardType="decimal-pad"
             placeholder="000"
@@ -322,7 +322,7 @@ setID(id);
             style={styles.textInput}></TextInput>
           </View>
           <View style = {{flexDirection: 'row'}}>
-          <Text style={styles.textHeader}>التصحيح يبدأ اذا كان سكر الدم أعلى من </Text>
+          <Text style={styles.textHeader}>Correction to start if blood glucose greater than: </Text>
           <TextInput
             keyboardType="decimal-pad"
             placeholder="000"
@@ -337,7 +337,7 @@ setID(id);
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
           <View>
-             <Text style={styles.innerTitle}>من</Text>
+             <Text style={styles.innerTitle}>From</Text>
               <TouchableOpacity onPress={()=> combineF(item.id)}
               onPressOut={()=>setfalg1(true)}
               style={styles.innerCotainer}
@@ -363,7 +363,7 @@ setID(id);
 
                    />
                  )}
-                   <Text style={styles.innerTitle}>الى</Text>
+                   <Text style={styles.innerTitle}>To</Text>
                    <TouchableOpacity onPress={()=> combineT(item.id)}
                    onPressOut={()=>setfalg2(true)}
                    style={styles.innerCotainer}
@@ -389,7 +389,7 @@ setID(id);
                    )}
                     <View style={styles.innerCotainer}>
                     <View style={styles.innerView}>
-                    <Text style={styles.innerTitle}>معامل حساسية الانسولين: </Text>
+                    <Text style={styles.innerTitle}>ISF: </Text>
                     <TextInput
                     style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color: 'grey'}}
                      keyboardType="decimal-pad"
@@ -398,7 +398,7 @@ setID(id);
                     />
                     </View>
                     <View style={styles.innerView}>
-                    <Text style={styles.innerTitle}>الهدف: </Text>
+                    <Text style={styles.innerTitle}>Target: </Text>
                     <TextInput
                     style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color: 'grey'}}
                      keyboardType="decimal-pad"
@@ -407,7 +407,7 @@ setID(id);
                     />
                     </View>
                     <View style={styles.innerView}>
-                    <Text style={styles.innerTitle}>البداية: </Text>
+                    <Text style={styles.innerTitle}>Start: </Text>
                     <TextInput
                     style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color: 'grey'}}
                      keyboardType="decimal-pad"
@@ -421,19 +421,19 @@ setID(id);
         )}
 
         />
-        <TouchableOpacity onPress={()=>addISF()}><Text style={styles.textHeader}>اضافة فترة</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>addISF()}><Text style={styles.textHeader}>Add Interval</Text></TouchableOpacity>
 
       </View>
         </View>)}
         </View>
         <View style={styles.innerCotainerISF}>
-        <Text style = {styles.textBody}>معامل الكربوهيدرات:</Text>
+        <Text style = {styles.textBody}>Insulin to Carbohydrate Ratio (ICR):</Text>
         <FlatList
         data={ICR}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
           <View style={styles.outerContainer}>
-             <Text style={styles.innerTitle}>من</Text>
+             <Text style={styles.innerTitle}>From</Text>
               <TouchableOpacity onPress={()=> combineF(item.id)}
               onPressOut={()=>setfalg1(true)}
               style={styles.innerCotainer}
@@ -459,7 +459,7 @@ setID(id);
 
                    />
                  )}
-                   <Text style={styles.innerTitle}>الى</Text>
+                   <Text style={styles.innerTitle}>To</Text>
                    <TouchableOpacity onPress={()=> combineT(item.id)}
                    onPressOut={()=>setfalg2(true)}
                    style={styles.innerCotainer}
@@ -485,7 +485,7 @@ setID(id);
                    )}
                     <View style={styles.innerCotainer}>
                     <View style={styles.innerView}>
-                    <Text style={styles.innerTitle}>معامل الكاربوهايدرات: </Text>
+                    <Text style={styles.innerTitle}>ICR: </Text>
                     <TextInput
                     style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color: 'grey'}}
                      keyboardType="decimal-pad"
@@ -498,12 +498,12 @@ setID(id);
         )}
 
         />
-        <TouchableOpacity onPress={()=>addICR()}><Text style={styles.textHeader}>اضافة فترة</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>addICR()}><Text style={styles.textHeader}>Add Interval</Text></TouchableOpacity>
         </View>
         <View style = {styles.innerCotainerISF}>
-          <Text style = {styles.textBody}>قلم الانسولين الذي سيتم استعماله</Text>
+          <Text style = {styles.textBody}>Insulin Pens you will be using:</Text>
           <View style={styles.innerCotainer}>
-            <Text style={styles.textHeader}>اسم الانسولين سريع المفعول:</Text>
+            <Text style={styles.textHeader}>Name of rapid-acting insulin (for bolus):</Text>
             <Picker
               itemStyle={{color: '#000'}}
               selectedValue={rapid}
@@ -511,11 +511,11 @@ setID(id);
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'سبارت (نوفورابد أو نوفولوج)' value='0'></Picker.Item>
-            <Picker.Item label= 'ليسبرو (هيومالوج)' value='1'></Picker.Item>
-            <Picker.Item label= 'غلوليزين (أبيدرا)' value='2'></Picker.Item>
+            <Picker.Item label= 'Aspart (NovoRapid or Novolog)' value='0'></Picker.Item>
+            <Picker.Item label= 'Lispro (Humalog)' value='1'></Picker.Item>
+            <Picker.Item label= 'Glulisine (Apidra)	' value='2'></Picker.Item>
         </Picker>
-        <Text style={styles.textHeader}>هل القلم يعطي أنصاف وحدات؟</Text>
+        <Text style={styles.textHeader}>Does you insulin pen provide half units?</Text>
         <Picker
               itemStyle={{color: '#000'}}
               selectedValue={penUnit}
@@ -523,12 +523,12 @@ setID(id);
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'نعم' value='0'></Picker.Item>
-            <Picker.Item label= 'لا' value='1'></Picker.Item>
+            <Picker.Item label= 'Yes provide half units' value='0'></Picker.Item>
+            <Picker.Item label= 'No, Only provides full units' value='1'></Picker.Item>
         </Picker>
           </View>
           <View style={styles.innerCotainer}>
-            <Text style={styles.textHeader}>اسم الانسولين طويل المفعول (القاعدي) </Text>
+            <Text style={styles.textHeader}>Name of long-acting insulin (for basal):</Text>
             <Picker
               itemStyle={{color: '#000'}}
               selectedValue={basal}
@@ -536,9 +536,9 @@ setID(id);
               mode="dropdown"
               style={styles.picker}
               >
-            <Picker.Item label= 'ديتيمير (ليفيمير)' value='0'></Picker.Item>
-            <Picker.Item label= 'جلارجين (لانتوس، باسجلار، توجيو)' value='1'></Picker.Item>
-            <Picker.Item label= 'ديجلوديك (تريسيبا)' value='2'></Picker.Item>
+            <Picker.Item label= 'Detemir (Levemir)' value='0'></Picker.Item>
+            <Picker.Item label= 'Glargine (Lantus or Basaglar or Toujeo)' value='1'></Picker.Item>
+            <Picker.Item label= 'Degludec (Tresiba)' value='2'></Picker.Item>
         </Picker>
           </View>
 
@@ -548,7 +548,7 @@ setID(id);
                 <LinearGradient
                     colors={['#E7EFFA', '#AABED8', '#AABED8']} style={styles.buttonConvert}
                 >
-                    <Text style={{ fontWeight: 'bold', color: '#05375a' }}>تحويل</Text>
+                    <Text style={{ fontWeight: 'bold', color: '#05375a' }}>Convert</Text>
 
                 </LinearGradient>
             </TouchableOpacity>
@@ -556,16 +556,16 @@ setID(id);
         : null}
         {convertFlag ? (<View>
           <View style={styles.innerCotainerISF}>
-            <Text style={styles.textHeader}>التالي هي جرعات مبدئية لتحويل الانسولين من المضخة للأقلام وقد تحتاج إلى تعديل. الرجاء التواصل مع فريق السكر في أقرب وقت.</Text>
-            <Text style={styles.textHeader}>1-	تأكد من تاريخ صلاحية قلم الانسولين</Text>
-            <Text style={styles.textHeader}>2-	لا تستخدم أقلام انسولين منتهية الصلاحية</Text>
-            <Text style={styles.textHeader}>3-  خذ {insulin} وحدة من انسولين {getNameB()} الآن ثم أعد قياس مستوى سكر الدم بعد ساعتين</Text>
-            <Text style={styles.textHeader}>4-	خذ انسولين {getNameB()} في نفس الوقت كل يوم (جرعة واحدة يومياً)</Text>
-            <Text style={styles.textHeader}>5-	افحص مستوى سكر الدم قبل كل وجبة وقبل النوم</Text>
-            <Text style={styles.textHeader}>6-	استخدم قلم انسولين {getNameA()} لأخذ جرعات الانسولين قبل الوجبات ولتصحيح ارتفاع مستوى سكر الدم</Text>
-            <Text style={styles.textHeader}>7-	استخدم حاسبة جرعات الانسولين المتوفرة في التطبيق لحساب جرعة الانسولين للوجبات والتصحيح.</Text>
-            <Text style={styles.textHeader}>8-	قم بقياس مستوى الكيتونات إذا كان مستوى سكر الدم أكثر أو مساوٍ ل ٢٥٠ ميليجرام/ديسيلتر </Text>
-            <Text style={styles.textHeader}>9-	لا تنسى تغيير مكان الحقن مع كل جرعة انسولين</Text>
+            <Text style={styles.textHeader}>The following is a starting dose for conversion of insulin from pump to pens and might need adjustments. Pleases contact your diabetes center as soon as possible.</Text>
+            <Text style={styles.textHeader}>1-	Check the expiry dates on your insulin pens.</Text>
+            <Text style={styles.textHeader}>2-	Don’t use expired insulin pens.</Text>
+            <Text style={styles.textHeader}>3-  Take {insulin} units of insulin using the {getNameB()} pen now and check your BG after 2 hours</Text>
+            <Text style={styles.textHeader}>4-	Take your {getNameB()} insulin at the same time every day (to be taken once per day).</Text>
+            <Text style={styles.textHeader}>5-	Check your blood glucose level before each meal and at bedtime.</Text>
+            <Text style={styles.textHeader}>6-	Use your {getNameA()} insulin pen for insulin bolus doses before meals, snacks and correction of high blood glucose levels.</Text>
+            <Text style={styles.textHeader}>7-	Use the Insulin Bolus Calculator section in this application to provide you with insulin doses before your meals/snacks and for corrections of high blood glucose readings.</Text>
+            <Text style={styles.textHeader}>8-	Check for ketones if your blood glucose level is equal or above 250mg/dl</Text>
+            <Text style={styles.textHeader}>9-	Don’t forget to rotate insulin injection site with each dose injection.</Text>
           </View>
         </View>)
         : null}
