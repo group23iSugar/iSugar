@@ -1,3 +1,18 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
+/* eslint-disable comma-dangle */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
+/* eslint-disable semi */
+/* eslint-disable radix */
+/* eslint-disable keyword-spacing */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-undef */
 import React, {Component, useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -22,26 +37,33 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import timeCompare from './timeCompare';
 import Entypo from 'react-native-vector-icons/Entypo';
-import calcFasting from './calcFasting';
+const Calc = ({navigation, route}) => {
 
-//=========================Local DB===============================
-//=========================Local DB===============================
+    useEffect(() => {
+     FirstRetrieve(retrieve,secondretrieve);
+     retrieve3();
+     retrieve4();
+     
 
-const calcFastingAR = () => {
-  const neeDed = () => {
+   }, []);
+
+
+   //================================insulin calc methods==================
+    const insuCalc = () => {
+      bgLevelDB=bgLevel;
+      reasonDB=reason;
+      choDB=CHO;
+
     if(isIsfInterval == 1){
-    checkISFIntervals(); //Retrives from DB
+     checkISFIntervals(); //Retrives from DB
     }
-  };
 
-  const insuCalc = () => {
-
-    // for(let x =0; x<prevArr.length; x++){
-    //   console.log('=================================');
-    //   console.log(prevArr[x].time);
-    //   console.log(prevArr[x].dose);
-    //   console.log('=================================');
-    // }
+    for(let x =0; x<prevArr.length; x++){
+      console.log('=================================');
+      console.log(prevArr[x].time);
+      console.log(prevArr[x].dose);
+      console.log('=================================');
+    }
 
     console.log(prevArr);
     var a;
@@ -49,38 +71,38 @@ const calcFastingAR = () => {
     var c = 0;
     var IOB = 0;
     var adjustment;
+    var txt1 = '';
 
     if (
       (insulinReg == 'Pen' || insulinReg == 'pen') &&
-      (ReData2.insulinType == 'Aspart' ||
-        ReData2.insulinType == 'Lispro' ||
-        ReData2.insulinType == 'Glulisine')
+      (insulinType == 'Aspart' ||
+        insulinType == 'Lispro' ||
+        insulinType == 'Glulisine')
     ) {
-      console.log('1-  ' + c);
+      specialLog = '';
+      if (isSick){
+        specialLog = specialLog+' SD'
+      }
+      if (isFasting){
+        specialLog = specialLog+' F'
+      }
+      if (isPostEnabled || isPreEnabled){
+        specialLog = specialLog+' E'
+      }
       if (bgLevel > 70) {
-        console.log('2-  ' + c);
         if (reason == '5') {
-          //5 is the value for correction lable
-          console.log('3-  ' + c);
-          if (bgLevel > ReData1.startBG) {
-            console.log(
-              'BG: ' +
-                bgLevel +
-                ' Start BG: ' +
-                ReData1.startBG +
-                ' ISF: ' +
-                ReData1.ISF,
-            );
-            console.log('4-  ' + c);
+          if (bgLevel > sBGP) {
             a = 0;
-            b = (bgLevel - ReData1.targetBG) / ReData1.ISF;
+            b = (bgLevel - tBGP) / isfP;
             c = a + b;
-            console.log('5-  ' + c);
+           // console.log('5-  ' + c);
+                txt1 = txt1 + 'since the reason is correction Then: \n * Total = (current BG - Target BG)/ISF \n'+ c +'='+a+'+'+b+'\n';
 
             //prevArr
             console.log('THA LENGTH:    '+ prevArr.length);
             if (prevArr.length == 0){
               	IOB = 0;} else {
+                   txt1 = txt1 + '\nsince you took insulin dose in the previous 4 hours Then: \n* Total = Total - IOB \n';
 
                   for (let i = 0; i < prevArr.length; i++){
                     console.log('DoubleCheckaaaaa');
@@ -88,34 +110,48 @@ const calcFastingAR = () => {
                     // var w = parseInt(prevArr[i].dose);
 		               IOB = IOB + IOBSwitch(prevArr[i].time, prevArr[i].dose); 
                    }
+                   txt1=txt1+'Total '+'='+c+'-'+IOB+'\n';
                 }
 
             // if (timePrevDose <= 4) {
               console.log('6-  ' + c);
               console.log('7-  ' + IOB);
               c = c - IOB;
+		  
+             
             // }
             if (isPreEnabled == true) {
               adjustment = PreExercise();
               c = c - adjustment * c;
 
+              txt1 = txt1 + '\nsince you have prepared to an exercise Then: \n* Total = Total - (exercise adjustment * Total)\n';
+		     txt1=txt1+'Total '+'='+c+'-'+adjustment+'*'+c+'\n';
+
               // return (total);
             } else if (isPostEnabled == true) {
               adjustment = PostExercise();
               c = c - adjustment * c;
+              txt1 = txt1 + '\nsince you have previously exercised Then: \n* Total = Total - (exercise adjustment * Total)\n';
+		     txt1=txt1+'Total '+'='+c+'-'+adjustment+'*'+c+'\n';
 
               // return (total);
             }
           } else {
+            // eslint-disable-next-line no-alert
             alert('No correction required');
+            return;
           }
         } else {
           if (calcMethod == 'ICR') {
             console.log('is ICR?');
             checkICRIntervals();
+            txt1 = txt1 + '\nsince you are using ICR and the reason for the dose is a meal Then: \n* Insulin A = CHO / ICR \n';
             a = CHO / ICR;
-            if (bgLevel > ReData1.startBG) {
-              b = (bgLevel - ReData1.targetBG) / ReData1.ISF;
+		   txt1=txt1+' Total '+'='+CHO+'/'+ICR+'\n';
+            if (bgLevel > sBGP) {
+              b = (bgLevel - tBGP) / isfP;
+               txt1 = txt1 + '\nsince the current BG is greater than the start BG Then: \n* Total = Total + ((current BG - Target BG) / ISF) \n';
+		    txt1=txt1+'Total '+'='+c+'+(('+bgLevel+'-'+tBGP+')/'+isfP+'\n';
             } else {
               b = 0;
             }
@@ -123,18 +159,25 @@ const calcFastingAR = () => {
 
           if (prevArr.length == 0){
               	IOB = 0;} else {
+                   txt1 = txt1 + '\nsince you took insulin dose in the previous 4 hours Then: \n* Total = Total - IOB\n';
 
                   for (let i = 0; i < prevArr.length; i++){
                     console.log('DoubleCheckaaaaa');
                     console.log('DoubleCheck: '+prevArr[i].time +' '+ prevArr[i].dose);
 		               IOB = IOB + IOBSwitch(prevArr[i].time, prevArr[i].dose); 
                    }
+			 txt1=txt1+'Total '+'='+c+'-'+IOB+'\n';
                 }
             c = c - IOB;
+		
+            
 
             if (isPreEnabled == true) {
               adjustment = PreExercise();
               c = c - adjustment * c;
+
+              txt1 = txt1 + '\nsince you have prepared to an exercise Then: \n* Total = Total - (exercise adjustment * Total)\n';
+		     txt1=txt1+'Total '+'='+c+'-'+adjustment+'*'+c+'\n';
 
               // return (total);
             } else if (isPostEnabled == true) {
@@ -142,38 +185,53 @@ const calcFastingAR = () => {
                 adjustment = PostExercise();
                 c = c - adjustment * c;
 
+                txt1 = txt1 + '\nsince you have previously exercised Then: \n* Total = Total - (exercise adjustment * Total)\n';
+		       txt1=txt1+'Total '+'='+c+'-'+adjustment+'*'+c+'\n';
+
                 //  return (total);
               }
             }
           } else {
             
-            checkSSIntervals();
+         checkSSIntervals();
             console.log('is Sliding?');
             c = SlidingScale; // from database
+            txt1 = txt1 + '\nsince you are using sliding scale Then: \n* Total = SlidingScale based on the current time\n';
+		  txt1= txt1+'Total ='+c+'\n';
             console.log('this is c: ' + c + ' And Sliding: ' + SlidingScale);
             console.log(c + '  This is tt');
                 if (prevArr.length == 0){
               	IOB = 0;} else {
+                  txt1 = txt1 + '\nsince you took insulin dose in the previous 4 hours Then: \n* Total = Total - IOB\n';
 
                   for (let i = 0; i < prevArr.length; i++){
                     console.log('DoubleCheckaaaaa');
                     console.log('DoubleCheck: '+prevArr[i].time +' '+ prevArr[i].dose);
 		               IOB = IOB + IOBSwitch(prevArr[i].time, prevArr[i].dose); 
                    }
+			 txt1=txt1+'Total '+'='+c+'-'+IOB+'\n';
                 }
             console.log('This is c: ' + c);
             c = c - IOB;
+		  
+             
             console.log(IOB + '  This is IOB and c after IOB: ' + c);
 
             if (isPreEnabled == true) {
               adjustment = PreExercise();
               c = c - adjustment * c;
 
+               txt1 = txt1 + '\nsince you have prepared to an exercise Then: \n* Total = Total - (exercise adjustment * Total)\n';
+		    txt1=txt1+'Total '+'='+c+'-'+adjustment+'*'+c+'\n';
+
               //  return (total);
             } else if (isPostEnabled == true) {
             if (differ <= 4 && differ >= 0) {
                 adjustment = PostExercise();
                 c = c - adjustment * c;
+
+                 txt1 = txt1 + '\nsince you have previously exercised Then: \n* Total = Total - (exercise adjustment * Total)\n';
+		    txt1=txt1+'Total '+'='+c+'-'+adjustment+'*'+c+'\n';
 
                 //  return (total);
               }
@@ -183,12 +241,14 @@ const calcFastingAR = () => {
           }
         }
       } else {
-        alert('Your blood sugar is low!');
+       navigation.navigate('hypo');
       }
     } else {
+      // eslint-disable-next-line no-alert
       alert(
         'Your Insulin type is not supported in this application. Please contact your Diabetes center for instruction & recommendations for insulin bolus calculation & dose determination',
       );
+      return;
     }
 
 
@@ -207,35 +267,21 @@ else{//half-units
 		roundedFraction = 1.0;}
 	c = r1_whole + roundedFraction}
 
-    setTotal(c);
+
+    totalInulin=c;
+    if(c<0){
+      c=0;
+    }
+    txt1=txt1+'= '+c;
+    howText=txt1;
+    
+    console.log(c + ' and:3  ' + totalInulin);
+
+
+
+    navigation.navigate('insuResult');
     // navigation.navigate('result',{result: total, calcM: calcMethod, reasonD: reason, bg: bgLevel, cho: CHO})
-    console.log(c + ' and:3  ' + total);
-	  
-
-    //======================Save into DB========================
-
-    var currentTime2 = new Date();
-    var currentTimeHours1 = currentTime2.getHours(); //0-23
-    var currentTimeMin1 = currentTime2.getMinutes(); //0-59
-    var currentTimeDate_day1 = currentTime2.getDate(); //1-31
-    var currentTimeDate_month1 = currentTime2.getMonth(); //0-11
-    var currentTimeDate_year1 = currentTime2.getFullYear(); //2021
-
-      try {
-          db.transaction( (tx) => {
-              tx.executeSql(
-               'INSERT INTO takenInsulinDose (UserID, BG_level, ReasonForInsulin, CHO, insulinDose, Dose_time_hours, Dose_time_minutes, Dose_Date_Day, Dose_Date_Month, Dose_Date_Year) VALUES (?,?,?,?,?,?,?,?,?,?)',
-                 [uID, bgLevel, reason, CHO, total, currentTimeHours1, currentTimeMin1, currentTimeDate_day1, currentTimeDate_month1, currentTimeDate_year1]
-             );
-            
-         })
-         
-     } catch (error) {
-         console.log(error);
-     }
-
-    //==============================================
-  };
+    };
 
   const IOBSwitch = (timePrevDose, PrevDose) => {
     var num = 0;
@@ -318,59 +364,8 @@ else{//half-units
 
   //======================End of insuling Calc methods===================
 
-  //=========================Retrive From DB========================
-  // var time='';
-  const [ReData1, setReData1] = useState({
-    startBG: 0,
-    targetBG: 0,
-    ISF: 0,
-  });
-
-  const [ReData2, setReData2] = useState({
-    insulinType: '',
-  });
-  const [total, setTotal] = useState(0);
-
-  useEffect(() => {
-    FirstRetrieve(retrieve, secondretrieve);
-    //if(insulinReg=='Pen'){
-    retrieve3();//}
-    retrieve4();
-  }, []);
-
-  // ====== ISF ========== //
-  const [fromTime, setFromTime] = useState([]);
-  const [toTime, setToTime] = useState([]);
-  const [isf, setISF] = useState([]);
-  const [tBG, setTBG] = useState([]);
-  const [sBG, setSBG] = useState([]);
-  //======== ICR AND SS========= //
-  const [ICRarr, setICRarr] = useState([]);
-  const [ICR, setICR] = useState(0);
-  const [SlidingScaleArr, setSlidingScaleArr] = useState([]);
-  const [SlidingScale, setSlidingScale] = useState(0);
-  // ======= Patient Profile ===== //
-  const [calcMethod, setCalcM] = useState('');
-  const [isIsfInterval, setInterval] = useState(-1);
-  const [insulinReg, setReg] = useState('');
-  const [insulinType, setType] = useState('');
-  const [isfP, setISFP] = useState(-1); // p indicates patient ;) these values won't be retreived unless isf interval = 0: All day
-  const [tBGP, setTBGP] = useState(-1);
-  const [sBGP, setSBGP] = useState(-1);
-  //======= Previous Dose==========//
-  // const [timePrevDose, setTimePrevDose] = useState(0);
-  // const [PrevDose, setPrevDose] = useState(0);
-  const [prevArr, setPrevArr] = useState([]);
-  //var tempArr = [...ICRarr];
-  const [halfOrFull, sethalfOrFull]= useState(1);
-  //==================================//
-  //--------------Queries-------------------
-
-  const calcA = (call1, call2) => {
-    call1();
-    call2();
-  };
-  const FirstRetrieve = (callback, callback2) => {
+    //======================Retrive Funvtions===================
+      const FirstRetrieve = (callback1 , callback2) => {
     var interval = -1;
     console.log('in first');
     try {
@@ -383,24 +378,23 @@ else{//half-units
             var rows = results.rows;
             for (let i = 0; i < rows.length; i++) {
               var UID = rows.item(i).UserID;
-              if (UID == uID) {
+              if (UID == 1) {
                 console.log('in if (user is found)');
                 interval = rows.item(i).ISFIntervals; //boolean 0 or 1
                 console.log(interval);
-                setInterval(interval);
+                isIsfInterval = interval;
                 var calcM = rows.item(i).insulinCalcMethod; // ICR or SS
-                console.log(calcM);
-                setCalcM(calcM);
+                calcMethod = calcM;
+
                 var insulinR = rows.item(i).insulinRegimen; // pen , pump , etc..
                 console.log(insulinR);
-                setReg(insulinR);
-                //----------------
-                //  console.log(interval+' intervals before calling');
-                //   console.log(calcM+' method for calc');
-                callback(interval);
+                insulinReg = insulinR;
+
+                callback1(interval);
                 callback2(calcM);
                 return;
               }
+              
             }
           },
         );
@@ -410,12 +404,21 @@ else{//half-units
     }
   };
 
-  const retrieve = interval => {
+  //========================================================
+  const retrieve = (isIsfInterval) => {
+      var ISFfromtimesTemp=[];
+      var ISFtoTimesTemp=[];
+      var ISFsTemp=[];
+      var ISFsTragetBGTemp=[];
+      var ISFsStartBGTemp=[];
+      
+
+
     //interval is wither the user is using isf intervals or not ( 1 or 0)
     console.log('in second');
-    console.log(interval);
-    if (interval != -1) {
-      if (interval == 1) {
+    console.log(isIsfInterval);
+    if (isIsfInterval != -1) {
+      if (isIsfInterval == 1) {
         // specific hours
         try {
           db.transaction(tx => {
@@ -426,28 +429,37 @@ else{//half-units
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == uID) {
+                  if (UID == 1) {
                     //user id
                     var from = rows.item(i).fromTime;
-                    setFromTime(fromTime => [...fromTime, from]);
+                    ISFfromtimesTemp.push(from);
+    
                     var to = rows.item(i).toTime;
-                    setToTime(toTime => [...toTime, to]);
+                    ISFtoTimesTemp.push(to);
+
                     var ISF_ = rows.item(i).ISF;
-                    setISF(isf => [...isf, ISF_]);
+                    ISFsTemp.push(ISF_);
+
                     var target = rows.item(i).targetBG_correct;
-                    setTBG(tBG => [...tBG, target]);
+                    ISFsTragetBGTemp.push(target);
+
                     var start = rows.item(i).startBG_correct;
-                    setSBG(sBG => [...sBG, start]);
+                    ISFsStartBGTemp.push(start);
                     //  التخزين في ارايز
                   }
-                }
+                }//for End
+                ISFfromTimes=ISFfromtimesTemp;
+                ISFtoTimes=ISFtoTimesTemp;
+                ISFs=ISFsTemp;
+                ISFsTragetBG=ISFsTragetBGTemp;
+                ISFsStartBG=ISFsStartBGTemp;
               },
             );
           });
         } catch (error) {
           console.log(error);
         }
-      } else if (interval == 0) {
+      } else if (isIsfInterval == 0) {
         // All day
         try {
           db.transaction(tx => {
@@ -458,20 +470,15 @@ else{//half-units
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == uID) {
-                    //***************************************FIXIXIXIX */
+                  if (UID == 1) {
                     var ISF_ = rows.item(i).ISF;
-                    setISFP(ISF_);
-                    var target = rows.item(i).targetBG_correct;
-                    setTBGP(target);
-                    var start = rows.item(i).startBG_correct;
-                    setSBGP(start);
+                    isfP=ISF_;
 
-                    setReData1({
-                      startBG: start,
-                      targetBG: target,
-                      ISF: ISF_,
-                    });
+                    var target = rows.item(i).targetBG_correct;
+                    tBGP=target;
+
+                    var start = rows.item(i).startBG_correct;
+                    sBGP=start;
                   }
                 }
               },
@@ -484,43 +491,43 @@ else{//half-units
     }
   };
   //=========================ICR intervals
-  const secondretrieve = method => {
+  const secondretrieve = (calcMethod) => {
     //calcM??
-    console.log('inside is: ' + method);
-    if (method == 'ICR') {
-      var tempArr = [...ICRarr]; // array of obj
+    console.log('inside is: ' + calcMethod);
+    if (calcMethod == 'ICR') {
+      var tempArr = []; // array of obj
       try {
         db.transaction(tx => {
           tx.executeSql(
             'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
-            [uID],
+            [1],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
                 console.log('hello?1?************8');
                 tempArr.push({
                   id: rows.item(i).icrID,
-                  from: rows.item(i).fromTime,
-                  to: rows.item(i).toTime,
+                  from: moment(rows.item(i).fromTime).format('h:mm a'),
+                  to: moment(rows.item(i).toTime).format('h:mm a'),
                   icr: rows.item(i).ICR,
                 });
               }
-              setICRarr([...tempArr]);
-              console.log(tempArr + 'This is icr arr');
+              ICRarr=tempArr;
+              console.log(ICRarr[0].from + 'This is icr arr');
             },
           );
         });
       } catch (error) {
         console.log(error);
       }
-    } else if (method == 'Sliding Scale') {
+    } else if (calcMethod == 'Sliding Scale') {
       console.log('hello Sliding');
-      var tempArr = [...SlidingScaleArr];
+      var tempArr = [];
       try {
         db.transaction(tx => {
           tx.executeSql(
             'SELECT ssID, fromTime, toTime FROM ssInterval WHERE UserID=?',
-            [uID],
+            [1],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
@@ -546,8 +553,7 @@ else{//half-units
                           });
                           console.log(tempArr[i].Rnages[j]);
                         }
-
-                        setSlidingScaleArr([...tempArr]);
+                        //SlidingScaleArr=tempArr;
                       },
                     );
                   });
@@ -555,6 +561,7 @@ else{//half-units
                   console.log(error);
                 }
               }
+              SlidingScaleArr=tempArr;
             },
           );
         });
@@ -563,7 +570,9 @@ else{//half-units
       }
     }
   };
-  //===================Insulin Type
+
+  //===========================================================
+    //===================Insulin Type
   const retrieve3 = () => {
     // insulinPen table
     try {
@@ -577,13 +586,11 @@ else{//half-units
             for (let i = 0; i < rows.length; i++) {
               var userid = rows.item(i).UserID;
 
-              if (userid == uID) {
-                setReData2({
-                  ...ReData2,
-                  insulinType: rows.item(i).insulinType,
-                });
-                sethalfOrFull(rows.item(i).halfORfull);
-                console.log(ReData2.insulinType);
+              if (userid == 1) {
+                insulinType=rows.item(i).insulinType;
+                halfOrFull=rows.item(i).halfORfull;
+               
+                console.log('Type:  '+insulinType+' HalfOrFull :  '+halfOrFull);
 
                 return;
               }
@@ -609,7 +616,7 @@ else{//half-units
     var previousDayMonth;
     var previousDayYear;
     // console.log('F(AG'+currentTime1 +' \n '+currentTimeHours+' \n '+currentTimeDate_day+' \n '+currentTimeDate_month+' \n '+currentTimeDate_year);
-    var previousDosesArray = [...prevArr];
+    var previousDosesArray = [];
     try {
       db.transaction(tx => {
         tx.executeSql(
@@ -645,7 +652,8 @@ else{//half-units
                 console.log('Did Ya Work?!?!' + previousDosesArray[i].time);
               }
             }
-            setPrevArr([...previousDosesArray]);
+            
+            prevArr=previousDosesArray;
 
            
             
@@ -704,7 +712,7 @@ else{//half-units
                         });
                       }
                     }
-                    setPrevArr([...previousDosesArray]);
+                    prevArr=previousDosesArray;
                   },
                 );
               });
@@ -720,31 +728,31 @@ else{//half-units
 
     
   };
+    //==========================================================
 
 
-  //DateTime
 
-  //Choose ISF , Start BG , Target Bg based on current time
+
+
+
+
+
+//Choose ISF , Start BG , Target Bg based on current time
   const checkISFIntervals = () => {
     console.log('i got called');
     var index = -1;
-    for (let i = 0; i < fromTime.length; i++) {
+    for (let i = 0; i < ISFfromTimes.length; i++) {
       // icr: icr.length - ss: SlidingScale.length
-      if (timeCompare(fromTime[i], toTime[i])) {
+      if (timeCompare(ISFfromTimes[i], ISFtoTimes[i])) {
         // icr: (icr[i].from,icr[i].to) -  ss: (SlidingScale[i].from, SlidingScale[i].to )
         console.log('index: ' + i);
         index = i;
         console.log('found interval at: ' + index);
 
-        setReData1({
-          ...ReData1,
-          ISF: isf[index],
-          startBG: sBG[index],
-          targetBG: tBG[index],
-        });
-        console.log(
-          ReData1.ISF + ReData1.startBG + ReData1.targetBG + 'Did u work?',
-        );
+        isfP=ISFs[index];
+        tBGP=ISFsTragetBG[index];
+        sBGP=ISFsStartBG[index];
+
         // return index;
       } else {
         console.log('not found interval');
@@ -765,7 +773,7 @@ else{//half-units
         index = i;
         console.log('found interval at: ' + index);
 
-        setICR(ICRarr[index].icr);
+        ICR=ICRarr[index].icr;
 
         console.log(ICR + '  Did u work?');
         // return index;
@@ -788,7 +796,7 @@ else{//half-units
             SlidingScaleArr[i].Rnages[j].BGFrom <= bgLevel &&
             SlidingScaleArr[i].Rnages[j].BGTo >= bgLevel
           ) {
-            setSlidingScale(SlidingScaleArr[i].Rnages[j].insulin);
+            SlidingScale=SlidingScaleArr[i].Rnages[j].insulin;
           }
         }
         console.log('index: ' + i);
@@ -806,8 +814,22 @@ else{//half-units
     }
   };
 
-  //=====================================================================
-  var nowDate = new Date();
+
+
+
+
+
+
+
+    //====================================================
+      //=========================Retrive From DB========================
+  
+
+  
+  
+
+    //====================================================
+      var nowDate = new Date();
   var nowTime = moment.utc(nowDate).format('h:mm a'); // 11:40 PM
 
   const [PosTime, setPosTime] = useState(new Date());
@@ -837,8 +859,15 @@ else{//half-units
   const [isPostEnabled, setIsPostEnabled] = useState(false);
   const togglePostSwitch = () =>
     setIsPostEnabled(previousState => !previousState);
+      //Sick Switch
+  const [isSick, setIsSick] = useState(false);
+  const toggleSickSwitch = () =>
+    setIsSick(previousState => !previousState);
+      //Fasting Switch
+  const [isFasting, setIsFasting] = useState(false);
+  const toggleFastingSwitch = () =>
+  setIsFasting(previousState => !previousState);
   //=================================================================================
-
   const [reason, setReason] = useState('0'); //ReasonForInsulin
   const [preDuration, setPreDuration] = useState('14'); //Duration of pre exersize
   const [preTypeOfExercise, setPreTypeOfExercise] = useState('1'); //reason of pre exercize
@@ -848,31 +877,32 @@ else{//half-units
   const [CHO, setCHO] = useState(0);
   var isValidBG = true;
   var isValidCHO = true;
+    //====================================================
 
-  return (
-    <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
-       <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
+    return (
+    //ret(),
+    <View style={styles.container}>
+      <ScrollView>
+      <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
         <TouchableOpacity onPress={()=>navigation.openDrawer()}>
          <Entypo name="menu" color="#05375a" size={35} />
          </TouchableOpacity>
-      </View>
-
-      <ScrollView style={styles.contView}>
-        <Text
+         <View style={{alignItems: 'center', marginRight: 130, paddingTop: -10, paddingEnd: 15}}>
+         <Text
           style={{
-            color: '#000',
-            fontSize: 25,
-            textAlign: 'left',
-            paddingTop: 20,
+            color: '#05375a',
+            fontSize: 18,
+            fontWeight: 'bold',
+            textAlign: 'center',
             paddingLeft: 15,
           }}>
-          حاسبة الانسولين
+         Insulin Bolus Calculator
         </Text>
-        <Text style={styles.inpTxt}>{total}</Text>
+         </View>
+      </View>
 
-        <View style={styles.vNext}>
-          <Text style={styles.inpTxt}>:مستوى سكر الدم الحالي</Text>
+        <View style={styles.innerCotainer}>
+          <Text style={styles.textBody}>Current BG levet: </Text>
           <TextInput
             keyboardType="decimal-pad"
             placeholder="000.00"
@@ -882,53 +912,59 @@ else{//half-units
           <Text style={{fontSize: 15, paddingTop: 15}}>mg/dl</Text>
         </View>
 
-        <Text style={styles.inpTxt}>سبب أخذ جرعة الانسولين </Text>
+        <View style={styles.innerCotainer2}>
+
+        <Text style={styles.textBody}>Reason for insulin: </Text>
 
         <Picker
-        itemStyle={{color: 'black'}}
           selectedValue={reason}
           onValueChange={value => setReason(value)}
           mode="dropdown"
           style={styles.picker}>
-          <Picker.Item label="قبل الفطور" value="0" testID="0" color='black'></Picker.Item>
-          <Picker.Item label="قبل الغداء" value="1" testID="0" color='black'></Picker.Item>
-          <Picker.Item label="قبل العشاء" value="2" testID="0" color='black'></Picker.Item>
+          <Picker.Item label="Pre-Breakfast" value="0" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Lunch" value="1" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Dinner" value="2" testID="0"></Picker.Item>
           <Picker.Item
-            label="قبل الوجبة الخفيفة النهارية"
+            label="Pre-Daytime snack"
             value="3"
-            testID="0" color='black'></Picker.Item>
+            testID="0"></Picker.Item>
           <Picker.Item
-            label="قبل الوجبة الخفيفة الليلية"
+            label="Pre-Bedtime snack"
             value="4"
-            testID="0" color='black'></Picker.Item>
+            testID="0"></Picker.Item>
           <Picker.Item
-            label="للتصحيح فقط (لا توجد وجبة)"
+            label="No meal only for correction"
             value="5"
-            testID="1" color='black'></Picker.Item>
+            testID="1"></Picker.Item>
         </Picker>
-        <View style={styles.vNext}>
-          <Text style={styles.inpTxt}>محتوى الوجبة من الكاربوهايدرات </Text>
+        </View>
+        { (reason == '5' || calcMethod == 'Sliding Scale') ? null : (
+        <View style={styles.innerCotainer}>
+          <Text style={styles.textBody}>Meal carbohydrate content: </Text>
           <TextInput
             keyboardType="decimal-pad"
-            placeholder="000.00 جم"
+            placeholder="000.00 g"
             onChangeText={value => setCHO(value)}
             style={styles.inputT}></TextInput>
-        </View>
+        
 
-        <TouchableOpacity style={styles.button}
-        onPress={() => navigation.navigate('carbAR')}
-        >
-          <Text style={{fontSize: 18, textAlign: 'center'}}>
-            احسب محتوى الكاربوهايدرات لوجبة
+        <TouchableOpacity onPress={()=>navigation.navigate('carb')} style={styles.buttonR}>
+          <Text style={{fontSize: 18, textAlign: 'center', color: 'white',}}>
+            Carbohydrate Calculator
           </Text>
-          <Image
-            source={require('../images/carb.png')}
+          {/* <Image
+            source={require('./images/carb.png')}
             style={{height: 30, width: 30}}
-          /> 
+          /> */}
         </TouchableOpacity>
+        </View>
+        )}
 
-        <Text style={styles.inpTxt}>
-          هل ستقوم بممارسة تمرين خلال ٣ ساعات القادمة؟{' '}
+        <View style={styles.innerCotainer3}>
+      
+
+        <Text style={styles.textBody}>
+          Do you have planned exercise wihtin the upcoming 3 hours?{' '}
         </Text>
         <Switch
           trackColor={{false: '#767577', true: '#81b0ff'}}
@@ -942,96 +978,182 @@ else{//half-units
         {isPreEnabled ? (
           <View style={{backgroundColor: '#c3d4e0', marginTop: 20}}>
             <View>
-              <Text style={styles.inpTxt}>:نوع التمرين </Text>
+              <Text style={styles.textBody}>Type of exercise: </Text>
               <Picker
-              itemStyle={{color: 'black'}}
                 selectedValue={preTypeOfExercise}
                 onValueChange={value => setPreTypeOfExercise(value)}
                 mode="dropdown"
                 style={styles.picker}>
                 
-                           <Picker.Item label="الجري" value="1" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="السباحة" value="2" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="المشي" value="3" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="ركوب الدراجة الثابتة (الدوران السريع)" value="4" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="تسلق الجبال" value="5" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="الرقص" value="6" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="الكيك بوكسينغ" value="7" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="التزلج على الثلج" value="8" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="تمارين القفز" value="9" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="التجديف" value="10" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="الفنون القتالية" value="11" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="رقص الزومبا" value="12" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="كرة السلة" value="13" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="القفز على النطيطة" value="14" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="تمارين التقوية الهوائية المتتابعة"
-              value="15" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="ركوب الدراجة" value="16" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="الهرولة" value="17" testID="0"color='black'></Picker.Item>
-            <Picker.Item label="تمارين الكارديو/ أجهزة تمارين الكارديو" value="18" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="دروس التمارين الهوائية – تمارين الأيروبك"
-              value="19" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="القفز بحبل القفز "
-              value="20" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="صعود الدرج (جهاز الدرج)" value="21" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="جهاز الاليبتكال"
-              value="22" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="تمارين البليوميتركس" value="23" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="Elliptical" value="24" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="التزلج " value="25" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="كرة المضرب" value="26" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="كرة القدم" value="27" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="الملاكمة" value="28" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="اللعب بحلقة الهولا هوب" value="29" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="رياضة/تمارين هوائية أخرى"
-              value="30" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="HIIT (تمارين القوة العالية المتقطعة)"
-              value="31" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="البيلاتس " value="32" testID="1" color='black'></Picker.Item>
-            <Picker.Item
-              label="تمارين التقوية اللاهوائية المتتابعة"
-              value="33" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="الجري المتسارع" value="34" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="تمارين المقاومة" value="35" testID="1" color='black'></Picker.Item>
-            <Picker.Item
-              label="التمارين المعتمدة على وزن الجسم (مثل تمارين الضغط، الرفع، القرفصاء)"
-              value="36" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="رفع الأثقال" value="37" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="اليوجا " value="38" testID="1"color='black'></Picker.Item>
-            <Picker.Item label="تمارين الكروس فيت" value="39" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="تمارين الأيزوميتركس" value="40" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="الجمباز" value="41" testID="1" color='black'></Picker.Item>
-            <Picker.Item
-              label="رياضة/تمارين غير هوائية اخرى"
-              value="42" testID="1" color='black'></Picker.Item>
-         
+                <Picker.Item label="Running" value="1" testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Swimming"
+                  value="2"
+                  testID="0"></Picker.Item>
+                <Picker.Item label="Walking" value="3" testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Spinning"
+                  value="4"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Mountain Climbing"
+                  value="5"
+                  testID="0"></Picker.Item>
+                <Picker.Item label="Dancing" value="6" testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Kickboxing"
+                  value="7"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Cross country skiing"
+                  value="8"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Jumping jacks"
+                  value="9"
+                  testID="0"></Picker.Item>
+                <Picker.Item label="Rowing" value="10" testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Martial arts"
+                  value="11"
+                  testID="0"></Picker.Item>
+                <Picker.Item label="Zumba" value="12" testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Basketball"
+                  value="13"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Trampoline-ing"
+                  value="14"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Aerobic strength circuit"
+                  value="15"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Cycling"
+                  value="16"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Jogging"
+                  value="17"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Dancing"
+                  value="18"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Cardio exercises/ machines"
+                  value="19"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Aerobic exercise classes"
+                  value="20"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Skipping/ Jump rope"
+                  value="21"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Stair mill /Stair stepper"
+                  value="22"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Stationary bike"
+                  value="23"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Elliptical"
+                  value="24"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Skating"
+                  value="25"
+                  testID="0"></Picker.Item>
+                <Picker.Item label="Tennis" value="26" testID="0"></Picker.Item>
+                <Picker.Item label="Soccer" value="27" testID="0"></Picker.Item>
+                <Picker.Item label="Boxing" value="28" testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Hula-hooping"
+                  value="29"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="Other aerobic exercise"
+                  value="30"
+                  testID="0"></Picker.Item>
+                <Picker.Item
+                  label="HIIT (High Intensity Interval Training)"
+                  value="31"
+                  testID="1"></Picker.Item>
+                <Picker.Item
+                  label="Pilates"
+                  value="32"
+                  testID="1"></Picker.Item>
+                <Picker.Item
+                  label="Anaerobic Circuit training"
+                  value="33"
+                  testID="1"></Picker.Item>
+                <Picker.Item
+                  label="Sprinting"
+                  value="34"
+                  testID="1"></Picker.Item>
+                <Picker.Item
+                  label="Resistance exercises"
+                  value="35"
+                  testID="1"></Picker.Item>
+                <Picker.Item
+                  label="Bodyweight exercise (e.g. push-ups, pull-ups, squats, lunges)"
+                  value="36"
+                  testID="1"></Picker.Item>
+                <Picker.Item
+                  label="Weight lifting"
+                  value="37"
+                  testID="1"></Picker.Item>
+                <Picker.Item label="Yoga" value="38" testID="1"></Picker.Item>
+                <Picker.Item
+                  label="Cross-fit"
+                  value="39"
+                  testID="1"></Picker.Item>
+                <Picker.Item
+                  label="Isometrics"
+                  value="40"
+                  testID="1"></Picker.Item>
+                <Picker.Item
+                  label="Gymnastics"
+                  value="41"
+                  testID="1"></Picker.Item>
+                <Picker.Item
+                  label="Other anaerobic exercise"
+                  value="42"
+                  testID="1"></Picker.Item>
               </Picker>
 
-              <Text style={styles.inpTxt}>مدة التمرين </Text>
+              <Text style={styles.textBody}>Duration of exercise: </Text>
               <Picker
-              itemStyle={{color: 'black'}}
                 selectedValue={preDuration}
                 onValueChange={value => setPreDuration(value)}
                 mode="dropdown"
                 style={styles.picker}>
-               <Picker.Item label="اقل من 15 دقيقة" value="14" color='black'></Picker.Item>
-            <Picker.Item label="من 15 الى 29 دقيقة" value="16" color='black'></Picker.Item>
-            <Picker.Item label="من 30 الى 45 دقيقة" value="31" color='black'></Picker.Item>
-            <Picker.Item label="اكثر من 45 دقيقة" value="46" color='black'></Picker.Item>
-            <Picker.Item label="غير معلوم" value="Unknown" color='black'></Picker.Item>
+               
+                <Picker.Item
+                  label="Less than 15 minutes"
+                  value="14"></Picker.Item>
+                <Picker.Item label="15 to 29 minutes" value="16"></Picker.Item>
+                <Picker.Item label="30 to 45 minutes" value="31"></Picker.Item>
+                <Picker.Item
+                  label="More than 45 minutes"
+                  value="46"></Picker.Item>
+                <Picker.Item label="Unknown" value="Unknown"></Picker.Item>
               </Picker>
             </View>
           </View>
         ) : null}
 
-        <Text style={styles.inpTxt}>
-          هل تمرنت في ال6 ساعات السابقة؟
+        </View>
+        <View style={styles.innerCotainer3}>
+
+        <Text style={styles.textBody}>
+          Did you exercise wihtin the past 6 hours?
         </Text>
         <Switch
           trackColor={{false: '#767577', true: '#81b0ff'}}
@@ -1043,93 +1165,154 @@ else{//half-units
         />
         {isPostEnabled ? (
           <View style={{backgroundColor: '#c3d4e0', marginTop: 20}}>
-            <Text style={styles.inpTxt}>Type of exercise: </Text>
+            <Text style={styles.textBody}>Type of exercise: </Text>
             <Picker
               selectedValue={postTypeOfExercise}
               onValueChange={value => setPostTypeOfExercise(value)}
               mode="dropdown"
               style={styles.picker}>
-                <Picker.Item label="الجري" value="1" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="السباحة" value="2" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="المشي" value="3" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="ركوب الدراجة الثابتة (الدوران السريع)" value="4" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="تسلق الجبال" value="5" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="الرقص" value="6" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="الكيك بوكسينغ" value="7" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="التزلج على الثلج" value="8" testID="0"color='black'></Picker.Item>
-            <Picker.Item label="تمارين القفز" value="9" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="التجديف" value="10" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="الفنون القتالية" value="11" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="رقص الزومبا" value="12" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="كرة السلة" value="13" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="القفز على النطيطة" value="14" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="تمارين التقوية الهوائية المتتابعة"
-              value="15" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="ركوب الدراجة" value="16" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="الهرولة" value="17" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="تمارين الكارديو/ أجهزة تمارين الكارديو" value="18" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="دروس التمارين الهوائية – تمارين الأيروبك"
-              value="19" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="القفز بحبل القفز "
-              value="20" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="صعود الدرج (جهاز الدرج)" value="21" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="جهاز الاليبتكال"
-              value="22" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="تمارين البليوميتركس" value="23" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="Elliptical" value="24" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="التزلج " value="25" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="كرة المضرب" value="26" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="كرة القدم" value="27" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="الملاكمة" value="28" testID="0" color='black'></Picker.Item>
-            <Picker.Item label="اللعب بحلقة الهولا هوب" value="29" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="رياضة/تمارين هوائية أخرى"
-              value="30" testID="0" color='black'></Picker.Item>
-            <Picker.Item
-              label="HIIT (تمارين القوة العالية المتقطعة)"
-              value="31" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="البيلاتس " value="32" testID="1" color='black'></Picker.Item>
-            <Picker.Item
-              label="تمارين التقوية اللاهوائية المتتابعة"
-              value="33" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="الجري المتسارع" value="34" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="تمارين المقاومة" value="35" testID="1" color='black'></Picker.Item>
-            <Picker.Item
-              label="التمارين المعتمدة على وزن الجسم (مثل تمارين الضغط، الرفع، القرفصاء)"
-              value="36" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="رفع الأثقال" value="37" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="اليوجا " value="38" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="تمارين الكروس فيت" value="39" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="تمارين الأيزوميتركس" value="40" testID="1" color='black'></Picker.Item>
-            <Picker.Item label="الجمباز" value="41" testID="1" color='black'></Picker.Item>
-            <Picker.Item
-              label="رياضة/تمارين غير هوائية اخرى"
-              value="42" testID="1" color='black'></Picker.Item>
+              
+              <Picker.Item label="Running" value="1" testID="0"></Picker.Item>
+              <Picker.Item label="Swimming" value="2" testID="0"></Picker.Item>
+              <Picker.Item label="Walking" value="3" testID="0"></Picker.Item>
+              <Picker.Item label="Spinning" value="4" testID="0"></Picker.Item>
+              <Picker.Item
+                label="Mountain Climbing"
+                value="5"
+                testID="0"></Picker.Item>
+              <Picker.Item label="Dancing" value="6" testID="0"></Picker.Item>
+              <Picker.Item
+                label="Kickboxing"
+                value="7"
+                testID="0"></Picker.Item>
+              <Picker.Item
+                label="Cross country skiing"
+                value="8"
+                testID="0"></Picker.Item>
+              <Picker.Item
+                label="Jumping jacks"
+                value="9"
+                testID="0"></Picker.Item>
+              <Picker.Item label="Rowing" value="10" testID="0"></Picker.Item>
+              <Picker.Item
+                label="Martial arts"
+                value="11"
+                testID="0"></Picker.Item>
+              <Picker.Item label="Zumba" value="12" testID="0"></Picker.Item>
+              <Picker.Item
+                label="Basketball"
+                value="13"
+                testID="0"></Picker.Item>
+              <Picker.Item
+                label="Trampoline-ing"
+                value="14"
+                testID="0"></Picker.Item>
+              <Picker.Item
+                label="Aerobic strength circuit"
+                value="15"
+                testID="0"></Picker.Item>
+              <Picker.Item label="Cycling" value="16" testID="0"></Picker.Item>
+              <Picker.Item label="Jogging" value="17" testID="0"></Picker.Item>
+              <Picker.Item label="Dancing" value="18" testID="0"></Picker.Item>
+              <Picker.Item
+                label="Cardio exercises/ machines"
+                value="19"
+                testID="0"></Picker.Item>
+              <Picker.Item
+                label="Aerobic exercise classes"
+                value="20"
+                testID="0"></Picker.Item>
+              <Picker.Item
+                label="Skipping/ Jump rope"
+                value="21"
+                testID="0"></Picker.Item>
+              <Picker.Item
+                label="Stair mill /Stair stepper"
+                value="22"
+                testID="0"></Picker.Item>
+              <Picker.Item
+                label="Stationary bike"
+                value="23"
+                testID="0"></Picker.Item>
+              <Picker.Item
+                label="Elliptical"
+                value="24"
+                testID="0"></Picker.Item>
+              <Picker.Item label="Skating" value="25" testID="0"></Picker.Item>
+              <Picker.Item label="Tennis" value="26" testID="0"></Picker.Item>
+              <Picker.Item label="Soccer" value="27" testID="0"></Picker.Item>
+              <Picker.Item label="Boxing" value="28" testID="0"></Picker.Item>
+              <Picker.Item
+                label="Hula-hooping"
+                value="29"
+                testID="0"></Picker.Item>
+              <Picker.Item
+                label="Other aerobic exercise"
+                value="30"
+                testID="0"></Picker.Item>
+              <Picker.Item
+                label="HIIT (High Intensity Interval Training)"
+                value="31"
+                testID="1"></Picker.Item>
+              <Picker.Item label="Pilates" value="32" testID="1"></Picker.Item>
+              <Picker.Item
+                label="Anaerobic Circuit training"
+                value="33"
+                testID="1"></Picker.Item>
+              <Picker.Item
+                label="Sprinting"
+                value="34"
+                testID="1"></Picker.Item>
+              <Picker.Item
+                label="Resistance exercises"
+                value="35"
+                testID="1"></Picker.Item>
+              <Picker.Item
+                label="Bodyweight exercise (e.g. push-ups, pull-ups, squats, lunges)"
+                value="36"
+                testID="1"></Picker.Item>
+              <Picker.Item
+                label="Weight lifting"
+                value="37"
+                testID="1"></Picker.Item>
+              <Picker.Item label="Yoga" value="38" testID="1"></Picker.Item>
+              <Picker.Item
+                label="Cross-fit"
+                value="39"
+                testID="1"></Picker.Item>
+              <Picker.Item
+                label="Isometrics"
+                value="40"
+                testID="1"></Picker.Item>
+              <Picker.Item
+                label="Gymnastics"
+                value="41"
+                testID="1"></Picker.Item>
+              <Picker.Item
+                label="Other anaerobic exercise"
+                value="42"
+                testID="1"></Picker.Item>
             </Picker>
 
-            <Text style={styles.inpTxt}>مدة التمرين </Text>
+            <Text style={styles.textBody}>Duration of exercise: </Text>
             <Picker
-            itemStyle={{color: 'black'}}
               selectedValue={postDuration}
               onValueChange={value => setPostDuration(value)}
               mode="dropdown"
               style={styles.picker}>
+             
               <Picker.Item
-                label="اقل من 30 دقيقه"
-                value="14" color='black'></Picker.Item>
-              <Picker.Item label="من 30 الى 45 دقيقه" value="31" color='black'></Picker.Item>
+                label="Less than 30 minutes"
+                value="14"></Picker.Item>
+              <Picker.Item label="30 to 45 minutes" value="31"></Picker.Item>
               <Picker.Item
-                label="اكثر من 45 دقيقه"
-                value="46" color='black'></Picker.Item>
+                label="More than 45 minutes"
+                value="46"></Picker.Item>
             </Picker>
 
-            <Text style={styles.inpTxt}>:وقت التمرين </Text>
+            <Text style={styles.textBody}>Time of exersice: </Text>
             <View>
-              <Button onPress={showPosTimeMethod} title="حدد الوقت" />
+              <Button onPress={showPosTimeMethod} title="Set Time" />
             </View>
 
             <Text
@@ -1152,133 +1335,278 @@ else{//half-units
           </View>
         ) : null}
 
+<Text style={styles.textBody}>
+          Are you sick?
+        </Text>
+        <Switch
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+          thumbColor={isSick ? '#f4f3f4' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSickSwitch}
+          value={isSick}
+          
+        />
+
+<Text style={styles.textBody}>
+          Are you Fasting?
+        </Text>
+        <Switch
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+          thumbColor={isFasting ? '#f4f3f4' : '#f4f3f4'}//
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleFastingSwitch}//
+          value={isFasting}//
+          
+        />
+
+        </View>
+
         <TouchableOpacity
-          style={{
-            marginTop: 30,
-            paddingTop: 15,
-            paddingBottom: 30,
-            backgroundColor: '#6496d7',
-          }}
-          onPress={() => calcA(neeDed, insuCalc)}>
-          <Text style={{fontSize: 18, textAlign: 'center'}}>إحسب</Text>
+          style={styles.buttonV}
+          onPress={insuCalc}
+          >
+          <Text style={{fontSize: 18, textAlign: 'center', color: 'white',}}>Calculate</Text>
         </TouchableOpacity>
 
         <Text></Text>
       </ScrollView>
-    </LinearGradient>
+    </View>
   );
-};
+
+    };
+
 const {height} = Dimensions.get("screen");
 const height_logo = height * 0.15;
 
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  prefix: {
-    backgroundColor: '#9c4',
-  },
-  text: {
-    color: '#000',
-    fontSize: 30,
-  },
+
   pic: {
-    width: height_logo,
-    height: height_logo,
-    marginRight: 10,
+    width: 70,
+    height: 90,
+  },
+
+
+//====================newStyle========================
+container: {
+    flex: 1,
+    backgroundColor: '#EEF0F2',
+  },
+//   pic: {
+//     width: height_logo,
+//     height: height_logo,
+//     marginRight: 10,
+// },
+  header: {
+    justifyContent: 'center',
+    alignItems: 'center'
 },
-  inputT: {
-    //inputs field
-    color: '#000',
-    width: 110,
-    fontSize: 16,
-    shadowColor: '#000',
-    height: 50,
+body: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50,
+    marginBottom: 20,
+
+},
+textBody:{
+    
+    fontSize: 20,
+    color: '#05375a', 
     textAlign: 'center',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 0.62,
-
-    elevation: 2,
-  },
-
-  contView: {
-    //Conten's view
-    backgroundColor: '#fff',
-    height: 550,
-    width: 360,
+    fontWeight: 'bold',
+ }, 
+ textBody2:{
+   marginTop:5,
+   padding: 10,
+    
+  fontSize: 15,
+  backgroundColor: '#506c80', 
+  color: 'white',
+  textAlign: 'center',
+  fontWeight: 'bold',
+  borderRadius: 10,
+}, 
+ innerCotainer: {
+  backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 5, width: 380,
+       flexDirection: 'row',
+    flexWrap: 'wrap',
     alignSelf: 'center',
-    top: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-
-    elevation: 7,
+    marginBottom: 5,
+              shadowColor: "#000",
+              shadowOffset: {
+              width: 0,
+              height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+},
+innerCotainer2: {
+  
+  textAlign: 'left',
+  backgroundColor: 'white',
+  borderRadius: 15,
+  paddingBottom: 15,
+  width: 380,
+  alignSelf: 'center',
+              shadowColor: "#000",
+              shadowOffset: {
+              width: 0,
+              height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+},
+innerCotainer3: {
+  
+  textAlign: 'left',
+  backgroundColor: 'white',
+  borderRadius: 15,
+  paddingBottom: 15,
+  marginBottom: 10,
+  marginTop: 15,
+  width: 380,
+  alignSelf: 'center',
+              shadowColor: "#000",
+              shadowOffset: {
+              width: 0,
+              height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+},
+buttonV: {
+  backgroundColor: '#05375a',
+  alignItems: 'center',
+  width: 350,
+  height: 45,
+  justifyContent: 'center',
+  borderRadius: 15,
+  flexDirection: 'row',
+  alignSelf: 'center',
+  shadowColor: "#000",
+              shadowOffset: {
+              width: 0,
+              height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+  
+  
+  
+},
+inputT: {
+  //inputs field
+  color: '#000',
+  width: 110,
+  fontSize: 16,
+  shadowColor: '#000',
+  height: 50,
+  textAlign: 'center',
+  shadowOffset: {
+    width: 0,
+    height: 1,
   },
+  shadowOpacity: 0.23,
+  shadowRadius: 0.62,
 
-  inpTxt: {
+  elevation: 2,
+},
+
+
+buttonR: {
+
+  backgroundColor: '#05375a',
+  alignItems: 'center',
+  alignSelf: 'center',
+  width: 380,
+  height: 45,
+  marginTop:10,
+  marginBottom:10,
+  justifyContent: 'center',
+  borderRadius: 15,
+  flexDirection: 'row',
+  shadowColor: "#000",
+              shadowOffset: {
+              width: 0,
+              height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+  
+  
+},
+  ddown: {
+  //drop down list style
+
+
+  shadowColor: '#000',
+  alignSelf: 'center',
+  width: 140,
+
+
+  alignItems: 'center',
+  
+
+},
+ddown2: {
+  //drop down list style
+
+
+  marginTop: 20,
+  marginLeft: 10,
+  shadowColor: '#000',
+
+  width: 100,
+  fontSize: 5,
+
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowOpacity: 0.33,
+  shadowRadius: 0.62,
+
+  elevation: 7,
+  backgroundColor: '#f5f5f5',
+},
+  ddown3: {
+  //drop down list style
+
+
+  marginTop: 20,
+  marginLeft: 10,
+  shadowColor: '#000',
+
+  width: 130,
+  fontSize: 5,
+
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowOpacity: 0.33,
+  shadowRadius: 0.62,
+
+  elevation: 7,
+  backgroundColor: '#f5f5f5',
+},
+picker: {
+  color: '#032136',
+},
+ msg: {
     //lables
     paddingLeft: 20,
     paddingTop: 15,
     fontSize: 18,
-    color: 'grey'
+    color: 'red',
   },
-
-  vNext: {
-    // to make items next to each other
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingTop: 30,
-  },
-
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    padding: 10,
-    width: 300,
-    alignSelf: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    paddingLeft: 30,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 0.9,
-
-    elevation: 3,
-  },
-
-  ddown: {
-    //drop down list style
-
-    paddingLeft: 0,
-    paddingTop: 13,
-    shadowColor: '#000',
-
-    height: 40,
-    width: 160,
-
-    alignItems: 'center',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 0.62,
-
-    elevation: 2,
-    backgroundColor: '#f5f5f5',
-  },
+//====================newStyle========================
 });
 
-export default calcFastingAR;
+
+export default Calc;
