@@ -1,3 +1,7 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-unused-vars */
 import React, {Component, useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -21,7 +25,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import RNSearchablePicker from 'react-native-searchable-picker';
 import react from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -34,7 +37,7 @@ const notMealTimeAR = ({navigation}) => {
   return (
     <LinearGradient colors={['#f5f5f5', '#f5f5f5']} style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
+        <Image source={require('../images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -156,7 +159,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center',
     paddingLeft: 30,
     shadowOffset: {
       width: 0,
