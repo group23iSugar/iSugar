@@ -1,3 +1,21 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable keyword-spacing */
+/* eslint-disable jsx-quotes */
+/* eslint-disable quotes */
+/* eslint-disable eqeqeq */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-dupe-keys */
+/* eslint-disable semi */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-trailing-spaces */
 import React, { useEffect, useState } from 'react';
 import {  StyleSheet, 
   View,
@@ -9,14 +27,17 @@ import {  StyleSheet,
   Platform, 
   TextInput,
   ScrollView,
+  alert,
   Dimensions} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
+import SQLite from 'react-native-sqlite-storage';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
 
+  
   const clinicInfoAR = ({ navigation }) =>{
     useEffect(() => {
         getLocalInfo();
@@ -43,7 +64,6 @@ import moment from 'moment';
                       var rows = results.rows;
                       for (let i = 0; i < rows.length; i++) {           
                           var userID = rows.item(i).UserID;
-                          if (uID == userID){
                               setDbData({
                                   ...dbData,
                                   diagnosisdate: rows.item(i).diagnosis_date,
@@ -53,7 +73,7 @@ import moment from 'moment';
                               });
                               console.log( dbData.diagnosisdate +'-'+dbData.diabetescenter);
                             return;
-                          }
+                      
                         }
                     }   
           ) 
@@ -80,13 +100,12 @@ import moment from 'moment';
                   var rows = results.rows;
                   for (let i = 0; i < rows.length; i++) {           
                       var userID = rows.item(i).UserID;
-                      if (uID == userID){
                           setDbData2({
                               ...dbData2,
                               uMRN: rows.item(i).MRN
                           });
                         return;
-                      }
+
                     }
                 }   
       ) 
@@ -224,7 +243,7 @@ const check = () => {
           db.transaction( (tx) => {
               tx.executeSql(
                'INSERT INTO KSUMC (UserID, MRN) VALUES (?,?)',
-                 [uID, mrn]
+                 [1, mrn]
              );
             
              
@@ -256,7 +275,7 @@ const updateMRNLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE KSUMC SET MRN=? WHERE UserID=? ',
-          [mrn, uID],
+          [mrn, 1],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -278,7 +297,7 @@ const updateCenterNameLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET center_name=? WHERE UserID=? ',
-          [other.centerName, uID],
+          [other.centerName, 1],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -301,7 +320,7 @@ const updateCenterCityLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET center_city=? WHERE UserID=? ',
-          [other.centerCity, uID],
+          [other.centerCity, 1],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -323,7 +342,7 @@ const updateCenterLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET diabetes_center=? WHERE UserID=? ',
-          [center, uID],
+          [center, 1],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -346,7 +365,7 @@ const deleteMRNLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'DELETE FROM KSUMC WHERE UserID=? ',
-          [uID],
+          [1],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -368,7 +387,7 @@ const deleteNameCityLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET center_city=? WHERE UserID=? ',
-          ['', uID],
+          ['', 1],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -388,7 +407,7 @@ try {
   db.transaction( (tx) => {
       tx.executeSql(
         'UPDATE patientprofile SET center_name=? WHERE UserID=? ',
-        ['', uID],
+        ['', 1],
         (tx, results) => {
           console.log('Results', results.rowsAffected);
        if (results.rowsAffected > 0) {
@@ -410,7 +429,7 @@ const updateDODLocal = () => {
     db.transaction( (tx) => {
         tx.executeSql(
           'UPDATE patientprofile SET diagnosis_date=? WHERE UserID=? ',
-          [dateOfDiagnosis, uID],
+          [dateOfDiagnosis, 1],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -875,5 +894,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
-
