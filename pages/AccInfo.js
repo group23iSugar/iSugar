@@ -1,3 +1,18 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
+/* eslint-disable no-alert */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+/* eslint-disable no-shadow */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-useless-escape */
+/* eslint-disable keyword-spacing */
+/* eslint-disable jsx-quotes */
+/* eslint-disable semi */
+/* eslint-disable eqeqeq */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable comma-dangle */
 import React, {useEffect}from 'react';
 import {  StyleSheet, 
   View,
@@ -184,8 +199,7 @@ const validEmail = (val) => {
               [],
               (tx, results) => {
                 var rows = results.rows;
-                for (let i = 0; i < rows.length; i++) {
-                    uID = rows.item(i).UserID;               
+                for (let i = 0; i < rows.length; i++) {           
                     var userEmail = rows.item(i).email;
                     if (data.email == userEmail){
                       if (AccType != 'Patient Account'){
@@ -259,7 +273,7 @@ const onlineDB = () => {
     }
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+      // alert("Error Occured" + error);
   })
   } 
 }
@@ -377,9 +391,7 @@ const getOnlineInfo = () => {
           />
            <TouchableOpacity
                     onPress={updateSecureTextEntry}
-                >
-                    
-                </TouchableOpacity>
+                 />
           </View>
           
           <View style={styles.buttonV}>
@@ -504,7 +516,6 @@ buttonR: {
   width: 100,
   height: 40,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -514,4 +525,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
