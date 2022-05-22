@@ -1,4 +1,18 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-alert */
+/* eslint-disable semi */
+/* eslint-disable no-shadow */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-undef */
+/* eslint-disable quotes */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable comma-dangle */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react';
+
 import {
   StyleSheet,
   Image,
@@ -23,6 +37,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PieChart} from 'react-native-chart-kit';
 import moment from 'moment';
+import Entypo from 'react-native-vector-icons/Entypo';
 //import { ActivityIndicator, Colors } from 'react-native-paper';
 //import dashDB from './dashDB';
 
@@ -44,7 +59,8 @@ const Home = ({navigation}) => {
   const [startBG, setSBGP] = useState(0);
   const [reason, setReason] = useState('');
   const [appointments, setAppointments] = useState([]);
-
+  var curDate = moment().format('YYYY-MM-DD');
+  var curTime = moment().format('HH:mm:ss');
   //===========================Functions===============
 
   const addBG = () => {
@@ -54,14 +70,15 @@ const Home = ({navigation}) => {
     try {
       db.transaction(tx => {
         tx.executeSql(
-          'INSERT INTO BGLevel (UserID, BGlevel, DateTime) VALUES (?,?,?)',
-          [222, addBGlevel, timeString],
+          'INSERT INTO BGLevel (UserID, BGLevel, DateTime) VALUES (?,?,?)',
+          [1, addBGlevel, timeString],
         );
         console.log('inserted!!');
       });
     } catch (error) {
       console.log(error);
     }
+    updateFlag();
     dashBoard();
 
     if (addBGlevel <= 70) {
@@ -69,7 +86,7 @@ const Home = ({navigation}) => {
     } else if (addBGlevel > startBG) {
       //startbgcorr =150
       navigation.navigate('Calc');
-    }else if (reason == '1'){
+    } else if (reason == '1'){
       navigation.navigate('Calc');
     }
     
@@ -118,12 +135,12 @@ const Home = ({navigation}) => {
             for (let i = 0; i < rows.length; i++) {
               var userid = rows.item(i).UserID;
 
-              if (userid == 222) {
+              // if (userid == 222) {
                 fromBGHome = rows.item(i).fromBG;
                 toBGHome = rows.item(i).toBG;
 
                 return;
-              }
+              // }
             }
           },
         );
@@ -142,7 +159,7 @@ const Home = ({navigation}) => {
     try {
       db.transaction(tx => {
         tx.executeSql(
-          'SELECT UserID, BGlevel, DateTime FROM BGLevel',
+          'SELECT UserID, BGLevel, DateTime FROM BGLevel',
           [],
           (tx, results) => {
             var rows = results.rows;
@@ -151,12 +168,12 @@ const Home = ({navigation}) => {
             var momFormat = moment(d).format('yyyy/MM/DD  hh:mm a');
 
             setLastBGtime(momFormat);
-            setLastBG(rows.item(rows.length - 1).BGlevel);
+            setLastBG(rows.item(rows.length - 1).BGLevel);
 
             for (let i = 0; i < rows.length; i++) {
               var timeString = rows.item(i).DateTime;
               var toObj = new Date(timeString);
-              var bgHome = rows.item(i).BGlevel;
+              var bgHome = rows.item(i).BGLevel;
               var userid = rows.item(i).UserID;
               //console.log((time - toObj) / (1000 * 60 * 60));
 
@@ -190,12 +207,12 @@ const Home = ({navigation}) => {
             var rows = results.rows;
             for (let i = 0; i < rows.length; i++) {
               var UID = rows.item(i).UserID;
-              if (UID == 222) {
+              
                 //***************************************FIXIXIXIX */
 
                 var start = rows.item(i).startBG_correct;
                 setSBGP(start);
-              }
+              
             }
           },
         );
@@ -212,6 +229,25 @@ const Home = ({navigation}) => {
     try {
       db.transaction(tx => {
         tx.executeSql(
+          'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
+          [1],
+          (tx, results) => {
+            var rows = results.rows;
+            for (let i = 0; i < rows.length; i++) {
+           console.log(rows.item(i).fromTime + ' ///// ' + rows.item(i).ICR );
+            }
+            inserts();
+          },
+
+        );
+
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      db.transaction(tx => {
+        tx.executeSql(
           'SELECT UserID, appointmentDate, note FROM appointments',
           [],
           (tx, results) => {
@@ -224,14 +260,14 @@ const Home = ({navigation}) => {
                  console.log(rows.item(i).appointmentDate + 'iiiiiiiiii');
                  
                  var notee = rows.item(i).note;
-                 console.log('Check note111  '+ rows.item(i).note);
+                 console.log('Check note111  ' + rows.item(i).note);
                  var d = rows.item(i).appointmentDate;
                  var toObjd = new Date(d);
                  var momFormatd = moment(toObjd).format('dddd yyyy/MM/DD');
-                 var weeksNum =  (toObjd-currentD)/(1000 * 60 * 60 *24*7);
-                 var weeksNum2= Math.floor(weeksNum);
-                 if((toObjd-currentD)/(1000 * 60 * 60 *24) > 0){ //check if it's new
-                  console.log('Check note  '+ notee);
+                 var weeksNum =  (toObjd - currentD) / (1000 * 60 * 60 * 24 * 7);
+                 var weeksNum2 = Math.floor(weeksNum);
+                 if ((toObjd - currentD) / (1000 * 60 * 60 * 24) > 0){ //check if it's new
+                  console.log('Check note  ' + notee);
                    
                   //aaa.push(momFormatd+'\n');
                   aaa.push({key: counter, name: momFormatd, weeks: weeksNum2, note: notee});
@@ -252,38 +288,32 @@ const Home = ({navigation}) => {
 
   //===============================Online DB===========================
 const updateFlag = () => {
+  console.log('in DB of Saving information');
+  var InsertAPIURL = "https://isugarserver.com/BGLevel.php";   //API to  signup
 
-      var time = new Date(); 
-      var timeString = time.toString();
-            console.log('in DB of check flag');
-            // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/updateEMsgFlag.php";   //API to  signup
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  };
+  var Data = {
+    UserID: onlinUserID,
+    BGLevel: addBGlevel,
+    BGLevelDate: curDate,
+    BGLevelTime:curTime,
+  };
 
-            var headers = {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            };
-            var Data = {
-              UserID: onlinUserID,
-              BGlevel: addBGlevel,
-              Date_Time: timeString,
-
-
-
-            };
-
-          // FETCH func ------------------------------------
-          fetch(InsertAPIURL,{
-              method:'POST',
-              headers:headers,
-              body: JSON.stringify(Data),//convert data to JSON
-          })
-          .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-          .then((response)=>{
-          })
-          .catch((error)=>{
-              alert('Error Occured' + error);
-          })
+// FETCH func ------------------------------------
+fetch(InsertAPIURL,{
+    method:'POST',
+    headers:headers,
+    body: JSON.stringify(Data),//convert data to JSON
+})
+.then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+.then((response)=>{
+})
+.catch((error)=>{
+    // alert('Error Occured' + error);
+})
           }
 //===================================================================
   //==================================================
@@ -326,22 +356,24 @@ const updateFlag = () => {
     //dashBoard(),
 
      <View style={styles.container}>
-      <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
-      </View>
-      <ScrollView>
-        <Text
+       <ScrollView>
+      <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
+        <TouchableOpacity onPress={()=>navigation.getParent('LeftDrawer').openDrawer()}>
+         <Entypo name="menu" color="#05375a" size={35} />
+         </TouchableOpacity>
+         <View style={{alignItems: 'center', marginRight: 130, paddingTop: -10, paddingEnd: 15}}>
+         <Text
           style={{
-            color: '#000',
-            fontSize: 25,
-            textAlign: 'center',
-            paddingTop: 20,
-            paddingLeft: 15,
+            color: '#05375a',
+            fontSize: 18,
             fontWeight: 'bold',
+            textAlign: 'center',
+            paddingLeft: 15,
           }}>
           Home
         </Text>
-
+         </View>
+      </View>
          <View style={styles.innerCotainer}>
 
         <Text style={styles.textBody}>Last BG level Read: {lastBG + '\n'}Time: {lastBGtime}
@@ -354,7 +386,7 @@ const updateFlag = () => {
           }}
           onPress={dashBoard}>
           <Image
-            source={require('./images/upd.png')}
+            source={require('../images/upd.png')}
             style={{height: 25, width: 25}}
           />
         </TouchableOpacity>
@@ -418,7 +450,7 @@ const updateFlag = () => {
           }}
           onPress={ret4}>
           <Image
-            source={require('./images/upd.png')}
+            source={require('../images/upd.png')}
             style={{height: 25, width: 25}}
           />
         </TouchableOpacity>
@@ -427,7 +459,7 @@ const updateFlag = () => {
             </Text>
             <FlatList
             data={appointments}
-            renderItem={({ item }) => (<TouchableOpacity onPress={()=>{alert('You have an appointment at the diabetes Center after '+item.weeks+' weeks on '+item.name+'. If you are scheduled to have your annual lab work please don’t forget to do them.')}}><Text style={styles.textBody2}>{item.name} | {item.note}</Text></TouchableOpacity>)}
+            renderItem={({ item }) => (<TouchableOpacity onPress={()=>{alert('You have an appointment at the diabetes Center after ' + item.weeks + ' weeks on ' + item.name + '. If you are scheduled to have your annual lab work please don’t forget to do them.')}}><Text style={styles.textBody2}>{item.name} | {item.note}</Text></TouchableOpacity>)}
               />
 
 
