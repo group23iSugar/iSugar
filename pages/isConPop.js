@@ -1,3 +1,14 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable jsx-quotes */
+/* eslint-disable no-shadow */
+/* eslint-disable eqeqeq */
+/* eslint-disable quotes */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-undef */
 import React, {Component, useEffect, useState} from 'react';
 import { StyleSheet, 
     View,
@@ -20,7 +31,7 @@ import PushNotification from "react-native-push-notification";
         channelId: 'test',
         title: 'Check Your BG level !',
         message: 'Check Your BG level',
-        date: new Date(Date.now()+ 60*1000),
+        date: new Date(Date.now() + 60 * 1000 * 15),
         allowWhileIdle: true,
 
 
@@ -79,28 +90,28 @@ import PushNotification from "react-native-push-notification";
  
   //====================retrive age & wight=========================
   const retrieveAW = () => {
-    var dateOfB='';
+    var dateOfB = '';
      try {
       console.log('step1');
       db.transaction(tx => {
         tx.executeSql(
           'SELECT DOB, weightKG FROM patientprofile WHERE UserID=?',
-          [uID],
+          [1],
           (tx, results) => {
             var rows = results.rows;
              for (let i = 0; i < rows.length; i++) {
-            dateOfB=rows.item(i).DOB;
+            dateOfB = rows.item(i).DOB;
            weight = rows.item(i).weightKG;
 
         var currentDate = new Date();
         var birthDay = new Date(dateOfB);
         var age2 = currentDate.getFullYear() - birthDay.getFullYear();
-        console.log('getFullYear:  '+birthDay.getFullYear());
+        console.log('getFullYear:  ' + birthDay.getFullYear());
         var mon = currentDate.getMonth() - birthDay.getMonth();
         if (mon < 0 || mon == 0) {
-            age2= age2-1;
+            age2 = age2 - 1;
         }
-        age=age2;
+        age = age2;
 
             
              }
@@ -121,7 +132,7 @@ import PushNotification from "react-native-push-notification";
       <View style={styles.container}>
       <LinearGradient colors={['#f5f5f5', '#f5f5f5','#f5f5f5']} style={styles.container}>
          <View style={styles.header}>
-         <Image source={require('./images/logo.png')}
+         <Image source={require('../images/logo.png')}
          style={styles.logo}
          resizeMode='stretch'/>
          </View>
@@ -261,7 +272,6 @@ buttonR: {
   width: 100,
   height: 40,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -271,4 +281,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
