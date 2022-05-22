@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-undef */
+/* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/rules-of-hooks */
@@ -23,7 +25,7 @@ import moment from 'moment';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {ActivityIndicator, Colors} from 'react-native-paper';
 
-let onlinUserID = 15;
+
 var AccType = 'Patient Account';
 
 const annual = ({navigation}) => {
@@ -193,7 +195,7 @@ const [Finding, setFinding] = useState('0');
 const first = () => {
   console.log('in DB1');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/isugar/AnnualTestCheck.php";   //API to  signup
+  var InsertAPIURL = "https://isugarserver.com/AnnualTestCheck.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -247,7 +249,7 @@ if (response[0].flag == 'true'){
 console.log('inside onlineDB: ');
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // alert('Error Occured' + error);
 // eslint-disable-next-line semi
 })
 };
@@ -255,7 +257,7 @@ console.log('inside onlineDB: ');
 const onlineDB = () => {
   console.log('in DB1');
   // eslint-disable-next-line quotes
-  var InsertAPIURL = "http://192.168.56.1/isugar/AnnualTest.php";   //API to  signup
+  var InsertAPIURL = "http://isugarserver.com/AnnualTest.php";   //API to  signup
 
   var headers = {
     'Accept': 'application/json',
@@ -304,7 +306,7 @@ fetch(InsertAPIURL,{
     // If data is in JSON => Display alert msg
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // alert('Error Occured' + error);
 // eslint-disable-next-line semi
 })
 };
