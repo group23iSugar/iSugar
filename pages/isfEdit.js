@@ -1,22 +1,39 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-quotes */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable quotes */
+/* eslint-disable keyword-spacing */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-shadow */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable semi */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/rules-of-hooks */
+
 
 import React, { useEffect, useState } from 'react';
-import {  StyleSheet, 
+import {  StyleSheet,
   View,
   Image,
   Text,
   TouchableOpacity,
-  Platform, 
+  Platform,
   TextInput,
   ScrollView,
   FlatList,
-  Alert,
+  alert,
   Dimensions} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
-import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { ActivityIndicator, Colors } from 'react-native-paper';
+import SQLite from 'react-native-sqlite-storage';
+
 
 
   const isfEdit = ({ navigation, route }) =>{
@@ -47,7 +64,7 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
                   var rows = results.rows;
                   for (let i = 0; i < rows.length; i++) {           
                       var userID = rows.item(i).UserID;
-                      if (uID == userID){
+                      if (1 == userID){
                         intervals = rows.item(i).ISFIntervals;
                         callback(intervals); 
                         console.log(intervals);
@@ -75,7 +92,7 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
                   var rows = results.rows;
                   for (let i = 0; i < rows.length; i++) {           
                       var userID = rows.item(i).UserID;
-                      if (uID == userID){
+                      if (1 == userID){
                         intervals = rows.item(i).ISFIntervals;
                         callback(intervals); 
                         console.log(intervals);
@@ -110,7 +127,7 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
                       var rows = results.rows;
                       for (let i = 0; i < rows.length; i++){
                           var UID = rows.item(i).UserID;
-                          if (UID == '237'){
+                          if (UID == 1){
                            tempArr.push({
                              id: rows.item(i).isfID,
                              from: new Date(rows.item(i).fromTime),
@@ -158,7 +175,7 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
                         var rows = results.rows;
                         for (let i = 0; i < rows.length; i++){
                             var UID = rows.item(i).UserID;
-                            if (UID == '238'){
+                            if (UID == 1){
                               var ISF_ = rows.item(i).ISF;
                               setISFP(ISF_);
                               var target = rows.item(i).targetBG_correct;
@@ -184,7 +201,7 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
                         var rows = results.rows;
                         for (let i = 0; i < rows.length; i++){
                             var UID = rows.item(i).UserID;
-                            if (UID == uID){
+                            if (UID == 1){
                               var ISF_ = rows.item(i).ISF;
                               setISFP(ISF_);
                               var target = rows.item(i).targetBG_correct;
@@ -361,7 +378,7 @@ const handleAllDayUpdate = ()=> {
         db.transaction( (tx) => {
           tx.executeSql(
             'UPDATE nonPatientprofile SET ISF=?, targetBG_correct=?, startBG_correct=? WHERE UserID=? ',
-            [isfP, tBGP, sBGP, uID],
+            [isfP, tBGP, sBGP, 1],
             (tx, results) => {
               console.log('Results', results.rowsAffected);
            if (results.rowsAffected > 0) {
@@ -508,7 +525,7 @@ const changeV = (val, id, type, i) => {
           
         })
         .catch((error)=>{
-            alert("Error Occured" + error);
+           // alert('Error Occured' + error);
         })
         }
        
@@ -542,7 +559,7 @@ const changeV = (val, id, type, i) => {
       .then((response)=>{
       })
       .catch((error)=>{
-          alert("Error Occured" + error);
+         // alert('Error Occured' + error);
       })
       }
      
@@ -573,7 +590,7 @@ const changeV = (val, id, type, i) => {
       .then((response)=>{
       })
       .catch((error)=>{
-          alert("Error Occured" + error);
+         // alert('Error Occured' + error);
       })
       }
      
@@ -604,7 +621,7 @@ const changeV = (val, id, type, i) => {
       .then((response)=>{
       })
       .catch((error)=>{
-          alert("Error Occured" + error);
+         // alert('Error Occured' + error);
       })
       }
       
@@ -644,7 +661,7 @@ const changeV = (val, id, type, i) => {
       .then((response)=>{
       })
       .catch((error)=>{
-          alert("Error Occured" + error);
+         // alert('Error Occured' + error);
       })
       }
       
@@ -674,7 +691,7 @@ const changeV = (val, id, type, i) => {
     .then((response)=>{
     })
     .catch((error)=>{
-        alert("Error Occured" + error);
+       // alert('Error Occured' + error);
     })
     }
     //---------------------------
@@ -1015,12 +1032,6 @@ pickerP: {
   height: 30,
     
 },
-titleB: {
-  color: '#05375a',
-  fontSize: 20,
-  fontWeight: 'bold',
- 
-},
 buttonV: {
   marginTop: 60,
   alignItems: 'center',
@@ -1075,7 +1086,6 @@ buttonR: {
   width: 200,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -1085,7 +1095,6 @@ buttonRS: {
   width: 150,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
