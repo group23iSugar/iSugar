@@ -1,4 +1,22 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable keyword-spacing */
+/* eslint-disable jsx-quotes */
+/* eslint-disable quotes */
+/* eslint-disable eqeqeq */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-dupe-keys */
+/* eslint-disable semi */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-trailing-spaces */import React, { useEffect, useState } from 'react';
 import {  StyleSheet, 
   View,
   Image,
@@ -447,7 +465,7 @@ const deleteOnlineDB = () =>{
   .then((response)=>{
   })
   .catch((error)=>{
-    alert("Error Occured" + error);
+   // alert('Error Occured' + error);
   })
   }
   const deleteOTHEROnlineDB = () =>{
@@ -472,7 +490,7 @@ const deleteOnlineDB = () =>{
     .then((response)=>{
     })
     .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
     })
     }
   const onlineDBOther = () => {
@@ -499,7 +517,7 @@ const deleteOnlineDB = () =>{
   .then((response)=>{      // If data is in JSON => Display alert msg
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
   const onlineDBKSUMC = () => {
@@ -525,7 +543,7 @@ const deleteOnlineDB = () =>{
   .then((response)=>{     // If data is in JSON => Display alert msg
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
  
   }
@@ -551,7 +569,7 @@ const deleteOnlineDB = () =>{
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
  
@@ -877,4 +895,3 @@ picker: {
   
 }
 });
-
