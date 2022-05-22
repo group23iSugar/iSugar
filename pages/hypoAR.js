@@ -1,3 +1,12 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable eqeqeq */
+/* eslint-disable semi */
+/* eslint-disable no-shadow */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+
 import React, {Component, useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -21,24 +30,23 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import RNSearchablePicker from 'react-native-searchable-picker';
 import react from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import SQLite from 'react-native-sqlite-storage';
-import PushNotification from "react-native-push-notification";
+import PushNotification from 'react-native-push-notification';
 
 const HypoAR = ({navigation}) => {
   const [bgLevel, setBGlevel] = useState(0);
 //===============================Online DB===========================
 const updateFlag = () => {
 
-      var time = new Date(); 
+      var time = new Date();
       var timeString = time.toString();
             console.log('in DB of check flag');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/updateEMsgFlag.php";   //API to  signup
+            var InsertAPIURL = " https://isugarserver.com/updateEMsgFlag.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -66,7 +74,8 @@ const updateFlag = () => {
           .then((response)=>{
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // eslint-disable-next-line no-alert
+              // alert('Error Occured' + error);
           })
           }
 //===================================================================
@@ -171,7 +180,7 @@ const updateFlag = () => {
   return (
     <LinearGradient colors={['#AABED8', '#fff']} style={styles.container}>
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
+        <Image source={require('../images/logo.png')} style={styles.pic} />
       </View>
       <ScrollView style={styles.contView}>
         <Text
@@ -294,7 +303,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center',
     paddingLeft: 30,
     shadowOffset: {
       width: 0,
