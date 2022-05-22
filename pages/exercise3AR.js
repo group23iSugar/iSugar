@@ -392,7 +392,7 @@ fetch(InsertAPIURL,{
  console.log('inside onlineDB: ');
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 
 }
@@ -433,7 +433,7 @@ fetch(InsertAPIURL,{
  console.log('inside onlineDB2: ');
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 
 }
@@ -470,7 +470,7 @@ fetch(InsertAPIURL,{
      console.log(response[0].flag);
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 }
 
@@ -500,7 +500,7 @@ fetch(InsertAPIURL,{
 .then((response)=>{
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 }
 
@@ -548,7 +548,7 @@ fetch(InsertAPIURL,{
  console.log('inside onlineDB: ');
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 
 }
@@ -587,7 +587,7 @@ fetch(InsertAPIURL,{
  console.log('inside onlineDB: ');
 })
 .catch((error)=>{
-    alert('Error Occured' + error);
+    // // alert('Error Occured' + error);
 })
 
 }
