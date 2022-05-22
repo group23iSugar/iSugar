@@ -1,3 +1,16 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable eqeqeq */
+/* eslint-disable quotes */
+/* eslint-disable keyword-spacing */
+/* eslint-disable comma-dangle */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable semi */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-undef */
 import React, {useState} from 'react';
 import { StyleSheet, 
     View,
@@ -23,7 +36,7 @@ const passEdit = ({ navigation, route }) => {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       };
-      
+      onlinUserID = 121;
       var Data ={
         UserID: onlinUserID,
         pass: password
@@ -132,7 +145,6 @@ buttonR: {
   width: 100,
   height: 40,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -166,4 +178,3 @@ textBody:{
     fontWeight: 'bold',
  } 
 });
-
