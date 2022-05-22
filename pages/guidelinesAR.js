@@ -1,11 +1,14 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, 
+import { StyleSheet,
     View,
-    Image, 
+    Image,
     Text,
     ScrollView,
-    TouchableOpacity, 
-    Dimensions } from 'react-native'; 
+    TouchableOpacity,
+    Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -16,8 +19,8 @@ import insulin from './insulin';
 
 
 const guidelines = ({ navigation }) => {
-   
- 
+
+
   return (
 
     <View style={styles.container}>
@@ -32,17 +35,17 @@ const guidelines = ({ navigation }) => {
           }}>
           الصيام
         </Text>
-         <ScrollView> 
+         <ScrollView>
          <View style={styles.body}>
          <View style={styles.innerCotainer}>
          <Text style={styles.textHeader}>يتميز شهر رمضان المبارك بساعات الصوم الطويلة، واختلاف وقت ونوع الطعام بالإضافة إلى اختلاف أوقات النوم والاستيقاظ مما يجعل مريض السكري أكثر عرضة لحدوث انخفاضات أو ارتفاعات في مستوى سكر الدم، الحموضة الكيتونية، والجفاف أكثر من ٣-٤ مرات من الأيام العادية.</Text>
-          
+
          </View>
          <View style={styles.innerCotainer}>
          <Text style={styles.textHeader}>ينصح جميع المرضى بمراجعة الطبيب المعالج قبل دخول رمضان وذلك لإجراء التعديلات اللازمة على النظام الدوائي والغذائي.</Text>
-          
+
          </View>
-        
+
          <View style={styles.innerCotainer}>
           <Text style={styles.textAlert}>لا يوصى بالصيام في الحالات التالية:</Text>
           <Text style={styles.textBody}>١- كان لديك انخفاضات متكررة في مستوى سكر الدم قبل أو خلال شهر رمضان.</Text>
@@ -62,7 +65,7 @@ const guidelines = ({ navigation }) => {
           <Text style={styles.textHeader}>- تجنب تناول كميات كبيرة من النشويات كالأرز، البطاطس، المعكرونة والمعجنات.</Text>
           <Text style={styles.textHeader}>- الحد من تناول الحلويات.</Text>
           <Text style={styles.textHeader}>- تأخير تناول السحور إلى قبيل السحر لتجنب حدوث انخفاضات في مستوى سكر الدم أثناء الصيام.</Text>
-        
+
          </View>
          <View style={styles.innerCotainer}>
           <Text style={styles.textBody}>الرياضة:</Text>
@@ -81,14 +84,14 @@ const guidelines = ({ navigation }) => {
     </View>
       </View>
         </ScrollView>
-    </View>      
+    </View>
 
-    
+
   );
 };
 
 
-const {height} = Dimensions.get("screen");
+const {height} = Dimensions.get('screen');
 const height_logo = height * 0.28;
 
 export default guidelines;
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#EEF0F2',
       },
       innerTitle: {
-        fontSize: 15, color: '#05375a', fontWeight:'bold', textAlign: 'center'
+        fontSize: 15, color: '#05375a', fontWeight:'bold', textAlign: 'center',
     },
       pic: {
         width: height_logo,
@@ -108,14 +111,14 @@ const styles = StyleSheet.create({
     },
       header: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     body: {
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 50,
         marginBottom: 20,
-    
+
     },
     outer: {
         width: 275,
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 15,
         flexDirection: 'row',
-        shadowColor: "#000",
+        shadowColor: '#000',
         shadowOffset: {
         width: 0,
         height: 2,
@@ -141,34 +144,34 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        backgroundColor: 'white'
-        
+        backgroundColor: 'white',
+
       },
     textHeader:{
        fontSize: 18,
        paddingBottom: 15,
        paddingTop: 15,
-       color: '#05375a', 
+       color: '#05375a',
        textAlign: 'right',
        paddingLeft: 10,
-       paddingRight: 10
+       paddingRight: 10,
     },
     textAlert:{
       fontSize: 17,
-      color: 'red', 
+      color: 'red',
       fontWeight: 'bold',
       textAlign: 'center',
       paddingLeft: 10,
-      paddingRight: 10
+      paddingRight: 10,
     },
     textBody:{
         fontSize: 20,
         marginBottom: 15,
         paddingBottom: 15,
-        color: '#05375a', 
+        color: '#05375a',
         textAlign: 'right',
         fontWeight: 'bold',
-     }, 
+     },
      textInput: {
       width: 50,
       height: 45,
@@ -177,7 +180,7 @@ const styles = StyleSheet.create({
       borderRightWidth: 1,
       borderBottomWidth: 1,
       borderColor: '#CACDD1',
-      color: '#000'
+      color: '#000',
     },
     textInputISF: {
       width: 60,
@@ -187,11 +190,11 @@ const styles = StyleSheet.create({
       borderRightWidth: 1,
       borderBottomWidth: 1,
       borderColor: '#CACDD1',
-      color: '#000'
+      color: '#000',
     },
      innerCotainer: {
       backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10, width: 310,
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: {
                   width: 0,
                   height: 2,
@@ -202,7 +205,7 @@ const styles = StyleSheet.create({
     },
     innerCotainerISF: {
       backgroundColor: 'white', margin: 10,  borderRadius: 15, padding: 10, width: 360,
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: {
                   width: 0,
                   height: 2,
@@ -214,7 +217,7 @@ const styles = StyleSheet.create({
     innerCotainer2: {
       backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10, width: 360,
       flexDirection: 'row',
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: {
                   width: 0,
                   height: 2,
@@ -226,7 +229,7 @@ const styles = StyleSheet.create({
     buttonV: {
       marginTop: 60,
       alignItems: 'center',
-      
+
     },
     buttonR: {
       marginTop: 20,
@@ -235,7 +238,6 @@ const styles = StyleSheet.create({
       width: 50,
       height: 35,
       justifyContent: 'center',
-      alignItems: 'center',
       borderRadius: 15,
       flexDirection: 'row',
     },
@@ -246,73 +248,22 @@ const styles = StyleSheet.create({
       width: 100,
       height: 35,
       justifyContent: 'center',
-      alignItems: 'center',
       borderRadius: 15,
       flexDirection: 'row',
     },
     innerView: {
         flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
-    }, 
-    container: {
-      flex: 1,
-      backgroundColor: '#EEF0F2',
-    },
-    header: {
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    body: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 50,
-      marginBottom: 20,
-    
-    },
-    outer: {
-      width: 275,
-      height: 110,
-      marginTop: 15,
-      marginBottom: 20,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 15,
-      flexDirection: 'row',
-      shadowColor: "#000",
-      shadowOffset: {
-    width: 0,
-    height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-    },
-    inner: {
-      width: 250,
-      height: 110,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'row',
-      backgroundColor: 'white'
-      
-    },
-    textBody:{
-      fontSize: 17,
-      color: '#05375a', 
-      textAlign: 'center',
-      fontWeight: 'bold',
-      marginTop: 5,
-      paddingTop: 15
     },
       ddown: {
       //drop down list style
-    
-    
+
+
       marginTop: 20,
       shadowColor: '#000',
       alignSelf: 'center',
       width: 300,
-    
-    
+
+
       alignItems: 'center',
       shadowOffset: {
         width: 0,
@@ -320,49 +271,49 @@ const styles = StyleSheet.create({
       },
       shadowOpacity: 0.33,
       shadowRadius: 0.62,
-    
+
       elevation: 7,
       backgroundColor: '#f5f5f5',
     },
     ddown2: {
       //drop down list style
-    
-    
+
+
       marginTop: 20,
       marginLeft: 10,
       shadowColor: '#000',
-    
+
       width: 100,
       fontSize: 5,
-    
+
       shadowOffset: {
         width: 0,
         height: 1,
       },
       shadowOpacity: 0.33,
       shadowRadius: 0.62,
-    
+
       elevation: 7,
       backgroundColor: '#f5f5f5',
     },
       ddown3: {
       //drop down list style
-    
-    
+
+
       marginTop: 20,
       marginLeft: 10,
       shadowColor: '#000',
-    
+
       width: 130,
       fontSize: 5,
-    
+
       shadowOffset: {
         width: 0,
         height: 1,
       },
       shadowOpacity: 0.33,
       shadowRadius: 0.62,
-    
+
       elevation: 7,
       backgroundColor: '#f5f5f5',
     },
@@ -374,9 +325,8 @@ const styles = StyleSheet.create({
     },
     picker: {
       color: 'grey',
-      width: 300
-    }
- 
-});
+      width: 300,
+    },
 
+});
 
