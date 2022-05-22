@@ -1,3 +1,20 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-quotes */
+/* eslint-disable keyword-spacing */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable quotes */
+/* eslint-disable semi-spacing */
+/* eslint-disable eqeqeq */
+/* eslint-disable space-infix-ops */
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+/* eslint-disable no-shadow */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, {  useState, useEffect } from 'react';
 import {  StyleSheet, 
   View,
@@ -746,7 +763,6 @@ buttonR: {
   width: 200,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -756,7 +772,6 @@ buttonRS: {
   width: 150,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -804,4 +819,3 @@ innerView: {
     flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
 }
 });
-
