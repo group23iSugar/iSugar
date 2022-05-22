@@ -1,3 +1,19 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable jsx-quotes */
+/* eslint-disable quotes */
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
+/* eslint-disable semi */
+/* eslint-disable no-shadow */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-undef */
 import React, {useState, useEffect } from 'react';
 import {  StyleSheet, 
   View,
@@ -43,7 +59,7 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
                   var rows = results.rows;
                   for (let i = 0; i < rows.length; i++) {           
                       var userID = rows.item(i).UserID;
-                      if (uID == userID){
+                      if (1 == userID){
                        setREGIMEN(rows.item(i).insulinRegimen);
                         return;
                       }
@@ -67,7 +83,7 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
                   var rows = results.rows;
                   for (let i = 0; i < rows.length; i++) {           
                       var userID = rows.item(i).UserID;
-                      if (uID == userID){
+                      if (1 == userID){
                        setREGIMEN(rows.item(i).insulinRegimen);
                         return;
                       }
@@ -102,7 +118,7 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
                     var rows = results.rows;
                     for (let i = 0; i < rows.length; i++) {           
                         var userID = rows.item(i).UserID;
-                        if (uID == userID){ 
+                        if (1 == userID){ 
                          tempArr.push({
                            id: rows.item(i).insulinID,
                            type: rows.item(i).insulinType,
@@ -145,7 +161,7 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {           
                     var userID = rows.item(i).UserID;
-                    if (uID == userID){
+                    if (1 == userID){
                       tempArr.push({
                         id: rows.item(i).insulinID,
                         type: rows.item(i).insulinType,
@@ -264,7 +280,7 @@ const handleUpdateNormal = () => { // user only changed the values without regim
       db.transaction( (tx) => {
           tx.executeSql(
             'UPDATE patientprofile SET insulinRegimen=? WHERE UserID=? ',
-            [val, uID],
+            [val, 1],
             (tx, results) => {
               console.log('Results', results.rowsAffected);
            if (results.rowsAffected > 0) {
@@ -284,7 +300,7 @@ const handleUpdateNormal = () => { // user only changed the values without regim
       db.transaction( (tx) => {
           tx.executeSql(
             'UPDATE nonPatientprofile SET insulinRegimen=? WHERE UserID=? ',
-            [val, uID],
+            [val, 1],
             (tx, results) => {
               console.log('Results', results.rowsAffected);
            if (results.rowsAffected > 0) {
@@ -348,7 +364,7 @@ const handleUpdateNormal = () => { // user only changed the values without regim
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
    }
   
@@ -381,7 +397,7 @@ const oldOnlineOtherDB = (type, dose, time) => {
     navigation.navigate('edit');
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
   
@@ -392,7 +408,7 @@ const oldOnlineOtherDB = (type, dose, time) => {
     db.transaction( (tx) => {
         tx.executeSql(
           'DELETE FROM insulinPen WHERE UserID=? ',
-          [uID],
+          [1],
           (tx, results) => {
             console.log('Results', results.rowsAffected);
          if (results.rowsAffected > 0) {
@@ -416,7 +432,7 @@ const oldOnlineOtherDB = (type, dose, time) => {
     db.transaction( (tx) => {
         tx.executeSql(
          'INSERT INTO insulinPen (UserID, insulinType, halfORfull) VALUES (?,?,?)',
-           [uID, type, pen]
+           [1, type, pen]
        );
       
       
@@ -432,7 +448,7 @@ const oldOnlineOtherDB = (type, dose, time) => {
    db.transaction( (tx) => {
        tx.executeSql(
         'INSERT INTO insulinOther (UserID, insulinType, iDose, iTime) VALUES (?,?,?,?)',
-          [uID, type, dose, time]
+          [1, type, dose, time]
       );
      
      
@@ -536,7 +552,7 @@ const onlineInsulinRegDB = () => {
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
  
@@ -566,7 +582,7 @@ const onlinePenDB = (type, halfull) => {
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
  
@@ -596,7 +612,7 @@ const oldOnlinePenDB = (type, halfull) => {
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
   
@@ -624,7 +640,7 @@ const deleteOnlinePenDB = () => {
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
   
@@ -893,12 +909,13 @@ pickerP: {
   height: 30,
     
 },
-titleB: {
-  color: '#05375a',
-  fontSize: 20,
-  fontWeight: 'bold',
+// titleB: {
+//   color: '#05375a',
+//   fontSize: 20,
+//   fontWeight: 'bold',
  
-},
+// },
+
 buttonV: {
   marginTop: 60,
   alignItems: 'center',
@@ -948,7 +965,6 @@ buttonR: {
   width: 200,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -958,7 +974,6 @@ buttonRS: {
   width: 150,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -1007,4 +1022,3 @@ innerView: {
   flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
 }
 });
-
