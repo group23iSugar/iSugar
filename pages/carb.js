@@ -1,3 +1,24 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable eslint-comments/no-unused-disable */
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable quotes */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable jsx-quotes */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable keyword-spacing */
+/* eslint-disable comma-dangle */
+/* eslint-disable radix */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-shadow */
+/* eslint-disable semi */
+/* eslint-disable no-undef */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, 
     View,
@@ -30,13 +51,13 @@ const [fractionQuan, setFractionQuan] = useState(0);
 const [foodName, setFoodName] = useState(''); // based on user choice 
 const [unit, setUnit] = useState(''); // based on database?
 const [gram, setGram] = useState(0);  // based on database?
-const [dummyList, setList] = useState([
-  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},
-  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},
-  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},
-  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},
-  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},
-  {pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0},{pokemon: 1, selectedQ: -1, selectedW: 0}
+const [choLIST, setList] = useState([
+  {foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},
+  {foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},
+  {foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},
+  {foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},
+  {foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},
+  {foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0},{foodItem: 1, selectedQ: -1, selectedW: 0}
 
 ]);
 const [counter, setCounter] = useState(0);
@@ -84,25 +105,28 @@ const quantity = (whole, fraction) => {
 //
 
 const CHOcontent = () => {
-  console.log('hhrreee'+ index);
    var g = 0;
    g = search();
+  // a method to search food's grams of CHO
   var dish = 0;
-  if (dummyList[index].selectedQ !='-1'){
-    dish = g * quantity(dummyList[index].selectedQ, dummyList[index].selectedW);
+  if (choLIST[index].selectedQ !='-1'){ // if the user selected a valid choice
+    dish = g * quantity(choLIST[index].selectedQ, choLIST[index].selectedW);
+    // multiplying the food's grams by the quantity of its unit
     setTtoal(totalCHO+dish);
   } else {
     alert('Please Select a value');
     return;
   }
-    //chpTotal = total+q
 
 }
+
+
+
 const unitSearch = (arr) => {
   console.log('In UNITTTT');
   for(let i =0; i< arr.length; i++){
     console.log(arr[i].id);
-    if (arr[i].id == dummyList[i].pokemon ){
+    if (arr[i].id == choLIST[i].foodItem ){
       console.log('FOUND YA');
         setUnit(arr[i].unit);
         return;
@@ -110,41 +134,45 @@ const unitSearch = (arr) => {
 }
 
 }
-const search = () => {
-    for(let i =0; i< cho.length; i++){
-      console.log(cho[i].gramsOfCHO);
-        if (cho[i].id == dummyList[index].pokemon ){
-            setFoodName(cho[i].foodEnglishName);
-            setUnit(cho[i].unit);
-            var g =cho[i].gramsOfCHO
-            setGram(g);
-            return g;
-        }
-    }
-     
-}
+  const search = () => {
+      for(let i =0; i< cho.length; i++){ 
+    // iterating the cho array of objects that contains all the food info 
+          if (cho[i].id == choLIST[index].foodItem ){
+    // if the id in the cho array matched the user selection
+              setFoodName(cho[i].foodEnglishName);
+              setUnit(cho[i].unit);
+              var g =cho[i].gramsOfCHO
+              setGram(g);
+              return g; // return the grams of cho to use in CHOContent method
+          }
+      }  
+  }
+
+
+
 console.log('i index: '+index);
 const increment = () => {
   if (counter >= 20){
+    // eslint-disable-next-line no-alert
     alert('You have reach your limit');
     return;
   } else {
     setCounter(counter+1);
   }
 }
-const setPokemon = (val, index) => {
+const setfoodItem = (val, index) => {
   setIndex(index);
-var temp = [...dummyList];
-temp[index].pokemon = val;
+var temp = [...choLIST];
+temp[index].foodItem = val;
 setList([...temp]);
 }
 const setQ = (val, index) => {
-var temp = [...dummyList];
+var temp = [...choLIST];
 temp[index].selectedQ = val;
 setList([...temp]);
 }
 const setW = (val, index) => {
-  var temp = [...dummyList];
+  var temp = [...choLIST];
   temp[index].selectedW = val;
   setList([...temp]);
 }
@@ -158,30 +186,28 @@ const renderProductList = () => {
   return (
 
     <View style={styles.container}>
-     <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
+ <ScrollView>
+      <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
         <TouchableOpacity onPress={()=>navigation.openDrawer()}>
          <Entypo name="menu" color="#05375a" size={35} />
          </TouchableOpacity>
-      </View>
-
-        
-        
-         <ScrollView>
+         <View style={{alignItems: 'center', marginRight: 130, paddingTop: -10, paddingEnd: 15}}>
          <Text
           style={{
             color: '#05375a',
             fontSize: 18,
             fontWeight: 'bold',
-            textAlign: 'left',
-            paddingTop: 20,
+            textAlign: 'center',
             paddingLeft: 15,
           }}>
           Carbohydrate Calculator
         </Text>
+         </View>
+      </View>
+
         <View style={styles.body}>
           {cho.length > 0 ? (<FlatList 
-          data={dummyList.slice(0, counter+1)}
+          data={choLIST.slice(0, counter+1)}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index}) => (
             <View>
@@ -189,8 +215,8 @@ const renderProductList = () => {
               <Text style={{fontSize: 17, color: 'grey'}}>Food Item: </Text>
             <Picker
             itemStyle={{color: 'black'}}
-        selectedValue={item.pokemon}
-        onValueChange={(val) => {setPokemon(val, index)}}
+        selectedValue={item.foodItem}
+        onValueChange={(val) => {setfoodItem(val, index)}}
         style={{ 
           width: 360,
           height: 40,
@@ -253,8 +279,7 @@ const renderProductList = () => {
       </Picker>
      
           </View>
-      </View>
-      <TouchableOpacity onPress={()=>CHOcontent()}
+          <TouchableOpacity onPress={()=>CHOcontent()}
       style={{alignItems: 'flex-start'}}
       >
       <MaterialIcons
@@ -263,6 +288,8 @@ const renderProductList = () => {
       size={45}
       />
     </TouchableOpacity>
+      </View>
+     
       </View>
           )}
           />) 
@@ -395,7 +422,6 @@ buttonR: {
   width: 150,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -403,58 +429,6 @@ buttonR: {
 innerView: {
     flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
 }, 
-container: {
-  flex: 1,
-  backgroundColor: '#EEF0F2',
-},
-header: {
-  justifyContent: 'center',
-  alignItems: 'center'
-},
-body: {
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginTop: 50,
-  marginBottom: 20,
-
-},
-outer: {
-  width: 275,
-  height: 110,
-  marginTop: 15,
-  marginBottom: 20,
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 15,
-  flexDirection: 'row',
-  shadowColor: "#000",
-  shadowOffset: {
-width: 0,
-height: 2,
-  },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.84,
-  elevation: 5,
-},
-inner: {
-  width: 250,
-  height: 110,
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'row',
-  backgroundColor: 'white'
-  
-},
-textHeader:{
- fontSize: 15,
- color: '#05375a', 
-},
-textBody:{
-  fontSize: 20,
-  color: '#05375a', 
-  textAlign: 'center',
-  fontWeight: 'bold',
-},
   ddown: {
   //drop down list style
 
@@ -529,5 +503,3 @@ picker: {
 }
 
 });
-
-{/* */}
