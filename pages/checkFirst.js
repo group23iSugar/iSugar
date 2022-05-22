@@ -159,53 +159,51 @@ const checkFirst = ({navigation}) => {
     };
         const checkIsFirst = () => {
           console.log('in DB of check if it is the first time to enter exercise tab');
-          // eslint-disable-next-line quotes
-          var InsertAPIURL = "http://192.168.56.1/isugar/checkExerciseRecord.php";   //API to  signup
+  // eslint-disable-next-line quotes
+  var InsertAPIURL = "https://isugarserver.com/checkExerciseRecord.php";   //API to  signup
 
-          var headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          };
-          var Data = {
-            UserID: onlinUserID,
-          };
-
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  };
+  var Data = {
+    UserID: onlinUserID,
+  };
         // FETCH func ------------------------------------
         fetch(InsertAPIURL,{
-            method:'POST',
-            headers:headers,
-            body: JSON.stringify(Data),//convert data to JSON
-        })
-        .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-        .then((response)=>{
-          onlinUserID = response[0].userID;
-             console.log(response[0].flag);
-         if (response[0].flag == 'true'){
-          // if (onlinUserID != '0'){
-              console.log(response[0].userID);
-              dateIsFirst = response[0].Date;
-              console.log(response[0].Date);
-                //console.log(Date.now());
-         //}
-         console.log(onlinUserID + '-' + dateIsFirst);
-         checkFirstTime();
-         //checkWeight();
-         } else if (response[0].flag == 'False'){
-          dateIsFirst = 'false';
-          console.log('date is first: ' + dateIsFirst);
-         }
-         //console.log(dateIsFirst);
-         console.log('inside onlineDB: ');
-        })
-        .catch((error)=>{
-            alert('Error Occured' + error);
-        })
-        }
-
+          method:'POST',
+          headers:headers,
+          body: JSON.stringify(Data),//convert data to JSON
+      })
+      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response)=>{
+        onlinUserID = response[0].userID;
+           console.log(response[0].flag);
+       if (response[0].flag == 'true'){
+        // if (onlinUserID != '0'){
+            console.log(response[0].userID);
+            dateIsFirst = response[0].Date;
+            console.log(response[0].Date);
+              //console.log(Date.now());
+       //}
+       console.log(onlinUserID + '-' + dateIsFirst);
+       checkFirstTime();
+       //checkWeight();
+       } else if (response[0].flag == 'False'){
+        dateIsFirst = 'false';
+        console.log('date is first: ' + dateIsFirst);
+       }
+       //console.log(dateIsFirst);
+       console.log('inside onlineDB: ');
+      })
+      .catch((error)=>{
+          // alert('Error Occured' + error);
+      })
+    }
         const checkFlag = () => {
             console.log('in DB of check flag');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/checkFlag.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/checkFlag.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -224,7 +222,7 @@ const checkFirst = ({navigation}) => {
           .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
           .then((response)=>{
             onlinUserID = response[0].userID;
-               console.log(response[0].flag);
+               console.log(response[0].flag + '-----------------------');
            if (response[0].flag == 'true'){
             // if (onlinUserID != '0'){
                 console.log(response[0].userID);
@@ -240,7 +238,7 @@ const checkFirst = ({navigation}) => {
            console.log('inside onlineDB: ');
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
 
@@ -258,7 +256,7 @@ const checkFirst = ({navigation}) => {
         const updateFlag = () => {
             console.log('in DB of check flag');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/updateEMsgFlag.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/updateEMsgFlag.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -280,14 +278,14 @@ const checkFirst = ({navigation}) => {
           .then((response)=>{
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
 
           const checkHypo = () => {
             console.log('in DB1:');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/checkHypo.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/checkHypo.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -321,14 +319,14 @@ const checkFirst = ({navigation}) => {
           // checkBGLevel();
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
   //====================================================To check if User had BG< 50mg/dl in past 48h============================================
           const checkBGLevel = () => {
             console.log('in DB2:');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/checkBGLevel.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/checkBGLevel.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -364,14 +362,14 @@ const checkFirst = ({navigation}) => {
            //checkGlucagon();
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
   //====================================================To check if Glucagon message appeared for the user in hypoglycemia section==============
           const checkGlucagon = () => {
             console.log('in DB3:');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/checkGlucagonFlag.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/checkGlucagonFlag.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -405,14 +403,14 @@ const checkFirst = ({navigation}) => {
            //checkAnnual();
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
   //====================================================To check if	User selected evidence of retinopathy=======================================
           const checkAnnual = () => {
             console.log('in DB4:');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/checkAnnualTest.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/checkAnnualTest.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -445,7 +443,7 @@ const checkFirst = ({navigation}) => {
            console.log('inside onlineDB for annual test: ');
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
 //=================================================WITHIN-APP DATABASE======================================
@@ -469,9 +467,4 @@ const insert = async () => {
  }
     return (<View></View>);
 };
-
-
-const {height} = Dimensions.get('screen');
-const height_logo = height * 0.15;
-
 export default checkFirst;
