@@ -1,3 +1,17 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable jsx-quotes */
+/* eslint-disable quotes */
+/* eslint-disable eqeqeq */
+/* eslint-disable space-infix-ops */
+/* eslint-disable semi */
+/* eslint-disable no-unused-vars */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-undef */
 import React, { useCallback, useState } from 'react';
 import {  StyleSheet, 
   View,
@@ -146,11 +160,12 @@ const onlineDB = () => {
  })
  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
  .then((response)=>{      // If data is in JSON => Display alert msg
-   navigation.navigate('personal');
+ 
  })
  .catch((error)=>{
-     alert("Error Occured" + error);
+    // alert('Error Occured' + error);
  })
+ navigation.navigate('personal');
  }
 
  //OnlineDB if user choose KSUMC 
@@ -177,7 +192,7 @@ const onlineDBKSUMC = () => {
   .then((response)=>{      // If data is in JSON => Display alert msg
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
  
   }
@@ -207,7 +222,7 @@ const onlineDBOther = () => {
   .then((response)=>{      // If data is in JSON => Display alert msg
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
 
@@ -221,10 +236,10 @@ const onlineDBOther = () => {
          resizeMode='stretch'/>
          </View>
       </LinearGradient>
-
+      <ScrollView>
       <View style={styles.footer}>
       <Text style={styles.title}>Step 2 of 7: Clinic Information{'\n'}</Text>
-      <ScrollView>
+     
           <View style={styles.action}>
               <Text style={styles.text_footer}>Diabetes Center/Clinic</Text>
          
@@ -305,7 +320,7 @@ null
           testID="dateTimePicker"
           value={date}
           mode={mode}
-          display="inline"
+          display="default"
           onChange={onChange}
         />
       )}
@@ -321,9 +336,10 @@ null
                 </LinearGradient>
             </TouchableOpacity>
             </View>
-            </ScrollView>
+        
          
         </View>
+        </ScrollView>
      </View>
   
          
@@ -421,7 +437,6 @@ titleB: {
   color: '#05375a',
   fontSize: 30,
   fontWeight: 'bold',
-  backgroundColor: '#E7EFFA'
 },
 picker: {
   width: 150,
@@ -435,14 +450,8 @@ pickerP: {
   height: 30,
     
 },
-titleB: {
-  color: '#05375a',
-  fontSize: 20,
-  fontWeight: 'bold',
- 
-},
 buttonV: {
-  marginTop: 60,
+  marginTop: 45,
   alignItems: 'center',
   
 },
@@ -496,7 +505,6 @@ buttonR: {
   width: 200,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -506,4 +514,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
