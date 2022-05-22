@@ -1,23 +1,38 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable keyword-spacing */
+/* eslint-disable jsx-quotes */
+/* eslint-disable quotes */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-shadow */
+/* eslint-disable semi */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, {  useState, useEffect } from 'react';
-import {  StyleSheet, 
+import {  StyleSheet,
   View,
   Image,
   Text,
   FlatList,
   TouchableOpacity,
-  Platform, 
+  Platform,
   TextInput,
   ScrollView,
+  alert,
   Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
-import RadioForm, { 
-  RadioButton, 
-  RadioButtonInput, 
-  RadioButtonLabel
-} from 'react-native-simple-radio-button';
 import { ActivityIndicator, Colors } from 'react-native-paper';
+import SQLite from 'react-native-sqlite-storage';
+
+
 
 var calcMethod = [
   {label: 'I use a ratio (ICR) to calculate my meal insulin'+'\n', value: 'ICR', valueIndex: 0},
@@ -599,7 +614,7 @@ fetch(InsertAPIURL,{
 .then((response)=>{
 })
 .catch((error)=>{
-  alert("Error Occured" + error);
+ // alert('Error Occured' + error);
 })
 }
 const oldSsOnlineDB = (from, to, from2, to2) =>{
@@ -628,7 +643,7 @@ const oldSsOnlineDB = (from, to, from2, to2) =>{
   .then((response)=>{
   })
   .catch((error)=>{
-    alert("Error Occured" + error);
+   // alert('Error Occured' + error);
   })
   }
 const updateBGTOOnline = (from, to, bgf, bgt, ins, bgf1, bgt1, ins1 ) =>{
@@ -661,7 +676,7 @@ const updateBGTOOnline = (from, to, bgf, bgt, ins, bgf1, bgt1, ins1 ) =>{
     .then((response)=>{
     })
     .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
     })
     }
 //=========icr local============
@@ -705,7 +720,7 @@ for (let i=0; i<ICR.length; i++){
     
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
   
@@ -742,7 +757,7 @@ fetch(InsertAPIURL,{
   
 })
 .catch((error)=>{
-    alert("Error Occured" + error);
+   // alert('Error Occured' + error);
 })
 }
 
@@ -1045,7 +1060,6 @@ buttonR: {
   width: 200,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -1055,7 +1069,6 @@ buttonRS: {
   width: 150,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -1103,5 +1116,4 @@ innerView: {
     flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
 }
 });
-
 
