@@ -1,3 +1,20 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable jsx-quotes */
+/* eslint-disable keyword-spacing */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+/* eslint-disable quotes */
+/* eslint-disable semi-spacing */
+/* eslint-disable eqeqeq */
+/* eslint-disable space-infix-ops */
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+/* eslint-disable no-shadow */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, {  useState, useEffect } from 'react';
 import {  StyleSheet, 
   View,
@@ -23,7 +40,7 @@ var calcMethod = [
   {label: 'I use sliding scale to determine my meal insulin'+'\n', value: 'Sliding Scale', valueIndex: 1},
   ];
   const icr = ({ navigation, route }) =>{
-   
+    var AccType = 'Patient Account'; 
     useEffect(() => {
       MethodForCalc('ICR');
         }, []);
@@ -38,27 +55,45 @@ var calcMethod = [
       };
 
 //====================SS===================
+const [t1, sett1] = useState(new Date())
+     t1.setHours(6);
+     t1.setMinutes(0);
+     const [t2, sett2] = useState(new Date())
+     t2.setHours(12);
+     t2.setMinutes(0);
+     const [t3, sett3] = useState(new Date())
+     t3.setHours(12);
+     t3.setMinutes(1);
+     const [t4, sett4] = useState(new Date())
+     t4.setHours(17);
+     t4.setMinutes(0);
+     const [t5, sett5] = useState(new Date())
+     t5.setHours(17);
+     t5.setMinutes(1);
+     const [t6, sett6] = useState(new Date())
+     t6.setHours(23);
+     t6.setMinutes(59);
 const [outerCount, setOuterCount] = useState(0);
 const [innerCount, setInnerCount] = useState(0);
 const [innerCount1, setInnerCount1] = useState(0);
-  const [SlidingScale, setSlidingScale] = useState([{ id: 0, FromTime: new Date().setHours(6), toTime: new Date().setHours(12), flag: true, Rnages: [{id: 0, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
-  }, { id: 1, FromTime: new Date().setHours(12), toTime: new Date().setHours(17), flag: false, Rnages: [{id: 6, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
-  }, { id: 2, FromTime: new Date().setHours(17), toTime: new Date().setHours(23), flag: false, Rnages: [{id: 12, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
-  }, { id: 3, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 18, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
-  }, { id: 4, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 24, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
-  }]); // this is how it should be initialized in order to display it in flat list
-  const [showFrom, setShowFrom] = useState(false);
-  const [showTo, setShowTo] = useState(false);
-  const [flag1, setfalg1] = useState(false);
-  const [flag2, setfalg2] = useState(false);
-  const [mode, setMode] = useState('date');
-  const [selectedID, setID] = useState(-1);
-  const [innerIndex, setIndex] = useState(-1);
+const [SlidingScale, setSlidingScale] = useState([{ id: 0, FromTime: t1, toTime: new Date(). t2, flag: true, Rnages: [{id: 0, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+}, { id: 1, FromTime: t3, toTime: t4, flag: false, Rnages: [{id: 6, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+}, { id: 2, FromTime: t5, toTime: t6, flag: false, Rnages: [{id: 12, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+}, { id: 3, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 18, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+}, { id: 4, FromTime: new Date(), toTime: new Date(), flag: false, Rnages: [{id: 24, BGFrom:-1, BGTo:-1, insulin:-1, flagI: true}],
+}]); // this is how it should be initialized in order to display it in flat list
+const [showFrom, setShowFrom] = useState(false);
+const [showTo, setShowTo] = useState(false);
+const [flag1, setfalg1] = useState(false);
+const [flag2, setfalg2] = useState(false);
+const [mode, setMode] = useState('date');
+const [selectedID, setID] = useState(-1);
+const [innerIndex, setIndex] = useState(-1);
 //================================================
 //===================ICR==========================
-const [ICR, setICR]= useState([{id: 0, from: new Date().setHours(6), to: new Date().setHours(12), icr: -1, flagC: true},
-  {id: 0, from: new Date().setHours(12), to: new Date().setHours(17), icr: -1, flagC: true},
-  {id: 0, from: new Date().setHours(17), to: new Date().setHours(23), icr: -1, flagC: true}]);
+const [ICR, setICR]= useState([{id: 1, from: t1, to: t2, icr: -1, flagC: true},
+{id: 2, from: t3, to: t4, icr: -1, flagC: true},
+{id: 3, from:  t5, to: t6, icr: -1, flagC: true}]);
 const [icrCount, setIcrCount] = useState(0);
 
 const addICR = ()=> {
@@ -238,7 +273,7 @@ for (let i =0; i< SlidingScale.length; i++){ // i.e. 5
           tx.executeSql(
            'INSERT INTO ssInterval (UserID, fromTime, toTime)' 
            +'VALUES (?,?,?)',
-             [uID, SlidingScale[i].FromTime, SlidingScale[i].toTime]
+             [ 1, SlidingScale[i].FromTime, SlidingScale[i].toTime]
          );
          callback(SlidingScale[i].FromTime, SlidingScale[i].toTime, i);
      })
@@ -265,7 +300,7 @@ try {
                   var ID = rows.item(i).UserID;
                   var f = rows.item(i).fromTime;
                   var t = rows.item(i).toTime;
-                  if (uID == ID && from.toString() == f.toString() && to.toString() == t.toString()){
+                  if ( ID == 1 && from.toString() == f.toString() && to.toString() == t.toString()){
                     console.log('Horaaaayy '+ssID);
                     BGToLocal(ssID, index); 
                     return ssID;
@@ -330,7 +365,7 @@ const bgtoIOnlineDb = (i, j) => {
     .then((response)=>{
     })
     .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
     })
     }         
 }
@@ -359,7 +394,7 @@ const calcMOnline = () => {
     .then((response)=>{
     })
     .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
     })
     }         
 }
@@ -389,7 +424,7 @@ const ssOnlineDB = (i) =>{
     .then((response)=>{
     })
     .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
     })
   }
 
@@ -400,12 +435,13 @@ const localICR = () => {
   calcMOnline();
 for (let i=0; i<ICR.length; i++){
   if (ICR[i].flagC){
+    console.log(ICR[i].from + ' // ' + ICR[i].to + ' // ' + ICR[i].icr);
     try {
       db.transaction( (tx) => {
           tx.executeSql(
            'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
            +'VALUES (?,?,?,?)',
-             [uID, ICR[i].from, ICR[i].to, ICR[i].icr ]
+             [ 1, ICR[i].from, ICR[i].to, ICR[i].icr ]
          );
      })
      
@@ -439,7 +475,7 @@ for (let i=0; i<ICR.length; i++){
       
     })
     .catch((error)=>{
-        alert("Error Occured" + error);
+       // alert('Error Occured' + error);
     })
     }
     }
@@ -452,13 +488,13 @@ for (let i=0; i<ICR.length; i++){
 const insert = async () => {
   insulinCalcMethod = data.caluMethod;
   if (AccType=='Patient Account'){
-    console.log(uID+' - '+ DOBirth+ ' - '+ weightKG +' - '+latestHB1AC_+' - '+ DOLatestHB1AC+ ' - '+ glucoseMonitor +' - '+glucoseUnit+' - '+ketonesMeasure +' - '+ insulinReg+ ' - '+ InsulinSF +' - '+bgTarget+' - '+ bgStart+ ' - '+ intervalISF +' - '+insulinCalcMethod+' - '+fromBG+ ' - '+ toBG +' - '+heightCM+' - '+ Diabetescenter+ ' - '+ DOD +' - '+centName+' - '+centCity);
+    console.log( 1+' - '+ DOBirth+ ' - '+ weightKG +' - '+latestHB1AC_+' - '+ DOLatestHB1AC+ ' - '+ glucoseMonitor +' - '+glucoseUnit+' - '+ketonesMeasure +' - '+ insulinReg+ ' - '+ InsulinSF +' - '+bgTarget+' - '+ bgStart+ ' - '+ intervalISF +' - '+insulinCalcMethod+' - '+fromBG+ ' - '+ toBG +' - '+heightCM+' - '+ Diabetescenter+ ' - '+ DOD +' - '+centName+' - '+centCity);
     try {
      db.transaction( (tx) => {
          tx.executeSql(
           'INSERT INTO patientprofile (UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date, typeOfGlucoseM, glucoseLevel_unit, ketonesMeasure, insulinRegimen, ISF, targetBG_correct, startBG_correct, ISFIntervals, insulinCalcMethod, fromBG, toBG, height, diabetes_center, diagnosis_date, center_name, center_city)' 
           +'VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            [uID, DOBirth, weightKG, latestHB1AC_, DOLatestHB1AC, glucoseMonitor, glucoseUnit, ketonesMeasure, insulinReg, InsulinSF, bgTarget, bgStart, intervalISF, insulinCalcMethod, fromBG, toBG, heightCM, Diabetescenter, DOD, centName, centCity ]
+            [ 1, DOBirth, weightKG, latestHB1AC_, DOLatestHB1AC, glucoseMonitor, glucoseUnit, ketonesMeasure, insulinReg, InsulinSF, bgTarget, bgStart, intervalISF, insulinCalcMethod, fromBG, toBG, heightCM, Diabetescenter, DOD, centName, centCity ]
         );
     })
 
@@ -471,7 +507,7 @@ try {
       tx.executeSql(
        'INSERT INTO nonPatientprofile (UserID, DOB, weightKG, latest_HP1AC, latest_HP1AC_date, typeOfGlucoseM, glucoseLevel_unit, ketonesMeasure, insulinRegimen, ISF, targetBG_correct, startBG_correct, ISFIntervals, insulinCalcMethod, fromBG, toBG)' 
        +'VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-         [uID, DOBirth, weightKG, latestHB1AC_, DOLatestHB1AC, glucoseMonitor, glucoseUnit, ketonesMeasure, insulinReg, InsulinSF, bgTarget, bgStart, intervalISF, insulinCalcMethod, fromBG, toBG]
+         [ 1, DOBirth, weightKG, latestHB1AC_, DOLatestHB1AC, glucoseMonitor, glucoseUnit, ketonesMeasure, insulinReg, InsulinSF, bgTarget, bgStart, intervalISF, insulinCalcMethod, fromBG, toBG]
      );
  })
 
@@ -479,7 +515,7 @@ try {
  console.log(error);
 }
 }
-navigation.navigate('home');
+navigation.navigate('Home');
 }
 
     return (
@@ -815,7 +851,6 @@ buttonR: {
   width: 200,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -825,7 +860,6 @@ buttonRS: {
   width: 150,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -873,7 +907,5 @@ innerView: {
     flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
 }
 });
-
-
 
 
