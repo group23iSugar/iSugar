@@ -1,3 +1,18 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
+/* eslint-disable quotes */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+/* eslint-disable no-shadow */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-useless-escape */
+/* eslint-disable keyword-spacing */
+/* eslint-disable jsx-quotes */
+/* eslint-disable semi */
+/* eslint-disable eqeqeq */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable comma-dangle */
 import React, {useEffect}from 'react';
 import {  StyleSheet, 
   View,
@@ -285,7 +300,7 @@ body: JSON.stringify(Data) //convert data to JSON
 .then((response)=>{
 onlinUserID= response[0].userID;
 navigation.navigate("clinicInfoAR"); //Navigate to next screen if authentications are valid
-// alert('ID: '+onlinUserID);
+alert('ID: '+onlinUserID);
 })
 .catch((error)=>{
 alert("Error Occured" + error);
@@ -527,7 +542,6 @@ buttonR: {
   width: 100,
   height: 40,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -537,4 +551,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
