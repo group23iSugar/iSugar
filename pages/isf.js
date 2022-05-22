@@ -1,3 +1,18 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable quotes */
+/* eslint-disable comma-dangle */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-alert */
+/* eslint-disable jsx-quotes */
+/* eslint-disable semi */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-dupe-keys */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-undef */
+/* eslint-disable no-trailing-spaces */
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, 
     View,
@@ -20,13 +35,31 @@ import moment from 'moment';
   const isf = ({ navigation, route }) =>{
    
      //=======ISF Vars======//
+     const [t1, sett1] = useState(new Date())
+     t1.setHours(6);
+     t1.setMinutes(0);
+     const [t2, sett2] = useState(new Date())
+     t2.setHours(12);
+     t2.setMinutes(0);
+     const [t3, sett3] = useState(new Date())
+     t3.setHours(12);
+     t3.setMinutes(1);
+     const [t4, sett4] = useState(new Date())
+     t4.setHours(17);
+     t4.setMinutes(0);
+     const [t5, sett5] = useState(new Date())
+     t5.setHours(17);
+     t5.setMinutes(1);
+     const [t6, sett6] = useState(new Date())
+     t6.setHours(23);
+     t6.setMinutes(59);
      const [isfInterval, setISF] = useState('0');
      const [ISF, setISFM] = useState(0);
      const [targetBG, setTargetBG] = useState(0);
      const [startBG, setStartBG] = useState(0);
-     const [ISFList, setISFList]= useState([{id: 0, from: new Date().setHours(6), to: new Date().setHours(12), isf: -1, start: -1, target: -1, flagF: true},
-      {id: 0, from: new Date().setHours(12), to: new Date().setHours(17), isf: -1, start: -1, target: -1, flagF: true}, 
-      {id: 0, from: new Date().setHours(17), to: new Date().setHours(23), isf: -1, start: -1, target: -1, flagF: true}]);
+     const [ISFList, setISFList]= useState([{id: 0, from: t1, to: t2, isf: -1, start: -1, target: -1, flagF: true},
+      {id: 1, from: t3, to: t4, isf: -1, start: -1, target: -1, flagF: true}, 
+      {id: 2, from: t5, to: t6, isf: -1, start: -1, target: -1, flagF: true}]);
      const [isfCount, setISFCount] = useState(0);
      //======================//
      const [showTo, setShowTo] = useState(false);
@@ -130,54 +163,60 @@ setID(id);
 
 //--------------------------- DB
 const localISFInterval = () => {
+  console.log('123')
   if (isfInterval =='1'){
     for (let i=0; i<ISFList.length; i++){
-      if (ISFList[i].flagF){
-        try {
-          db.transaction( (tx) => {
-              tx.executeSql(
-               'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct)' 
-               +'VALUES (?,?,?,?,?,?)',
-                 [uID, ISFList[i].from, ISFList[i].to, ISFList[i].isf, ISFList[i].target, ISFList[i].start ]
-             );
-         })
-         
-        } catch (error) {
-         console.log(error);
-        }
-        if (AccType == 'Patient Account'){
-          var InsertAPIURL = "https://isugarserver.com/ISFInterval.php";
+      if (ISFList[ISFList.length -1].to.getHours() != 11 && ISFList[ISFList.length -1].to.getMinutes() != 59 ){
+        alert('Enter Valid intervals');
+      } else {
+        if (ISFList[i].flagF){
+          try {
+            db.transaction( (tx) => {
+                tx.executeSql(
+                 'INSERT INTO isfInterval (UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct)' 
+                 +'VALUES (?,?,?,?,?,?)',
+                   [1, ISFList[i].from, ISFList[i].to, ISFList[i].isf, ISFList[i].target, ISFList[i].start ]
+               );
+           })
+           
+          } catch (error) {
+           console.log(error);
+          }
+          if (AccType == 'Patient Account'){
+            var InsertAPIURL = "https://isugarserver.com/ISFInterval.php";
+              
+            var headers = {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            };
             
-          var headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          };
+            var Data ={
+              UserID: onlinUserID,
+              fromTime: ISFList[i].from.toString(),
+              toTime: ISFList[i].to.toString(),
+              ISF: ISFList[i].isf,
+              targetBG: ISFList[i].target,
+              startBG: ISFList[i].start,
+              
+            };
           
-          var Data ={
-            UserID: onlinUserID,
-            fromTime: ISFList[i].from.toString(),
-            toTime: ISFList[i].to.toString(),
-            ISF: ISFList[i].isf,
-            targetBG: ISFList[i].target,
-            startBG: ISFList[i].start,
+          // FETCH func ------------------------------------
+          fetch(InsertAPIURL,{
+              method:'POST',
+              headers:headers,
+              body: JSON.stringify(Data) //convert data to JSON
+          })
+          .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+          .then((response)=>{
             
-          };
-        
-        // FETCH func ------------------------------------
-        fetch(InsertAPIURL,{
-            method:'POST',
-            headers:headers,
-            body: JSON.stringify(Data) //convert data to JSON
-        })
-        .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-        .then((response)=>{
-          
-        })
-        .catch((error)=>{
-            alert("Error Occured" + error);
-        })
+          })
+          .catch((error)=>{
+             // alert('Error Occured' + error);
+          })
+          }
         }
       }
+    
         
       
     }
@@ -193,7 +232,7 @@ const localISFInterval = () => {
     onlineSbgDB();
 
   }
-
+  navigation.navigate('icr');
 }
 const onlineISFDB = () => {
   if (AccType == 'Patient Account'){
@@ -220,7 +259,7 @@ const onlineISFDB = () => {
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
   
@@ -251,7 +290,7 @@ const onlineTbgDB = () => {
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
   
@@ -282,7 +321,7 @@ const onlineSbgDB = () => {
   .then((response)=>{
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
+     // alert('Error Occured' + error);
   })
   }
  
