@@ -1,3 +1,10 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable semi */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-alert */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-undef */
 import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
@@ -24,7 +31,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PieChart} from 'react-native-chart-kit';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
-import PushNotification from "react-native-push-notification";
+import PushNotification from 'react-native-push-notification';
 //import { ActivityIndicator, Colors } from 'react-native-paper';
 //import dashDB from './dashDB';
 
@@ -37,10 +44,10 @@ const appoinments = ({navigation}) => {
           channelId: 'test',
           title: 'Do not forget your appointment this week!',
           message: 'Do not forget your appointment this week!',
-          date: new Date(appointmentTime-(60*60*24*7*1000)),
+          date: new Date(appointmentTime - (60 * 60 * 24 * 7 * 1000)),
           allowWhileIdle: true,
-  
-  
+
+
         });
       }
       //================
@@ -50,7 +57,7 @@ const updateFlag = () => {
   var appointmentToString = appointmentTime.toString();
         console.log('in DB of check flag');
         // eslint-disable-next-line quotes
-        var InsertAPIURL = "http://192.168.56.1/isugar/updateEMsgFlag.php";   //API to  signup
+        var InsertAPIURL = "https://isugarserver.com/appoints.php";   //API to  signup
 
         var headers = {
           'Accept': 'application/json',
@@ -71,13 +78,13 @@ const updateFlag = () => {
       .then((response)=>{
       })
       .catch((error)=>{
-          alert('Error Occured' + error);
+          // alert('Error Occured' + error);
       })
       }
 //=========================END OF  Online DB==========================================
 //=========================
   var nowDate = new Date();
-  var nowDateString = moment.utc(nowDate).format('yyyy/MM/DD'); // 
+  var nowDateString = moment.utc(nowDate).format('yyyy/MM/DD'); //
 
   const [note, setNote] = useState('');
 
@@ -99,38 +106,38 @@ const updateFlag = () => {
 
    var appointmentToString = appointmentTime.toString();
    var cDate = new Date();
-   if ((appointmentTime-cDate)/(1000 * 60 * 60 *24) > 0){
+   if ((appointmentTime - cDate) / (1000 * 60 * 60 * 24) > 0){
    try {
       db.transaction(tx => {
         tx.executeSql(
           'INSERT INTO appointments (UserID, appointmentDate, note) VALUES (?,?,?)',
-          [222, appointmentToString, note],
+          [uID, appointmentToString, note],
         );
         console.log('inserted!!' + appointmentToString + note);
       });
     } catch (error) {
       console.log(error);
     }
-
+    updateFlag();
     //if ((appointmentTime-cDate)/(1000 * 60 * 60 *24) > 7){
       handleNotification(); //}
 
-    
 
 
-    alert('You have an appointment at the diabetes Center  on '+appointmentToString+'. If you are scheduled to have your annual lab work please don’t forget to do them.');
+
+    alert('You have an appointment at the diabetes Center  on ' + appointmentToString + '. If you are scheduled to have your annual lab work please don’t forget to do them.');
     navigation.navigate('Home');
   } else {alert('Invalid date! \nPlease try again')}
  }
- 
- 
+
+
   return (
-    
+
 
      <View style={styles.container}>{/** */}
 
       <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('./images/logo.png')} style={styles.pic} />
+        <Image source={require('../images/logo.png')} style={styles.pic} />
       </View>
 
       <ScrollView style={styles.contView}>
@@ -162,11 +169,11 @@ const updateFlag = () => {
             backgroundColor: '#05375a',
           }}
            onPress={showAppointmentTimeMethod}>
-                    
-          
-              
+
+
+
               <Text style={styles.textBody2}>Set Date</Text>
-            
+
           </TouchableOpacity>
 
           <View style={styles.innerView}>
@@ -174,7 +181,7 @@ const updateFlag = () => {
           <Text style={styles.textBody}>Note:     </Text>
 
           <TextInput
-            
+
             placeholder=""
             onChangeText={value => setNote(value)}
             style={styles.inputT}
@@ -197,12 +204,12 @@ const updateFlag = () => {
               />
             )}
 
-        </View> 
-
-        
+        </View>
 
 
-        
+
+
+
           <TouchableOpacity onPress={insertAppoint}>
             <LinearGradient
               colors={['#E7EFFA', '#AABED8', '#AABED8']}
@@ -210,10 +217,10 @@ const updateFlag = () => {
               <Text style={styles.titleB}>Add</Text>
             </LinearGradient>
           </TouchableOpacity>
-        
+
       </ScrollView>
-      
-  </View> 
+
+  </View>
   );
 };
 
@@ -237,7 +244,7 @@ container: {
 // },
   header: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
 },
 body: {
     justifyContent: 'center',
@@ -255,7 +262,7 @@ outer: {
     alignItems: 'center',
     borderRadius: 15,
     flexDirection: 'row',
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
 	width: 0,
 	height: 2,
@@ -270,26 +277,26 @@ outer: {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: 'white'
-    
+    backgroundColor: 'white',
+
   },
 textBody2:{
    fontSize: 25,
-   color: 'white', 
+   color: 'white',
 },
 textBody:{
     paddingTop:10,
     fontSize: 20,
-    color: '#05375a', 
+    color: '#05375a',
     textAlign: 'center',
     fontWeight: 'bold',
- }, 
+ },
  innerCotainer: {
   backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 5, width: 380,
        flexDirection: 'row',
     flexWrap: 'wrap',
     alignSelf: 'center',
-              shadowColor: "#000",
+              shadowColor: '#000',
               shadowOffset: {
               width: 0,
               height: 2,
@@ -300,7 +307,7 @@ textBody:{
 },
 innerCotainer2: {
   backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10, width: 200,
-              shadowColor: "#000",
+              shadowColor: '#000',
               shadowOffset: {
               width: 0,
               height: 2,
@@ -312,7 +319,7 @@ innerCotainer2: {
 buttonV: {
   marginTop: 60,
   alignItems: 'center',
-  
+
 },
 buttonR: {
   alignItems: 'center',
@@ -323,70 +330,23 @@ buttonR: {
   justifyContent: 'center',
   borderRadius: 15,
   flexDirection: 'row',
-  
+
 },
 innerView: {
     flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,alignItems: 'center',
     alignSelf: 'center',
-}, 
-container: {
-  flex: 1,
-  backgroundColor: '#EEF0F2',
-},
-header: {
-  justifyContent: 'center',
-  alignItems: 'center'
-},
-body: {
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginTop: 50,
-  marginBottom: 20,
-
-},
-outer: {
-  width: 275,
-  height: 110,
-  marginTop: 15,
-  marginBottom: 20,
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 15,
-  flexDirection: 'row',
-  shadowColor: "#000",
-  shadowOffset: {
-width: 0,
-height: 2,
-  },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.84,
-  elevation: 5,
-},
-inner: {
-  width: 250,
-  height: 110,
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'row',
-  backgroundColor: 'white'
-  
 },
 textHeader:{
  fontSize: 15,
- color: '#05375a', 
+ color: '#05375a',
 },
 
   ddown: {
   //drop down list style
-
-
   shadowColor: '#000',
   alignSelf: 'center',
   width: 140,
-
-
   alignItems: 'center',
-  
 
 },
 inputT: {
@@ -455,7 +415,7 @@ inpTxt: {
   fontSize: 18,
 },
 picker: {
-  color: 'grey'
+  color: 'grey',
 },
 //====================newStyle========================
 });
