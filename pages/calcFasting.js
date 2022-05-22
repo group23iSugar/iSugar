@@ -1,56 +1,42 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
+/* eslint-disable comma-dangle */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
+/* eslint-disable semi */
+/* eslint-disable radix */
+/* eslint-disable keyword-spacing */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-undef */
 import React, {Component, useEffect, useState} from 'react';
 import {
   StyleSheet,
   Image,
   Button,
   ScrollView,
+  StatusBar,
   Text,
   View,
+  AppRegistry,
+  Navigator,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
   Switch,
+  Alert,
   Dimensions,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import timeCompare from './timeCompare';
-
-global.totalInulinF = 0;
-global.howTextF = '-';//const [howText, setHowText] = useState('-'); //How was the insulin calculated
-global.bgLevelDBF=0;
-global.reasonDBF='';
-global.choDBF='';
-//==========================
-
-  // ====== ISF intervals ========== //
-  global.ISFfromTimesF = []; //const [fromTime, setFromTime] = useState([]);
-  global.ISFtoTimesF = []; //const [toTime, setToTime] = useState([]);
-  global.ISFsF = [];//const [isf, setISF] = useState([]);
-  global.ISFsTragetBGF = [];//const [tBG, setTBG] = useState([]);
-  global.ISFsStartBGF = [];// const [sBG, setSBG] = useState([]);
-  //======== ICR AND SS========= //
-  global.ICRarrF = [];//const [ICRarr, setICRarr] = useState([]);
-  global.ICRF=0;//const [ICR, setICR] = useState(0);
-  global.SlidingScaleArrF = [];//const [SlidingScaleArr, setSlidingScaleArr] = useState([]);
-  global.SlidingScaleF=0;//const [SlidingScale, setSlidingScale] = useState(0);
-
-  
-
-  // ======= Patient Profile ===== //
-  global.calcMethodF = '';//const [calcMethod, setCalcM] = useState('');
-  global.isIsfIntervalF = -1;//const [isIsfInterval, setInterval] = useState(-1);
-  global.insulinRegF = '';//const [insulinReg, setReg] = useState('');
-  global.insulinTypeF = '';//const [insulinType, setType] = useState('');
-  global.halfOrFullF = -1;//const [halfOrFull, sethalfOrFull]= useState(-1);
-  global.isfPF = -1;//const [isfP, setISFP] = useState(-1);
-  global.tBGPF = -1;//const [tBGP, setTBGP] = useState(-1);
-  global.sBGPF = -1;//const [sBGP, setSBGP] = useState(-1);
-  // p indicates patient ;) these values won't be retreived unless isf interval = 0: All day
- 
-  //======= Previous Dose==========//
-  global.prevArrF =[];
-
+import Entypo from 'react-native-vector-icons/Entypo';
 const Calc = ({navigation, route}) => {
 
     useEffect(() => {
@@ -64,22 +50,22 @@ const Calc = ({navigation, route}) => {
 
    //================================insulin calc methods==================
     const insuCalc = () => {
-      bgLevelDBF=bgLevel;
-      reasonDBF=reason;
-      choDBF=CHO;
+      bgLevelDB=bgLevel;
+      reasonDB=reason;
+      choDB=CHO;
 
-    if(isIsfIntervalF == 1){
+    if(isIsfInterval == 1){
      checkISFIntervals(); //Retrives from DB
     }
 
-    for(let x =0; x<prevArrF.length; x++){
+    for(let x =0; x<prevArr.length; x++){
       console.log('=================================');
-      console.log(prevArrF[x].time);
-      console.log(prevArrF[x].dose);
+      console.log(prevArr[x].time);
+      console.log(prevArr[x].dose);
       console.log('=================================');
     }
 
-    console.log(prevArrF);
+    console.log(prevArr);
     var a;
     var b;
     var c = 0;
@@ -88,31 +74,41 @@ const Calc = ({navigation, route}) => {
     var txt1 = '';
 
     if (
-      (insulinRegF == 'Pen' || insulinRegF == 'pen') &&
-      (insulinTypeF == 'Aspart' ||
-        insulinTypeF == 'Lispro' ||
-        insulinTypeF == 'Glulisine')
+      (insulinReg == 'Pen' || insulinReg == 'pen') &&
+      (insulinType == 'Aspart' ||
+        insulinType == 'Lispro' ||
+        insulinType == 'Glulisine')
     ) {
+      specialLog = '';
+      if (isSick){
+        specialLog = specialLog+' SD'
+      }
+      if (isFasting){
+        specialLog = specialLog+' F'
+      }
+      if (isPostEnabled || isPreEnabled){
+        specialLog = specialLog+' E'
+      }
       if (bgLevel > 70) {
         if (reason == '5') {
-          if (bgLevel > sBGPF) {
+          if (bgLevel > sBGP) {
             a = 0;
-            b = (bgLevel - tBGPF) / isfPF;
+            b = (bgLevel - tBGP) / isfP;
             c = a + b;
            // console.log('5-  ' + c);
                 txt1 = txt1 + 'since the reason is correction Then: \n * Total = (current BG - Target BG)/ISF \n'+ c +'='+a+'+'+b+'\n';
 
             //prevArr
-            console.log('THA LENGTH:    '+ prevArrF.length);
-            if (prevArrF.length == 0){
+            console.log('THA LENGTH:    '+ prevArr.length);
+            if (prevArr.length == 0){
               	IOB = 0;} else {
                    txt1 = txt1 + '\nsince you took insulin dose in the previous 4 hours Then: \n* Total = Total - IOB \n';
 
-                  for (let i = 0; i < prevArrF.length; i++){
+                  for (let i = 0; i < prevArr.length; i++){
                     console.log('DoubleCheckaaaaa');
-                    console.log('DoubleCheck: '+prevArrF[i].time +' '+ prevArrF[i].dose);
+                    console.log('DoubleCheck: '+prevArr[i].time +' '+ prevArr[i].dose);
                     // var w = parseInt(prevArr[i].dose);
-		               IOB = IOB + IOBSwitch(prevArrF[i].time, prevArrF[i].dose); 
+		               IOB = IOB + IOBSwitch(prevArr[i].time, prevArr[i].dose); 
                    }
                    txt1=txt1+'Total '+'='+c+'-'+IOB+'\n';
                 }
@@ -141,33 +137,34 @@ const Calc = ({navigation, route}) => {
               // return (total);
             }
           } else {
+            // eslint-disable-next-line no-alert
             alert('No correction required');
-            return;s
+            return;
           }
         } else {
-          if (calcMethodF == 'ICR') {
+          if (calcMethod == 'ICR') {
             console.log('is ICR?');
             checkICRIntervals();
             txt1 = txt1 + '\nsince you are using ICR and the reason for the dose is a meal Then: \n* Insulin A = CHO / ICR \n';
-            a = CHO / ICRF;
-		   txt1=txt1+' Total '+'='+CHO+'/'+ICRF+'\n';
-            if (bgLevel > sBGPF) {
-              b = (bgLevel - tBGPF) / isfPF;
+            a = CHO / ICR;
+		   txt1=txt1+' Total '+'='+CHO+'/'+ICR+'\n';
+            if (bgLevel > sBGP) {
+              b = (bgLevel - tBGP) / isfP;
                txt1 = txt1 + '\nsince the current BG is greater than the start BG Then: \n* Total = Total + ((current BG - Target BG) / ISF) \n';
-		    txt1=txt1+'Total '+'='+c+'+(('+bgLevel+'-'+tBGPF+')/'+isfPF+'\n';
+		    txt1=txt1+'Total '+'='+c+'+(('+bgLevel+'-'+tBGP+')/'+isfP+'\n';
             } else {
               b = 0;
             }
             c = a + b;
 
-          if (prevArrF.length == 0){
+          if (prevArr.length == 0){
               	IOB = 0;} else {
                    txt1 = txt1 + '\nsince you took insulin dose in the previous 4 hours Then: \n* Total = Total - IOB\n';
 
-                  for (let i = 0; i < prevArrF.length; i++){
+                  for (let i = 0; i < prevArr.length; i++){
                     console.log('DoubleCheckaaaaa');
-                    console.log('DoubleCheck: '+prevArrF[i].time +' '+ prevArrF[i].dose);
-		               IOB = IOB + IOBSwitch(prevArrF[i].time, prevArrF[i].dose); 
+                    console.log('DoubleCheck: '+prevArr[i].time +' '+ prevArr[i].dose);
+		               IOB = IOB + IOBSwitch(prevArr[i].time, prevArr[i].dose); 
                    }
 			 txt1=txt1+'Total '+'='+c+'-'+IOB+'\n';
                 }
@@ -198,19 +195,19 @@ const Calc = ({navigation, route}) => {
             
          checkSSIntervals();
             console.log('is Sliding?');
-            c = SlidingScaleF; // from database
+            c = SlidingScale; // from database
             txt1 = txt1 + '\nsince you are using sliding scale Then: \n* Total = SlidingScale based on the current time\n';
 		  txt1= txt1+'Total ='+c+'\n';
-            console.log('this is c: ' + c + ' And Sliding: ' + SlidingScaleF);
+            console.log('this is c: ' + c + ' And Sliding: ' + SlidingScale);
             console.log(c + '  This is tt');
-                if (prevArrF.length == 0){
+                if (prevArr.length == 0){
               	IOB = 0;} else {
                   txt1 = txt1 + '\nsince you took insulin dose in the previous 4 hours Then: \n* Total = Total - IOB\n';
 
-                  for (let i = 0; i < prevArrF.length; i++){
+                  for (let i = 0; i < prevArr.length; i++){
                     console.log('DoubleCheckaaaaa');
-                    console.log('DoubleCheck: '+prevArrF[i].time +' '+ prevArrF[i].dose);
-		               IOB = IOB + IOBSwitch(prevArrF[i].time, prevArrF[i].dose); 
+                    console.log('DoubleCheck: '+prevArr[i].time +' '+ prevArr[i].dose);
+		               IOB = IOB + IOBSwitch(prevArr[i].time, prevArr[i].dose); 
                    }
 			 txt1=txt1+'Total '+'='+c+'-'+IOB+'\n';
                 }
@@ -247,6 +244,7 @@ const Calc = ({navigation, route}) => {
        navigation.navigate('hypo');
       }
     } else {
+      // eslint-disable-next-line no-alert
       alert(
         'Your Insulin type is not supported in this application. Please contact your Diabetes center for instruction & recommendations for insulin bolus calculation & dose determination',
       );
@@ -254,7 +252,7 @@ const Calc = ({navigation, route}) => {
     }
 
 
-    if (halfOrFullF==1){
+    if (halfOrFull==1){
 	c = Math.round(c);}
 else{//half-units
 	var r1 = Math.round((c * 10) / 10); // rounds to 1 decimal after point
@@ -270,19 +268,19 @@ else{//half-units
 	c = r1_whole + roundedFraction}
 
 
-    totalInulinF=c;
+    totalInulin=c;
     if(c<0){
       c=0;
     }
     txt1=txt1+'= '+c;
-    howTextF=txt1;
+    howText=txt1;
     
-    console.log(c + ' and:3  ' + totalInulinF);
+    console.log(c + ' and:3  ' + totalInulin);
 
 
 
     navigation.navigate('insuResult');
-    // navigation.navigate('result',{result: total, calcM: calcMethodF, reasonD: reason, bg: bgLevel, cho: CHO})
+    // navigation.navigate('result',{result: total, calcM: calcMethod, reasonD: reason, bg: bgLevel, cho: CHO})
     };
 
   const IOBSwitch = (timePrevDose, PrevDose) => {
@@ -372,25 +370,25 @@ else{//half-units
     console.log('in first');
     try {
       db.transaction(tx => {
-        // insulinRegimen, ISFIntervals, insulincalcMethodF Retrive
+        // insulinRegimen, ISFIntervals, insulinCalcMethod Retrive
         tx.executeSql(
-          'SELECT UserID, insulinRegimen, ISFIntervals, insulinCalcMethod FROM patientprofileFasting',
+          'SELECT UserID, insulinRegimen, ISFIntervals, insulinCalcMethod FROM patientprofile',
           [],
           (tx, results) => {
             var rows = results.rows;
             for (let i = 0; i < rows.length; i++) {
               var UID = rows.item(i).UserID;
-              if (UID == uID) {
+              if (UID == 1) {
                 console.log('in if (user is found)');
                 interval = rows.item(i).ISFIntervals; //boolean 0 or 1
                 console.log(interval);
-                isIsfIntervalF = interval;
+                isIsfInterval = interval;
                 var calcM = rows.item(i).insulinCalcMethod; // ICR or SS
-                calcMethodF = calcM;
+                calcMethod = calcM;
 
                 var insulinR = rows.item(i).insulinRegimen; // pen , pump , etc..
                 console.log(insulinR);
-                insulinRegF = insulinR;
+                insulinReg = insulinR;
 
                 callback1(interval);
                 callback2(calcM);
@@ -408,7 +406,7 @@ else{//half-units
 
   //========================================================
   const retrieve = (isIsfInterval) => {
-      var ISFfromTimesTemp=[];
+      var ISFfromtimesTemp=[];
       var ISFtoTimesTemp=[];
       var ISFsTemp=[];
       var ISFsTragetBGTemp=[];
@@ -425,16 +423,16 @@ else{//half-units
         try {
           db.transaction(tx => {
             tx.executeSql(
-              'SELECT isfID, UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct FROM isfIntervalFasting',
+              'SELECT isfID, UserID, fromTime, toTime, ISF, targetBG_correct, startBG_correct FROM isfInterval',
               [],
               (tx, results) => {
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == uID) {
+                  if (UID == 1) {
                     //user id
                     var from = rows.item(i).fromTime;
-                    ISFfromTimesTemp.push(from);
+                    ISFfromtimesTemp.push(from);
     
                     var to = rows.item(i).toTime;
                     ISFtoTimesTemp.push(to);
@@ -450,11 +448,11 @@ else{//half-units
                     //  التخزين في ارايز
                   }
                 }//for End
-                ISFfromTimesF=ISFfromtimesTemp;
-                ISFtoTimesF=ISFtoTimesTemp;
-                ISFsF=ISFsTemp;
-                ISFsTragetBGF=ISFsTragetBGTemp;
-                ISFsStartBGF=ISFsStartBGTemp;
+                ISFfromTimes=ISFfromtimesTemp;
+                ISFtoTimes=ISFtoTimesTemp;
+                ISFs=ISFsTemp;
+                ISFsTragetBG=ISFsTragetBGTemp;
+                ISFsStartBG=ISFsStartBGTemp;
               },
             );
           });
@@ -466,21 +464,21 @@ else{//half-units
         try {
           db.transaction(tx => {
             tx.executeSql(
-              'SELECT UserID, ISF, targetBG_correct, startBG_correct FROM patientprofileFasting',
+              'SELECT UserID, ISF, targetBG_correct, startBG_correct FROM patientprofile',
               [],
               (tx, results) => {
                 var rows = results.rows;
                 for (let i = 0; i < rows.length; i++) {
                   var UID = rows.item(i).UserID;
-                  if (UID == uID) {
+                  if (UID == 1) {
                     var ISF_ = rows.item(i).ISF;
-                    isfPF=ISF_;
+                    isfP=ISF_;
 
                     var target = rows.item(i).targetBG_correct;
-                    tBGPF=target;
+                    tBGP=target;
 
                     var start = rows.item(i).startBG_correct;
-                    sBGPF=start;
+                    sBGP=start;
                   }
                 }
               },
@@ -501,21 +499,21 @@ else{//half-units
       try {
         db.transaction(tx => {
           tx.executeSql(
-            'SELECT icrID, fromTime, toTime, ICR FROM icrIntervalFasting WHERE UserID=?',
-            [uID],
+            'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
+            [1],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
                 console.log('hello?1?************8');
                 tempArr.push({
                   id: rows.item(i).icrID,
-                  from: rows.item(i).fromTime,
-                  to: rows.item(i).toTime,
+                  from: moment(rows.item(i).fromTime).format('h:mm a'),
+                  to: moment(rows.item(i).toTime).format('h:mm a'),
                   icr: rows.item(i).ICR,
                 });
               }
-              ICRarrF=tempArr;
-              console.log(ICRarrF[0].from + 'This is icr arr');
+              ICRarr=tempArr;
+              console.log(ICRarr[0].from + 'This is icr arr');
             },
           );
         });
@@ -528,8 +526,8 @@ else{//half-units
       try {
         db.transaction(tx => {
           tx.executeSql(
-            'SELECT ssID, fromTime, toTime FROM ssIntervalFasting WHERE UserID=?',
-            [uID],
+            'SELECT ssID, fromTime, toTime FROM ssInterval WHERE UserID=?',
+            [1],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++) {
@@ -542,7 +540,7 @@ else{//half-units
                 try {
                   db.transaction(tx => {
                     tx.executeSql(
-                      'SELECT bgID, fromBGLevel, toBGLevel, insulinDose FROM bgleveltoinsulinFasting WHERE ssID=?',
+                      'SELECT bgID, fromBGLevel, toBGLevel, insulinDose FROM bgleveltoinsulin WHERE ssID=?',
                       [tempArr[i].id],
                       (tx, results) => {
                         var rows2 = results.rows;
@@ -563,7 +561,7 @@ else{//half-units
                   console.log(error);
                 }
               }
-              SlidingScaleArrF=tempArr;
+              SlidingScaleArr=tempArr;
             },
           );
         });
@@ -580,19 +578,19 @@ else{//half-units
     try {
       db.transaction(tx => {
         tx.executeSql(
-          'SELECT UserID, insulinType, halfORfull FROM insulinPenFasting',
+          'SELECT UserID, insulinType, halfORfull FROM insulinPen',
           [],
           (tx, results) => {
             var rows = results.rows;
 
             for (let i = 0; i < rows.length; i++) {
               var userid = rows.item(i).UserID;
-              console.log('Type:  '+rows.item(i).insulinType+' halfOrFullF :  '+rows.item(i).halfORfull);
-              if (userid == uID) {
-                insulinTypeF=rows.item(i).insulinType;
-                halfOrFullF=rows.item(i).halfORfull;
+
+              if (userid == 1) {
+                insulinType=rows.item(i).insulinType;
+                halfOrFull=rows.item(i).halfORfull;
                
-                console.log('Type:  '+insulinTypeF+' halfOrFullF :  '+halfOrFullF);
+                console.log('Type:  '+insulinType+' HalfOrFull :  '+halfOrFull);
 
                 return;
               }
@@ -622,7 +620,7 @@ else{//half-units
     try {
       db.transaction(tx => {
         tx.executeSql(
-          'SELECT insulinDose, Dose_time_hours, Dose_time_minutes FROM takenInsulinDoseFasting WHERE Dose_Date_Day=? and Dose_Date_Month=? and Dose_Date_Year=?',
+          'SELECT insulinDose, Dose_time_hours, Dose_time_minutes FROM takenInsulinDose WHERE Dose_Date_Day=? and Dose_Date_Month=? and Dose_Date_Year=?',
           [currentTimeDate_day, currentTimeDate_month, currentTimeDate_year],
           (tx, results) => {
             var rows = results.rows;
@@ -655,7 +653,7 @@ else{//half-units
               }
             }
             
-            prevArrF=previousDosesArray;
+            prevArr=previousDosesArray;
 
            
             
@@ -691,7 +689,7 @@ else{//half-units
               console.log('Hi try hope u r working :(');
               db.transaction(tx => {
                 tx.executeSql(
-                  'SELECT insulinDose, Dose_time_hours, Dose_time_minutes FROM takenInsulinDoseFasting WHERE Dose_Date_Day=? and Dose_Date_Month=? and Dose_Date_Year=?',
+                  'SELECT insulinDose, Dose_time_hours, Dose_time_minutes FROM takenInsulinDose WHERE Dose_Date_Day=? and Dose_Date_Month=? and Dose_Date_Year=?',
                   [previousDay, previousDayMonth, previousDayYear],
                   (tx, results) => {
                     var rows2 = results.rows;
@@ -714,7 +712,7 @@ else{//half-units
                         });
                       }
                     }
-                    prevArrF=previousDosesArray;
+                    prevArr=previousDosesArray;
                   },
                 );
               });
@@ -743,17 +741,17 @@ else{//half-units
   const checkISFIntervals = () => {
     console.log('i got called');
     var index = -1;
-    for (let i = 0; i < ISFfromTimesF.length; i++) {
+    for (let i = 0; i < ISFfromTimes.length; i++) {
       // icr: icr.length - ss: SlidingScale.length
-      if (timeCompare(ISFfromTimesF[i], ISFtoTimesF[i])) {
+      if (timeCompare(ISFfromTimes[i], ISFtoTimes[i])) {
         // icr: (icr[i].from,icr[i].to) -  ss: (SlidingScale[i].from, SlidingScale[i].to )
         console.log('index: ' + i);
         index = i;
         console.log('found interval at: ' + index);
 
-        isfPF=ISFsF[index];
-        tBGPF=ISFsTragetBGF[index];
-        sBGPF=ISFsStartBGF[index];
+        isfP=ISFs[index];
+        tBGP=ISFsTragetBG[index];
+        sBGP=ISFsStartBG[index];
 
         // return index;
       } else {
@@ -766,18 +764,18 @@ else{//half-units
 
   const checkICRIntervals = () => {
     var index = -1;
-    for (let i = 0; i < ICRarrF.length; i++) {
+    for (let i = 0; i < ICRarr.length; i++) {
       // icr: icr.length - ss: SlidingScale.length
       console.log('i got called ICR');
-      if (timeCompare(ICRarrF[i].from, ICRarrF[i].to)) {
+      if (timeCompare(ICRarr[i].from, ICRarr[i].to)) {
         // icr: (icr[i].from,icr[i].to) -  ss: (SlidingScale[i].from, SlidingScale[i].to )
         console.log('index: ' + i);
         index = i;
         console.log('found interval at: ' + index);
 
-        ICRF=ICRarrF[index].icr;
+        ICR=ICRarr[index].icr;
 
-        console.log(ICRF + '  Did u work?');
+        console.log(ICR + '  Did u work?');
         // return index;
       } else {
         console.log('not found interval');
@@ -788,25 +786,25 @@ else{//half-units
   //Choose SS based on current time
   const checkSSIntervals = () => {
     var index = -1;
-    for (let i = 0; i < SlidingScaleArrF.length; i++) {
+    for (let i = 0; i < SlidingScaleArr.length; i++) {
       // icr: icr.length - ss: SlidingScale.length
       console.log('i got called SS');
-      if (timeCompare(SlidingScaleArrF[i].from, SlidingScaleArrF[i].to)) {
+      if (timeCompare(SlidingScaleArr[i].from, SlidingScaleArr[i].to)) {
         // icr: (icr[i].from,icr[i].to) -  ss: (SlidingScale[i].from, SlidingScale[i].to )
-        for (let j = 0; j < SlidingScaleArrF[i].Rnages.length; j++) {
+        for (let j = 0; j < SlidingScaleArr[i].Rnages.length; j++) {
           if (
-            SlidingScaleArrF[i].Rnages[j].BGFrom <= bgLevel &&
-            SlidingScaleArrF[i].Rnages[j].BGTo >= bgLevel
+            SlidingScaleArr[i].Rnages[j].BGFrom <= bgLevel &&
+            SlidingScaleArr[i].Rnages[j].BGTo >= bgLevel
           ) {
-            SlidingScaleF=SlidingScaleArrF[i].Rnages[j].insulin;
+            SlidingScale=SlidingScaleArr[i].Rnages[j].insulin;
           }
         }
         console.log('index: ' + i);
         index = i;
         console.log('found interval at: ' + index);
-        console.log(SlidingScaleF);
+        console.log(SlidingScale);
 
-        // setICR(ICRarrF[index].icr);
+        // setICR(ICRarr[index].icr);
 
         // console.log(ICR + '  Did u work?');
         // return index;
@@ -861,6 +859,14 @@ else{//half-units
   const [isPostEnabled, setIsPostEnabled] = useState(false);
   const togglePostSwitch = () =>
     setIsPostEnabled(previousState => !previousState);
+      //Sick Switch
+  const [isSick, setIsSick] = useState(false);
+  const toggleSickSwitch = () =>
+    setIsSick(previousState => !previousState);
+      //Fasting Switch
+  const [isFasting, setIsFasting] = useState(false);
+  const toggleFastingSwitch = () =>
+  setIsFasting(previousState => !previousState);
   //=================================================================================
   const [reason, setReason] = useState('0'); //ReasonForInsulin
   const [preDuration, setPreDuration] = useState('14'); //Duration of pre exersize
@@ -876,20 +882,24 @@ else{//half-units
     return (
     //ret(),
     <View style={styles.container}>
-      <View style={{top: 10, alignItems: 'center'}}>
-        <Image source={require('../images/logo.png')} style={styles.pic} />
-      </View>
       <ScrollView>
-        <Text
+      <View style={{top: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 30}}>
+        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+         <Entypo name="menu" color="#05375a" size={35} />
+         </TouchableOpacity>
+         <View style={{alignItems: 'center', marginRight: 130, paddingTop: -10, paddingEnd: 15}}>
+         <Text
           style={{
-            color: '#000',
-            fontSize: 25,
-            textAlign: 'left',
-            paddingTop: 20,
+            color: '#05375a',
+            fontSize: 18,
+            fontWeight: 'bold',
+            textAlign: 'center',
             paddingLeft: 15,
           }}>
-          Insulin Bolus Calculator
+         Insulin Bolus Calculator
         </Text>
+         </View>
+      </View>
 
         <View style={styles.innerCotainer}>
           <Text style={styles.textBody}>Current BG levet: </Text>
@@ -905,47 +915,30 @@ else{//half-units
         <View style={styles.innerCotainer2}>
 
         <Text style={styles.textBody}>Reason for insulin: </Text>
-        {calcMethodF == 'ICR' ? (<View>
-          <Picker
+
+        <Picker
           selectedValue={reason}
           onValueChange={value => setReason(value)}
           mode="dropdown"
           style={styles.picker}>
-          <Picker.Item label="Breakfast (Fatour)" value="0" testID="0"></Picker.Item>
-          <Picker.Item label="After Taraweeh Prayer meal" value="1" testID="0"></Picker.Item>
-          <Picker.Item label="Suhur" value="2" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Breakfast" value="0" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Lunch" value="1" testID="0"></Picker.Item>
+          <Picker.Item label="Pre-Dinner" value="2" testID="0"></Picker.Item>
           <Picker.Item
-            label="Snack"
+            label="Pre-Daytime snack"
             value="3"
+            testID="0"></Picker.Item>
+          <Picker.Item
+            label="Pre-Bedtime snack"
+            value="4"
             testID="0"></Picker.Item>
           <Picker.Item
             label="No meal only for correction"
             value="5"
             testID="1"></Picker.Item>
         </Picker>
-        </View>) : (<View>
-          <Picker
-          selectedValue={reason}
-          onValueChange={value => setReason(value)}
-          mode="dropdown"
-          style={styles.picker}>
-          <Picker.Item label="Breakfast (Fatour)" value="0" testID="0"></Picker.Item>
-          <Picker.Item label="After Taraweeh Prayer meal (Main meal)" value="1" testID="0"></Picker.Item>
-          <Picker.Item label="After Taraweeh Prayer meal (small meal)" value="1" testID="0"></Picker.Item>
-          <Picker.Item label="Suhur" value="2" testID="0"></Picker.Item>
-          <Picker.Item
-            label="Snack"
-            value="3"
-            testID="0"></Picker.Item>
-          <Picker.Item
-            label="No meal only for correction"
-            value="5"
-            testID="1"></Picker.Item>
-        </Picker> 
-        </View>)}
-        
         </View>
-        { (reason == '5' || calcMethodF == 'Sliding Scale') ? null : (
+        { (reason == '5' || calcMethod == 'Sliding Scale') ? null : (
         <View style={styles.innerCotainer}>
           <Text style={styles.textBody}>Meal carbohydrate content: </Text>
           <TextInput
@@ -1341,6 +1334,30 @@ else{//half-units
             )}
           </View>
         ) : null}
+
+<Text style={styles.textBody}>
+          Are you sick?
+        </Text>
+        <Switch
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+          thumbColor={isSick ? '#f4f3f4' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSickSwitch}
+          value={isSick}
+          
+        />
+
+<Text style={styles.textBody}>
+          Are you Fasting?
+        </Text>
+        <Switch
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+          thumbColor={isFasting ? '#f4f3f4' : '#f4f3f4'}//
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleFastingSwitch}//
+          value={isFasting}//
+          
+        />
 
         </View>
 
