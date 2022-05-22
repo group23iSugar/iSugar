@@ -1,3 +1,9 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-quotes */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-trailing-spaces */
 import React from 'react';
 import { StyleSheet, 
     View,
@@ -28,15 +34,12 @@ import react from 'react';
         <ScrollView>
       <Text style={styles.title}>Disclaimer:</Text>
       <View style={styles.textD}>
-      <Text style={styles.text_footer}>- This application is intended to be used by pediatric type 1 diabetic
-  patients (age less than 18 years) or their caregivers as the medical
-  guidelines used in the development of this application are approved up
-  to this age (18y){'\n'}</Text>
-      <Text style={styles.text_footer}>- Users with type 1 diabetes and above age 18 years should NOT use this
-  application for diabetes management as the medical guidelines used in
-  this application are Pediatric guidelines that are NOT approved beyond
-  age 18 years.{'\n'}</Text>
-      <Text style={styles.text_footer}>- Patient data maight be stored and used for research puposes in KSU and KSUMC.</Text>
+      <Text style={styles.text_footer}>- This application is developed and owned by King Saud University (KSU) and King Saud University Medical City (KSUMC) in Riyadh, Kingdom of Saudi Arabia.{'\n'}</Text>
+      <Text style={styles.text_footer}>-	This application is designed to help in your daily diabetes management and provide you with recommendations based on the latest clinical pediatric Diabetes Mellitus practice guidelines.{'\n'}</Text>
+      <Text style={styles.text_footer}>-	This application is not intended to replace the need to follow your doctor management plan.{'\n'}</Text>
+      <Text style={styles.text_footer}>-	It is the responsibility of the user to update his/her profile frequently and with each doctor visit to have the best benefit of the application.{'\n'}</Text>
+      <Text style={styles.text_footer}>-	This application is intended to be used by pediatric type 1 diabetic patients (age less than 18 years) or their caregivers.{'\n'}</Text>
+      <Text style={styles.text_footer}>-	The information entered in this application will be saved and used according to KSU/KSUMC regulations that include research purposes</Text>
       </View>
       
      
@@ -166,7 +169,6 @@ buttonR: {
   width: 100,
   height: 40,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -176,4 +178,3 @@ justifyContent: 'space-between',
 marginTop: 25
 }
 });
-
