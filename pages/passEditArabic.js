@@ -1,53 +1,95 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable eqeqeq */
+/* eslint-disable quotes */
+/* eslint-disable keyword-spacing */
+/* eslint-disable comma-dangle */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable semi */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-undef */
 
 import React, {useState} from 'react';
-import { StyleSheet, 
+import { StyleSheet,
     View,
-    Image, 
     Text,
     ScrollView,
     TouchableOpacity,
-    TextInput, 
-    Dimensions } from 'react-native'; 
+    TextInput,
+    alert,
+    Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 
-const passEditAR = ({ navigation, route }) => {
+  const passEditAR = ({ navigation, route }) => {
     var infoType = route.params.textE;
     const[password, setPass] = useState(''); 
      var flag1 = '';
     const check = () => {
-        if (AccType == 'Patient Account'){
-var InsertAPIURL = "https://isugarserver.com/comparePass.php"; 
-      var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      };
-      
-      var Data ={
-        UserID: onlinUserID,
-        pass: password
-      };
-      // FETCH func ------------------------------------
-      fetch(InsertAPIURL,{
+      console.log(' DODODODODOD');
+    //   var InsertAPIURL = "https://isugarserver.com/comparePass.php"; 
+
+    //   var headers = {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   };
+    //   console.log(password);
+    //   var Data ={
+    //     UserID: onlinUserID,
+    //     pass: password,
+    //   };
+    //   // FETCH func ------------------------------------
+    //   fetch(InsertAPIURL,{
+    //   method:'POST',
+    //   headers:headers,
+    //   body: JSON.stringify(Data) //convert data to JSON
+    // })
+    //   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+    //   .then((response)=>{
+    //     console.log(response[0].flag + ' DODODODODOD');
+    //     flag1 = response[0].flag
+    // })
+    // .catch((error)=>{
+    //     alert("Error Occured" + error);
+    // })
+        
+    
+   
+
+    var InsertAPIURL = "https://isugarserver.com/comparePass.php";   //API to  signup
+ 
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    onlinUserID = 121;
+    console.log(onlinUserID + ' ID');
+    console.log(password + ' PASSWORD');
+    var Data = {
+      UserID: onlinUserID,
+      pass: password,
+    };
+  
+  // FETCH func ------------------------------------
+  fetch(InsertAPIURL,{
       method:'POST',
       headers:headers,
       body: JSON.stringify(Data) //convert data to JSON
-    })
-      .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-      .then((response)=>{
-        flag1 = response[0].flag
-    })
-    .catch((error)=>{
-        alert("Error Occured" + error);
-    })
-        } else {
-            
-        }
-    
-    if (flag1=='true'){
+  })
+  .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+  .then((response)=>{
+    console.log(response[0].flag + ' DODODODODOD');
+    flag1 = response[0].flag;
+  })
+  .catch((error)=>{
+      alert("Error Occured" + error);
+  })
+
+   if (flag1=='true'){
       if(infoType=='Account Information'){
         navigation.navigate('accEAR')
       }
@@ -138,7 +180,6 @@ buttonR: {
   width: 100,
   height: 40,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
   
@@ -172,6 +213,3 @@ textBody:{
     fontWeight: 'bold',
  } 
 });
-
-
- 
