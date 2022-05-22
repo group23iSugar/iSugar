@@ -160,7 +160,7 @@ const checkFirst = ({navigation}) => {
         const checkIsFirst = () => {
           console.log('in DB of check if it is the first time to enter exerciseAR tab');
           // eslint-disable-next-line quotes
-          var InsertAPIURL = "http://192.168.56.1/isugar/checkexerciseARRecord.php";   //API to  signup
+          var InsertAPIURL = "https://isugarserver.com/checkexerciseARRecord.php";   //API to  signup
 
           var headers = {
             'Accept': 'application/json',
@@ -198,14 +198,14 @@ const checkFirst = ({navigation}) => {
          console.log('inside onlineDB: ');
         })
         .catch((error)=>{
-            alert('Error Occured' + error);
+            // alert('Error Occured' + error);
         })
         }
 
         const checkFlag = () => {
             console.log('in DB of check flag');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/checkFlag.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/checkFlag.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -240,7 +240,7 @@ const checkFirst = ({navigation}) => {
            console.log('inside onlineDB: ');
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
 
@@ -258,7 +258,7 @@ const checkFirst = ({navigation}) => {
         const updateFlag = () => {
             console.log('in DB of check flag');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/updateEMsgFlag.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/updateEMsgFlag.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -280,14 +280,14 @@ const checkFirst = ({navigation}) => {
           .then((response)=>{
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
 
           const checkHypo = () => {
             console.log('in DB1:');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/checkHypo.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/checkHypo.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -321,14 +321,14 @@ const checkFirst = ({navigation}) => {
           // checkBGLevel();
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
   //====================================================To check if User had BG< 50mg/dl in past 48h============================================
           const checkBGLevel = () => {
             console.log('in DB2:');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/checkBGLevel.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/checkBGLevel.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -364,14 +364,14 @@ const checkFirst = ({navigation}) => {
            //checkGlucagon();
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
   //====================================================To check if Glucagon message appeared for the user in hypoglycemia section==============
           const checkGlucagon = () => {
             console.log('in DB3:');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/checkGlucagonFlag.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/checkGlucagonFlag.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -405,14 +405,14 @@ const checkFirst = ({navigation}) => {
            //checkAnnual();
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
   //====================================================To check if	User selected evidence of retinopathy=======================================
           const checkAnnual = () => {
             console.log('in DB4:');
             // eslint-disable-next-line quotes
-            var InsertAPIURL = "http://192.168.56.1/isugar/checkAnnualTest.php";   //API to  signup
+            var InsertAPIURL = "https://isugarserver.com/checkAnnualTest.php";   //API to  signup
 
             var headers = {
               'Accept': 'application/json',
@@ -445,7 +445,7 @@ const checkFirst = ({navigation}) => {
            console.log('inside onlineDB for annual test: ');
           })
           .catch((error)=>{
-              alert('Error Occured' + error);
+              // alert('Error Occured' + error);
           })
           }
 //=================================================WITHIN-APP DATABASE======================================
