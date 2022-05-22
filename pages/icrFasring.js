@@ -1,44 +1,53 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-alert */
+/* eslint-disable no-shadow */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, {  useState, useEffect } from 'react';
-import {  StyleSheet, 
+import {  StyleSheet,
   View,
   Image,
   Text,
   FlatList,
   TouchableOpacity,
-  Platform, 
+  Platform,
   TextInput,
   ScrollView,
   Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
-import RadioForm, { 
-  RadioButton, 
-  RadioButtonInput, 
-  RadioButtonLabel
+import RadioForm, {
+  RadioButton,
+  RadioButtonInput,
+  RadioButtonLabel,
 } from 'react-native-simple-radio-button';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 
 var calcMethod = [
-  {label: 'I use a ratio (ICR) to calculate my meal insulin'+'\n', value: 'ICR', valueIndex: 0},
-  {label: 'I use sliding scale to determine my meal insulin'+'\n', value: 'Sliding Scale', valueIndex: 1},
+  {label: 'I use a ratio (ICR) to calculate my meal insulin' + '\n', value: 'ICR', valueIndex: 0},
+  {label: 'I use sliding scale to determine my meal insulin' + '\n', value: 'Sliding Scale', valueIndex: 1},
   ];
   const icrFasting = ({ navigation, route }) =>{
-   
+
     useEffect(() => {
       firstretrieve(secondretrieve);
         }, []);
         const [data, setData] = useState({
           caluMethod: '',
         });
-      
-      const [ICR, setICR]= useState([]);
-      const [ICRExtra, setICRExtra]= useState([]);
+
+      const [ICR, setICR] = useState([]);
+      const [ICRExtra, setICRExtra] = useState([]);
       const [SlidingScale, setSlidingScale] = useState([]);
       const [SlidingScaleExtra, setSlidingScaleExtra] = useState([]);
 
 const firstretrieve = async (callback)=>{
-  if (AccType == 'Patient Account'){
+  // if (AccType == 'Patient Account'){
     try {
       console.log('in try');
         db.transaction(  ( tx) => {
@@ -49,61 +58,61 @@ const firstretrieve = async (callback)=>{
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++){
                 var userID = rows.item(i).UserID;
-                if (uID == userID){
-                  var calcM = rows.item(i).insulinCalcMethod; 
+                if (userID ==  1){
+                  var calcM = rows.item(i).insulinCalcMethod;
                   callback(calcM);
                   setData({...data, calcMethod: calcM});
                   console.log(calcM);
                   return;
                 }
-                
-                }
-            }   
-  ) 
-    
-  }  ) 
+
+                };
+            }
+  );
+
+  }  );
   } catch (error) {
      console.log(error);
   }
-  } else {
-    try {
-      console.log('in try');
-        db.transaction(  ( tx) => {
-          tx.executeSql(
-            'SELECT UserID, insulinCalcMethod FROM nonPatientprofile',
-            [],
-            (tx, results) => {
-              var rows = results.rows;
-              for (let i = 0; i < rows.length; i++){
-                var userID = rows.item(i).UserID;
-                if (uID == userID){
-                  var calcM = rows.item(i).insulinCalcMethod; 
-                  callback(calcM);
-                  setData({...data, calcMethod: calcM});
-                  console.log(calcM);
-                  return;
-                }
-                
-                }
-            }   
-  ) 
-    
-  }  ) 
-  } catch (error) {
-     console.log(error);
-  }
-  }
-  
-}
+  // } else {
+  //   try {
+  //     console.log('in try');
+  //       db.transaction(  ( tx) => {
+  //         tx.executeSql(
+  //           'SELECT UserID, insulinCalcMethod FROM nonPatientprofile',
+  //           [],
+  //           (tx, results) => {
+  //             var rows = results.rows;
+  //             for (let i = 0; i < rows.length; i++){
+  //               var userID = rows.item(i).UserID;
+  //               if ( 1 == userID){
+  //                 var calcM = rows.item(i).insulinCalcMethod;
+  //                 callback(calcM);
+  //                 setData({...data, calcMethod: calcM});
+  //                 console.log(calcM);
+  //                 return;
+  //               }
+
+  //               }
+  //           }
+  // );
+
+  // }  );
+  // } catch (error) {
+  //    console.log(error);
+  // }
+  // }
+
+};
 const secondretrieve = (method) =>{
-  console.log('inside is: '+method);
+  console.log('inside is: ' + method);
   if (method == 'ICR'){
-    var tempArr=[...ICR];
+    var tempArr = [...ICR];
     try {
         db.transaction(  ( tx) => {
           tx.executeSql(
             'SELECT icrID, fromTime, toTime, ICR FROM icrInterval WHERE UserID=?',
-            [uID],
+            [ 1],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++){
@@ -121,25 +130,25 @@ const secondretrieve = (method) =>{
                           to: new Date(rows.item(i).toTime),
                           icr: rows.item(i).ICR,
                           isChanged: false,
-                          isNew: false
+                          isNew: false,
                       });
                 }
                 setICR([...tempArr]);
-            }   
-  ) 
-      
-  
-  }  ) 
+            }
+  );
+
+
+  }  );
   } catch (error) {
      console.log(error);
   }
-  } else if(method=='Sliding Scale') {
-    var tempArr=[...SlidingScale];
+  } else if (method == 'Sliding Scale') {
+    var tempArr = [...SlidingScale];
     try {
         db.transaction(  ( tx) => {
           tx.executeSql(
             'SELECT ssID, fromTime, toTime FROM ssInterval WHERE UserID=?',
-            [uID],
+            [ 1],
             (tx, results) => {
               var rows = results.rows;
               for (let i = 0; i < rows.length; i++){
@@ -149,7 +158,7 @@ const secondretrieve = (method) =>{
                           to: new Date(rows.item(i).toTime),
                           isChanged: false,
                           isNew: false,
-                          Rnages: []
+                          Rnages: [],
                       });
                       SlidingScaleExtra.push({
                         id: rows.item(i).ssID,
@@ -157,7 +166,7 @@ const secondretrieve = (method) =>{
                         to: new Date(rows.item(i).toTime),
                         isChanged: false,
                         isNew: false,
-                        Rnages: []
+                        Rnages: [],
                       });
 
                       try {
@@ -186,28 +195,28 @@ const secondretrieve = (method) =>{
                                       });
                                       console.log( SlidingScaleExtra[i].Rnages[j]);
                                 }
-                                
+
                                 setSlidingScale([...tempArr]);
-                            }   
-                  ) 
-                      
-                  
-                  }  ) 
+                            }
+                  );
+
+
+                  }  );
                   } catch (error) {
                      console.log(error);
                   }
                 }
                 setSlidingScale([...tempArr]);
-            }   
-  ) 
-      
-  
-  }  ) 
+            }
+  );
+
+
+  }  );
   } catch (error) {
      console.log(error);
   }
   }
-}
+};
 //====================SS===================
 const [outerCount, setOuterCount] = useState(0);
 const [innerCount, setInnerCount] = useState(0);
@@ -229,125 +238,125 @@ const addICR = ()=> {
   if (ICR.length >= 6){
     alert('You have reached your maximum ICR intervals');
     return;
-  } else{ 
-    setIcrCount(icrCount+1);
-    var obj = {id: icrCount+1, from: new Date(), to: new Date(), icr: '', isChanged: false, isNew: true};
+  } else {
+    setIcrCount(icrCount + 1);
+    var obj = {id: icrCount + 1, from: new Date(), to: new Date(), icr: '', isChanged: false, isNew: true};
     ICR.push(obj);
   }
 
-}
+};
 
- 
+
  const handleOuterAdd = () => {
    if (SlidingScale.length >= 5){
     alert('You have reached your maximum Sliding Scale intervals!');
     return;
    } else {
-    setOuterCount(outerCount+1); 
-    var obj = {id: icrCount+1, from: new Date(), to: new Date(), isChanged: false, isNew: true, Rnages: []};
+    setOuterCount(outerCount + 1);
+    var obj = {id: icrCount + 1, from: new Date(), to: new Date(), isChanged: false, isNew: true, Rnages: []};
     SlidingScale.push(obj);
    }
-      
- }
 
- const handleInnerAdd = (i) => { 
-   if (SlidingScale[i].Rnages.length >=6){
+ };
+
+ const handleInnerAdd = (i) => {
+   if (SlidingScale[i].Rnages.length >= 6){
     alert('You have reached your maximum Ranges!');
     return;
    } else {
-    setInnerCount(innerCount+1);
-    var obj = {id: innerCount+1, BGFrom:'', BGTo:'', insulin:'', isChanged: false, isNew: true,};
+    setInnerCount(innerCount + 1);
+    var obj = {id: innerCount + 1, BGFrom:'', BGTo:'', insulin:'', isChanged: false, isNew: true};
     SlidingScale[i].Rnages.push(obj);
    }
-   
-   
 
-      
-}
+
+
+
+};
 const changeICR = (val, index) =>{
 const newArr = [...ICR];
 newArr[index].icr = val;
 newArr[index].isChanged = true;
 setICR([...newArr]);
 console.log(ICR[index].icr);
-}
-  const changeV = (val, id, type, index) => { 
+};
+  const changeV = (val, id, type, index) => {
 setIndex(index);
-  for (let i=0; i<SlidingScale.length; i++ ){
-      for (let j=0; j< SlidingScale[i].Rnages.length; j++){
+  for (let i = 0; i < SlidingScale.length; i++ ){
+      for (let j = 0; j < SlidingScale[i].Rnages.length; j++){
         var tempArr = [...SlidingScale[i].Rnages];
-          if (SlidingScale[i].Rnages[j].id==id){
+          if (SlidingScale[i].Rnages[j].id == id){
               if (type == 'f'){
                 tempArr[j].BGFrom = val;
                 tempArr[j].isChanged = true;
-                SlidingScale[i].Rnages= [...tempArr]
+                SlidingScale[i].Rnages = [...tempArr];
                   return;
               } else if (type == 't'){
                 tempArr[j].BGTo = val;
                 tempArr[j].isChanged = true;
-                SlidingScale[i].Rnages= [...tempArr]
+                SlidingScale[i].Rnages = [...tempArr];
                   return;
               } else if (type == 'i'){
                 tempArr[j].insulin = val;
                 tempArr[j].isChanged = true;
-                SlidingScale[i].Rnages= [...tempArr]
+                SlidingScale[i].Rnages = [...tempArr];
                   return;
-              }  
+              }
           }
       }
   }
-}
-//=======From time==========  
- const onChangeFrom = (event, selectedDate) => { 
+};
+//=======From time==========
+ const onChangeFrom = (event, selectedDate) => {
   setShowFrom(Platform.OS === 'ios');
-  if (flag1==false){
+  if (flag1 == false){
     return;
    }
   const currentDate = selectedDate || SlidingScale[selectedIndex].from;
   const newArr = [...SlidingScale];
-  
-  if (SlidingScale[selectedIndex].id == selectedID && flag1==true){
+
+  if (SlidingScale[selectedIndex].id == selectedID && flag1 == true){
         setfalg1(false);
         newArr[selectedIndex].from = currentDate;
         newArr[selectedIndex].isChanged = true;
         setSlidingScale([...newArr]);
         return;
        }
-     
-  
+
+
 };
 //============from icr==============
-const onChangeFromC = (event, selectedDate) => { 
+const onChangeFromC = (event, selectedDate) => {
   setShowFrom(Platform.OS === 'ios');
-  if (flag1==false){
+  if (flag1 == false){
     return;
    }
   const currentDate = selectedDate || ICR[selectedIndex].from;
   const newArr = [...ICR];
-  
-  if (ICR[selectedIndex].id == selectedID && flag1==true){
+
+  if (ICR[selectedIndex].id == selectedID && flag1 == true){
         setfalg1(false);
         newArr[selectedIndex].from = currentDate;
         newArr[selectedIndex].isChanged = true;
         setICR([...newArr]);
         return;
        }
-     
-  
+
+
 };
 //=======To time==========
-const onChangeTo = (event, selectedDate) => { 
+const onChangeTo = (event, selectedDate) => {
   setShowTo(Platform.OS === 'ios');
-  if (flag2==false){
+  if (flag2 == false){
     return;
    }
   const currentDate = selectedDate || SlidingScale[selectedIndex].to;
   const newArr = [...SlidingScale];
-   for (let i = 0; i< SlidingScale.length; i++){
+   for (let i = 0; i < SlidingScale.length; i++){
        if (SlidingScale[i].id == selectedID){
          setfalg2(false);
-         console.log('selecte posT : '+i+' '+selectedIndex);
-           console.log('in if To: '+ selectedID);
+         console.log('selecte posT : ' + i + ' ' + selectedIndex);
+           console.log('in if To: ' + selectedID);
            newArr[i].to = currentDate;
            newArr[selectedIndex].isChanged = true;
            setSlidingScale([...newArr]);
@@ -356,22 +365,22 @@ const onChangeTo = (event, selectedDate) => {
    }
 };
 //==========icr to============
-const onChangeToC = (event, selectedDate) => { 
+const onChangeToC = (event, selectedDate) => {
 setShowTo(Platform.OS === 'ios');
-if (flag2==false){
+if (flag2 == false){
   return;
  }
 const currentDate = selectedDate || ICR[selectedIndex].to;
 const newArr = [...ICR];
 
-if (ICR[selectedIndex].id == selectedID && flag2==true){
+if (ICR[selectedIndex].id == selectedID && flag2 == true){
       setfalg2(false);
       newArr[selectedIndex].to = currentDate;
       newArr[selectedIndex].isChanged = true;
       setICR([...newArr]);
       return;
      }
-   
+
 
 };
 //=====From========
@@ -395,22 +404,22 @@ showModeTo('time');
 //=======From=======
 const combineF = (id, index) => {
   showTimepickerF();
-  setID(id); 
-  setIndexA(index); 
-}
+  setID(id);
+  setIndexA(index);
+};
 //=======To=======
 const combineT = (id, index) => {
 showTimepickerT();
 setID(id);
 setIndexA(index);
-}
-const handleICRUpdate =()=>{
-  for (let i=0; i<ICR.length; i++){
+};
+const handleICRUpdate = ()=>{
+  for (let i = 0; i < ICR.length; i++){
     if (ICR[i].isChanged == true && ICR[i].isNew == false){
       if (ICR[i].icr > 999 || ICR[i].icr <= 0){
         alert('Please enter a valid ICR value');
         return;
-      } else{
+      } else {
         // add + update db :)
         oldIcrOnline(ICRExtra[i].from, ICRExtra[i].to, ICRExtra[i].icr, ICR[i].from, ICR[i].to, ICR[i].icr);
         try {
@@ -422,11 +431,11 @@ const handleICRUpdate =()=>{
                   console.log('Results', results.rowsAffected);
                if (results.rowsAffected > 0) {
                     }
-                }   
-      ) 
-          
-      
-      }  ) 
+                }
+      );
+
+
+      }  );
       } catch (error) {
          console.log(error);
       }
@@ -436,12 +445,12 @@ const handleICRUpdate =()=>{
     }
   }
   alert('Updated!');
-  navigation.navigate('edit');
-}
+  navigation.navigate('fastingProfile');
+};
 
-const handleSSUpdate =()=>{
+const handleSSUpdate = ()=>{
   console.log('in ss');
-  for (let i=0; i<SlidingScale.length; i++){
+  for (let i = 0; i < SlidingScale.length; i++){
     if (SlidingScale[i].isChanged == true && SlidingScale[i].isNew == false) {
       oldSsOnlineDB(SlidingScaleExtra[i].from, SlidingScaleExtra[i].to, SlidingScale[i].from, SlidingScale[i].to);
         console.log('in outer if');
@@ -455,21 +464,21 @@ const handleSSUpdate =()=>{
                if (results.rowsAffected > 0) {
                   // alert('Succefully updated');
                     }
-                }   
-      ) 
-          
-      
-      }  ) 
+                }
+      );
+
+
+      }  );
       } catch (error) {
          console.log(error);
       }
     } else if ( SlidingScale[i].isNew == true) {
       localSSDB(getLocalssID);
     }
-    for (let j =0; j<SlidingScale[i].Rnages.length; j++){
+    for (let j = 0; j < SlidingScale[i].Rnages.length; j++){
       if (SlidingScale[i].Rnages[j].isChanged == true && SlidingScale[i].Rnages[j].isNew == false) {
         console.log('in inner if');
-        if (SlidingScale[i].Rnages[j].BGFrom>999 || SlidingScale[i].Rnages[j].BGFrom <= 0 || SlidingScale[i].Rnages[j].BGTo>999 || SlidingScale[i].Rnages[j].BGTo <= 0 || SlidingScale[i].Rnages[j].insulin>99 || SlidingScale[i].Rnages[j].insulin <= 0){
+        if (SlidingScale[i].Rnages[j].BGFrom > 999 || SlidingScale[i].Rnages[j].BGFrom <= 0 || SlidingScale[i].Rnages[j].BGTo > 999 || SlidingScale[i].Rnages[j].BGTo <= 0 || SlidingScale[i].Rnages[j].insulin > 99 || SlidingScale[i].Rnages[j].insulin <= 0){
           alert('Please enter a valid value!S');
           return;
         } else {
@@ -485,51 +494,51 @@ const handleSSUpdate =()=>{
                  if (results.rowsAffected > 0) {
                     // alert('Succefully updated');
                       }
-                  }   
-        ) 
-            
-        
-        }  ) 
+                  }
+        );
+
+
+        }  );
         } catch (error) {
            console.log(error);
         }
         }
-        
+
     }
     }
   }
   alert('Updated!');
   navigation.navigate('edit');
-}
+};
 const localSSDB = async (callback) => {
   console.log('in insert SS');
-for (let i =0; i< SlidingScale.length; i++){
+for (let i = 0; i < SlidingScale.length; i++){
   if (SlidingScale[i].isNew == true){
-    try { 
+    try {
       console.log('in if 1');
-      db.transaction( (tx) => { 
+      db.transaction( (tx) => {
           tx.executeSql(
-           'INSERT INTO ssInterval (UserID, fromTime, toTime)' 
-           +'VALUES (?,?,?)',
-             [uID, SlidingScale[i].from, SlidingScale[i].to]
+           'INSERT INTO ssInterval (UserID, fromTime, toTime)'
+           + 'VALUES (?,?,?)',
+             [ 1, SlidingScale[i].from, SlidingScale[i].to]
          );
          callback(SlidingScale[i].from, SlidingScale[i].to, i);
-     })
-     
- 
+     });
+
+
  } catch (error) {
      console.log(error);
  }
   }
-    
+
 }
-}
+};
 const getLocalssID = (from , to, index) => {
 console.log('in get');
 try {
   db.transaction((tx) => {
       tx.executeSql(
-          "SELECT ssID, UserID, fromTime, toTime FROM ssInterval",
+          'SELECT ssID, UserID, fromTime, toTime FROM ssInterval',
           [],
           (tx, results) => {
               var rows = results.rows;
@@ -538,108 +547,108 @@ try {
                   var ID = rows.item(i).UserID;
                   var f = rows.item(i).fromTime;
                   var t = rows.item(i).toTime;
-                  if (uID == ID && from.toString() == f.toString() && to.toString() == t.toString()){
-                    console.log('Horaaaayy '+ssID);
-                    BGToLocal(ssID, index); 
+                  if ( 1 == ID && from.toString() == f.toString() && to.toString() == t.toString()){
+                    console.log('Horaaaayy ' + ssID);
+                    BGToLocal(ssID, index);
                     return ssID;
-                  }      
+                  }
                 }
               }
-          
-      )
-      
-  })
+
+      );
+
+  });
 } catch (error) {
   console.log(error);
 }
-}
+};
 
 const BGToLocal = async  (ssID, i) => {
-console.log(ssID + ' {'+i+'} ');
-for (let j=0; j<SlidingScale[i].Rnages.length; j++){
+console.log(ssID + ' {' + i + '} ');
+for (let j = 0; j < SlidingScale[i].Rnages.length; j++){
     try {
       db.transaction( (tx) => {
           tx.executeSql(
-           'INSERT INTO bgleveltoinsulin (ssID, fromBGLevel, toBGLevel, insulinDose)' 
-           +'VALUES (?,?,?,?)',
+           'INSERT INTO bgleveltoinsulin (ssID, fromBGLevel, toBGLevel, insulinDose)'
+           + 'VALUES (?,?,?,?)',
              [ssID, SlidingScale[i].Rnages[j].BGFrom, SlidingScale[i].Rnages[j].BGTo, SlidingScale[i].Rnages[j].insulin]
          );
          ssOnlineDB(i, j);
-     })
-     console.log(SlidingScale[i].Rnages[j].BGFrom+' / '+SlidingScale[i].Rnages[j].BGTo+' / '+ SlidingScale[i].Rnages[j].insulin);
+     });
+     console.log(SlidingScale[i].Rnages[j].BGFrom + ' / ' + SlidingScale[i].Rnages[j].BGTo + ' / ' + SlidingScale[i].Rnages[j].insulin);
     } catch (error) {
      console.log(error);
     }
 }
-}
+};
 const ssOnlineDB = (i, j) =>{
-var InsertAPIURL = "https://isugarserver.com/SlideScaleInterval.php";  
+var InsertAPIURL = 'https://isugarserver.com/SlideScaleInterval.php';
 
 var headers = {
   'Accept': 'application/json',
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
 };
 
-var Data ={
+var Data = {
   UserID: onlinUserID,
   fromTime: SlidingScale[i].from.toString(),
   toTime: SlidingScale[i].to.toString(),
   fromBGLevel: SlidingScale[i].Rnages[j].BGFrom,
   toBGLevel: SlidingScale[i].Rnages[j].BGTo,
-  insulinDose: SlidingScale[i].Rnages[j].insulin
+  insulinDose: SlidingScale[i].Rnages[j].insulin,
 };
 
 // FETCH func ------------------------------------
 fetch(InsertAPIURL,{
   method:'POST',
   headers:headers,
-  body: JSON.stringify(Data) //convert data to JSON
+  body: JSON.stringify(Data), //convert data to JSON
 })
 .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
 .then((response)=>{
 })
 .catch((error)=>{
-  alert("Error Occured" + error);
-})
-}
+  alert('Error Occured' + error);
+});
+};
 const oldSsOnlineDB = (from, to, from2, to2) =>{
-  var InsertAPIURL = "https://isugarserver.com/updateSS.php";  
-  
+  var InsertAPIURL = 'https://isugarserver.com/updateSS.php';
+
   var headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   };
-  
-  var Data ={
+
+  var Data = {
     UserID: onlinUserID,
     fromTime: from.toString(),
     toTime: to.toString(),
     fromTime2: from2.toString(),
-    toTime2: to2.toString()
+    toTime2: to2.toString(),
   };
-  
+
   // FETCH func ------------------------------------
   fetch(InsertAPIURL,{
     method:'POST',
     headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
+    body: JSON.stringify(Data), //convert data to JSON
   })
   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
   .then((response)=>{
   })
   .catch((error)=>{
-    alert("Error Occured" + error);
-  })
-  }
+    alert('Error Occured' + error);
+  });
+  };
 const updateBGTOOnline = (from, to, bgf, bgt, ins, bgf1, bgt1, ins1 ) =>{
-    var InsertAPIURL = "https://isugarserver.com/updateBGTOInsulin.php";  
-    
+    var InsertAPIURL = 'https://isugarserver.com/updateBGTOInsulin.php';
+
     var headers = {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
-    
-    var Data ={
+
+    var Data = {
       UserID: onlinUserID,
       fromTime: from.toString(),
       toTime: to.toString(),
@@ -648,103 +657,103 @@ const updateBGTOOnline = (from, to, bgf, bgt, ins, bgf1, bgt1, ins1 ) =>{
       insulinDose: ins,
       fromBGLevel1: bgf1,
       toBGLevel1: bgt1,
-      insulinDose1: ins1
+      insulinDose1: ins1,
     };
-    
+
     // FETCH func ------------------------------------
     fetch(InsertAPIURL,{
       method:'POST',
       headers:headers,
-      body: JSON.stringify(Data) //convert data to JSON
+      body: JSON.stringify(Data), //convert data to JSON
     })
     .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
     .then((response)=>{
     })
     .catch((error)=>{
-      alert("Error Occured" + error);
-    })
-    }
+      alert('Error Occured' + error);
+    });
+    };
 //=========icr local============
 const localICR = () => {
-for (let i=0; i<ICR.length; i++){
+for (let i = 0; i < ICR.length; i++){
   if (ICR[i].isNew){
     try {
       db.transaction( (tx) => {
           tx.executeSql(
-           'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)' 
-           +'VALUES (?,?,?,?)',
-             [uID, ICR[i].from, ICR[i].to, ICR[i].icr ]
+           'INSERT INTO icrInterval (UserID, fromTime, toTime, ICR)'
+           + 'VALUES (?,?,?,?)',
+             [ 1, ICR[i].from, ICR[i].to, ICR[i].icr ]
          );
-     })
-     
+     });
+
     } catch (error) {
      console.log(error);
     }
-    var InsertAPIURL = "https://isugarserver.com/ICRInterval.php";
-    
+    var InsertAPIURL = 'https://isugarserver.com/ICRInterval.php';
+
     var headers = {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
-    
-    var Data ={
+
+    var Data = {
       UserID: onlinUserID,
       fromTime: ICR[i].from.toString(),
       toTime: ICR[i].to.toString(),
-      ICR: ICR[i].icr 
+      ICR: ICR[i].icr,
     };
-  
+
   // FETCH func ------------------------------------
   fetch(InsertAPIURL,{
       method:'POST',
       headers:headers,
-      body: JSON.stringify(Data) //convert data to JSON
+      body: JSON.stringify(Data), //convert data to JSON
   })
   .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
   .then((response)=>{
-    
+
   })
   .catch((error)=>{
-      alert("Error Occured" + error);
-  })
+      alert('Error Occured' + error);
+  });
   }
-  
+
 }
-}
+};
 
 
 const oldIcrOnline = (from, to, icr, from1, to1, icr1) => {
-  var InsertAPIURL = "https://isugarserver.com/icrUpdate.php";
-    
+  var InsertAPIURL = 'https://isugarserver.com/icrUpdate.php';
+
   var headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   };
-  
-  var Data ={
+
+  var Data = {
     UserID: onlinUserID,
     fromTime: from.toString(),
     toTime: to.toString(),
     ICR: icr,
     fromTime1: from1.toString(),
     toTime1: to1.toString(),
-    ICR1: icr1
+    ICR1: icr1,
   };
 
 // FETCH func ------------------------------------
 fetch(InsertAPIURL,{
     method:'POST',
     headers:headers,
-    body: JSON.stringify(Data) //convert data to JSON
+    body: JSON.stringify(Data), //convert data to JSON
 })
 .then((response)=>response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
 .then((response)=>{
-  
+
 })
 .catch((error)=>{
-    alert("Error Occured" + error);
-})
-}
+    alert('Error Occured' + error);
+});
+};
 
     return (
       <View style={styles.container}>
@@ -753,34 +762,34 @@ fetch(InsertAPIURL,{
 <View style={styles.header}>
 <Image source={require('../images/logo.png')}
 style={styles.logo}
-resizeMode='stretch'/> 
+resizeMode="stretch"/>
 </View>
 </LinearGradient>
       <View style={styles.footer}>
       <Text style={{fontSize: 20, fontWeight: 'bold', color: '#05375a', marginBottom: 0}}>Insulin to Carbohydrate Ratio (ICR)</Text>
       <ScrollView>
-      {data.caluMethod !='ICR' ? SlidingScale.length > 0? (<View style={{ alignItems: 'center'}}>
-     
-        <FlatList 
+      {data.caluMethod != 'ICR' ? SlidingScale.length > 0 ? (<View style={{ alignItems: 'center'}}>
+
+        <FlatList
           nestedScrollEnabled={true}
           data={SlidingScale}
           keyExtractor={(item, index) => index.toString()}
           // extraData={selectedID}
           renderItem={({ item, index }) => (
-            <View>   
+            <View>
             <View style={styles.outerContainer}>
                 <Text style={styles.innerTitle}>From</Text>
-                <TouchableOpacity onPress={()=> combineF(item.id, index)} 
+                <TouchableOpacity onPress={()=> combineF(item.id, index)}
                 onPressOut={()=>setfalg1(true)}
                 style={styles.innerCotainer}
                  >
              <Text testID="dateTimePicker"
              style={{fontSize: 17, color: 'grey', alignItems: 'flex-start'}} >
                              {moment(item.from).format('h:mm a')}
-                             </Text> 
-          
+                             </Text>
+
                  </TouchableOpacity>
-                   
+
                    {showFrom && (
                      <DateTimePicker
                        testID="dateTimePicker"
@@ -789,23 +798,23 @@ resizeMode='stretch'/>
                        is24Hour={false}
                        display="default"
                        onChange={(e, v) => {
-                        setShowFrom(Platform.OS === "ios");
+                        setShowFrom(Platform.OS === 'ios');
                         onChangeFrom(e, v);
                       }}
-                       
+
                      />
-                   )} 
+                   )}
                    <Text style={styles.innerTitle}>To</Text>
-                   <TouchableOpacity onPress={()=> combineT(item.id, index)} 
+                   <TouchableOpacity onPress={()=> combineT(item.id, index)}
                    onPressOut={()=>setfalg2(true)}
                    style={styles.innerCotainer}
                  >
-             <Text testID="dateTimePicker" 
+             <Text testID="dateTimePicker"
              style={{fontSize: 17, color: 'grey'}} >
                              {moment(item.to).format('h:mm a')}
-                             </Text> 
+                             </Text>
                  </TouchableOpacity>
-                   
+
                    {showTo && (
                      <DateTimePicker
                        testID="dateTimePicker"
@@ -814,11 +823,11 @@ resizeMode='stretch'/>
                        is24Hour={false}
                        display="default"
                        onChange={(e, v) => {
-                        setShowTo(Platform.OS === "ios");
+                        setShowTo(Platform.OS === 'ios');
                         onChangeTo(e, v);
                       }}
                      />
-                   )} 
+                   )}
                 <FlatList
                 data={SlidingScale[index].Rnages}
                 keyExtractor={(item, index) => index.toString()}
@@ -830,7 +839,7 @@ resizeMode='stretch'/>
                     <TextInput
                     style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color: 'grey'}}
                      keyboardType="decimal-pad"
-                     defaultValue={item.BGFrom+''}
+                     defaultValue={item.BGFrom + ''}
                      onChangeText={(val)=>changeV(val, item.id, 'f', index)}
                     />
                     </View>
@@ -839,7 +848,7 @@ resizeMode='stretch'/>
                     <TextInput
                     style={{borderColor: 'grey', borderBottomWidth: 1, paddingBottom: 0, paddingTop:0,color: 'grey'}}
                      keyboardType="decimal-pad"
-                     defaultValue={item.BGTo+''}
+                     defaultValue={item.BGTo + ''}
                      onChangeText={(val)=>changeV(val, item.id, 't', index)}
                     />
                     </View>
@@ -848,13 +857,13 @@ resizeMode='stretch'/>
                     <TextInput
                     style={{borderColor: 'grey', borderBottomWidth: 1, paddingBottom: 0, paddingTop:0, color: 'grey'}}
                      keyboardType="decimal-pad"
-                     defaultValue={item.insulin+''}
+                     defaultValue={item.insulin + ''}
                      onChangeText={(val)=>changeV(val, item.id, 'i', index)}
                     />
                     </View>
                     </View>
                 )}
-                
+
                 />
                 <TouchableOpacity onPress={()=>handleInnerAdd(index)}><Text style={{color:'#000'}}>Add Range</Text></TouchableOpacity>
             </View>
@@ -865,25 +874,25 @@ resizeMode='stretch'/>
         <TouchableOpacity onPress={()=>handleSSUpdate()}><Text style={{color:'#000'}}>Update</Text></TouchableOpacity>
         </View>
        )
-        : ICR.length> 0 ? (<View style={{alignItems:'center'}}>
-          
+        : ICR.length > 0 ? (<View style={{alignItems:'center'}}>
+
         <FlatList
         data={ICR}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
           <View style={styles.outerContainer}>
              <Text style={styles.innerTitle}>From</Text>
-              <TouchableOpacity onPress={()=> combineF(item.id, index)} 
+              <TouchableOpacity onPress={()=> combineF(item.id, index)}
               onPressOut={()=>setfalg1(true)}
               style={styles.innerCotainer}
                >
            <Text testID="dateTimePicker"
            style={{fontSize: 17, color: 'grey', alignItems: 'flex-start'}} >
                            {moment(item.from).format('h:mm a')}
-                           </Text> 
-        
+                           </Text>
+
                </TouchableOpacity>
-                 
+
                  {showFrom && (
                    <DateTimePicker
                      testID="dateTimePicker"
@@ -892,23 +901,23 @@ resizeMode='stretch'/>
                      is24Hour={false}
                      display="default"
                      onChange={(e, v) => {
-                      setShowFrom(Platform.OS === "ios");
+                      setShowFrom(Platform.OS === 'ios');
                       onChangeFromC(e, v);
                     }}
-                     
+
                    />
                  )}
                    <Text style={styles.innerTitle}>To</Text>
-                   <TouchableOpacity onPress={()=> combineT(item.id, index)} 
+                   <TouchableOpacity onPress={()=> combineT(item.id, index)}
                    onPressOut={()=>setfalg2(true)}
                    style={styles.innerCotainer}
                  >
-             <Text testID="dateTimePicker" 
+             <Text testID="dateTimePicker"
              style={{fontSize: 17, color: 'grey'}} >
                              {moment(item.to).format('h:mm a')}
-                             </Text> 
+                             </Text>
                  </TouchableOpacity>
-                   
+
                    {showTo && (
                      <DateTimePicker
                        testID="dateTimePicker"
@@ -917,18 +926,18 @@ resizeMode='stretch'/>
                        is24Hour={false}
                        display="default"
                        onChange={(e, v) => {
-                        setShowTo(Platform.OS === "ios");
+                        setShowTo(Platform.OS === 'ios');
                         onChangeToC(e, v);
                       }}
                      />
-                   )} 
+                   )}
                     <View style={styles.innerCotainer}>
                     <View style={styles.innerView}>
                     <Text style={styles.innerTitle}>ICR: </Text>
                     <TextInput
                     style={{borderColor: 'grey', borderBottomWidth: 1,paddingBottom: 0, paddingTop:0, color: 'grey'}}
                      keyboardType="decimal-pad"
-                     defaultValue={item.icr+''}
+                     defaultValue={item.icr + ''}
                      onChangeText={(val) => changeICR(val, index)}
                     />
                     </View>
@@ -940,20 +949,20 @@ resizeMode='stretch'/>
         <TouchableOpacity onPress={()=>addICR()}><Text style={{color:'#000'}}>Add Interval</Text></TouchableOpacity>
         <TouchableOpacity onPress={()=>handleICRUpdate()}><Text style={{color:'#000'}}>Update</Text></TouchableOpacity>
       </View>)
-        
+
         : <ActivityIndicator animating={true} color={Colors.blue100} size={'large'} />  : <ActivityIndicator animating={true} color={Colors.blue100} size={'large'} /> }
       </ScrollView>
         </View>
      </View>
-  
-         
-  
+
+
+
     );
-  
+
   };
 
 
-const {height} = Dimensions.get("screen");
+const {height} = Dimensions.get('screen');
 const height_logo = height * 0.15;
 
 export default icrFasting;
@@ -967,26 +976,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     color: '#4c4c4c',
     fontSize: 18,
-    
+
   },
   fPassText: {
     alignItems: 'flex-start',
     marginTop: 5,
     backgroundColor: '#fff',
     color: '#4c4c4c',
-    fontSize: 15
-    
+    fontSize: 15,
+
   },
-  
+
   logo: {
     width: height_logo,
-    height: height_logo+40,
+    height: height_logo + 40,
 
   },
   header: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
 },
 footer: {
     flex: 4,
@@ -1007,7 +1016,7 @@ text_footer: {
 text_footerD: {
   color: '#05375a',
   fontSize: 18,
-  paddingLeft: 15
+  paddingLeft: 15,
 },
 textInput: {
   flex: 1,
@@ -1021,12 +1030,12 @@ picker: {
   height: 30,
   borderWidth: 2,
   borderColor: '#4c4c4c',
-    
+
 },
 buttonV: {
   marginTop: 60,
   alignItems: 'center',
-  
+
 },
 action: {
   flex: 1,
@@ -1037,39 +1046,37 @@ action: {
   marginTop: 10,
   marginBottom: 10,
   paddingBottom: 25,
-  
+
 },
 buttonR: {
   alignItems: 'center',
   width: 200,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
-  
+
 },
 buttonRS: {
   alignItems: 'center',
   width: 150,
   height: 55,
   justifyContent: 'center',
-  alignItems: 'center',
   borderRadius: 15,
   flexDirection: 'row',
-  
+
 },
 radioB :{
   marginTop: 45,
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
   },
   outerContainer: {
-    backgroundColor: 'lightgrey', 
-        margin: 10, 
-        alignItems: 'center', 
-        width: 300, 
+    backgroundColor: 'lightgrey',
+        margin: 10,
+        alignItems: 'center',
+        width: 300,
         borderRadius: 15,
-        shadowColor: "#000",
+        shadowColor: '#000',
         shadowOffset: {
         width: 0,
         height: 2,
@@ -1078,11 +1085,11 @@ radioB :{
         shadowRadius: 3.84,
         elevation: 5,
         paddingBottom: 10,
-        paddingTop: 10
+        paddingTop: 10,
 },
 innerCotainer: {
     backgroundColor: 'white', margin: 10, alignItems: 'center',  borderRadius: 15, padding: 10,
-                shadowColor: "#000",
+                shadowColor: '#000',
                 shadowOffset: {
                 width: 0,
                 height: 2,
@@ -1090,17 +1097,16 @@ innerCotainer: {
                 shadowOpacity: 0.25,
                 shadowRadius: 3.84,
                 elevation: 5,
-                width: 200
+                width: 200,
 },
 outerTitle: {
-    fontSize: 20, color: '#05375a', fontWeight:'bold'
+    fontSize: 20, color: '#05375a', fontWeight:'bold',
 },
 innerTitle: {
-    fontSize: 15, color: '#05375a', fontWeight:'bold'
+    fontSize: 15, color: '#05375a', fontWeight:'bold',
 },
 innerView: {
     flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, marginTop: 10,
-}
+},
 });
-
 
